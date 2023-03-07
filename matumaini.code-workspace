@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../../KEN_matumaini"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../../../scratch/citrod01/experiments/MATUMAINI"
+		}
+	],
+	"settings": {
+		"r.alwaysUseActiveTerminal": true,
+		"r.rpath.linux": "/gpfs/share/apps/R/4.0.0/lib64/R",
+		"isort.interpreter": [
+			"/gpfs/share/apps/python/"
+		]
+	}
+}
