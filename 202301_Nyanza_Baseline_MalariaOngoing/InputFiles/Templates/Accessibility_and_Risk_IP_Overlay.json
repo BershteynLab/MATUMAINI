@@ -1,8 +1,7 @@
 {
     "Metadata": {
-        "DateCreated": "20-Jan-2016",
-        "Tool": "Notepad++",
-        "Author": "aakullian, abershteyn",
+        "Author": "DTCitron, adapted from 202301_Nyanza_Baseline_MalariaOngoing",
+        "DateCreated": "20230308",
         "RegionName": "NyanzaCounty",
         "IdReference": "0",
         "NodeCount": 6
@@ -26,7 +25,7 @@
                 },
                 {
                     "Property": "Accessibility",
-		    "Comment": "80% Healthcare Accessible",
+		            "Comment": "80% Healthcare Accessible",
                     "Values": [ "Yes", "No" ],
                     "Initial_Distribution": [ 0.8, 0.2 ],
                     "Transitions": []
@@ -51,7 +50,7 @@
                 },
                 {
                     "Property": "Uptake",
-		    "Comment": "75% Maximum Uptake of an Intervention",
+		            "Comment": "75% Maximum Uptake of an Intervention",
                     "Values": [ "Yes", "No" ],
                     "Initial_Distribution": [ 0.75, 0.25 ],
                     "Transitions": []
@@ -63,9 +62,9 @@
                     "Initial_Distribution": [ 0.5, 0.5, 0 ],
                     "Transitions": []
                 },
-		{
+		        {
                     "Property": "ReceivedHIVST",
-		    "Comment": "Receiving HIVST",
+		            "Comment": "Receiving HIVST",
                     "Values": [ "Yes", "No" ],
                     "Initial_Distribution": [ 0, 1 ],
                     "Transitions": []
@@ -92,25 +91,36 @@
                     "Transitions": []
                 },
                 {
-                   "Property": "InterventionStatus",
-                   "Transitions": [],
-                   "Values": [
-                      "None",
-                      "ARTStaging",
-                      "ARTStagingDiagnosticTest",
-                      "LinkingToART",
-                      "LinkingToPreART",
-                      "OnART",
-                      "OnPreART",
-                      "HCTTestingLoop",
-                      "HCTUptakeAtDebut",
-                      "HCTUptakePostDebut",
-                      "TestingOnANC",
-                      "TestingOnChild6w",
-                      "TestingOnSymptomatic",
-                      "LostForever"
-                   ],
-		   "Initial_Distribution": [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+                    "Property": "InterventionStatus",
+                    "Transitions": [],
+                    "Values": [
+                        "None",
+                        "ARTStaging",
+                        "ARTStagingDiagnosticTest",
+                        "LinkingToART",
+                        "LinkingToPreART",
+                        "OnART",
+                        "OnPreART",
+                        "HCTTestingLoop",
+                        "HCTUptakeAtDebut",
+                        "HCTUptakePostDebut",
+                        "TestingOnANC",
+                        "TestingOnChild6w",
+                        "TestingOnSymptomatic",
+                        "LostForever"
+                    ],
+		            "Initial_Distribution": [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+                },
+                {
+                    "Property":"CMDStatus",
+                    "Transitions": [],
+                    "Values": [
+                        "CMD_neg",
+                        "CMD_pos",
+                        "CMD_remission",
+                        "CMD_remission_treated"
+                    ],
+                    "Initial_Distribution": [1,0,0,0]
                 }
                 ]
         },

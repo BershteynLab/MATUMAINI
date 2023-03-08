@@ -1,1 +1,8 @@
 *.DS_Store
+**/COMPS_log.log
+**/DownloadAnalyzerTPI_cache/
+**/DownloadAnalyzerTPI_cache/*
+**/__pycache__/
+**/__pycache__/*
+**/post_channel_config.json
+**/resampled_parameter_sets_short.csv

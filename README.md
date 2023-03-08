@@ -11,10 +11,16 @@
 ## Project Outline
 
 * [ ] Implement [model of CMD](https://docs.google.com/presentation/d/1LaGunWwd2bJYsFmCAZPay9UfXygRY47RvCdVJKmSLjA/edit?usp=sharing) within EMOD
-    * [ ] Add Individual Property (IP) to EMOD which tracks individual CMD status
+    * [ ] Add CMD Individual Property (IP) to EMOD which tracks individual CMD status
+        * [x] Add CMD IP to the Demography File
+        * [ ] Add CMD IP to the config file - report on IP
+        * [ ] Check: run calibrated model
+    * [ ] Integrate CMD into model with calibration
+        * [ ] Add CMD prevalence calibration target to the ingest form
+        * [ ] Add CMD IP to dtk_post_process
+        * [ ] Check: re-calibrate model, check that it still runs
     * [ ] Add CMD transitions based on age-dependent incidence, treatment, remission
     * [ ] Add CMD-related excess mortality
     * [ ] Run model to test
 * [ ] Implement interactions between CMD and HIV
-* [ ] Add CMD prevalence calibration target to the ingest form
 * [ ] Re-calibrate model with CMD
