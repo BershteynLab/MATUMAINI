@@ -1,0 +1,824 @@
+{
+    "Metadata": {
+        "DateCreated": "20-Jan-2016",
+        "Tool": "Notepad++",
+        "Author": "aakullian, abershteyn",
+        "RegionName": "NyanzaCounty",
+        "IdReference": "0",
+        "NodeCount": 6
+    },
+    "Nodes": [
+        {
+            "NodeID": 1,
+            "NodeName": "Homa_Bay",
+            "IndividualProperties": [
+                {
+                    "Property": "Known_Positive",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEP_Eligible",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Property": "Accessibility",
+		    "Comment": "80% Healthcare Accessible",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0.8, 0.2 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "OnDrug",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEPWilling",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+				{
+                    "Property": "WillingToStartARTFromPrEPCampaign",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Property": "Uptake",
+		    "Comment": "75% Maximum Uptake of an Intervention",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0.75, 0.25 ],
+                    "Transitions": []
+                },
+                {
+                    "Property": "Risk",
+                    "Values": [ "LOW", "MEDIUM", "HIGH" ],
+                    "Initial_Distribution__KP_Risk_Homa_Bay": "<-- MARKER",
+                    "Initial_Distribution": [ 0.5, 0.5, 0 ],
+                    "Transitions": []
+                },
+		{
+                    "Property": "ReceivedHIVST",
+		    "Comment": "Receiving HIVST",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "Facility_Flag",
+					"Comment": "Mark for facility",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ANCPartners_Flag",
+					"Comment": "Mark for ANC Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "NewIndexPartners_Flag",
+					"Comment": "Mark for New Index Cases Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+                {
+                   "Property": "InterventionStatus",
+                   "Transitions": [],
+                   "Values": [
+                      "None",
+                      "ARTStaging",
+                      "ARTStagingDiagnosticTest",
+                      "LinkingToART",
+                      "LinkingToPreART",
+                      "OnART",
+                      "OnPreART",
+                      "HCTTestingLoop",
+                      "HCTUptakeAtDebut",
+                      "HCTUptakePostDebut",
+                      "TestingOnANC",
+                      "TestingOnChild6w",
+                      "TestingOnSymptomatic",
+                      "LostForever"
+                   ],
+		   "Initial_Distribution": [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+                }
+                ]
+        },
+        {
+            "NodeID": 2,
+            "IndividualProperties": [
+                {
+                    "Property": "Known_Positive",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEP_Eligible",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "80% Healthcare Accessible",
+                    "Property": "Accessibility",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.8,
+                        0.2
+                    ],
+                    "Transitions": []
+                },
+				                {
+                    "Property": "OnDrug",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEPWilling",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+				{
+                    "Property": "WillingToStartARTFromPrEPCampaign",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "75% Maximum Uptake of an Intervention",
+                    "Property": "Uptake",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.75,
+                        0.25
+                    ],
+                    "Transitions": []
+                },
+                {
+                    "Property": "Risk",
+                    "Values": [
+                        "LOW",
+                        "MEDIUM",
+                        "HIGH"
+                    ],
+                    "Initial_Distribution__KP_Risk_Kisii": "<-- MARKER",
+                    "Initial_Distribution": [
+                        0.7315770339436188,
+                        0.26842296605638116,
+                        0
+                    ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ReceivedHIVST",
+					"Comment": "Receiving HIVST",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "Facility_Flag",
+					"Comment": "Mark for facility",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ANCPartners_Flag",
+					"Comment": "Mark for ANC Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "NewIndexPartners_Flag",
+					"Comment": "Mark for New Index Cases Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+                {
+				   "Property": "InterventionStatus",
+                   "Transitions": [],
+                   "Values": [
+                      "None",
+                      "ARTStaging",
+                      "ARTStagingDiagnosticTest",
+                      "LinkingToART",
+                      "LinkingToPreART",
+                      "OnART",
+                      "OnPreART",
+                      "HCTTestingLoop",
+                      "HCTUptakeAtDebut",
+                      "HCTUptakePostDebut",
+                      "TestingOnANC",
+                      "TestingOnChild6w",
+                      "TestingOnSymptomatic",
+                      "LostForever"
+                   ],
+                   "Initial_Distribution": [
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                   ]
+                }
+            ],
+            "NodeName": "Kisii"
+        },
+        {
+            "NodeID": 3,
+            "IndividualProperties": [
+                {
+                    "Property": "Known_Positive",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEP_Eligible",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "80% Healthcare Accessible",
+                    "Property": "Accessibility",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.8,
+                        0.2
+                    ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "OnDrug",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEPWilling",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+				{
+                    "Property": "WillingToStartARTFromPrEPCampaign",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "75% Maximum Uptake of an Intervention",
+                    "Property": "Uptake",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.75,
+                        0.25
+                    ],
+                    "Transitions": []
+                },
+                {
+                    "Property": "Risk",
+                    "Values": [
+                        "LOW",
+                        "MEDIUM",
+                        "HIGH"
+                    ],
+                    "Initial_Distribution__KP_Risk_Kisumu": "<-- MARKER",
+                    "Initial_Distribution": [
+                        0.5620886607458376,
+                        0.43791133925416237,
+                        0
+                    ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ReceivedHIVST",
+				    "Comment": "Receiving HIVST",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "Facility_Flag",
+					"Comment": "Mark for facility",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ANCPartners_Flag",
+					"Comment": "Mark for ANC Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "NewIndexPartners_Flag",
+					"Comment": "Mark for New Index Cases Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+                {
+                   "Initial_Distribution": [
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                   ],
+                   "Property": "InterventionStatus",
+                   "Transitions": [],
+                   "Values": [
+                      "None",
+                      "ARTStaging",
+                      "ARTStagingDiagnosticTest",
+                      "LinkingToART",
+                      "LinkingToPreART",
+                      "OnART",
+                      "OnPreART",
+                      "HCTTestingLoop",
+                      "HCTUptakeAtDebut",
+                      "HCTUptakePostDebut",
+                      "TestingOnANC",
+                      "TestingOnChild6w",
+                      "TestingOnSymptomatic",
+                      "LostForever"
+                   ]
+                }
+            ],
+            "NodeName": "Kisumu"
+        },
+        {
+            "NodeID": 4,
+            "IndividualProperties": [
+                {
+                    "Property": "Known_Positive",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEP_Eligible",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "80% Healthcare Accessible",
+                    "Property": "Accessibility",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.8,
+                        0.2
+                    ],
+                    "Transitions": []
+                },
+				                {
+                    "Property": "OnDrug",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEPWilling",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+				{
+                    "Property": "WillingToStartARTFromPrEPCampaign",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "75% Maximum Uptake of an Intervention",
+                    "Property": "Uptake",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.75,
+                        0.25
+                    ],
+                    "Transitions": []
+                },
+                {
+                    "Property": "Risk",
+                    "Values": [
+                        "LOW",
+                        "MEDIUM",
+                        "HIGH"
+                    ],
+                    "Initial_Distribution__KP_Risk_Migori": "<-- MARKER",
+                    "Initial_Distribution": [
+                        0.7443948774061678,
+                        0.25560512259383217,
+                        0
+                    ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ReceivedHIVST",
+				    "Comment": "Receiving HIVST",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "Facility_Flag",
+					"Comment": "Mark for facility",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ANCPartners_Flag",
+					"Comment": "Mark for ANC Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "NewIndexPartners_Flag",
+					"Comment": "Mark for New Index Cases Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+                {
+                   "Initial_Distribution": [
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                   ],
+                   "Property": "InterventionStatus",
+                   "Transitions": [],
+                   "Values": [
+                      "None",
+                      "ARTStaging",
+                      "ARTStagingDiagnosticTest",
+                      "LinkingToART",
+                      "LinkingToPreART",
+                      "OnART",
+                      "OnPreART",
+                      "HCTTestingLoop",
+                      "HCTUptakeAtDebut",
+                      "HCTUptakePostDebut",
+                      "TestingOnANC",
+                      "TestingOnChild6w",
+                      "TestingOnSymptomatic",
+                      "LostForever"
+                   ]
+                }
+            ],
+            "NodeName": "Migori"
+        },
+        {
+            "NodeID": 5,
+            "IndividualProperties": [
+                {
+                    "Property": "Known_Positive",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEP_Eligible",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "80% Healthcare Accessible",
+                    "Property": "Accessibility",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.8,
+                        0.2
+                    ],
+                    "Transitions": []
+                },
+				                {
+                    "Property": "OnDrug",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEPWilling",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+				{
+                    "Property": "WillingToStartARTFromPrEPCampaign",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "75% Maximum Uptake of an Intervention",
+                    "Property": "Uptake",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.75,
+                        0.25
+                    ],
+                    "Transitions": []
+                },
+                {
+                    "Property": "Risk",
+                    "Values": [
+                        "LOW",
+                        "MEDIUM",
+                        "HIGH"
+                    ],
+                    "Initial_Distribution__KP_Risk_Nyamira": "<-- MARKER",
+                    "Initial_Distribution": [
+                        0.5253347597291209,
+                        0.4746652402708791,
+                        0
+                    ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ReceivedHIVST",
+		    "Comment": "Receiving HIVST",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "Facility_Flag",
+					"Comment": "Mark for facility",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ANCPartners_Flag",
+					"Comment": "Mark for ANC Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "NewIndexPartners_Flag",
+					"Comment": "Mark for New Index Cases Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+                {
+                   "Initial_Distribution": [
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                   ],
+                   "Property": "InterventionStatus",
+                   "Transitions": [],
+                   "Values": [
+                      "None",
+                      "ARTStaging",
+                      "ARTStagingDiagnosticTest",
+                      "LinkingToART",
+                      "LinkingToPreART",
+                      "OnART",
+                      "OnPreART",
+                      "HCTTestingLoop",
+                      "HCTUptakeAtDebut",
+                      "HCTUptakePostDebut",
+                      "TestingOnANC",
+                      "TestingOnChild6w",
+                      "TestingOnSymptomatic",
+                      "LostForever"
+                   ]
+                }
+            ],
+            "NodeName": "Nyamira"
+        },
+        {
+            "NodeID": 6,
+            "IndividualProperties": [
+                {
+                    "Property": "Known_Positive",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEP_Eligible",
+                    "Values": ["False", "True"],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "80% Healthcare Accessible",
+                    "Property": "Accessibility",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.8,
+                        0.2
+                    ],
+                    "Transitions": []
+                },
+				                {
+                    "Property": "OnDrug",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 1, 0],
+                    "Transitions": []
+                },
+                {
+                    "Property": "PrEPWilling",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+				{
+                    "Property": "WillingToStartARTFromPrEPCampaign",
+                    "Values": [ "NO", "YES" ],
+                    "Initial_Distribution": [ 0, 1],
+                    "Transitions": []
+                },
+                {
+                    "Comment": "75% Maximum Uptake of an Intervention",
+                    "Property": "Uptake",
+                    "Values": [
+                        "Yes",
+                        "No"
+                    ],
+                    "Initial_Distribution": [
+                        0.75,
+                        0.25
+                    ],
+                    "Transitions": []
+                },
+                {
+                    "Property": "Risk",
+                    "Values": [
+                        "LOW",
+                        "MEDIUM",
+                        "HIGH"
+                    ],
+                    "Initial_Distribution__KP_Risk_Siaya": "<-- MARKER",
+                    "Initial_Distribution": [
+                        0.5,
+                        0.5,
+                        0
+                    ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ReceivedHIVST",
+					"Comment": "Receiving HIVST",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "Facility_Flag",
+					"Comment": "Mark for facility",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "ANCPartners_Flag",
+					"Comment": "Mark for ANC Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+				{
+                    "Property": "NewIndexPartners_Flag",
+					"Comment": "Mark for New Index Cases Partners",
+                    "Values": [ "Yes", "No" ],
+                    "Initial_Distribution": [ 0, 1 ],
+                    "Transitions": []
+                },
+                {
+                   "Initial_Distribution": [
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                   ],
+                   "Property": "InterventionStatus",
+                   "Transitions": [],
+                   "Values": [
+                      "None",
+                      "ARTStaging",
+                      "ARTStagingDiagnosticTest",
+                      "LinkingToART",
+                      "LinkingToPreART",
+                      "OnART",
+                      "OnPreART",
+                      "HCTTestingLoop",
+                      "HCTUptakeAtDebut",
+                      "HCTUptakePostDebut",
+                      "TestingOnANC",
+                      "TestingOnChild6w",
+                      "TestingOnSymptomatic",
+                      "LostForever"
+                   ]
+                }
+            ],
+            "NodeName": "Siaya"
+        }
+    ]
+}
+
