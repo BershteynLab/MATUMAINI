@@ -13,7 +13,7 @@
 * [ ] Implement [model of CMD](https://docs.google.com/presentation/d/1LaGunWwd2bJYsFmCAZPay9UfXygRY47RvCdVJKmSLjA/edit?usp=sharing) within EMOD
     * [ ] Add CMD Individual Property (IP) to EMOD which tracks individual CMD status
         * [x] Add CMD IP to the Demography File
-        * [ ] Add CMD IP to the config file - report on IP
+        * [x] Add CMD IP to the config file - report on IP
         * [ ] Check: run calibrated model
     * [ ] Integrate CMD into model with calibration
         * [ ] Add CMD prevalence calibration target to the ingest form
