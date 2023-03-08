@@ -17,7 +17,7 @@
         * [ ] Check: run calibrated model
     * [ ] Integrate CMD into model with calibration
         * [ ] Add CMD prevalence calibration target to the ingest form
-        * [ ] Add CMD IP to dtk_post_process
+        * [x] Add CMD IP to dtk_post_process
         * [ ] Check: re-calibrate model, check that it still runs
     * [ ] Add CMD transitions based on age-dependent incidence, treatment, remission
     * [ ] Add CMD-related excess mortality
