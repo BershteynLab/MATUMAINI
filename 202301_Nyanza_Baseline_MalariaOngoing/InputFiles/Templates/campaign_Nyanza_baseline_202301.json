@@ -2,6 +2,95 @@
     "Campaign_Name": "Baseline campaign for Nyanza Region",
     "Events": [
         {
+            "BEGIN":"CMD",
+            "Event_Name": "CMD background",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Property_Restrictions":["CMDStatus:CMD_neg"],
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Timesteps_Between_Repetitions": 1,
+                "Number_Repetitions": -1,
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD incidence",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Property_Restrictions":["CMDStatus:CMD_neg"],
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["CMD_Incidence1"],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVDelayedIntervention",
+                        "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
+                        "Delay_Period_Min": 1,
+                        "Delay_Period_Max": 365,
+                        "Broadcast_Event":"CMD_Incidence2"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD incidence, changing property",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Property_Restrictions":["CMDStatus:CMD_neg"],
+            "Event_Coordinator_Config": {
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["CMD_Incidence2"],
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"MultiInterventionDistributor",
+                        "Intervention_List":[
+                            {
+                                "Intervention_Name":"CMD incidence change CMD status",
+                                "class":"PropertyValueChanger",
+                                "Target_Property_Key":"CMDStatus",
+                                "Target_Property_Value":"CMD_pos",
+                                "New_Property_Value":""
+                            },
+                            {
+                                "Intervention_Name":"CMD treatment choice",
+                                "class":"HIVRandomChoice",
+                                "Choice_Names": [
+                                    "CMD_Treat",
+                                    "CMD_NoTreat"
+                                ],
+                                "Choice_Probabilities": [
+                                    0.0,
+                                    1.0
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
