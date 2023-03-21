@@ -15,15 +15,19 @@
         * [x] Add CMD IP to the Demography File: `CMDStatus`
         * [x] Add CMD IP to the config file - report on IP
         * [x] Check: run calibrated model
-    * [ ] Integrate CMD into model with calibration
-        * [x] Add CMD IP to dtk_post_process
-        * [x] Add CMD prevalence calibration target to the ingest form
-        * [ ] Add CMD transitions based on age-dependent incidence, remission (assume no treatment for now)
+    * [ ] Integrate CMD into model with calibration - Proof of concept
+        * [x] Implement simple SIS model of Depression
+        * [ ] Try calibrating with proof of concept
+            * [x] Add CMD IP to dtk_post_process
+            * [x] Add CMD prevalence calibration target to the ingest form
+            * [ ] Add CMD as a variable to be calibrated
+    * [ ] Develop more detailed CMD model
+        * [ ] Add CMD-related excess mortality
+        * [ ] Add differentiation between treatment and non-treatment
+    * [ ] Add CMD transitions based on treatment
+        * [ ] Add CMD transitions based on age-dependent incidence, remission, treatment
         * [ ] Add ARTMortality Table - differentiating efficacy of care
         * [ ] Alter Ingest form to include age-dependent incidence as a free parameter to calibrate to
         * [ ] Check: re-calibrate model, check that it still runs
-    * [ ] Add CMD-related excess mortality
-    * [ ] Add CMD transitions based on treatment
-    * [ ] Run model to test
 * [ ] Implement interactions between CMD and HIV
-* [ ] Re-calibrate model with CMD
+* [ ] Re-calibrate full model with CMD

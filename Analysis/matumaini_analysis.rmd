@@ -1,0 +1,51 @@
+---
+title: "Matumaini_Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# MATUMAINI Analysis
+
+The purpose of this notebook is to spot check some of the results from our MATUMAINI mental health model.
+
+```{r Load Libraries}
+library(tidyverse)
+library(tidyr)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(devtools)
+devtools::install_github("BershteynLab/EMODAnalyzeR")
+```
+
+# Duration of Depression Episode
+
+```{r Duration of depression episode}
+
+event.recorder = fread("/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_Nyanza_baseline_202301-Baseline___2023_03_20_20_06_13_372862/Simulation_6F9M2RC4/output/ReportEventRecorder.csv")
+
+a = event.recorder %>% select( "Year", "Event_Name", "Individual_ID") %>% 
+  filter(Event_Name %in% c("CMD_NoTreat", "CMD_NoTreat_Recovery")) %>% 
+  filter(Year > 1992) %>% 
+  filter(Year < 2025) %>% 
+  arrange(Year) %>% 
+  group_by(Event_Name, Individual_ID) %>% 
+  slice(1) %>% 
+  pivot_wider(id_cols = c(Individual_ID), values_from = c(Year), names_from = Event_Name) %>% 
+  filter(!is.na(CMD_NoTreat_Recovery)) %>% 
+  filter(!is.na(CMD_NoTreat)) %>% 
+  mutate(diff = CMD_NoTreat_Recovery - CMD_NoTreat ) 
+
+a %>% 
+  filter(diff > 0) %>% 
+  .$diff %>% hist()
+
+a %>% 
+  filter(diff > 0) %>% 
+  .$diff %>% summary()
+```
+
+I dunno, close enough?

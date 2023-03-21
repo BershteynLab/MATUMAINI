@@ -81,11 +81,81 @@
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
-                                    0.0,
-                                    1.0
+                                    0.05,
+                                    0.95
                                 ]
                             }
                         ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD stage recovery without treatment",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Property_Restrictions":["CMDStatus:CMD_pos"],
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["CMD_NoTreat"],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVDelayedIntervention",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 240,
+                        "COMMENT":"Using 8 month recovery time",
+                        "Broadcast_Event":"CMD_NoTreat_Recovery"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD stage recovery with treatment",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Property_Restrictions":["CMDStatus:CMD_pos"],
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["CMD_Treat"],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVDelayedIntervention",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 90,
+                        "COMMENT":"Using 3 month recovery time",
+                        "Broadcast_Event":"CMD_Treat_Recovery"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD recovery",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Property_Restrictions":["CMDStatus:CMD_pos"],
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Treat_Recovery",
+                        "CMD_NoTreat_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "PropertyValueChanger",
+                        "Target_Property_Key":"CMDStatus",
+                        "Target_Property_Value":"CMD_neg"
                     }
                 }
             }
