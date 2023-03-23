@@ -47,14 +47,14 @@ CALIBRATION_SCENARIO = 'Baseline'
  # 0.005 for testing. Use 0.2 for full calibration
  # I (David) has found that 0.02 can lead to the epidemic never taking off in some counties for Nyanza
 BASE_POPULATION_SCALE_FACTOR = 0.02
-N_ITERATIONS = 1
+N_ITERATIONS = 5
 N_SAMPLES_PER_ITERATION = 20  # the number of distinct parameter sets to run per iteration
 N_REPLICATES = 3  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
-TEST_N = '3'  # TEST_N is macro variable used to create directory name
+TEST_N = '0'  # TEST_N is macro variable used to create directory name
 
 # The excel file with parameter, analyzer, and reference data to parse
 # ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form_Nyanza.xlsm')
-ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form_Nyanza_original.xlsm')
+ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form_Nyanza_MATUMAINI.xlsm')
 
 # params is a dict, site_info is a dict, reference is a PopulationObs object, analyzers is a list of dictionaries of
 # analyzer arguments
@@ -242,6 +242,13 @@ def map_sample_to_model_input(sample_dict, template_set_name, scenario_name, cam
             [v, 1 - v, 0],
             [1 - v, v, v],
             [0, v, 1 - v]]
+
+    if 'CMDIncidence' in sample:
+        CMDIncidence = sample.pop('CMDIncidence')
+        table['Intervention_Config__KP_CMD_Incidence.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
 
     for p in params:
         # print('Mapping parameter: %s' % p)

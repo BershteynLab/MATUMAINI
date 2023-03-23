@@ -9,9 +9,9 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "Property_Restrictions":["CMDStatus:CMD_neg"],
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Timesteps_Between_Repetitions": 1,
                 "Number_Repetitions": -1,
                 "Intervention_Config": {
@@ -24,7 +24,8 @@
                         0.001,
                         0.999
                     ]
-                }
+                },
+                "Intervention_Config__KP_CMD_Incidence": "<-- MARKER"
             }
         },
         {
