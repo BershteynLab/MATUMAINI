@@ -15,9 +15,9 @@
         * [x] Add CMD IP to the Demography File: `CMDStatus`
         * [x] Add CMD IP to the config file - report on IP
         * [x] Check: run calibrated model
-    * [ ] Integrate CMD into model with calibration - Proof of concept
+    * [x] Integrate CMD into model with calibration - Proof of concept
         * [x] Implement simple SIS model of Depression
-        * [ ] Try calibrating with proof of concept
+        * [x] Try calibrating with proof of concept
             * [x] Add CMD IP to dtk_post_process
             * [x] Add CMD prevalence calibration target to the ingest form
             * [x] Add CMD as a variable to be calibrated
