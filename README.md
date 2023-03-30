@@ -12,16 +12,22 @@
 
 * [ ] Implement [model of CMD](https://docs.google.com/presentation/d/1LaGunWwd2bJYsFmCAZPay9UfXygRY47RvCdVJKmSLjA/edit?usp=sharing) within EMOD
     * [x] Add CMD Individual Property (IP) to EMOD which tracks individual CMD status
-        * [x] Add CMD IP to the Demography File
+        * [x] Add CMD IP to the Demography File: `CMDStatus`
         * [x] Add CMD IP to the config file - report on IP
         * [x] Check: run calibrated model
-    * [ ] Integrate CMD into model with calibration
-        * [ ] Add CMD prevalence calibration target to the ingest form
-        * [ ] Add CMD transitions based on age-dependent incidence, remission (assume no treatment for now)
-        * [x] Add CMD IP to dtk_post_process
-        * [ ] Check: re-calibrate model, check that it still runs
-    * [ ] Add CMD-related excess mortality
+    * [x] Integrate CMD into model with calibration - Proof of concept
+        * [x] Implement simple SIS model of Depression
+        * [x] Try calibrating with proof of concept
+            * [x] Add CMD IP to dtk_post_process
+            * [x] Add CMD prevalence calibration target to the ingest form
+            * [x] Add CMD as a variable to be calibrated
+    * [ ] Develop more detailed CMD model
+        * [ ] Add CMD-related excess mortality
+        * [ ] Add differentiation between treatment and non-treatment
     * [ ] Add CMD transitions based on treatment
-    * [ ] Run model to test
+        * [ ] Add CMD transitions based on age-dependent incidence, remission, treatment
+        * [ ] Add ARTMortality Table - differentiating efficacy of care
+        * [ ] Alter Ingest form to include age-dependent incidence as a free parameter to calibrate to
+        * [ ] Check: re-calibrate model, check that it still runs
 * [ ] Implement interactions between CMD and HIV
-* [ ] Re-calibrate model with CMD
+* [ ] Re-calibrate full model with CMD

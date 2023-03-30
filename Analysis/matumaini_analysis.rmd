@@ -1,0 +1,232 @@
+---
+title: "Matumaini_Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# MATUMAINI Analysis
+
+The purpose of this notebook is to spot check some of the results from our MATUMAINI mental health model.
+
+```{r Load Libraries}
+library(tidyverse)
+library(tidyr)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(devtools)
+devtools::install_github("BershteynLab/EMODAnalyzeR")
+```
+
+# Duration of Depression Episode
+
+```{r Duration of depression episode}
+
+event.recorder = fread("/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_Nyanza_baseline_202301-Baseline___2023_03_20_20_06_13_372862/Simulation_6F9M2RC4/output/ReportEventRecorder.csv")
+
+a = event.recorder %>% select( "Year", "Event_Name", "Individual_ID") %>% 
+  filter(Event_Name %in% c("CMD_NoTreat", "CMD_NoTreat_Recovery")) %>% 
+  filter(Year > 1992) %>% 
+  filter(Year < 2025) %>% 
+  arrange(Year) %>% 
+  group_by(Event_Name, Individual_ID) %>% 
+  slice(1) %>% 
+  pivot_wider(id_cols = c(Individual_ID), values_from = c(Year), names_from = Event_Name) %>% 
+  filter(!is.na(CMD_NoTreat_Recovery)) %>% 
+  filter(!is.na(CMD_NoTreat)) %>% 
+  mutate(diff = CMD_NoTreat_Recovery - CMD_NoTreat ) 
+
+a %>% 
+  filter(diff > 0) %>% 
+  .$diff %>% hist()
+
+a %>% 
+  filter(diff > 0) %>% 
+  .$diff %>% summary()
+```
+
+I dunno, close enough?
+
+# Plotting first successful calibration
+
+2023-03-30 - ran the first calibration of the new model, featuring mental health as one of the calibration targets.
+
+```{r Read in simulation results}
+
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_1/Baseline-campaign_Nyanza_baseline_202301-MH_test/ReportHIVByAgeAndGender/"
+sim.cmd <- EMODAnalyzeR::read.simulation.results(
+  results_path = res_path,
+  scenario_name = 'baseline',
+  summarize_columns = c("Newly.Infected", "Newly.Tested.Positive",
+    "Newly.Tested.Negative", "Population", "Infected", "On_ART", "Died", "Died_from_HIV",
+    "Tested.Past.Year.or.On_ART", "Tested.Ever", "Diagnosed"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.CMDStatus"),
+  min_age_inclusive = 18,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+ZWE_CENSUS_POP = 2697858 
+
+sim.results.pop.scaling <- sim.results %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = ZWE_CENSUS_POP/total.pop)
+
+sim.results <- sim.results %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+
+## Prevalence
+```{r}
+EMODAnalyzeR::emodplot.prevalence(sim.results, 
+                                  1990, 2040, 
+                                  title = 'All Ages Prevalence')
+```
+
+## Incidence
+
+```{r}
+EMODAnalyzeR::emodplot.incidence(sim.cmd,
+                                 1990, 2040)
+```
+
+## Population
+```{r Population}
+EMODAnalyzeR::emodplot.by_gender(sim.cmd,
+                                 1990,2040,
+                                 col2plot = 'Population',
+                                 title = "Population")
+```
+
+
+
+## CMD Prevalence
+
+```{r Calculate CMD Prevalence}
+# Aggregate CMD prevalence, to plot using EMODAnalyzer
+p <- sim.cmd %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Population)) %>% 
+  group_by(Year, Gender, sim.id, scenario_name) %>% 
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population))
+
+# Calculate means across year and gender
+p1 <- p %>%
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(CMD_prev = mean(CMD_prev), 
+            CMD_pos = mean(CMD_pos),
+            Population = mean(Population), 
+            .groups = 'keep')  
+```
+
+```{r Plot CMD Prevalence}
+EMODAnalyzeR::emodplot.by_gender(p,
+                   date.start = 2000, date.end = 2020,
+                   col2plot = 'CMD_prev',
+                   title = 'CMD Prevalence'
+)
+```
+```{r CMD Prevalence by Age}
+
+p.age <- sim.cmd %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Population)) %>% 
+  group_by(Year, Age, Gender, sim.id, scenario_name) %>% 
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population))
+
+p1.age <- p.age %>%
+  group_by(Year, Age, Gender, scenario_name) %>% 
+  summarize(CMD_prev = mean(CMD_prev), 
+            CMD_pos = mean(CMD_pos),
+            Population = mean(Population), 
+            .groups = 'keep')
+
+```
+
+```{r Plot CMD Prevalence by Age}
+
+subset_years = c(1994, 2004, 2014)
+age_bins = c(18,25,30,40,45,50,60,99)
+
+# Transform data
+data <- p.age %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+# Subset data on years
+data <- data %>% filter(Year %in% subset_years)
+
+# Age bins
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+# Label each age by its bin
+data <- data %>% mutate(
+  AgeBin = cut(Age,breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+
+data <- data %>% mutate(
+  AgeBin = cut(Age,breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+
+data$AgeBin_index = factor(data$AgeBin,labels = 1:7)
+
+data.mean <- data %>%
+  group_by(Year, AgeBin_index, Gender, scenario_name) %>%
+  dplyr::summarise(mean.col2plot = mean(CMD_prev), 
+                   sd.col2plot = sd(CMD_prev),
+                   .groups = 'keep') %>% 
+  mutate(lower = max(mean.col2plot - 2* sd.col2plot, 0),
+         upper = mean.col2plot + 2*sd.col2plot)
+
+p <- data.mean %>% 
+    ggplot() + 
+    # means
+    geom_point(
+      mapping = aes(
+        x = AgeBin_index, y = mean.col2plot, color = scenario_name
+      )
+    ) + 
+    # data
+    geom_errorbar(
+      mapping = aes(
+        x=AgeBin_index, ymin=lower, ymax=upper,
+        color=scenario_name),
+      width=.25, size=1) + 
+    facet_grid(cols = vars(Gender), rows = vars(Year)) + 
+    xlab("Age") + 
+    ylab("CMD Prevalence") +
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_discrete(
+      breaks = 1:length(age_labels),
+      labels = age_labels
+      ) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+    scale_color_manual(values=colors2plot)
+p
+```
+
+
