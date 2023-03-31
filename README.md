@@ -21,6 +21,7 @@
             * [x] Add CMD IP to dtk_post_process
             * [x] Add CMD prevalence calibration target to the ingest form
             * [x] Add CMD as a variable to be calibrated
+    * [x] Develop R analysis tools for postprocessing
     * [ ] Develop more detailed CMD model
         * [ ] Add CMD-related excess mortality
         * [ ] Add differentiation between treatment and non-treatment
