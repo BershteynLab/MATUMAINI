@@ -83,7 +83,8 @@
             "CMD_NoTreat",
             "CMD_Treat",
             "CMD_NoTreat_Recovery",
-            "CMD_Treat_Recovery"
+            "CMD_Treat_Recovery",
+            "CMD_Recovery"
         ],
         "Custom_Node_Events": [],
         "Custom_Reports_Filename": "",
@@ -226,7 +227,7 @@
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 0,
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
-        "Report_HIV_ByAgeAndGender_Start_Year": 2000,
+        "Report_HIV_ByAgeAndGender_Start_Year": 1990,
         "Report_HIV_ByAgeAndGender_Stop_Year": 2020,
         "Report_HIV_ByAgeAndGender_Stratify_Infected_By_CD4": 0,
         "Report_HIV_Event_Channels_List": [],
