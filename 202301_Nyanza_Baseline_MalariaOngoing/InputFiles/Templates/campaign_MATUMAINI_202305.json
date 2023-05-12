@@ -441,8 +441,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                        "Delay_Period_Exponential": 240,
-                        "COMMENT":"Using 8 month recovery time",
+                        "Delay_Period_Exponential": 270,
+                        "COMMENT":"Using 9 month recovery time",
                         "Broadcast_Event":"CMD_NoTreat_Recovery"
                     }
                 }

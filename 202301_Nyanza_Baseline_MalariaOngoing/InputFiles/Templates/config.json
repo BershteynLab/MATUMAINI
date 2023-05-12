@@ -15,7 +15,7 @@
         "CD4_At_Death_LogLogistic_Scale": 2.96,
         "CD4_Post_Infection_Weibull_Heterogeneity": 0.2756,
         "CD4_Post_Infection_Weibull_Scale": 560.43,
-        "Campaign_Filename": "D:/Dropbox (NYU Langone Health)/EMOD HIV User Group Shared Folder/input_file_bundles/Nyanza_calibration/202301_Nyanza_Baseline_MalariaOngoing/InputFiles/Templates/campaign_Nyanza_baseline_202301.json",
+        "Campaign_Filename": "campaign_MATUMAINI_202305.json",
         "Coital_Dilution_Factor_2_Partners": 0.75,
         "Coital_Dilution_Factor_3_Partners": 0.6,
         "Coital_Dilution_Factor_4_Plus_Partners": 0.45,

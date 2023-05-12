@@ -23,9 +23,9 @@
             * [x] Add CMD as a variable to be calibrated
     * [x] Develop R analysis tools for postprocessing
     * [ ] Develop more detailed CMD model
+        * [x] Add age and gender-related incidence modifiers
         * [ ] Add CMD-related excess mortality
         * [ ] Add differentiation between treatment and non-treatment
-        * [ ] Add age and gender-related incidence modifiers
     * [ ] Add CMD transitions based on treatment
         * [ ] Add CMD transitions based on age-dependent incidence, remission, treatment
         * [ ] Add ARTMortality Table - differentiating efficacy of care
