@@ -15,7 +15,7 @@
         "CD4_At_Death_LogLogistic_Scale": 2.96,
         "CD4_Post_Infection_Weibull_Heterogeneity": 0.2756,
         "CD4_Post_Infection_Weibull_Scale": 560.43,
-        "Campaign_Filename": "D:/Dropbox (NYU Langone Health)/EMOD HIV User Group Shared Folder/input_file_bundles/Nyanza_calibration/202301_Nyanza_Baseline_MalariaOngoing/InputFiles/Templates/campaign_Nyanza_baseline_202301.json",
+        "Campaign_Filename": "campaign_MATUMAINI_202305.json",
         "Coital_Dilution_Factor_2_Partners": 0.75,
         "Coital_Dilution_Factor_3_Partners": 0.6,
         "Coital_Dilution_Factor_4_Plus_Partners": 0.45,
@@ -83,7 +83,8 @@
             "CMD_NoTreat",
             "CMD_Treat",
             "CMD_NoTreat_Recovery",
-            "CMD_Treat_Recovery"
+            "CMD_Treat_Recovery",
+            "CMD_Recovery"
         ],
         "Custom_Node_Events": [],
         "Custom_Reports_Filename": "",
@@ -226,7 +227,7 @@
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 0,
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
-        "Report_HIV_ByAgeAndGender_Start_Year": 2000,
+        "Report_HIV_ByAgeAndGender_Start_Year": 1990,
         "Report_HIV_ByAgeAndGender_Stop_Year": 2020,
         "Report_HIV_ByAgeAndGender_Stratify_Infected_By_CD4": 0,
         "Report_HIV_Event_Channels_List": [],

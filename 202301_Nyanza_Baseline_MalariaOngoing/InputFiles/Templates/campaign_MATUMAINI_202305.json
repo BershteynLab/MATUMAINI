@@ -3,7 +3,7 @@
     "Events": [
         {
             "BEGIN":"CMD",
-            "Event_Name": "CMD background",
+            "Event_Name": "CMD background - Males 18-24",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -12,8 +12,12 @@
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
-                "Timesteps_Between_Repetitions": 1,
+                "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 18,
+                "Target_Age_Max": 24.99999,
+                "Target_Gender": "Male",
                 "Intervention_Config": {
                     "class":"HIVRandomChoice",
                     "Choice_Names": [
@@ -25,7 +29,337 @@
                         0.999
                     ]
                 },
-                "Intervention_Config__KP_CMD_Incidence": "<-- MARKER"
+                "Intervention_Config__KP_CMD_Incidence_Males_18": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 25-29",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 25,
+                "Target_Age_Max": 29.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Males_25": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 30-39",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 30,
+                "Target_Age_Max": 39.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Males_30": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 40-49",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 40,
+                "Target_Age_Max": 49.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Males_40": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 50-59",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 50,
+                "Target_Age_Max": 59.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Males_50": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 60-99",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 60,
+                "Target_Age_Max": 99.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Males_60": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 18-24",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 18,
+                "Target_Age_Max": 24.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Females_18": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 25-29",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 25,
+                "Target_Age_Max": 29.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Females_25": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 30-39",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 30,
+                "Target_Age_Max": 39.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Females_30": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 40-49",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 40,
+                "Target_Age_Max": 49.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Females_40": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 50-59",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 50,
+                "Target_Age_Max": 59.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Females_50": "<-- MARKER"
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 60-99",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 60,
+                "Target_Age_Max": 99.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.001,
+                        0.999
+                    ]
+                },
+                "Intervention_Config__KP_CMD_Incidence_Females_60": "<-- MARKER"
             }
         },
         {
@@ -107,8 +441,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                        "Delay_Period_Exponential": 240,
-                        "COMMENT":"Using 8 month recovery time",
+                        "Delay_Period_Exponential": 270,
+                        "COMMENT":"Using 9 month recovery time",
                         "Broadcast_Event":"CMD_NoTreat_Recovery"
                     }
                 }
@@ -138,6 +472,31 @@
             }
         },
         {
+            "Event_Name":"Stage CMD recovery",
+            "COMMENT":"Need single event broadcast for the Death Rate Modifier intervention",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Property_Restrictions":["CMDStatus:CMD_pos"],
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Treat_Recovery",
+                        "CMD_NoTreat_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"BroadcastEvent",
+                        "Broadcast_Event":"CMD_Recovery"    
+                    }
+                }
+            }
+        },
+        {
             "Event_Name":"CMD recovery",
             "class":"CampaignEvent",
             "Nodeset_Config": {
@@ -150,8 +509,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_Treat_Recovery",
-                        "CMD_NoTreat_Recovery"
+                        "CMD_Recovery"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class": "PropertyValueChanger",

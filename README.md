@@ -21,7 +21,9 @@
             * [x] Add CMD IP to dtk_post_process
             * [x] Add CMD prevalence calibration target to the ingest form
             * [x] Add CMD as a variable to be calibrated
+    * [x] Develop R analysis tools for postprocessing
     * [ ] Develop more detailed CMD model
+        * [x] Add age and gender-related incidence modifiers
         * [ ] Add CMD-related excess mortality
         * [ ] Add differentiation between treatment and non-treatment
     * [ ] Add CMD transitions based on treatment
@@ -29,5 +31,6 @@
         * [ ] Add ARTMortality Table - differentiating efficacy of care
         * [ ] Alter Ingest form to include age-dependent incidence as a free parameter to calibrate to
         * [ ] Check: re-calibrate model, check that it still runs
+    * [ ] Integrate CMD into model - with full calibration to reproduce age-prevalence curves
 * [ ] Implement interactions between CMD and HIV
 * [ ] Re-calibrate full model with CMD

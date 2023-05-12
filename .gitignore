@@ -9,3 +9,5 @@
 **/test*
 **/HIVCalibSite_*
 **/Nyanza--*
+**/output
+**/*.pdf

@@ -46,9 +46,9 @@ CALIBRATION_SCENARIO = 'Baseline'
  # For quick test simulations, BASE_POPULATION_SCALE_FACTOR is set to a very low value. 
  # 0.005 for testing. Use 0.2 for full calibration
  # I (David) has found that 0.02 can lead to the epidemic never taking off in some counties for Nyanza
-BASE_POPULATION_SCALE_FACTOR = 0.02
-N_ITERATIONS = 5
-N_SAMPLES_PER_ITERATION = 20  # the number of distinct parameter sets to run per iteration
+BASE_POPULATION_SCALE_FACTOR = 0.05
+N_ITERATIONS = 15
+N_SAMPLES_PER_ITERATION = 83  # the number of distinct parameter sets to run per iteration
 N_REPLICATES = 3  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
 TEST_N = '0'  # TEST_N is macro variable used to create directory name
 
@@ -243,9 +243,86 @@ def map_sample_to_model_input(sample_dict, template_set_name, scenario_name, cam
             [1 - v, v, v],
             [0, v, 1 - v]]
 
-    if 'CMDIncidence' in sample:
-        CMDIncidence = sample.pop('CMDIncidence')
-        table['Intervention_Config__KP_CMD_Incidence.Choice_Probabilities'] = [
+    if 'CMD_Incidence_Males_18' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Males_18')
+        table['Intervention_Config__KP_CMD_Incidence_Males_18.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+        
+    if 'CMD_Incidence_Females_18' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Females_18')
+        table['Intervention_Config__KP_CMD_Incidence_Females_18.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+
+    if 'CMD_Incidence_Males_25' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Males_25')
+        table['Intervention_Config__KP_CMD_Incidence_Males_25.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+        
+    if 'CMD_Incidence_Females_25' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Females_25')
+        table['Intervention_Config__KP_CMD_Incidence_Females_25.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+
+    if 'CMD_Incidence_Males_30' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Males_30')
+        table['Intervention_Config__KP_CMD_Incidence_Males_30.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+        
+    if 'CMD_Incidence_Females_30' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Females_30')
+        table['Intervention_Config__KP_CMD_Incidence_Females_30.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]        
+
+    if 'CMD_Incidence_Males_40' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Males_40')
+        table['Intervention_Config__KP_CMD_Incidence_Males_40.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+        
+    if 'CMD_Incidence_Females_40' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Females_40')
+        table['Intervention_Config__KP_CMD_Incidence_Females_40.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+
+    if 'CMD_Incidence_Males_50' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Males_50')
+        table['Intervention_Config__KP_CMD_Incidence_Males_50.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+        
+    if 'CMD_Incidence_Females_50' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Females_50')
+        table['Intervention_Config__KP_CMD_Incidence_Females_50.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]        
+
+    if 'CMD_Incidence_Males_60' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Males_60')
+        table['Intervention_Config__KP_CMD_Incidence_Males_60.Choice_Probabilities'] = [
+            CMDIncidence, 
+            1-CMDIncidence
+            ]
+        
+    if 'CMD_Incidence_Females_60' in sample:
+        CMDIncidence = sample.pop('CMD_Incidence_Females_60')
+        table['Intervention_Config__KP_CMD_Incidence_Females_60.Choice_Probabilities'] = [
             CMDIncidence, 
             1-CMDIncidence
             ]
