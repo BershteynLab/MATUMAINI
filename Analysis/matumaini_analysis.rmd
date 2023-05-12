@@ -358,17 +358,14 @@ p +
              mapping = aes(x = AgeBin_index, y = CMDPrevalence))
 ```
 
-
-
-
 # Plotting calibration of age-prevalence CMD curves
 
 2023-05-10 - attempting to hit calibration targets for CMD
 
-```{r Read in simulation results}
 
-#res_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_Nyanza_baseline_202301-MH_test___2023_05_10_10_37_33_099470"
+```{r Read in simulation results}
 res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/MH_test/Baseline-campaign_Nyanza_baseline_202301-MH_test/ReportHIVByAgeAndGender"
+
 sim.cmd <- EMODAnalyzeR::read.simulation.results(
   results_path = res_path,
   scenario_name = 'baseline',
@@ -376,7 +373,7 @@ sim.cmd <- EMODAnalyzeR::read.simulation.results(
     "Newly.Tested.Negative", "Population", "Infected", "On_ART", "Died", "Died_from_HIV",
     "Tested.Past.Year.or.On_ART", "Tested.Ever", "Diagnosed"),
   stratify_columns = c("Year", "Age", "Gender", "IP_Key.CMDStatus"),
-  min_age_inclusive = 18,
+  min_age_inclusive = 15,
   max_age_inclusive = 99
 )
 
@@ -412,7 +409,8 @@ obs.pop.sheet <- readxl::read_excel(xl.path, sheet = "Obs-Population", range = "
 
 
 ## Prevalence
-```{r}
+```{r Fixed prevalence functions}
+
 emodplot.prevalence <- function(data,
                            date.start,
                            date.end,
@@ -429,6 +427,91 @@ emodplot.prevalence <- function(data,
   return(p)
 }
 
+
+emodplot.by_age_gender.cmd <- function(data, 
+                                   numerator = "Infected", 
+                                   denominator = "Population", 
+                                   subset_years = c(2005), 
+                                   age_bins = c(15,20,25,30,35,40,45,50,55,60,65,99), 
+                                   yaxis_lab = "", 
+                                   title = "") {
+  # Build color mapping function, each scenario gets its own color
+    nScenarios = length(unique(data$scenario_name))
+  if (nScenarios == 1) {
+    colors2plot <- c('blue3')
+  } else {
+    colors2plot <- colors[1:nScenarios]
+  }
+  
+  # Subset data on years
+  data <- data %>% filter(Year %in% subset_years)
+  
+  # Age bins  
+  age_labels = c()
+  for (i in 1:(length(age_bins) - 1)){
+    age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+  }
+  
+  # Label each age by its bin
+  data <- data %>% mutate(
+    AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+    ) %>%
+    filter(!is.na(AgeBin))
+  data$AgeBin_index = factor(data$AgeBin,labels = 1:length(age_labels))
+  
+  # Pick out the numerator and denominator
+  data['Numerator'] = data[numerator]
+  data['Denominator'] = data[denominator]
+    
+  # Calculate prevalence, grouping by age bin
+  data.prev <- data %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name, sim.id) %>% 
+    summarize(num = sum(Numerator), denom = sum(Denominator), .groups = 'keep') %>% 
+    mutate(Prevalence = num/denom)
+  # Calculate mean prevalence across all sim runs
+  data.mean <- data.prev %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
+    summarize(mean.Prevalence = mean(Prevalence),
+              sd.Prevalence = sd(Prevalence),
+              .groups = 'keep') %>% 
+    mutate(lower = max(mean.Prevalence - 2* sd.Prevalence, 0), 
+           upper = mean.Prevalence + 2*sd.Prevalence)
+  
+  # Transform data
+  data.prev <- data.prev %>% ungroup() %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+  data.mean <- data.mean %>% ungroup() %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+  
+  p <- data.mean %>% 
+    ggplot() + 
+    # plot means
+    geom_point(
+      mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = scenario_name),
+      size=1
+    ) + 
+    geom_errorbar(
+      mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper, color=scenario_name),
+      width=.15, size=1) + 
+    facet_grid(cols = vars(Gender), rows = vars(Year)) + 
+    xlab("Age") + 
+    ylab(yaxis_lab) +
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_discrete(
+      breaks = 1:length(age_labels),
+      labels = age_labels
+      ) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
+    scale_color_manual(values=colors2plot) + 
+    labs(title = title)
+  
+  return(p)
+  }
+
+```
+
+
+```{r All ages prevalence}
 p <- emodplot.prevalence(sim.cmd %>% filter(Age <= 50, Age >= 15), 
                           1990, 2040, 
                           title = 'All Ages Prevalence')
@@ -438,6 +521,43 @@ p +
                filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")), 
              mapping = aes(x = Year, y = Prevalence))
 ```
+```{r Age-prevalence curves}
+age_bins = c(15,20,25,30,35,40,45,50,55,60)
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
+p <- emodplot.by_age_gender.cmd(data = sim.cmd,
+                           numerator = "Infected",
+                           denominator = "Population",
+                           subset_years = c(2003, 2007, 2008, 2012, 2018),
+                           age_bins = c(15,20,25,30,35,40,45,50,55,60),
+                           yaxis_lab = "",
+                           title = "Age Prevalence Curves"
+                           )
+
+
+
+ggplot() + geom_point(data = obs.prev.sheet %>% 
+                 filter(Province == "All", AgeBin %in% age_labels, Gender %in% c("Male", "Female")) %>% 
+                 mutate(AgeBin_index = factor(AgeBin, labels = 1:length(age_labels))),
+           mapping = aes(x = AgeBin_index, y = Prevalence)
+             ) + facet_grid(cols = vars(Gender), rows = vars(Year)) + scale_x_discrete()
+
+p1 <- p + geom_point(data = obs.prev.sheet %>% 
+                 filter(Province == "All", AgeBin %in% age_labels, Gender %in% c("Male", "Female")) %>% 
+                 mutate(AgeBin_index = factor(AgeBin, labels = 1:length(age_labels))),
+           mapping = aes(x = AgeBin_index, y = Prevalence)
+             )
+p1
+
+# ggsave("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/age_prev_plot.pdf",
+#        p1, width = 8, height = 8, units = c("in"))
+
+```
+
+
 ## OnArt coverage
 
 ```{r}
@@ -459,8 +579,14 @@ p
 ```{r Number on ART}
 
 data <- sim.cmd %>% 
+  filter(Age >= 15) %>% 
     group_by(Year, Gender, sim.id, scenario_name) %>% 
     summarize(On_ART = sum(On_ART*pop.scaling.factor), Population = sum(Population), .groups = 'keep')
+
+# ggplot() + 
+#   geom_point(data = data %>% group_by(Year, Gender) %>% summarize(On_Art1 = mean(On_ART), .groups = 'keep') %>% ungroup() , 
+#              mapping = aes(x = Year, y = On_Art1)) + 
+#   facet_grid(cols = vars(Gender) )
 
 p <- EMODAnalyzeR::emodplot.by_gender(data, 1990, 2040, 'On_ART', title="ART") 
 
@@ -531,17 +657,30 @@ cmd.data.means <- cmd.data %>%
             CMD_pos = mean(CMD_pos),
             Population = mean(Population), 
             .groups = 'keep')  
+
+h <- sim.cmd %>% filter(sim.id == cmd.data$sim.id %>% first) %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Population)) %>% 
+  mutate(CMD_pop = CMD_neg + CMD_pos + CMD_remission + CMD_remission_treated) %>% 
+  select(Year, Age, Gender, CMD_pop, CMD_pos)
+
+h
+
+h %>% group_by(Year, Gender) %>% 
+  summarize(CMD_pop = sum(CMD_pop), CMD_pos = sum(CMD_pos))
+
 ```
 
-```{r Plot CMD Prevalence}
-EMODAnalyzeR::emodplot.by_gender(cmd.data,
-                   date.start = 2000, date.end = 2020,
-                   col2plot = 'CMD_prev',
-                   title = 'CMD Prevalence'
-)
+```{r}
+h %>% group_by(Year, Age, Gender) %>% 
+  summarize(CMD_pop = sum(CMD_pop), CMD_pos = sum(CMD_pos)) %>% 
+  mutate(CMD_prev = CMD_pos/CMD_pop)
+
 ```
 
-```{r CMD Prevalence by Age}
+
+```{r CMD prevalence by age}
 
 cmd.data.age <- sim.cmd %>% 
   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
@@ -560,115 +699,30 @@ cmd.data.age.mean <- cmd.data.age %>%
             CMD_pos = mean(CMD_pos),
             Population = mean(Population), 
             .groups = 'keep')
-
 ```
 
-```{r Functions for age prevalence curves}
 
-emodplot.by_age_gender <- function(data, 
-                                   numerator = "Infected", 
-                                   denominator = "Population", 
-                                   subset_years = c(2005), 
-                                   age_bins = c(15,20,25,30,35,40,45,50,55,60,65,99), 
-                                   yaxis_lab = "", 
-                                   title = "") {
-  # Build color mapping function, each scenario gets its own color
-  nScenarios = length(unique(data$scenario_name))
-  if (nScenarios == 1) {
-    colors2plot <- c('blue3')
-  } else {
-    colors2plot <- colors[1:nScenarios]
-  }
-  
-  # Subset data on years
-  data <- data %>% filter(Year %in% subset_years)
-  
-  # Age bins
-  age_labels = c()
-  for (i in 1:(length(age_bins) - 1)){
-    age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
-  }
-  
-  # Label each age by its bin
-  data <- data %>% mutate(
-    AgeBin = cut(Age, breaks = age_bins, right = FALSE)
-    ) %>%
-    filter(!is.na(AgeBin))
-  
-  data$AgeBin_index = factor(data$AgeBin,labels = 1:length(7))
-  
-  # Pick out the numerator and denominator
-  data['Numerator'] = data[numerator]
-  data['Denominator'] = data[denominator]
-  
-  # Calculate prevalence, grouping by age bin
-  data.prev <- data %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name, sim.id) %>% 
-    summarize(num = sum(Numerator), denom = sum(Denominator), .groups = 'keep') %>% 
-    mutate(Prevalence = num/denom)
-  # Calculate mean prevalence across all sim runs
-  data.mean <- data.prev %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
-    summarize(mean.Prevalence = mean(Prevalence),
-              sd.Prevalence = sd(Prevalence),
-              .groups = 'keep') %>% 
-    mutate(lower = max(mean.Prevalence - 2* sd.Prevalence, 0), 
-           upper = mean.Prevalence + 2*sd.Prevalence)
-  
-  # Transform data
-  data.prev <- data.prev %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-  data.mean <- data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-  
-  p <- data.mean %>% 
-    ggplot() + 
-    # plot means
-    geom_point(
-      mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = scenario_name),
-      size=1
-    ) + 
-    geom_errorbar(
-      mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper, color=scenario_name),
-      width=.15, size=1) + 
-    facet_grid(cols = vars(Gender), rows = vars(Year)) + 
-    xlab("Age") + 
-    ylab(yaxis_lab) +
-    theme_bw(base_size=16) +
-    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-    scale_x_discrete(
-      breaks = 1:length(age_labels),
-      labels = age_labels
-      ) +
-    theme(legend.position="bottom") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    theme(strip.background = element_rect(colour="black", fill="white")) +
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
-    scale_color_manual(values=colors2plot) + 
-    labs(title = title)
-  return(p)
-}
+```{r Plot CMD Prevalence}
+EMODAnalyzeR::emodplot.by_gender(cmd.data,
+                   date.start = 1990, date.end = 2020,
+                   col2plot = 'CMD_prev',
+                   title = 'CMD Prevalence'
+)
 
+# actual number should be around .05 for both genders
+# we are too low by a factor of 5
 
-emodplot.age_prevalence <- function(data,
-                                    subset_years = c(2005), 
-                                    age_bins = c(15,20,25,30,35,40,45,50,55,60,65,99),
-                                    title = "Age-Prevalence Curves") {
-  p <- emodplot.by_age_gender(data, "Infected", "Population",
-                              subset_years, age_bins,
-                              yaxis_lab = "Prevalence",
-                              title = title)
-  return(p)
-}
-
-subset_years = c(2006, 2011, 2015, 2016)
-age_bins = c(18,25,30,40,45,50,60,99)
-
-emodplot.by_age_gender(sim.cmd, "Infected", "Population", 
-                       subset_years, age_bins, yaxis_lab = "Prevalence", 
-                       title = "Age Prevalence Curves")
 ```
  
 
 ```{r Plot CMD Prevalence by Age}
 
 age_bins = c(18, 25, 30, 40, 45, 50, 60, 99)
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
 subset_years = c(2004)
 
 
@@ -681,6 +735,7 @@ cmd.data.age <- sim.cmd %>%
   summarize(CMD_pos = sum(CMD_pos), 
             Population = sum(Population), 
             .groups = 'keep') %>% 
+  ungroup() %>% 
   mutate(CMD_prev = case_when(Population == 0 ~ 0,
                               Population > 0 ~ CMD_pos / Population))
 
@@ -693,80 +748,7 @@ p <- cmd.data.age %>% emodplot.by_age_gender("CMD_pos", "Population",
 obs.cmdprev.sheet$AgeBin_index = factor(obs.cmdprev.sheet$AgeBin,labels = 1:length(age_labels))
 
 p + 
-  geom_point(data = obs.cmdprev.sheet, 
-             mapping = aes(x = AgeBin_index, y = CMDPrevalence))
-```
-
-
-```{r}
-
-age_labels = c()
-for (i in 1:(length(age_bins) - 1)){
-  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
-}
-data <- cmd.data.age %>% mutate(
-  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
-  ) %>%
-  filter(!is.na(AgeBin))
-data$AgeBin_index = factor(data$AgeBin,labels = 1:(length(age_bins)-1))
-# Pick out the numerator and denominator
-data['Numerator'] = data["CMD_pos"]
-data['Denominator'] = data["Population"]
-  
-# Calculate prevalence, grouping by age bin
-data.prev <- data %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name, sim.id) %>% 
-  summarize(num = sum(Numerator), denom = sum(Denominator), .groups = 'keep') %>% 
-  mutate(Prevalence = num/denom)
-# Calculate mean prevalence across all sim runs
-data.mean <- data.prev %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
-  summarize(mean.Prevalence = mean(Prevalence),
-            sd.Prevalence = sd(Prevalence),
-            .groups = 'keep') %>% 
-  mutate(lower = max(mean.Prevalence - 2* sd.Prevalence, 0), 
-         upper = mean.Prevalence + 2*sd.Prevalence)
-
-# Transform data
-data.prev <- data.prev %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-data.mean <- data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-
-p <- data.mean %>% 
-  ggplot() + 
-  # plot means
-  geom_point(
-    mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = scenario_name),
-    size=1
-  ) + 
-  geom_errorbar(
-    mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper, color=scenario_name),
-    width=.15, size=1) + 
-  facet_grid(cols = vars(Gender), rows = vars(Year)) + 
-  xlab("Age") + 
-  ylab(yaxis_lab) +
-  theme_bw(base_size=16) +
-  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  scale_x_discrete(
-    breaks = 1:length(age_labels),
-    labels = age_labels
-    ) +
-  theme(legend.position="bottom") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(strip.background = element_rect(colour="black", fill="white")) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + 
-  scale_color_manual(values=colors2plot) + 
-  labs(title = title)
-
-p
-
-data.mean 
-
-ggplot() + 
-  # plot means
-  geom_point(
-    data = data.mean %>% filter(Year == 2004),
-    mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = scenario_name),
-    size=1
-  ) + facet_grid(cols = vars(Gender), rows = vars(Year)) + 
-  geom_point(data = obs.cmdprev.sheet, 
+  geom_point(obs.cmdprev.sheet,
              mapping = aes(x = AgeBin_index, y = CMDPrevalence))
 ```
 
