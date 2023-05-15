@@ -67,7 +67,7 @@ def get_gender(channel):
 
 def get_reports(data):
     # verify channels
-    channels_supported = ['Prevalence', 'Population', 'OnART', 'Incidence', 'ARTCoverage','CMDPrevalence']
+    channels_supported = ['Prevalence', 'Population', 'OnART', 'Incidence', 'ARTCoverage']#,'CMDPrevalence']
     channels_ref = list(ref_config.keys())
 
     channels_not_supported = list(set(channels_ref) - set(channels_supported))
@@ -153,18 +153,17 @@ def get_reports(data):
                  'Reduce': lambda row: float(row.On_ART) / float(row.Infected) if row.Infected > 0 else 0}
         entries.append(entry)
 
-    channel = 'CMDPrevalence'
-    if channel in channels_ref:
-        entry = {'Name': channel,
-                 'Type': 'Prevalence',
-                 'Year': set(list(range(first_year, last_prevalence_year + 1)) + get_year(channel=channel)),
-                 'AgeBins': get_age_bin(channel=channel),
-                 'Gender': get_gender(channel=channel),
-                 'ByNode': 'Both',
-                 'Map': cmd_prevalence_map, # see below
-                 'Reduce': lambda row: float(row.CMD_population) / float(row.Population) if row.Population > 0 else 0}
-        
-        entries.append(entry)
+    # channel = 'CMDPrevalence'
+    # if channel in channels_ref:
+    #     entry = {'Name': channel,
+    #              'Type': 'Prevalence',
+    #              'Year': set(list(range(first_year, last_prevalence_year + 1)) + get_year(channel=channel)),
+    #              'AgeBins': get_age_bin(channel=channel),
+    #              'Gender': get_gender(channel=channel),
+    #              'ByNode': 'Both',
+    #              'Map': cmd_prevalence_map, # see below
+    #              'Reduce': lambda row: float(row.CMD_population) / float(row.Population) if row.Population > 0 else 0}
+    #     entries.append(entry)
         
 
     return entries

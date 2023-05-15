@@ -57,7 +57,7 @@ I dunno, close enough?
 
 ```{r Read in simulation results}
 
-res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_1/Baseline-campaign_Nyanza_baseline_202301-MH_test/ReportHIVByAgeAndGender/"
+# res_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-MH_test___2023_05_13_12_04_46_863189"
 sim.cmd <- EMODAnalyzeR::read.simulation.results(
   results_path = res_path,
   scenario_name = 'baseline',
@@ -364,7 +364,7 @@ p +
 
 
 ```{r Read in simulation results}
-res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/MH_test/Baseline-campaign_Nyanza_baseline_202301-MH_test/ReportHIVByAgeAndGender"
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/MH_test_1/Baseline-campaign_MATUMAINI_202305-MH_test/ReportHIVByAgeAndGender"
 
 sim.cmd <- EMODAnalyzeR::read.simulation.results(
   results_path = res_path,
@@ -373,7 +373,7 @@ sim.cmd <- EMODAnalyzeR::read.simulation.results(
     "Newly.Tested.Negative", "Population", "Infected", "On_ART", "Died", "Died_from_HIV",
     "Tested.Past.Year.or.On_ART", "Tested.Ever", "Diagnosed"),
   stratify_columns = c("Year", "Age", "Gender", "IP_Key.CMDStatus"),
-  min_age_inclusive = 15,
+  min_age_inclusive = 0,
   max_age_inclusive = 99
 )
 
@@ -537,13 +537,11 @@ p <- emodplot.by_age_gender.cmd(data = sim.cmd,
                            title = "Age Prevalence Curves"
                            )
 
-
-
-ggplot() + geom_point(data = obs.prev.sheet %>% 
-                 filter(Province == "All", AgeBin %in% age_labels, Gender %in% c("Male", "Female")) %>% 
-                 mutate(AgeBin_index = factor(AgeBin, labels = 1:length(age_labels))),
-           mapping = aes(x = AgeBin_index, y = Prevalence)
-             ) + facet_grid(cols = vars(Gender), rows = vars(Year)) + scale_x_discrete()
+# ggplot() + geom_point(data = obs.prev.sheet %>% 
+#                  filter(Province == "All", AgeBin %in% age_labels, Gender %in% c("Male", "Female")) %>% 
+#                  mutate(AgeBin_index = factor(AgeBin, labels = 1:length(age_labels))),
+#            mapping = aes(x = AgeBin_index, y = Prevalence)
+#              ) + facet_grid(cols = vars(Gender), rows = vars(Year)) + scale_x_discrete()
 
 p1 <- p + geom_point(data = obs.prev.sheet %>% 
                  filter(Province == "All", AgeBin %in% age_labels, Gender %in% c("Male", "Female")) %>% 
@@ -571,8 +569,6 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 1990, 2040, 'ARTCov', title="ART Cov
   
 
 p
-
-
 ```
 ## Number on ART
 

@@ -25,8 +25,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.041809851,
+                        0.958190149
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Males_18": "<-- MARKER"
@@ -55,8 +55,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.100190954,
+                        0.899809046
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Males_25": "<-- MARKER"
@@ -85,8 +85,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.146875257,
+                        0.853124743
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Males_30": "<-- MARKER"
@@ -115,8 +115,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.167082813,
+                        0.832917187
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Males_40": "<-- MARKER"
@@ -145,8 +145,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.202000851,
+                        0.797999149
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Males_50": "<-- MARKER"
@@ -175,8 +175,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.337962963,
+                        0.662037037
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Males_60": "<-- MARKER"
@@ -205,8 +205,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.093979006,
+                        0.906020994
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Females_18": "<-- MARKER"
@@ -235,8 +235,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.127198314,
+                        0.872801686
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Females_25": "<-- MARKER"
@@ -265,8 +265,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.097078322,
+                        0.902921678
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Females_30": "<-- MARKER"
@@ -295,8 +295,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.202000851,
+                        0.797999149
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Females_40": "<-- MARKER"
@@ -325,8 +325,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.115956891,
+                        0.884043109
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Females_50": "<-- MARKER"
@@ -355,8 +355,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.001,
-                        0.999
+                        0.072649573,
+                        0.927350427
                     ]
                 },
                 "Intervention_Config__KP_CMD_Incidence_Females_60": "<-- MARKER"

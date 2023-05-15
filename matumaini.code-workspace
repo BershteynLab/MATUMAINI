@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../../../../../scratch/citrod01/experiments/MATUMAINI"
+		},
+		{
+			"path": "../../dtk_post_process_matumaini"
 		}
 	],
 	"settings": {
