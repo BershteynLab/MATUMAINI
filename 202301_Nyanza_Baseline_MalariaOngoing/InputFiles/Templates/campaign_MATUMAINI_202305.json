@@ -416,8 +416,19 @@
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
-                                    0.05,
-                                    0.95
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            {
+                                "Intervention_Name":"CMD reassign risk",
+                                "class": "PropertyValueChanger",
+                                "Target_Property_Key":"Risk",
+                                "Target_Property_Value":"MEDIUM",
+                                "Property_Restrictions_Within_Node": [
+                                    {
+                                        "Risk": "LOW"
+                                    }
                                 ]
                             }
                         ]
@@ -520,6 +531,250 @@
             }
         },
         {
+            "BEGIN":"Adjust risk during depressive episode",
+            "Event_Name":"CMD risk adjust after recovery - Homa Bay",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class":"NodeSetNodeList"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_MoveToLowRisk",
+                            "CMD_MoveToMediumRisk"
+                        ],
+                        "Choice_Probabilities": [
+                            0.570587455,
+                            0.42941254500000003
+                        ],
+                        "Choice_Probabilities__KP_RiskChoice_Homa_Bay": "<-- MARKER"
+
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD risk adjust after recovery - Kisii",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "Node_List": [
+                    2
+                ],
+                "class":"NodeSetNodeList"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_MoveToLowRisk",
+                            "CMD_MoveToMediumRisk"
+                        ],
+                        "Choice_Probabilities": [
+                            0.947987402,
+                            0.05201259800000002
+                        ],
+                        "Choice_Probabilities__KP_RiskChoice_Kisii": "<-- MARKER"
+
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD risk adjust after recovery - Kisumu",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "Node_List": [
+                    3
+                ],
+                "class":"NodeSetNodeList"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_MoveToLowRisk",
+                            "CMD_MoveToMediumRisk"
+                        ],
+                        "Choice_Probabilities": [
+                            0.7662719720000001,
+                            0.23372802799999992
+                        ],
+                        "Choice_Probabilities__KP_RiskChoice_Kisumu": "<-- MARKER"
+
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD risk adjust after recovery - Migori",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "Node_List": [
+                    4
+                ],
+                "class":"NodeSetNodeList"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_MoveToLowRisk",
+                            "CMD_MoveToMediumRisk"
+                        ],
+                        "Choice_Probabilities": [
+                            0.7760890770000001,
+                            0.22391092299999993
+                        ],
+                        "Choice_Probabilities__KP_RiskChoice_Migori": "<-- MARKER"
+
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD risk adjust after recovery - Nyamira",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "Node_List": [
+                    5
+                ],
+                "class":"NodeSetNodeList"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_MoveToLowRisk",
+                            "CMD_MoveToMediumRisk"
+                        ],
+                        "Choice_Probabilities": [
+                            0.912046558,
+                            0.08795344199999999
+                        ],
+                        "Choice_Probabilities__KP_RiskChoice_Nyamira": "<-- MARKER"
+
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD risk adjust after recovery - Siaya",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "Node_List": [
+                    6
+                ],
+                "class":"NodeSetNodeList"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_MoveToLowRisk",
+                            "CMD_MoveToMediumRisk"
+                        ],
+                        "Choice_Probabilities": [
+                            0.735968925,
+                            0.264031075
+                        ],
+                        "Choice_Probabilities__KP_RiskChoice_Siaya": "<-- MARKER"
+
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD recovery adjust to low risk",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_MoveToLowRisk"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "PropertyValueChanger",
+                        "Target_Property_Key":"Risk",
+                        "Target_Property_Value":"LOW"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD recovery adjust to medium risk",
+            "class":"CampaignEvent",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_MoveToMediumRisk"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "PropertyValueChanger",
+                        "Target_Property_Key":"Risk",
+                        "Target_Property_Value":"MEDIUM"
+                    }
+                }
+            }
+        },
+        {
+            "END":"Adjust risk during depressive episode",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {

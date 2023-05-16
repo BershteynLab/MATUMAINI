@@ -366,6 +366,8 @@ p +
 ```{r Read in simulation results}
 res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/MH_test_1/Baseline-campaign_MATUMAINI_202305-MH_test/ReportHIVByAgeAndGender"
 
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_2/Baseline-campaign_MATUMAINI_202305-mh_risk/ReportHIVByAgeAndGender"
+
 sim.cmd <- EMODAnalyzeR::read.simulation.results(
   results_path = res_path,
   scenario_name = 'baseline',
@@ -402,7 +404,7 @@ obs.prev.sheet <- readxl::read_excel(xl.path, sheet = "Obs-Prevalence", range = 
 
 obs.onart.sheet <- readxl::read_excel(xl.path, sheet = "Obs-OnART", range = "A8:G202", col_names = TRUE)
 
-obs.cmdprev.sheet <- readxl::read_excel(xl.path, sheet = "Obs-CMDPrevalence", range = "A8:G22", col_names = TRUE)
+#obs.cmdprev.sheet <- readxl::read_excel(xl.path, sheet = "Obs-CMDPrevalence", range = "A8:G22", col_names = TRUE)
 
 obs.pop.sheet <- readxl::read_excel(xl.path, sheet = "Obs-Population", range = "A8:G224", col_names = TRUE)
 ```
@@ -521,6 +523,7 @@ p +
                filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")), 
              mapping = aes(x = Year, y = Prevalence))
 ```
+
 ```{r Age-prevalence curves}
 age_bins = c(15,20,25,30,35,40,45,50,55,60)
 age_labels = c()

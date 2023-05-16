@@ -84,7 +84,9 @@
             "CMD_Treat",
             "CMD_NoTreat_Recovery",
             "CMD_Treat_Recovery",
-            "CMD_Recovery"
+            "CMD_Recovery",
+            "CMD_MoveToLowRisk",
+            "CMD_MoveToMediumRisk"
         ],
         "Custom_Node_Events": [],
         "Custom_Reports_Filename": "",
