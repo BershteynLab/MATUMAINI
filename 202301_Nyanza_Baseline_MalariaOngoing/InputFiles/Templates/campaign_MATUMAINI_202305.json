@@ -752,6 +752,7 @@
             }
         },
         {
+            "END":"Adjust risk during depressive episode",
             "Event_Name":"CMD recovery adjust to medium risk",
             "class":"CampaignEvent",
             "Nodeset_Config": {
@@ -774,7 +775,6 @@
             }
         },
         {
-            "END":"Adjust risk during depressive episode",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
@@ -3272,6 +3272,12 @@
         },
         {
             "BEGIN": "HCT TESTING LOOP",
+            "Event_Name": "HCTTestingLoop: state 0 (delay to next HCT)",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
@@ -3297,15 +3303,75 @@
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
-            },
-            "Event_Name": "HCTTestingLoop: state 0 (delay to next HCT)",
+            }
+        },
+        {
+            "Event_Name":"Check CMD status at time of test - CMD negative",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1990,
-            "class": "CampaignEventByYear"
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config":{
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "HCTTestingLoop1"
+                    ],
+                    "Property_Restrictions": [
+                        "CMDStatus:CMD_neg"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "HCTTestingLoopRapidTest"
+                        ],
+                        "Choice_Probabilities": [
+                            1
+                        ]
+                    }
+                }
+            }
         },
         {
+            "Event_Name":"Check CMD status at time of test - CMD positive",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config":{
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "HCTTestingLoop1"
+                    ],
+                    "Property_Restrictions": [
+                        "CMDStatus:CMD_pos"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "HCTTestingLoopRapidTest",
+                            "HCTTestingLoop0"
+                        ],
+                        "Choice_Probabilities": [
+                            0.33,
+                            0.67
+                        ]
+                    }
+                } 
+            }
+        },
+        {
+            "Event_Name": "HCTTestingLoop: state 1 (HIV rapid diagnostic)",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
@@ -3343,18 +3409,12 @@
                         "class": "HIVRapidHIVDiagnostic"
                     },
                     "Trigger_Condition_List": [
-                        "HCTTestingLoop1"
+                        "HCTTestingLoopRapidTest"
                     ],
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
-            },
-            "Event_Name": "HCTTestingLoop: state 1 (HIV rapid diagnostic)",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "class": "CampaignEventByYear"
+            }
         },
         {
             "BEGIN": "SYMPTOMATIC TESTING",
@@ -5126,7 +5186,7 @@
                         }
                     ],
                     "Trigger_Condition_List": [
-                        "HCTTestingLoop1"
+                        "HCTTestingLoopRapidTest"
                     ],
                     "class": "NodeLevelHealthTriggeredIV"
                 },

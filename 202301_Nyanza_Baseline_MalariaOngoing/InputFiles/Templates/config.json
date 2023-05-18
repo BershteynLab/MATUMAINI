@@ -88,7 +88,8 @@
             "CMD_MoveToLowRisk",
             "CMD_MoveToMediumRisk",
             "EffectiveART",
-            "NonSuppressiveART"
+            "NonSuppressiveART",
+            "HCTTestingLoopRapidTest"
         ],
         "Custom_Node_Events": [],
         "Custom_Reports_Filename": "",
@@ -178,7 +179,8 @@
             "CMD_MoveToLowRisk",
             "CMD_MoveToMediumRisk",
             "EffectiveART",
-            "NonSuppressiveART"
+            "NonSuppressiveART",
+            "HCTTestingLoopRapidTest"
         ],
         ".Report_Event_Recorder_Events": [
             "PrEP_Initiated",
