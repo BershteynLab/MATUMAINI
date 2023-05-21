@@ -418,7 +418,8 @@
                                 "Choice_Probabilities": [
                                     0.0,
                                     1.0
-                                ]
+                                ],
+                                "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
                             },
                             {
                                 "Intervention_Name":"CMD reassign risk",
@@ -451,8 +452,8 @@
                     "Trigger_Condition_List": ["CMD_NoTreat"],
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
-                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                        "Delay_Period_Exponential": 270,
+                        "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
+                        "Delay_Period_Constant": 270,
                         "COMMENT":"Using 9 month recovery time",
                         "Broadcast_Event":"CMD_NoTreat_Recovery"
                     }
@@ -474,8 +475,8 @@
                     "Trigger_Condition_List": ["CMD_Treat"],
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
-                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                        "Delay_Period_Exponential": 90,
+                        "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
+                        "Delay_Period_Constant": 90,
                         "COMMENT":"Using 3 month recovery time",
                         "Broadcast_Event":"CMD_Treat_Recovery"
                     }

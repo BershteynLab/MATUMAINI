@@ -1,2 +1,3 @@
-Scenario,Campaign
-mh_art,campaign_MATUMAINI_202305.json
+Scenario,Campaign,Choice_Probabilities__KP_TreatmentTable
+IDM_base,campaign_MATUMAINI_202305.json,"[0,1.0]"
+IDM_MH,campaign_MATUMAINI_202305.json,"[1.0,0]"
