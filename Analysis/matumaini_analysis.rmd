@@ -415,7 +415,7 @@ sim.cmd <- sim.cmd %>%
 
 
 # Adding treatment for CMD
-res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_test_1/Baseline-campaign_MATUMAINI_202305-IDMtest_MH/ReportHIVByAgeAndGender/"
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_test_1/Baseline-campaign_MATUMAINI_202305-IDMtest_MH/ReportHIVByAgeAndGender"
 
 sim.cmd.mh <- EMODAnalyzeR::read.simulation.results(
   results_path = res_path,
@@ -778,6 +778,7 @@ cmd.data <- sim.cmd %>%
   summarize(CMD_pos = sum(CMD_pos), 
             Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
             .groups = 'keep') %>% 
+  ungroup %>% 
   mutate(CMD_prev = case_when(Population == 0 ~ 0,
                               Population > 0 ~ CMD_pos / Population))
 
@@ -805,6 +806,7 @@ cmd.data.mh <- sim.cmd.mh %>%
   summarize(CMD_pos = sum(CMD_pos), 
             Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
             .groups = 'keep') %>% 
+  ungroup() %>% 
   mutate(CMD_prev = case_when(Population == 0 ~ 0,
                               Population > 0 ~ CMD_pos / Population))
 
@@ -1020,8 +1022,7 @@ for (i in 1:(length(age_bins) - 1)){
 
 subset_years = c(2004)
 
-
-cmd.data.age <- sim.cmd.mh %>% 
+cmd.data.age <- sim.cmd %>% 
   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
               names_from = c(IP_Key.CMDStatus),
               values_from = c(Population)) %>% 
@@ -1045,5 +1046,11 @@ obs.cmdprev.sheet$AgeBin_index = factor(obs.cmdprev.sheet$AgeBin,labels = 1:leng
 p + 
   geom_point(obs.cmdprev.sheet,
              mapping = aes(x = AgeBin_index, y = CMDPrevalence))
+```
+```{r}
+cmd.data.age %>% filter(Year == 2004) %>% 
+  group_by(Year, Age, Gender) %>% 
+  summarize(CMD_prev = mean(CMD_prev)) %>% ungroup %>% 
+  arrange(Gender, Age)
 ```
 
