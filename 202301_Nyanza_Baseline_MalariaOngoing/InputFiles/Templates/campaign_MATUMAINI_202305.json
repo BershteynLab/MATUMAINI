@@ -420,17 +420,6 @@
                                     1.0
                                 ],
                                 "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
-                            },
-                            {
-                                "Intervention_Name":"CMD reassign risk",
-                                "class": "PropertyValueChanger",
-                                "Target_Property_Key":"Risk",
-                                "Target_Property_Value":"MEDIUM",
-                                "Property_Restrictions_Within_Node": [
-                                    {
-                                        "Risk": "LOW"
-                                    }
-                                ]
                             }
                         ]
                     }
@@ -742,7 +731,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_MoveToLowRisk"
+                        ".CMD_MoveToLowRisk"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class": "PropertyValueChanger",
@@ -765,7 +754,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_MoveToMediumRisk"
+                        ".CMD_MoveToMediumRisk"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class": "PropertyValueChanger",
@@ -3354,11 +3343,13 @@
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
-                        "Choice_Names": [
+                        "Choice_Names": ["HCTTestingLoopRapidTest"],
+                        "Choice_Probabilities": [1.0],
+                        ".Choice_Names": [
                             "HCTTestingLoopRapidTest",
                             "HCTTestingLoop0"
                         ],
-                        "Choice_Probabilities": [
+                        ".Choice_Probabilities": [
                             0.33,
                             0.67
                         ]
@@ -4582,6 +4573,10 @@
                             "NonSuppressiveART"
                         ],
                         "Choice_Probabilities": [
+                            1.0,
+                            0.0
+                        ],
+                        ".Choice_Probabilities": [
                             0.833,
                             0.167
                         ],
@@ -4620,6 +4615,10 @@
                             "NonSuppressiveART"
                         ],
                         "Choice_Probabilities": [
+                            1.0,
+                            0.0
+                        ],
+                        ".Choice_Probabilities": [
                             0.68,
                             0.32
                         ],
