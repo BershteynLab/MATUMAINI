@@ -731,7 +731,10 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        ".CMD_MoveToLowRisk"
+                        "ShouldNotHappen"
+                    ],
+                    ".Trigger_Condition_List": [
+                        "CMD_MoveToLowRisk"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class": "PropertyValueChanger",
@@ -754,7 +757,10 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        ".CMD_MoveToMediumRisk"
+                        "ShouldNotHappen"
+                    ],
+                    ".Trigger_Condition_List": [
+                        "CMD_MoveToMediumRisk"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class": "PropertyValueChanger",
