@@ -384,14 +384,8 @@ p +
 
 
 ```{r Read in simulation results}
-res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/MH_test_1/Baseline-campaign_MATUMAINI_202305-MH_test/ReportHIVByAgeAndGender"
-
-res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_2/Baseline-campaign_MATUMAINI_202305-mh_risk/ReportHIVByAgeAndGender"
-
-res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_4/Baseline-campaign_MATUMAINI_202305-mh_delay/ReportHIVByAgeAndGender"
-
-# This is the one for IDM, baseline
-res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM/Baseline-campaign_MATUMAINI_202305-IDM_base/ReportHIVByAgeAndGender"
+# Baseline, without treatment for CMD
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_test_1/Baseline-campaign_MATUMAINI_202305-IDMtest_base/ReportHIVByAgeAndGender"
 
 sim.cmd <- EMODAnalyzeR::read.simulation.results(
   results_path = res_path,
@@ -420,8 +414,8 @@ sim.cmd <- sim.cmd %>%
   )
 
 
-# This is the one for IDM, baseline
-res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM/Baseline-campaign_MATUMAINI_202305-IDM_MH/ReportHIVByAgeAndGender"
+# Adding treatment for CMD
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_test_1/Baseline-campaign_MATUMAINI_202305-IDMtest_MH/ReportHIVByAgeAndGender/"
 
 sim.cmd.mh <- EMODAnalyzeR::read.simulation.results(
   results_path = res_path,
@@ -774,7 +768,7 @@ ggplot() +
 
 ## CMD Prevalence
 
-```{r Calculate CMD Prevalence}
+```{r Calculate CMD Prevalence - baseline}
 # Aggregate CMD prevalence, to plot using EMODAnalyzer
 cmd.data <- sim.cmd %>% 
   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
@@ -798,6 +792,11 @@ cmd.data.means <- cmd.data %>%
 cmd.data.means
 
 
+```
+
+
+```{r Calculate CMD Prevalence - treatment}
+# Aggregate CMD prevalence, to plot using EMODAnalyzer
 cmd.data.mh <- sim.cmd.mh %>% 
   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
               names_from = c(IP_Key.CMDStatus),
@@ -808,6 +807,19 @@ cmd.data.mh <- sim.cmd.mh %>%
             .groups = 'keep') %>% 
   mutate(CMD_prev = case_when(Population == 0 ~ 0,
                               Population > 0 ~ CMD_pos / Population))
+
+# Calculate means across year and gender
+cmd.data.mh.means <- cmd.data.mh %>%
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(CMD_prev = mean(CMD_prev), 
+            CMD_pos = mean(CMD_pos),
+            Population = mean(Population), 
+            .groups = 'keep')  
+
+merge(cmd.data.means, cmd.data.mh.means,
+      by = c("Year", "Gender"))
+
+
 
 ```
 
@@ -912,6 +924,7 @@ cmd.data.age <- sim.cmd %>%
   summarize(CMD_pos = sum(CMD_pos), 
             Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
             .groups = 'keep') %>% 
+  ungroup() %>% 
   mutate(CMD_prev = case_when(Population == 0 ~ 0,
                               Population > 0 ~ CMD_pos / Population))
 
@@ -922,8 +935,7 @@ cmd.data.age.mean <- cmd.data.age %>%
             Population = mean(Population), 
             .groups = 'keep')
 
-
-cmd.data.age.mean
+cmd.data.age.mean %>% filter(Year == 2004)
 ```
 
 ```{r CMD prevalence by age for baseline}
@@ -947,7 +959,7 @@ cmd.data.age.mh.mean <- cmd.data.age.mh %>%
             Population = mean(Population), 
             .groups = 'keep')
 
-cmd.data.age.mh.mean
+cmd.data.age.mh.mean %>% filter(Year == 2004)
 ```
 
 
@@ -961,6 +973,7 @@ cmd.data <- sim.cmd %>%
   summarize(CMD_pos = sum(CMD_pos), 
             Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
             .groups = 'keep') %>% 
+  ungroup() %>% 
   mutate(CMD_prev = case_when(Population == 0 ~ 0,
                               Population > 0 ~ CMD_pos / Population))
 
@@ -985,6 +998,7 @@ cmd.data.mh <- sim.cmd.mh %>%
   summarize(CMD_pos = sum(CMD_pos), 
             Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
             .groups = 'keep') %>% 
+  ungroup() %>% 
   mutate(CMD_prev = case_when(Population == 0 ~ 0,
                               Population > 0 ~ CMD_pos / Population))
 
