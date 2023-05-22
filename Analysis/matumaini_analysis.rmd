@@ -768,6 +768,8 @@ ggplot() +
 
 ## CMD Prevalence
 
+### CMD prevalence
+
 ```{r Calculate CMD Prevalence - baseline}
 # Aggregate CMD prevalence, to plot using EMODAnalyzer
 cmd.data <- sim.cmd %>% 
@@ -825,95 +827,53 @@ merge(cmd.data.means, cmd.data.mh.means,
 
 ```
 
-```{r Calculate CMD prevalence by HIV status}
-
-cmd.prev.hiv.pos <- sim.cmd %>% 
-   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
-              names_from = c(IP_Key.CMDStatus),
-              values_from = c(Infected)) %>% 
-  group_by(Year, Gender, sim.id, scenario_name) %>% 
-  summarize(HIVpos.CMD.pos = sum(CMD_pos),
-            HIVpos.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
-            .groups = 'keep') %>% 
-  ungroup() %>% 
-  mutate(HIVpos.CMD.prev = case_when(HIVpos.pop == 0 ~ 0,
-                              HIVpos.pop > 0 ~ HIVpos.CMD.pos / HIVpos.pop)) %>% 
-  group_by(Year, Gender) %>% 
-  summarize(HIVpos.CMD.prev = mean(HIVpos.CMD.prev))
-
-cmd.prev.hiv.neg <- sim.cmd %>% 
-  mutate(HIVneg = Population - Infected) %>% 
-   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
-              names_from = c(IP_Key.CMDStatus),
-              values_from = c(HIVneg)) %>% 
-  group_by(Year, Gender, sim.id, scenario_name) %>% 
-  summarize(HIVneg.CMD.pos = sum(CMD_pos),
-            HIVneg.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
-            .groups = 'keep') %>% 
-  ungroup() %>% 
-  mutate(HIVneg.CMD.prev = case_when(HIVneg.pop == 0 ~ 0,
-                              HIVneg.pop > 0 ~ HIVneg.CMD.pos / HIVneg.pop)) %>% 
-  group_by(Year, Gender) %>% 
-  summarize(HIVneg.CMD.prev = mean(HIVneg.CMD.prev))
-
-
-cmd.prev.hiv <- sim.cmd %>% mutate(HIVneg = Population - Infected) %>% 
+```{r Plot CMD Prevalence baseline}
+# Aggregate CMD prevalence, to plot using EMODAnalyzer
+cmd.data <- sim.cmd %>% 
   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
               names_from = c(IP_Key.CMDStatus),
-              values_from = c(Infected, HIVneg)) %>% 
+              values_from = c(Population)) %>% 
   group_by(Year, Gender, sim.id, scenario_name) %>% 
-  summarize(Infected_CMD_pos = sum(Infected_CMD_pos), 
-            Infected_Population = sum(Infected_CMD_pos + Infected_CMD_neg + Infected_CMD_remission + Infected_CMD_remission_treated),
-            HIVneg_CMD_pos = sum(HIVneg_CMD_pos),
-            HIVneg_Population = sum(HIVneg_CMD_pos + HIVneg_CMD_neg + HIVneg_CMD_remission + HIVneg_CMD_remission_treated),
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
             .groups = 'keep') %>% 
   ungroup() %>% 
-  mutate(HIVpos.CMD.prev = Infected_CMD_pos/(Infected_Population), 
-         HIVneg.CMD.prev = HIVneg_CMD_pos/HIVneg_Population
-         ) %>% 
-  group_by(Year, Gender) %>% 
-  summarize(
-    HIVpos.CMD.prev = mean(HIVpos.CMD.prev), 
-    HIVneg.CMD.prev = mean(HIVneg.CMD.prev),
-    Infected_CMD_pos = mean(Infected_CMD_pos), Infected_Population = mean(Infected_Population),
-    HIVneg_CMD_pos = mean(HIVneg_CMD_pos), HIVneg_Population = mean(HIVneg_Population))
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population))
 
-cmd.prev.hiv 
+EMODAnalyzeR::emodplot.by_gender(cmd.data,
+                   date.start = 1990, date.end = 2020,
+                   col2plot = 'CMD_prev',
+                   title = 'CMD Prevalence'
+)
 
-cmd.data %>% group_by(Year, Gender) %>% 
-  summarize(CMD_prev = mean(CMD_prev))
+# actual number should be around .05 for both genders
+# we are too low by a factor of 5
 
 ```
-```{r}
-merge(cmd.prev.hiv.pos, cmd.prev.hiv.neg,
-      by = c("Year","Gender"))
-```
+ 
 
-
-```{r}
-cmd.prev.hiv.mh <- sim.cmd.mh %>% mutate(HIVneg = Population - Infected) %>% 
+```{r Plot CMD Prevalence with treatment}
+cmd.data.mh <- sim.cmd.mh %>% 
   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
               names_from = c(IP_Key.CMDStatus),
-              values_from = c(Infected, HIVneg)) %>% 
+              values_from = c(Population)) %>% 
   group_by(Year, Gender, sim.id, scenario_name) %>% 
-  summarize(Infected_CMD_pos = sum(Infected_CMD_pos), 
-            Infected_Population = sum(Infected_CMD_pos + Infected_CMD_neg + Infected_CMD_remission + Infected_CMD_remission_treated),
-            HIVneg_CMD_pos = sum(HIVneg_CMD_pos),
-            HIVneg_Population = sum(HIVneg_CMD_pos + HIVneg_CMD_neg + HIVneg_CMD_remission + HIVneg_CMD_remission_treated),
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
             .groups = 'keep') %>% 
   ungroup() %>% 
-  mutate(HIVpos.CMD.prev = Infected_CMD_pos/(Infected_Population), 
-         HIVneg.CMD.prev = HIVneg_CMD_pos/HIVneg_Population
-         ) %>% 
-  group_by(Year, Gender) %>% 
-  summarize(
-    HIVpos.CMD.prev = mean(HIVpos.CMD.prev), 
-    HIVneg.CMD.prev = mean(HIVneg.CMD.prev),
-    Infected_CMD_pos = mean(Infected_CMD_pos), Infected_Population = mean(Infected_Population),
-    HIVneg_CMD_pos = mean(HIVneg_CMD_pos), HIVneg_Population = mean(HIVneg_Population))
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population))
 
-cmd.prev.hiv.mh
+EMODAnalyzeR::emodplot.by_gender(cmd.data.mh,
+                   date.start = 1990, date.end = 2020,
+                   col2plot = 'CMD_prev',
+                   title = 'CMD Prevalence'
+)
 ```
+
+### CMD prevalence by age
 
 
 ```{r CMD prevalence by age}
@@ -942,7 +902,7 @@ cmd.data.age.mean %>% filter(Year == 2004)
 
 ```{r CMD prevalence by age for baseline}
 
-cmd.data.age.mh <- sim.cmd.mh %>% 
+cmd.data.age <- sim.cmd %>% 
   pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
               names_from = c(IP_Key.CMDStatus),
               values_from = c(Population)) %>% 
@@ -954,62 +914,18 @@ cmd.data.age.mh <- sim.cmd.mh %>%
   mutate(CMD_prev = case_when(Population == 0 ~ 0,
                               Population > 0 ~ CMD_pos / Population))
 
-cmd.data.age.mh.mean <- cmd.data.age.mh %>%
+cmd.data.age.mean <- cmd.data.age %>%
   group_by(Year, Age, Gender, scenario_name) %>% 
   summarize(CMD_prev = mean(CMD_prev), 
             CMD_pos = mean(CMD_pos),
             Population = mean(Population), 
             .groups = 'keep')
 
-cmd.data.age.mh.mean %>% filter(Year == 2004)
+cmd.data.age.mean %>% filter(Year == 2004)
 ```
 
 
-```{r Plot CMD Prevalence baseline}
-# Aggregate CMD prevalence, to plot using EMODAnalyzer
-cmd.data <- sim.cmd %>% 
-  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
-              names_from = c(IP_Key.CMDStatus),
-              values_from = c(Population)) %>% 
-  group_by(Year, Gender, sim.id, scenario_name) %>% 
-  summarize(CMD_pos = sum(CMD_pos), 
-            Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
-            .groups = 'keep') %>% 
-  ungroup() %>% 
-  mutate(CMD_prev = case_when(Population == 0 ~ 0,
-                              Population > 0 ~ CMD_pos / Population))
 
-EMODAnalyzeR::emodplot.by_gender(cmd.data,
-                   date.start = 1990, date.end = 2020,
-                   col2plot = 'CMD_prev',
-                   title = 'CMD Prevalence'
-)
-
-# actual number should be around .05 for both genders
-# we are too low by a factor of 5
-
-```
- 
-
-```{r}
-cmd.data.mh <- sim.cmd.mh %>% 
-  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
-              names_from = c(IP_Key.CMDStatus),
-              values_from = c(Population)) %>% 
-  group_by(Year, Gender, sim.id, scenario_name) %>% 
-  summarize(CMD_pos = sum(CMD_pos), 
-            Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
-            .groups = 'keep') %>% 
-  ungroup() %>% 
-  mutate(CMD_prev = case_when(Population == 0 ~ 0,
-                              Population > 0 ~ CMD_pos / Population))
-
-EMODAnalyzeR::emodplot.by_gender(cmd.data.mh,
-                   date.start = 1990, date.end = 2020,
-                   col2plot = 'CMD_prev',
-                   title = 'CMD Prevalence'
-)
-```
 
 
 ```{r Plot CMD Prevalence by Age}
@@ -1047,6 +963,101 @@ p +
   geom_point(obs.cmdprev.sheet,
              mapping = aes(x = AgeBin_index, y = CMDPrevalence))
 ```
+
+### CMD prevalence by HIV status
+
+```{r Calculate CMD prevalence by HIV status}
+
+cmd.prev.hiv.pos <- sim.cmd %>% 
+   pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Infected)) %>% 
+  group_by(Year, Gender, sim.id) %>% 
+  summarize(HIVpos.CMD.pos = sum(CMD_pos),
+            HIVpos.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVpos.CMD.prev = case_when(HIVpos.pop == 0 ~ 0,
+                              HIVpos.pop > 0 ~ HIVpos.CMD.pos / HIVpos.pop)) %>% 
+  group_by(Year, Gender) %>% 
+  summarize(HIVpos.CMD.prev = mean(HIVpos.CMD.prev))
+
+cmd.prev.hiv.neg <- sim.cmd %>% 
+  mutate(HIVneg = Population - Infected) %>% 
+   pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(HIVneg)) %>% 
+  group_by(Year, Gender, sim.id) %>% 
+  summarize(HIVneg.CMD.pos = sum(CMD_pos),
+            HIVneg.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVneg.CMD.prev = case_when(HIVneg.pop == 0 ~ 0,
+                              HIVneg.pop > 0 ~ HIVneg.CMD.pos / HIVneg.pop)) %>% 
+  group_by(Year, Gender) %>% 
+  summarize(HIVneg.CMD.prev = mean(HIVneg.CMD.prev))
+
+
+cmd.prev.hiv <- sim.cmd %>% mutate(HIVneg = Population - Infected) %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Infected, HIVneg)) %>% 
+  group_by(Year, Gender, sim.id, scenario_name) %>% 
+  summarize(Infected_CMD_pos = sum(Infected_CMD_pos), 
+            Infected_Population = sum(Infected_CMD_pos + Infected_CMD_neg + Infected_CMD_remission + Infected_CMD_remission_treated),
+            HIVneg_CMD_pos = sum(HIVneg_CMD_pos),
+            HIVneg_Population = sum(HIVneg_CMD_pos + HIVneg_CMD_neg + HIVneg_CMD_remission + HIVneg_CMD_remission_treated),
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVpos.CMD.prev = Infected_CMD_pos/(Infected_Population), 
+         HIVneg.CMD.prev = HIVneg_CMD_pos/HIVneg_Population
+         ) %>% 
+  group_by(Year, Gender) %>% 
+  summarize(
+    HIVpos.CMD.prev = mean(HIVpos.CMD.prev), 
+    HIVneg.CMD.prev = mean(HIVneg.CMD.prev),
+    Infected_CMD_pos = mean(Infected_CMD_pos), Infected_Population = mean(Infected_Population),
+    HIVneg_CMD_pos = mean(HIVneg_CMD_pos), HIVneg_Population = mean(HIVneg_Population))
+
+cmd.prev.hiv 
+
+cmd.data %>% group_by(Year, Gender) %>% 
+  summarize(CMD_prev = mean(CMD_prev))
+
+```
+
+```{r}
+merge(cmd.prev.hiv.pos, cmd.prev.hiv.neg,
+      by = c("Year","Gender"))
+```
+
+
+```{r}
+cmd.prev.hiv.mh <- sim.cmd.mh %>% mutate(HIVneg = Population - Infected) %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Infected, HIVneg)) %>% 
+  group_by(Year, Gender, sim.id, scenario_name) %>% 
+  summarize(Infected_CMD_pos = sum(Infected_CMD_pos), 
+            Infected_Population = sum(Infected_CMD_pos + Infected_CMD_neg + Infected_CMD_remission + Infected_CMD_remission_treated),
+            HIVneg_CMD_pos = sum(HIVneg_CMD_pos),
+            HIVneg_Population = sum(HIVneg_CMD_pos + HIVneg_CMD_neg + HIVneg_CMD_remission + HIVneg_CMD_remission_treated),
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVpos.CMD.prev = Infected_CMD_pos/(Infected_Population), 
+         HIVneg.CMD.prev = HIVneg_CMD_pos/HIVneg_Population
+         ) %>% 
+  group_by(Year, Gender) %>% 
+  summarize(
+    HIVpos.CMD.prev = mean(HIVpos.CMD.prev), 
+    HIVneg.CMD.prev = mean(HIVneg.CMD.prev),
+    Infected_CMD_pos = mean(Infected_CMD_pos), Infected_Population = mean(Infected_Population),
+    HIVneg_CMD_pos = mean(HIVneg_CMD_pos), HIVneg_Population = mean(HIVneg_Population))
+
+cmd.prev.hiv.mh
+```
+
+
 ```{r}
 cmd.data.age %>% filter(Year == 2004) %>% 
   group_by(Year, Age, Gender) %>% 
