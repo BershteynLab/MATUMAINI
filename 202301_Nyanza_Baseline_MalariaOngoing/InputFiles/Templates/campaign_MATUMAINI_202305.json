@@ -3,15 +3,20 @@
     "Events": [
         {
             "BEGIN":"CMD",
-            "Event_Name": "CMD background - Males 18-24",
+            "Event_Name": "CMD background - Males 18-24, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -24,23 +29,104 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.041809851,
                         0.958190149
+                    ],
+                    "Choice_Probabilities":[
+                        0.037628866,
+                        0.962371134
                     ]
                 }
             }
         },
-        {
-            "Event_Name": "CMD background - Males 25-29",
+        {            
+            "Event_Name": "CMD background - Males 18-24, HIV+",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 18,
+                "Target_Age_Max": 24.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    "Choice_Probabilities": [
+                        0.086288416,
+                        0.913711584
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 25-29, HIV-",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 25,
+                "Target_Age_Max": 29.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.100190954,
+                        0.899809046
+                    ],
+                    "Choice_Probabilities": [
+                        0.090171858,
+                        0.909828142
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 25-29, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -54,22 +140,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.100190954,
-                        0.899809046
+                        0.216421758,
+                        0.783578242
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Males 30-39",
+            "Event_Name": "CMD background - Males 30-39, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 30,
+                "Target_Age_Max": 39.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.146875257,
+                        0.853124743
+                    ],
+                    "Choice_Probabilities": [
+                        0.132187731,
+                        0.867812269
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 30-39, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -83,22 +212,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.146875257,
-                        0.853124743
+                        0.329555924,
+                        0.670444076
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Males 40-49",
+            "Event_Name": "CMD background - Males 40-49, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 40,
+                "Target_Age_Max": 49.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.167082813,
+                        0.832917187
+                    ],
+                    "Choice_Probabilities": [
+                        0.150374532,
+                        0.849625468
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 40-49, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -112,22 +284,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.167082813,
-                        0.832917187
+                        0.381291548,
+                        0.618708452
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Males 50-59",
+            "Event_Name": "CMD background - Males 50-59, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 50,
+                "Target_Age_Max": 59.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.202000851,
+                        0.797999149
+                    ],
+                    "Choice_Probabilities": [
+                        0.181800766,
+                        0.818199234
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 50-59, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -141,22 +356,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.202000851,
-                        0.797999149
+                        0.474974975,
+                        0.525025025
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Males 60-99",
+            "Event_Name": "CMD background - Males 60-99, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 60,
+                "Target_Age_Max": 99.99999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.337962963,
+                        0.662037037
+                    ],
+                    "Choice_Probabilities": [
+                        0.304166667,
+                        0.695833333
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Males 60-99, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -170,22 +428,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.337962963,
-                        0.662037037
+                        0.901234568,
+                        0.098765432
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Females 18-24",
+            "Event_Name": "CMD background - Females 18-24, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 18,
+                "Target_Age_Max": 24.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.093979006,
+                        0.906020994
+                    ],
+                    "Choice_Probabilities": [
+                        0.084581105,
+                        0.915418895
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 18-24, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -199,22 +500,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.093979006,
-                        0.906020994
+                        0.202000851,
+                        0.797999149
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Females 25-29",
+            "Event_Name": "CMD background - Females 25-29, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 25,
+                "Target_Age_Max": 29.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.127198314,
+                        0.872801686
+                    ],
+                    "Choice_Probabilities": [
+                        0.114478483,
+                        0.885521517
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 25-29, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -228,22 +572,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.127198314,
-                        0.872801686
+                        0.280819467,
+                        0.719180533
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Females 30-39",
+            "Event_Name": "CMD background - Females 30-39, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 30,
+                "Target_Age_Max": 39.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.097078322,
+                        0.902921678
+                    ],
+                    "Choice_Probabilities": [
+                        0.087370489,
+                        0.912629511
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 30-39, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -257,22 +644,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.097078322,
-                        0.902921678
+                        0.209178,
+                        0.790822
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Females 40-49",
+            "Event_Name": "CMD background - Females 40-49, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 40,
+                "Target_Age_Max": 49.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.202000851,
+                        0.797999149
+                    ],
+                    "Choice_Probabilities": [
+                        0.181800766,
+                        0.818199234
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 40-49, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -286,22 +716,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.202000851,
-                        0.797999149
+                        0.474974975,
+                        0.525025025
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Females 50-59",
+            "Event_Name": "CMD background - Females 50-59, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 50,
+                "Target_Age_Max": 59.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.115956891,
+                        0.884043109
+                    ],
+                    "Choice_Probabilities": [
+                        0.104361202,
+                        0.895638798
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 50-59, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -315,22 +788,65 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.115956891,
-                        0.884043109
+                        0.253672913,
+                        0.746327087
                     ]
                 }
             }
         },
         {
-            "Event_Name": "CMD background - Females 60-99",
+            "Event_Name": "CMD background - Females 60-99, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
+                "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Negative",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Age_Min": 60,
+                "Target_Age_Max": 99.99999,
+                "Target_Gender": "Female",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Incidence1",
+                        "CMD_NoIncidence"
+                    ],
+                    ".Choice_Probabilities": [
+                        0.072649573,
+                        0.927350427
+                    ],
+                    "Choice_Probabilities": [
+                        0.065384615,
+                        0.934615385
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name": "CMD background - Females 60-99, HIV+",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Target_Disease_State":"HIV_Positive",
+                "Time_Value_Map": {
+                    "Times": [1960,2200],
+                    "Values":[1.0,1.0]
+                },
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -344,8 +860,8 @@
                         "CMD_NoIncidence"
                     ],
                     "Choice_Probabilities": [
-                        0.072649573,
-                        0.927350427
+                        0.153551101,
+                        0.846448899
                     ]
                 }
             }
@@ -374,12 +890,64 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property",
+            "Event_Name":"CMD incidence, changing property - without treatment before 2020",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
+            "End_year": 2020,
+            "Property_Restrictions":["CMDStatus:CMD_neg"],
+            "Event_Coordinator_Config": {
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["CMD_Incidence2"],
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"MultiInterventionDistributor",
+                        "Intervention_List":[
+                            {
+                                "Intervention_Name":"CMD incidence change CMD status",
+                                "class":"PropertyValueChanger",
+                                "Target_Property_Key":"CMDStatus",
+                                "Target_Property_Value":"CMD_pos",
+                                "New_Property_Value":""
+                            },
+                            {
+                                "Intervention_Name":"CMD treatment choice",
+                                "class":"HIVRandomChoice",
+                                "Choice_Names": [
+                                    "CMD_Treat",
+                                    "CMD_NoTreat"
+                                ],
+                                "Choice_Probabilities": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            {
+                                "Intervention_Name":"CMD reassign risk",
+                                "class": "PropertyValueChanger",
+                                "Target_Property_Key":"Risk",
+                                "Target_Property_Value":"MEDIUM",
+                                "Property_Restrictions_Within_Node": [
+                                    {
+                                        "Risk": "LOW"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD incidence, changing property - with treatment after 2020",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
             "Property_Restrictions":["CMDStatus:CMD_neg"],
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",
@@ -4631,6 +5199,52 @@
             }
         },
         {
+            "Event_Name":"Change ART status - effective ART",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "Event_Coordinator_Config": { 
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "EffectiveART" ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "PropertyValueChanger",
+                        "New_Property_Value": "",
+                        "Target_Property_Key": "ARTStatus",
+                        "Target_Property_Value": "OnEffectiveART",
+                        "Disqualifying_Properties": []
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"Change ART status - nonsuppressive ART",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "Event_Coordinator_Config": { 
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "NonSuppressiveART" ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "PropertyValueChanger",
+                        "New_Property_Value": "",
+                        "Target_Property_Key": "ARTStatus",
+                        "Target_Property_Value": "OnNonSuppressiveART",
+                        "Disqualifying_Properties": []
+                    }
+                }
+            }
+        },
+        {
             "Event_Name": "Change intervention fpr those initiating Effective ART",
             "class": "CampaignEventByYear",
             "Nodeset_Config": { "class": "NodeSetAll" },
@@ -4957,6 +5571,29 @@
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name":"Change ART status - drop out",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "Event_Coordinator_Config": { 
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "OnART3" ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "PropertyValueChanger",
+                        "New_Property_Value": "",
+                        "Target_Property_Key": "ARTStatus",
+                        "Target_Property_Value": "None",
+                        "Disqualifying_Properties": []
+                    }
+                }
             }
         },
         {
