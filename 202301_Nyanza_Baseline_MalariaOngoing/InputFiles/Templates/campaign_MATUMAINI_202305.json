@@ -364,7 +364,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": ["CMD_Incidence1"],
                     "Actual_IndividualIntervention_Config": {
-                        "class": "DelayedIntervention",
+                        "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
                         "Delay_Period_Min": 1,
                         "Delay_Period_Max": 365,
@@ -439,7 +439,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": ["CMD_NoTreat"],
                     "Actual_IndividualIntervention_Config": {
-                        "class": "DelayedIntervention",
+                        "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 270,
                         "COMMENT":"Using 9 month recovery time",
@@ -462,7 +462,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": ["CMD_Treat"],
                     "Actual_IndividualIntervention_Config": {
-                        "class": "DelayedIntervention",
+                        "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 90,
                         "COMMENT":"Using 3 month recovery time",
