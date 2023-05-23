@@ -5199,52 +5199,6 @@
             }
         },
         {
-            "Event_Name":"Change ART status - effective ART",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "Event_Coordinator_Config": { 
-                "class": "StandardInterventionDistributionEventCoordinator",
-                "Demographic_Coverage": 1,
-                "Intervention_Config": {
-                    "class": "NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [ "EffectiveART" ],
-                    "Actual_IndividualIntervention_Config": {
-                        "class": "PropertyValueChanger",
-                        "New_Property_Value": "",
-                        "Target_Property_Key": "ARTStatus",
-                        "Target_Property_Value": "OnEffectiveART",
-                        "Disqualifying_Properties": []
-                    }
-                }
-            }
-        },
-        {
-            "Event_Name":"Change ART status - nonsuppressive ART",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "Event_Coordinator_Config": { 
-                "class": "StandardInterventionDistributionEventCoordinator",
-                "Demographic_Coverage": 1,
-                "Intervention_Config": {
-                    "class": "NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [ "NonSuppressiveART" ],
-                    "Actual_IndividualIntervention_Config": {
-                        "class": "PropertyValueChanger",
-                        "New_Property_Value": "",
-                        "Target_Property_Key": "ARTStatus",
-                        "Target_Property_Value": "OnNonSuppressiveART",
-                        "Disqualifying_Properties": []
-                    }
-                }
-            }
-        },
-        {
             "Event_Name": "Change intervention fpr those initiating Effective ART",
             "class": "CampaignEventByYear",
             "Nodeset_Config": { "class": "NodeSetAll" },
@@ -5571,29 +5525,6 @@
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
-            }
-        },
-        {
-            "Event_Name":"Change ART status - drop out",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "Event_Coordinator_Config": { 
-                "class": "StandardInterventionDistributionEventCoordinator",
-                "Demographic_Coverage": 1,
-                "Intervention_Config": {
-                    "class": "NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [ "OnART3" ],
-                    "Actual_IndividualIntervention_Config": {
-                        "class": "PropertyValueChanger",
-                        "New_Property_Value": "",
-                        "Target_Property_Key": "ARTStatus",
-                        "Target_Property_Value": "None",
-                        "Disqualifying_Properties": []
-                    }
-                }
             }
         },
         {
