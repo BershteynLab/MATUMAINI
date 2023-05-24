@@ -163,18 +163,6 @@
                 ]
              },
              {
-                "Initial_Distribution":[
-                   1,0,0
-                ],
-                "Property":"ARTStatus",
-                "Transitions":[],
-                "Values":[
-                   "None",
-                   "OnEffectiveART",
-                   "OnNonSuppressiveART"
-                ]
-             },
-             {
                 "Initial_Distribution": [
                    1,
                    0,
@@ -385,18 +373,6 @@
                 "Values": [
                    "Yes",
                    "No"
-                ]
-             },
-             {
-                "Initial_Distribution":[
-                   1,0,0
-                ],
-                "Property":"ARTStatus",
-                "Transitions":[],
-                "Values":[
-                   "None",
-                   "OnEffectiveART",
-                   "OnNonSuppressiveART"
                 ]
              },
              {
@@ -613,18 +589,6 @@
                 ]
              },
              {
-                "Initial_Distribution":[
-                   1,0,0
-                ],
-                "Property":"ARTStatus",
-                "Transitions":[],
-                "Values":[
-                   "None",
-                   "OnEffectiveART",
-                   "OnNonSuppressiveART"
-                ]
-             },
-             {
                "Initial_Distribution": [
                   1,
                   0,
@@ -835,18 +799,6 @@
                 "Values": [
                    "Yes",
                    "No"
-                ]
-             },
-             {
-                "Initial_Distribution":[
-                   1,0,0
-                ],
-                "Property":"ARTStatus",
-                "Transitions":[],
-                "Values":[
-                   "None",
-                   "OnEffectiveART",
-                   "OnNonSuppressiveART"
                 ]
              },
              {
@@ -1063,18 +1015,6 @@
                 ]
              },
              {
-                "Initial_Distribution":[
-                   1,0,0
-                ],
-                "Property":"ARTStatus",
-                "Transitions":[],
-                "Values":[
-                   "None",
-                   "OnEffectiveART",
-                   "OnNonSuppressiveART"
-                ]
-             },
-             {
                "Initial_Distribution": [
                   1,
                   0,
@@ -1287,18 +1227,6 @@
                    "No"
                 ]
              },
-            {
-               "Initial_Distribution":[
-                  1,0,0
-               ],
-               "Property":"ARTStatus",
-               "Transitions":[],
-               "Values":[
-                  "None",
-                  "OnEffectiveART",
-                  "OnNonSuppressiveART"
-               ]
-            },
             {
                "Initial_Distribution": [
                   1,

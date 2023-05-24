@@ -166,9 +166,9 @@
         "Post_Infection_Transmission_Multiplier": 1,
         "Report_Coital_Acts": 0,
         "Report_Coordinator_Event_Recorder": 0,
-        "Report_Event_Recorder": 0,
-        "Report_Event_Recorder_Start_Year": 2020,
-        "Report_Event_Recorder_End_Year": 2025,
+        "Report_Event_Recorder": 1,
+        "Report_Event_Recorder_Start_Year": 2017,
+        "Report_Event_Recorder_End_Year": 2023,
         "Report_Event_Recorder_Events":[
             "CMD_Incidence1",
             "CMD_Incidence2",
@@ -207,6 +207,7 @@
         "Report_HIV_ByAgeAndGender_Add_Transmitters": 0,
         "Report_HIV_ByAgeAndGender_Collect_Age_Bins_Data": [
             0,
+            1,
             5,
             10,
             15,

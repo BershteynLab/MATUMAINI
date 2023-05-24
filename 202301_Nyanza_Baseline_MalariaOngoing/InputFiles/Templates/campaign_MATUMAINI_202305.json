@@ -896,58 +896,6 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "End_year": 2020,
-            "Property_Restrictions":["CMDStatus:CMD_neg"],
-            "Event_Coordinator_Config": {
-                "class":"StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config":{
-                    "class":"NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": ["CMD_Incidence2"],
-                    "Actual_IndividualIntervention_Config":{
-                        "class":"MultiInterventionDistributor",
-                        "Intervention_List":[
-                            {
-                                "Intervention_Name":"CMD incidence change CMD status",
-                                "class":"PropertyValueChanger",
-                                "Target_Property_Key":"CMDStatus",
-                                "Target_Property_Value":"CMD_pos",
-                                "New_Property_Value":""
-                            },
-                            {
-                                "Intervention_Name":"CMD treatment choice",
-                                "class":"HIVRandomChoice",
-                                "Choice_Names": [
-                                    "CMD_Treat",
-                                    "CMD_NoTreat"
-                                ],
-                                "Choice_Probabilities": [
-                                    0.0,
-                                    1.0
-                                ]
-                            },
-                            {
-                                "Intervention_Name":"CMD reassign risk",
-                                "class": "PropertyValueChanger",
-                                "Target_Property_Key":"Risk",
-                                "Target_Property_Value":"MEDIUM",
-                                "Property_Restrictions_Within_Node": [
-                                    {
-                                        "Risk": "LOW"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
-            }
-        },
-        {
-            "Event_Name":"CMD incidence, changing property - with treatment after 2020",
-            "class":"CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 2020,
             "Property_Restrictions":["CMDStatus:CMD_neg"],
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",

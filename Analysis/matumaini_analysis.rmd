@@ -390,8 +390,12 @@ res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseli
 
 res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_test_3/Baseline-campaign_MATUMAINI_202305-IDMtest_base/ReportHIVByAgeAndGender"
 
-sim.cmd <- EMODAnalyzeR::read.simulation.results(
-  results_path = res_path,
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_test_4/Baseline-campaign_MATUMAINI_202305-IDMtest_base/ReportHIVByAgeAndGender"
+
+
+
+sim.cmd <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = res_path,
   scenario_name = 'baseline',
   summarize_columns = c("Newly.Infected", "Newly.Tested.Positive",
     "Newly.Tested.Negative", "Population", "Infected", "On_ART", "Died", "Died_from_HIV",
@@ -447,6 +451,78 @@ sim.cmd.mh <- sim.cmd.mh %>%
     by = c("sim.id")
   )
 ```
+
+```{r Read CMD data off big purple}
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-IDMtest_base___2023_05_22_20_50_57_759592/"
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-IDMtest_base___2023_05_23_14_12_17_546199"
+summarize_columns = c("Newly.Infected", "Newly.Tested.Positive",
+    "Newly.Tested.Negative", "Population", "Infected", "On_ART", "Died", "Died_from_HIV",
+    "Tested.Past.Year.or.On_ART", "Tested.Ever", "Diagnosed")
+stratify_columns = c("Year", "Age", "Gender", "IP_Key.CMDStatus")
+
+folder.list = Sys.glob(paste0(experiment_path, "/Simulation_*"))
+n_runs_to_analyze = length(folder.list)
+print(paste('Found',as.character(n_runs_to_analyze),'output files '))
+data.list = list()
+for (i in seq(1,length(folder.list),1)){
+  f <- paste(folder.list[i], "output/ReportHIVByAgeAndGender.csv", sep="/")
+  raw.data <- fread(f, check.names = TRUE)
+  data.list[[i]] <- EMODAnalyzeR::read.each_sim_by_age_and_gender(f, summarize_columns, stratify_columns, 0, 99 )
+  data.list[[i]]$sim.id <- paste0(i)
+  if (TRUE) print(paste0("Done Reading File ", i))
+}
+
+sim.cmd = bind_rows(data.list)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.cmd %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.cmd <- sim.cmd %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+sim.cmd$scenario_name = 'baseline'
+
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-IDMtest_MH___2023_05_23_02_26_12_247135"
+folder.list = Sys.glob(paste0(experiment_path, "/Simulation_*"))
+n_runs_to_analyze = length(folder.list)
+print(paste('Found',as.character(n_runs_to_analyze),'output files '))
+data.list = list()
+for (i in seq(1,length(folder.list),1)){
+  f <- paste(folder.list[i], "output/ReportHIVByAgeAndGender.csv", sep="/")
+  raw.data <- fread(f, check.names = TRUE)
+  data.list[[i]] <- EMODAnalyzeR::read.each_sim_by_age_and_gender(f, summarize_columns, stratify_columns, 0, 99 )
+  data.list[[i]]$sim.id <- paste0(i)
+  if (TRUE) print(paste0("Done Reading File ", i))
+}
+
+sim.cmd.mh = bind_rows(data.list)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.cmd.mh %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.cmd.mh <- sim.cmd.mh %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+sim.cmd.mh$scenario_name = 'mh'
+
+```
+
 
 ## Read in the calibration targets
 
@@ -565,6 +641,17 @@ emodplot.by_age_gender.cmd <- function(data,
 
 ```
 
+```{r}
+sim.cmd %>% filter(Age <= 50, Age >= 15) %>% 
+  filter(Year == 2004) %>% 
+  group_by(Year, Age, Gender, sim.id) %>% 
+  summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Prevalence = case_when(Population == 0 ~ 0, 
+                                Population >0 ~ Infected/Population)) %>% 
+  group_by(Year, Age, Gender) %>%
+  summarize(Prevalence = mean(Prevalence), .groups = 'keep') %>% View
+```
 
 ```{r All ages prevalence for baseline}
 p <- emodplot.prevalence(sim.cmd %>% filter(Age <= 50, Age >= 15), 
@@ -589,7 +676,7 @@ p +
 ```
 
 ```{r}
-base.prev <- sim.cmd %>% filter(Age <= 50, Age >= 15, Year >= 1990, Year <= 2020) %>% 
+base.prev <- sim.cmd %>% filter(Age <= 50, Age >= 15, Year >= 1990, Year <= 2040) %>% 
   group_by(Year, Gender, sim.id, scenario_name) %>% 
   summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>% 
   ungroup %>% 
@@ -599,7 +686,7 @@ base.prev <- sim.cmd %>% filter(Age <= 50, Age >= 15, Year >= 1990, Year <= 2020
   summarize(Prevalence = mean(Prevalence))
 
 
-mh.prev <- sim.cmd.mh %>% filter(Age <= 50, Age >= 15, Year >= 1990, Year <= 2020) %>% 
+mh.prev <- sim.cmd.mh %>% filter(Age <= 50, Age >= 15, Year >= 1990, Year <= 2040) %>% 
   group_by(Year, Gender, sim.id, scenario_name) %>% 
   summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>% 
   ungroup %>% 
@@ -729,14 +816,14 @@ cmd.data <- sim.cmd %>% filter(Age >15) %>%
                               Population > 0 ~ CMD_pos / Population))
 
 EMODAnalyzeR::emodplot.by_gender(cmd.data,
-                   date.start = 1990, date.end = 2020,
+                   date.start = 1990, date.end = 2040,
                    col2plot = 'CMD_prev',
                    title = 'CMD Prevalence'
 )
 
-# actual number should be around .05 for both genders
-# we are too low by a factor of 5
-
+```
+```{r}
+cmd.data %>% group_by(Year, Gender) %>% summarize(CMD_prev = mean(CMD_prev))
 ```
  
 
@@ -754,7 +841,7 @@ cmd.data.mh <- sim.cmd.mh %>% filter(Age >15) %>%
                               Population > 0 ~ CMD_pos / Population))
 
 EMODAnalyzeR::emodplot.by_gender(cmd.data.mh,
-                   date.start = 1990, date.end = 2020,
+                   date.start = 1990, date.end = 2040,
                    col2plot = 'CMD_prev',
                    title = 'CMD Prevalence'
 )
@@ -900,8 +987,41 @@ merge(cmd.prev.hiv.pos, cmd.prev.hiv.neg,
       by = c("Year","Gender"))
 ```
 
-```{r}
+```{r Calculate CMD prevalence by HIV status with treatment}
 
+cmd.prev.hiv.pos <- sim.cmd.mh %>% filter(Age >= 15) %>%  
+   pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Infected)) %>% 
+  group_by(Year, Gender, sim.id) %>% 
+  summarize(HIVpos.CMD.pos = sum(CMD_pos),
+            HIVpos.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVpos.CMD.prev = case_when(HIVpos.pop == 0 ~ 0,
+                              HIVpos.pop > 0 ~ HIVpos.CMD.pos / HIVpos.pop)) %>% 
+  group_by(Year, Gender) %>% 
+  summarize(HIVpos.CMD.prev = mean(HIVpos.CMD.prev))
+
+cmd.prev.hiv.neg <- sim.cmd.mh %>% filter(Age >= 15) %>% 
+  mutate(HIVneg = Population - Infected) %>% 
+   pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(HIVneg)) %>% 
+  group_by(Year, Gender, sim.id) %>% 
+  summarize(HIVneg.CMD.pos = sum(CMD_pos),
+            HIVneg.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVneg.CMD.prev = case_when(HIVneg.pop == 0 ~ 0,
+                              HIVneg.pop > 0 ~ HIVneg.CMD.pos / HIVneg.pop)) %>% 
+  group_by(Year, Gender) %>% 
+  summarize(HIVneg.CMD.prev = mean(HIVneg.CMD.prev))
+
+
+
+merge(cmd.prev.hiv.pos, cmd.prev.hiv.neg,
+      by = c("Year","Gender"))
 ```
 
 ## Diagnosis coverage
