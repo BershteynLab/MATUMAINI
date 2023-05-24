@@ -1,0 +1,685 @@
+---
+title: "IDM_2023_figures"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# IDM 2023 Figures
+
+The purpose of this notebook is to generate nice looking figures for the IDM symposium, 2023.
+
+## Load Libraries
+```{r Load Libraries}
+library(tidyverse)
+library(tidyr)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(devtools)
+library(readxl)
+devtools::install_github("BershteynLab/EMODAnalyzeR")
+
+savepath = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/"
+```
+
+
+## Load data
+### Baseline data
+```{r Read in simulation results}
+# Baseline, without treatment for CMD
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_figures_1/Baseline-campaign_MATUMAINI_202305-IDMtest_base/ReportHIVByAgeAndGender/"
+
+sim.cmd <- EMODAnalyzeR::read.simulation.results(
+  results_path  = res_path,
+  scenario_name = 'baseline',
+  summarize_columns = c("Newly.Infected", "Newly.Tested.Positive",
+    "Newly.Tested.Negative", "Population", "Infected", "On_ART", "Died", "Died_from_HIV",
+    "Tested.Past.Year.or.On_ART", "Tested.Ever", "Diagnosed"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.cmd %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.cmd <- sim.cmd %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+
+```
+
+
+```{r Read in simulation results with treatment}
+# Adding treatment for CMD
+res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_figures_1/Baseline-campaign_MATUMAINI_202305-IDMtest_MH/ReportHIVByAgeAndGender/"
+
+sim.cmd.mh <- EMODAnalyzeR::read.simulation.results(
+  results_path = res_path,
+  scenario_name = 'baseline',
+  summarize_columns = c("Newly.Infected", "Newly.Tested.Positive",
+    "Newly.Tested.Negative", "Population", "Infected", "On_ART", "Died", "Died_from_HIV",
+    "Tested.Past.Year.or.On_ART", "Tested.Ever", "Diagnosed"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.cmd.mh %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.cmd.mh <- sim.cmd.mh %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+```
+
+
+## HIV Prevalence
+
+
+### Baseline HIV prevalence
+```{r}
+data <- sim.cmd %>% filter(Age <= 50, Age >= 15, Year > 1990, Year <=2040) %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>%
+  dplyr::summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>%
+  ungroup( ) %>% 
+  dplyr::mutate(Prevalence = case_when(Population == 0 ~ 0,
+                                       Population > 0 ~ Infected / Population))%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+
+data.mean <- data %>% group_by(Year, Gender) %>% summarize(std = sd(Prevalence), Prevalence = mean(Prevalence))%>% 
+  mutate(lb = Prevalence + std, ub = Prevalence + std)
+
+p = ggplot() +
+  geom_line(data = data.mean, 
+               size=2.0, aes(x=Year, y=Prevalence), color = 'darkred') +
+  geom_line(data = data, 
+            mapping = aes(x = Year, y = Prevalence, group = sim.id), color = 'darkred', 
+            alpha = .01) + 
+  #geom_errorbar(data= data.mean, mapping = aes(x = Year, ymin = lb, ymax = ub), color="black", width=2, size=1) + 
+    facet_wrap(~ Gender, ncol=2) +
+    xlab("Year")+ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1990,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+
+ggsave(filename = paste0(savepath, 'base_prev.pdf'), width = 6, units = 'in', height = 3.5)
+```
+
+### HIV cases averted
+
+```{r}
+cases.base <- sim.cmd %>% mutate(Year.bin = ceiling(Year)) %>% 
+  group_by(Year.bin, Gender, sim.id) %>% 
+  summarize(NewCases = sum(Newly.Infected * pop.scaling.factor), .groups = 'keep') %>% 
+  ungroup()%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+cases.mh <- sim.cmd.mh %>% mutate(Year.bin = ceiling(Year)) %>% 
+  group_by(Year.bin, Gender, sim.id) %>% 
+  summarize(NewCases = sum(Newly.Infected * pop.scaling.factor), .groups = 'keep') %>% 
+  ungroup()%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+h2 = data.table(sim.id = cases.base$sim.id %>% unique, idx = 1:250)
+h = data.table(sim.id = cases.mh$sim.id %>% unique, idx = 1:250)
+
+cases.base = cases.base %>% merge(h2, by = "sim.id")
+cases.mh = cases.mh %>% merge(h, by = "sim.id")
+
+
+cases <- merge(
+  cases.base %>% select(Year = Year.bin, Gender, NewCases, idx),
+  cases.mh %>% select(Year = Year.bin, Gender, NewCases, idx),
+   by = c("idx", "Year", "Gender"), suffixes = c(".base", ".mh")
+) %>% 
+  mutate(averted = NewCases.base - NewCases.mh) 
+
+cases.mean <- cases %>% 
+  group_by(Year, Gender) %>% 
+  summarize(std = sd(averted), averted = mean(averted))
+
+p = ggplot() + 
+  geom_line(cases.mean %>% filter(Year >= 0),
+                     mapping = aes(x = Year, y = averted), color = 'darkred',
+                     size = 1.2) + 
+  # geom_line(deaths , 
+  #           mapping =aes(x = Year, y = averted, group = idx), color = 'black',
+  #                    alpha = .01) + 
+      xlab("Year")+ylab("") + 
+       # ylim(0,300) + 
+  facet_wrap(~ Gender, ncol=2) +
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1990,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+
+ggsave(filename = paste0(savepath, 'cases_averted_improvement.pdf'), width = 6, units = 'in', height = 3.5)
+
+```
+
+### HIV prevalence vs. depression
+
+```{r}
+data.CMD.pos <- sim.cmd %>% filter(Age <= 50, Age >= 15, Year > 1990, Year <=2040) %>%
+  filter(IP_Key.CMDStatus == "CMD_pos") %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>%
+  dplyr::summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>%
+  ungroup( ) %>% 
+  dplyr::mutate(Prevalence = case_when(Population == 0 ~ 0,
+                                       Population > 0 ~ Infected / Population))%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+
+data.CMD.neg <- sim.cmd %>% filter(Age <= 50, Age >= 15, Year > 1990, Year <=2040) %>%
+  filter(IP_Key.CMDStatus == "CMD_neg") %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>%
+  dplyr::summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>%
+  ungroup( ) %>% 
+  dplyr::mutate(Prevalence = case_when(Population == 0 ~ 0,
+                                       Population > 0 ~ Infected / Population))%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+
+data.cmd.pos.mean <- data.CMD.pos %>% 
+  group_by(Year, Gender) %>% 
+  summarize(std = sd(Prevalence), Prevalence = mean(Prevalence)) %>% 
+  mutate(lb = Prevalence - std, ub = Prevalence + std)
+
+data.cmd.neg.mean <- data.CMD.neg %>% 
+  group_by(Year, Gender) %>% 
+  summarize(std = sd(Prevalence), Prevalence = mean(Prevalence))%>% 
+  mutate(lb = Prevalence - std, ub = Prevalence + std)
+
+p = ggplot() +
+  geom_line(data = data.mean, 
+               size=2.0, aes(x=Year, y=Prevalence), color = 'darkred') +
+  geom_line(data = data, 
+            mapping = aes(x = Year, y = Prevalence, group = sim.id), color = 'darkred', 
+            alpha = .01) + 
+  #geom_errorbar(data= data.mean, mapping = aes(x = Year, ymin = lb, ymax = ub), color="black", width=2, size=1) + 
+    facet_wrap(~ Gender, ncol=2) +
+    xlab("Year")+ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1990,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+
+```
+
+
+
+## HIV Deaths
+
+```{r}
+deaths.base <- sim.cmd %>% mutate(Year.bin = ceiling(Year)) %>% 
+  group_by(Year.bin, Gender, sim.id) %>% 
+  summarize(HIVdeaths = sum(Died_from_HIV * pop.scaling.factor), .groups = 'keep') %>% 
+  ungroup()%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+deaths.mean.base <- deaths.base %>% group_by(Year.bin, Gender) %>% summarize(std = sd(HIVdeaths), HIVdeaths = mean(HIVdeaths))%>% 
+  mutate(lb = HIVdeaths + std, ub = HIVdeaths + std)
+
+p = ggplot() +
+  geom_line(data = deaths.mean.base, 
+               size=2.0, aes(x=Year.bin, y=HIVdeaths), color = 'black') +
+  geom_line(data = data, 
+            mapping = aes(x = Year.bin, y = HIVdeaths, group = sim.id), color = 'black', 
+            alpha = .01) + 
+  #geom_errorbar(data= data.mean, mapping = aes(x = Year, ymin = lb, ymax = ub), color="black", width=2, size=1) + 
+    facet_wrap(~ Gender, ncol=2) +
+    xlab("Year")+ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1990,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+
+ggsave(filename = paste0(savepath, 'base_hiv_deaths.pdf'), width = 6, units = 'in', height = 3.5)
+```
+
+### HIV Deaths with treatment
+
+```{r}
+deaths.mh <- sim.cmd.mh %>% mutate(Year.bin = ceiling(Year)) %>% 
+  group_by(Year.bin, Gender, sim.id) %>% 
+  summarize(HIVdeaths = sum(Died_from_HIV * pop.scaling.factor), .groups = 'keep') %>% 
+  ungroup()%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+
+deaths.mean.mh <- deaths.mh %>% group_by(Year.bin, Gender) %>% summarize(std = sd(HIVdeaths), HIVdeaths = mean(HIVdeaths))%>% 
+  mutate(lb = HIVdeaths + std, ub = HIVdeaths + std)
+
+deaths.averted = merge(deaths.mean.base, deaths.mean.mh, by = c("Year.bin", "Gender"), suffixes = c('.base', '.mh')) %>% 
+  mutate(diff = HIVdeaths.base - HIVdeaths.mh)
+
+
+
+```
+
+
+```{r}
+h = data.table(sim.id = deaths.mh$sim.id %>% unique, idx = 1:250)
+h2 = data.table(sim.id = deaths.base$sim.id %>% unique, idx = 1:250)
+
+deaths.mh = deaths.mh %>% merge(h, by = "sim.id")
+deaths.base = deaths.base %>% merge(h2, by = "sim.id")
+
+deaths <- merge(
+  deaths.base %>% select(Year = Year.bin, Gender, HIVdeaths, idx),
+  deaths.mh %>% select(Year = Year.bin, Gender, HIVdeaths, idx),
+   by = c("idx", "Year", "Gender"), suffixes = c(".base", ".mh")
+) %>% 
+  mutate(averted = HIVdeaths.base - HIVdeaths.mh) 
+
+deaths.mean <- deaths %>% 
+  group_by(Year, Gender) %>% 
+  summarize(std = sd(averted), averted = mean(averted))
+
+p = ggplot() + 
+  geom_line(deaths.mean %>% filter(Year >= 0),
+                     mapping = aes(x = Year, y = averted), color = 'black',
+                     size = 1.2) + 
+  # geom_line(deaths , 
+  #           mapping =aes(x = Year, y = averted, group = idx), color = 'black',
+  #                    alpha = .01) + 
+      xlab("Year")+ylab("") + 
+       # ylim(0,300) + 
+  facet_wrap(~ Gender, ncol=2) +
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1990,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+
+ggsave(filename = paste0(savepath, 'deaths_averted_improvement.pdf'), width = 6, units = 'in', height = 3.5)
+
+```
+
+```{r}
+p = ggplot() + 
+  geom_line(deaths.averted %>% filter(Year.bin >= 2010),
+            mapping = aes(x = Year.bin, y = diff), color = 'black',
+            size = 1.2) + 
+    xlab("Year")+ylab("") + 
+  facet_wrap(~ Gender, ncol=2) +
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(2010,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+p
+
+
+```
+
+
+## ART Coverage with and without treatment
+
+```{r}
+art.data.base <- sim.cmd %>% 
+  filter(Age >= 15) %>% 
+    group_by(Year, Gender, sim.id, scenario_name) %>% 
+    summarize(On_ART = sum(On_ART*pop.scaling.factor), Infected = sum(Infected*pop.scaling.factor), .groups = 'keep') %>%
+  ungroup %>% 
+  mutate(OnART_coverage = case_when(Infected == 0 ~ 0,
+                                    Infected > 0 ~ On_ART/Infected)) %>% 
+  group_by(Year) %>% 
+  summarize(On_ART = mean(On_ART), OnART_coverage = mean(OnART_coverage))
+
+
+art.data.base.mh <- sim.cmd.mh %>% 
+  filter(Age >= 15) %>% 
+    group_by(Year, Gender, sim.id, scenario_name) %>% 
+    summarize(On_ART = sum(On_ART*pop.scaling.factor), Infected = sum(Infected*pop.scaling.factor), .groups = 'keep') %>%
+  ungroup %>% 
+  mutate(OnART_coverage = case_when(Infected == 0 ~ 0,
+                                    Infected > 0 ~ On_ART/Infected)) %>% 
+  group_by(Year) %>% 
+  summarize(On_ART = mean(On_ART), OnART_coverage = mean(OnART_coverage))
+
+
+merge(art.data.base, art.data.base.mh, 
+      by = c("Year"))
+
+
+p = ggplot() + 
+  geom_line(art.data.base %>% filter(Year >= 2010),
+            mapping = aes(x = Year, y = OnART_coverage), color = 'darkgreen',
+            size = 1.2) + 
+  geom_line(art.data.base.mh %>% filter(Year >= 2010), 
+            mapping = aes(x = Year, y = OnART_coverage), color = 'orange',
+            size = 1.2) +
+    xlab("Year")+ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(2010,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+p
+
+ggsave(filename = paste0(savepath, 'art_coverage_improvement.pdf'), width = 6, units = 'in', height = 3.5)
+
+
+
+
+p = ggplot() + 
+  geom_line(merge(art.data.base, art.data.base.mh, by = c("Year")) %>% 
+            mutate(diff = OnART_coverage.y - OnART_coverage.x ) %>% 
+              filter(Year >= 2010),
+            mapping = aes(x = Year, y = diff), color = 'orange',
+            size = 1.2) + 
+    xlab("Year")+ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(2010,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+p
+```
+
+### ART Coverage by CMD status
+
+
+```{r}
+onart.cov.cmd.pos <- sim.cmd %>% filter(Age >= 15) %>%
+  filter(IP_Key.CMDStatus == "CMD_pos") %>% 
+  group_by(Year, Gender, sim.id) %>% 
+  summarize(On_ART = sum(On_ART*pop.scaling.factor), Infected = sum(Infected*pop.scaling.factor), .groups = 'keep') %>%
+  ungroup %>% 
+  mutate(OnART_coverage = case_when(Infected == 0 ~ 0,
+                                    Infected > 0 ~ On_ART/Infected)) %>% 
+  group_by(Year) %>% 
+  summarize(On_ART = mean(On_ART), OnART_coverage = mean(OnART_coverage))
+
+
+onart.cov.cmd.neg <- sim.cmd %>% filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == "CMD_neg") %>% 
+  group_by(Year, Gender, sim.id) %>% 
+  summarize(On_ART = sum(On_ART*pop.scaling.factor), Infected = sum(Infected*pop.scaling.factor), .groups = 'keep') %>%
+  ungroup %>% 
+  mutate(OnART_coverage = case_when(Infected == 0 ~ 0,
+                                    Infected > 0 ~ On_ART/Infected)) %>% 
+  group_by(Year) %>% 
+  summarize(On_ART = mean(On_ART), OnART_coverage = mean(OnART_coverage))
+
+merge(onart.cov.cmd.pos, onart.cov.cmd.neg, 
+      by = c("Year"))
+
+p = ggplot() + 
+  geom_line(onart.cov.cmd.pos %>% filter(Year >= 2010),
+            mapping = aes(x = Year, y = OnART_coverage), color = 'blue',
+            size = 1.2) + 
+  geom_line(onart.cov.cmd.neg %>% filter(Year >= 2010), 
+            mapping = aes(x = Year, y = OnART_coverage), color = 'red',
+            size = 1.2) +
+    xlab("Year")+ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(2010,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+p
+
+ggsave(filename = paste0(savepath, 'art_coverage_by_cmd.pdf'), width = 6, units = 'in', height = 3.5)
+
+
+```
+
+
+### ART Coverage wit and without treatment 
+
+```{r}
+
+```
+
+
+
+## CMD Prevalence
+
+```{r}
+# Aggregate CMD prevalence, to plot using EMODAnalyzer
+cmd.data <- sim.cmd %>% filter(Age >15) %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Population)) %>% 
+  group_by(Year, Gender, sim.id, scenario_name) %>% 
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population))%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+cmd.data.mean <- cmd.data %>% 
+  group_by(Year, Gender) %>% 
+  summarize(CMD_prev = mean(CMD_prev))
+  
+
+p = ggplot() +
+  geom_line(data = cmd.data.mean, 
+               size=2.0, aes(x=Year, y=CMD_prev), color = 'darkgreen') +
+  geom_line(data = cmd.data, 
+            mapping = aes(x = Year, y = CMD_prev, group = sim.id), color = 'darkgreen', 
+            alpha = .01) + 
+  #geom_errorbar(data= data.mean, mapping = aes(x = Year, ymin = lb, ymax = ub), color="black", width=2, size=1) + 
+    facet_wrap(~ Gender, ncol=2) +
+    xlab("Year")+ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1990,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+
+ggsave(filename = paste0(savepath, 'base_cmd_prev.pdf'), width = 6, units = 'in', height = 3.5)
+
+
+```
+
+## CMD age prevalence 
+```{r}
+cmd.data.age <- sim.cmd %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Population)) %>% 
+  group_by(Year, Age, Gender, sim.id, scenario_name) %>% 
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population)) %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+
+
+age_bins = c(18, 25, 30, 40, 45, 50, 60, 99)
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
+# Label each age by its bin
+cmd.data.age <- cmd.data.age %>% mutate(
+  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+cmd.data.age$AgeBin_index = factor(cmd.data.age$AgeBin,labels = 1:length(age_labels))
+
+subset_years = c(2004)
+
+
+
+cmd.data.age.mean <- cmd.data.age %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
+  summarize(mean.CMD_prev = mean(CMD_prev),
+              sd.CMD_prev = sd(CMD_prev),
+              .groups = 'keep') %>% 
+  mutate(lower = max(mean.CMD_prev - 2* sd.CMD_prev, 0), 
+           upper = mean.CMD_prev + 2*sd.CMD_prev)
+
+p <- cmd.data.age.mean %>% filter(Year == 2004) %>% 
+    ggplot() + 
+    # plot means
+    geom_point(
+      mapping = aes(x = AgeBin_index, y = mean.CMD_prev),
+      size=2, color = 'darkgreen'
+    ) + 
+    geom_errorbar(
+      mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper),
+      width=.3, size=2, color = 'darkgreen') + 
+    facet_grid(cols = vars(Gender), rows = vars(Year)) + 
+    xlab("Age") + ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_discrete(
+      breaks = 1:length(age_labels),
+      labels = age_labels
+      ) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+
+
+obs.cmdprev.sheet$AgeBin_index = factor(obs.cmdprev.sheet$AgeBin,labels = 1:length(age_labels))
+
+p + 
+  geom_point(obs.cmdprev.sheet,
+             mapping = aes(x = AgeBin_index, y = CMDPrevalence), color = 'orange', size = 2)
+
+
+ggsave(filename = paste0(savepath, 'base_cmd_age.pdf'), width = 6, units = 'in', height = 3.5)
+
+```
+
+
+## Risk of depression given HIV
+```{r}
+
+cmd.prev.hiv.pos <- sim.cmd %>% filter(Age >= 15) %>%  
+   pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Infected)) %>% 
+  group_by(Year, Gender, sim.id) %>% 
+  summarize(HIVpos.CMD.pos = sum(CMD_pos),
+            HIVpos.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVpos.CMD.prev = case_when(HIVpos.pop == 0 ~ 0,
+                              HIVpos.pop > 0 ~ HIVpos.CMD.pos / HIVpos.pop)) %>% 
+  group_by(Year, Gender) %>% 
+  summarize(HIVpos.CMD.prev = mean(HIVpos.CMD.prev)) %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+cmd.prev.hiv.neg <- sim.cmd %>% filter(Age >= 15) %>% 
+  mutate(HIVneg = Population - Infected) %>% 
+   pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(HIVneg)) %>% 
+  group_by(Year, Gender, sim.id) %>% 
+  summarize(HIVneg.CMD.pos = sum(CMD_pos),
+            HIVneg.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVneg.CMD.prev = case_when(HIVneg.pop == 0 ~ 0,
+                              HIVneg.pop > 0 ~ HIVneg.CMD.pos / HIVneg.pop)) %>% 
+  group_by(Year, Gender) %>% 
+  summarize(HIVneg.CMD.prev = mean(HIVneg.CMD.prev)) %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+
+
+merge(cmd.prev.hiv.pos, cmd.prev.hiv.neg,
+      by = c("Year","Gender")) %>% mutate(rat = HIVpos.CMD.prev/HIVneg.CMD.prev)
+```
+
+```{r}
+p = ggplot() +
+  geom_line(data = cmd.prev.hiv.pos, 
+               size=2.0, aes(x=Year, y=HIVpos.CMD.prev), color = 'red') +
+  geom_line(data = cmd.prev.hiv.neg, 
+               size=2.0, aes(x=Year, y=HIVneg.CMD.prev), color = 'blue') +
+  #geom_errorbar(data= data.mean, mapping = aes(x = Year, ymin = lb, ymax = ub), color="black", width=2, size=1) + 
+    facet_wrap(~ Gender, ncol=2) +
+    xlab("Year")+ylab("") +
+    ylim(0,.3) + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1990,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+
+ggsave(filename = paste0(savepath, 'base_hiv_given_depression.pdf'), width = 6, units = 'in', height = 3.5)
+
+```
+

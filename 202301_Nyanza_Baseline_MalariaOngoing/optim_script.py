@@ -223,6 +223,8 @@ def map_sample_to_model_input(sample_dict, template_set_name, scenario_name, cam
             value = sample.pop(key)
             param = 'Initial_Distribution__KP_Risk_%s' % province
             table[param] = [value, 1 - value, 0]
+            param = 'Choice_Probabilities__KP_RiskChoice_%s' % province
+            table[param] = [value, 1 - value]
 
         if not math.isnan(risk_reduction_fraction):
             param = 'Actual_IndividualIntervention_Config__KP_Medium_Risk_%s.Ramp_Max' % province

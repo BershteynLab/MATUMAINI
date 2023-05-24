@@ -24,13 +24,26 @@
     * [x] Develop R analysis tools for postprocessing
     * [ ] Develop more detailed CMD model
         * [x] Add age and gender-related incidence modifiers
+        * [ ] Add different relapse rates for Treated and Untreated individuals
         * [ ] Add CMD-related excess mortality
         * [ ] Add differentiation between treatment and non-treatment
-    * [ ] Add CMD transitions based on treatment
-        * [ ] Add CMD transitions based on age-dependent incidence, remission, treatment
-        * [ ] Add ARTMortality Table - differentiating efficacy of care
-        * [ ] Alter Ingest form to include age-dependent incidence as a free parameter to calibrate to
-        * [ ] Check: re-calibrate model, check that it still runs
-    * [ ] Integrate CMD into model - with full calibration to reproduce age-prevalence curves
+        * [ ] Track individual treatment history, such that individuals who have received treatment are more likely to seek treatment again, less likely to have relapse
 * [ ] Implement interactions between CMD and HIV
+    * [x] Increased risky behavior among those depressed
+        * [x] Transition depressed individuals to MEDIUM risk
+        * [x] Transition depressed individuals back when they recover, at rates 
+        * [x] Test
+    * [x] ART VLS outcomes
+        * [x] Added effective/noneffective ART choice based on CMD status
+        * [x] Added ARTMortality table
+        * [x] Added transition from noneffective to effective ART following CMD recovery
+        * [x] Test
+    * [x] Delays to testing - interrupt HCT Testing Loop
+        * [x] Add a check on HCTTestingLoop1
+        * [x] Delay 2/3 of CMDPositive individuals
+    * [ ] ART adherence - differential dropout rates
+    * [ ] Preventative measures
+        * [ ] PrEP
+        * [ ] Condom use
+        * [ ] VMMC
 * [ ] Re-calibrate full model with CMD
