@@ -28,6 +28,20 @@ savepath = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/"
 
 
 ## Load data
+### Read in the calibration targets
+
+```{r}
+xl.path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/Data/calibration_ingest_form_Nyanza_MATUMAINI.xlsm"
+
+obs.prev.sheet <- readxl::read_excel(xl.path, sheet = "Obs-Prevalence", range = "A8:G173", col_names = TRUE)
+
+obs.onart.sheet <- readxl::read_excel(xl.path, sheet = "Obs-OnART", range = "A8:G202", col_names = TRUE)
+
+#obs.cmdprev.sheet <- readxl::read_excel(xl.path, sheet = "Obs-CMDPrevalence", range = "A8:G22", col_names = TRUE)
+
+obs.pop.sheet <- readxl::read_excel(xl.path, sheet = "Obs-Population", range = "A8:G224", col_names = TRUE)
+```
+
 ### Baseline data
 ```{r Read in simulation results}
 # Baseline, without treatment for CMD
@@ -62,7 +76,7 @@ sim.cmd <- sim.cmd %>%
 
 ```
 
-
+### Treatment data
 ```{r Read in simulation results with treatment}
 # Adding treatment for CMD
 res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_figures_1/Baseline-campaign_MATUMAINI_202305-IDMtest_MH/ReportHIVByAgeAndGender/"
@@ -135,6 +149,51 @@ p
 ggsave(filename = paste0(savepath, 'base_prev.pdf'), width = 6, units = 'in', height = 3.5)
 ```
 
+### Treatment scenario HIV prevalence
+
+```{r}
+data.mh <- sim.cmd.mh %>% filter(Age <= 50, Age >= 15, Year > 1990, Year <=2040) %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>%
+  dplyr::summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>%
+  ungroup( ) %>% 
+  dplyr::mutate(Prevalence = case_when(Population == 0 ~ 0,
+                                       Population > 0 ~ Infected / Population))%>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+
+data.mh.mean <- data.mh %>% group_by(Year, Gender) %>% summarize(std = sd(Prevalence), Prevalence = mean(Prevalence))%>% 
+  mutate(lb = Prevalence + std, ub = Prevalence + std)
+```
+
+
+```{r}
+data <- sim.cmd %>% filter(Age >= 15, Year > 1990, Year <=2040) %>% 
+  dplyr::group_by(Year, sim.id, scenario_name) %>%
+  dplyr::summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>%
+  ungroup( ) %>% 
+  dplyr::mutate(Prevalence = case_when(Population == 0 ~ 0,
+                                       Population > 0 ~ Infected / Population))
+
+data.mean <- data %>% group_by(Year) %>% summarize(std = sd(Prevalence), Prevalence = mean(Prevalence))%>% 
+  mutate(lb = Prevalence + std, ub = Prevalence + std)
+
+data.mh <- sim.cmd.mh %>% filter(Age >= 15, Year > 1990, Year <=2040) %>% 
+  dplyr::group_by(Year, sim.id, scenario_name) %>%
+  dplyr::summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>%
+  ungroup( ) %>% 
+  dplyr::mutate(Prevalence = case_when(Population == 0 ~ 0,
+                                       Population > 0 ~ Infected / Population))
+
+data.mh.mean <- data.mh %>% group_by(Year) %>% summarize(std = sd(Prevalence), Prevalence = mean(Prevalence))%>% 
+  mutate(lb = Prevalence + std, ub = Prevalence + std)
+
+merge(data.mean, data.mh.mean,
+       by = c("Year"),
+      suffixes = c("_base","_mh")) %>% 
+  filter(Year %in% c(2020,2040))
+```
+
+
 ### HIV cases averted
 
 ```{r}
@@ -192,6 +251,23 @@ ggsave(filename = paste0(savepath, 'cases_averted_improvement.pdf'), width = 6, 
 
 ```
 
+
+```{r}
+cases.averted = cases %>% 
+  group_by(Year, Gender) %>% 
+  summarize(std = sd(averted), averted = mean(averted),
+            std = sd(NewCases.base), NewCases.base = mean(NewCases.base)) %>% 
+  ungroup()
+
+cases.averted %>% 
+  mutate(averted.frac = averted/NewCases.base) %>% 
+  filter(Year >= 2020) %>% 
+#  group_by(Gender) %>% 
+  summarize(stdev = 2*sd(averted.frac), mean(averted.frac), 
+            min(averted.frac), max(averted.frac))
+```
+
+
 ### HIV prevalence vs. depression
 
 ```{r}
@@ -246,6 +322,12 @@ p
 
 ```
 
+```{r}
+merge(data.cmd.pos.mean, data.cmd.neg.mean,
+      by = c("Year", "Gender"),
+      suffixes = c("_pos","_neg")
+      ) %>% filter(Year %in% c(2020, 2040))
+```
 
 
 ## HIV Deaths
@@ -279,7 +361,7 @@ p = ggplot() +
 
 p
 
-ggsave(filename = paste0(savepath, 'base_hiv_deaths.pdf'), width = 6, units = 'in', height = 3.5)
+#ggsave(filename = paste0(savepath, 'base_hiv_deaths.pdf'), width = 6, units = 'in', height = 3.5)
 ```
 
 ### HIV Deaths with treatment
@@ -302,7 +384,7 @@ deaths.averted = merge(deaths.mean.base, deaths.mean.mh, by = c("Year.bin", "Gen
 
 ```
 
-
+### Deaths averted 
 ```{r}
 h = data.table(sim.id = deaths.mh$sim.id %>% unique, idx = 1:250)
 h2 = data.table(sim.id = deaths.base$sim.id %>% unique, idx = 1:250)
@@ -363,6 +445,18 @@ p = ggplot() +
 p
 
 
+```
+
+How many deaths averted per total deaths?
+```{r}
+#deaths.averted %>% colnames 
+
+deaths.averted %>% 
+  mutate(diff.frac = diff/HIVdeaths.base) %>% 
+  filter(Year.bin >= 2020) %>% 
+#  group_by(Gender) %>% 
+  summarize(stdev = 2*sd(diff.frac), mean(diff.frac), 
+            min(diff.frac), max(diff.frac))
 ```
 
 
@@ -621,7 +715,6 @@ ggsave(filename = paste0(savepath, 'base_cmd_age.pdf'), width = 6, units = 'in',
 
 ## Risk of depression given HIV
 ```{r}
-
 cmd.prev.hiv.pos <- sim.cmd %>% filter(Age >= 15) %>%  
    pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
               names_from = c(IP_Key.CMDStatus),
@@ -636,6 +729,7 @@ cmd.prev.hiv.pos <- sim.cmd %>% filter(Age >= 15) %>%
   group_by(Year, Gender) %>% 
   summarize(HIVpos.CMD.prev = mean(HIVpos.CMD.prev)) %>% 
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
 
 cmd.prev.hiv.neg <- sim.cmd %>% filter(Age >= 15) %>% 
   mutate(HIVneg = Population - Infected) %>% 
@@ -681,5 +775,44 @@ p
 
 ggsave(filename = paste0(savepath, 'base_hiv_given_depression.pdf'), width = 6, units = 'in', height = 3.5)
 
+```
+
+
+```{r}
+cmd.prev.hiv.pos <- sim.cmd %>% filter(Age >= 15) %>%  
+   pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Infected)) %>% 
+  group_by(Year, sim.id) %>% 
+  summarize(HIVpos.CMD.pos = sum(CMD_pos),
+            HIVpos.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVpos.CMD.prev = case_when(HIVpos.pop == 0 ~ 0,
+                              HIVpos.pop > 0 ~ HIVpos.CMD.pos / HIVpos.pop)) %>% 
+  group_by(Year) %>% 
+  summarize(HIVpos.CMD.prev = mean(HIVpos.CMD.prev))
+
+
+cmd.prev.hiv.neg <- sim.cmd %>% filter(Age >= 15) %>% 
+  mutate(HIVneg = Population - Infected) %>% 
+   pivot_wider(id_cols = c(Year, Age, Gender, sim.id),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(HIVneg)) %>% 
+  group_by(Year, sim.id) %>% 
+  summarize(HIVneg.CMD.pos = sum(CMD_pos),
+            HIVneg.pop = sum(CMD_pos + CMD_neg + CMD_remission + CMD_remission_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(HIVneg.CMD.prev = case_when(HIVneg.pop == 0 ~ 0,
+                              HIVneg.pop > 0 ~ HIVneg.CMD.pos / HIVneg.pop)) %>% 
+  group_by(Year) %>% 
+  summarize(HIVneg.CMD.prev = mean(HIVneg.CMD.prev))
+
+
+merge(cmd.prev.hiv.pos, cmd.prev.hiv.neg,
+      by = c("Year")) %>% 
+  mutate(rat = HIVpos.CMD.prev/HIVneg.CMD.prev) %>% 
+  filter(Year %in% c(2020, 2040))
 ```
 
