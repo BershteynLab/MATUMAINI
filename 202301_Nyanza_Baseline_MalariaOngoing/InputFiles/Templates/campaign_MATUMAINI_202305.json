@@ -5206,6 +5206,7 @@
                             0.833,
                             0.167
                         ],
+                        "Choice_Probabilities__KP_EffectiveART_CMDneg" :"<== marker",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
@@ -5248,6 +5249,7 @@
                             0.68,
                             0.32
                         ],
+                        "Choice_Probabilities__KP_EffectiveART_CMDpos" :"<== marker",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
@@ -5341,7 +5343,7 @@
                         "Broadcast_Event": "OnART3",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 3650,
-                        "Delay_Period_Exponential__KP_CMDdropout" :"<== marker",
+                        "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever"
                         ],
