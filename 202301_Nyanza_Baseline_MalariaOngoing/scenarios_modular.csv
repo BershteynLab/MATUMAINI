@@ -1,0 +1,4 @@
+Scenario,Campaign,Choice_Probabilities__KP_TreatmentTable,Choice_Probabilities__KP_CMD_reassign,Choice_Probabilities__KP_ChangeRiskBack,Choice_Probabilities__KP_DelayDiagnosis
+IDMtest_base,campaign_MATUMAINI_202305.json,"[0,1.0]","[0]","[0,1.0]","[1.0,0]"
+IDMtest_risk,campaign_MATUMAINI_202305.json,"[0,1.0]","[1]","[1.0,0]","[1.0,0]"
+IDMtest_delaydiag,campaign_MATUMAINI_202305.json,"[0,1.0]","[0]","[0,1.0]","[0,1.0]"

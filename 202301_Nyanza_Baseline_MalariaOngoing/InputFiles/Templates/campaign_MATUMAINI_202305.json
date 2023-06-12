@@ -868,7 +868,7 @@
         },
         {
             "Event_Name":"CMD incidence",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -901,6 +901,58 @@
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Duration":21748,
+                    "Trigger_Condition_List": ["CMD_Incidence2"],
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"MultiInterventionDistributor",
+                        "Intervention_List":[
+                            {
+                                "Intervention_Name":"CMD incidence change CMD status",
+                                "class":"PropertyValueChanger",
+                                "Target_Property_Key":"CMDStatus",
+                                "Target_Property_Value":"CMD_pos",
+                                "New_Property_Value":""
+                            },
+                            {
+                                "Intervention_Name":"CMD treatment choice",
+                                "class":"HIVRandomChoice",
+                                "Choice_Names": [
+                                    "CMD_Treat",
+                                    "CMD_NoTreat"
+                                ],
+                                "Choice_Probabilities": [
+                                    0.0,
+                                    1.0
+                                ]
+                            },
+                            {
+                                "Intervention_Name":"CMD reassign risk",
+                                "class": "PropertyValueChanger",
+                                "Target_Property_Key":"Risk",
+                                "Target_Property_Value":"MEDIUM",
+                                "Property_Restrictions_Within_Node": [
+                                    {
+                                        "Risk": "LOW"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD incidence, changing property - with treatment including after 2020",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
+            "Property_Restrictions":["CMDStatus:CMD_neg"],
+            "Event_Coordinator_Config": {
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": ["CMD_Incidence2"],
                     "Actual_IndividualIntervention_Config":{
                         "class":"MultiInterventionDistributor",
@@ -927,9 +979,10 @@
                             },
                             {
                                 "Intervention_Name":"CMD reassign risk",
-                                "class": "PropertyValueChanger",
-                                "Target_Property_Key":"Risk",
-                                "Target_Property_Value":"MEDIUM",
+                                "class":"HIVRandomChoice",
+                                "Choice_Names": ["CMD_ChangeRisk"],
+                                "Choice_Probabilities": [1.0],
+                                "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Property_Restrictions_Within_Node": [
                                     {
                                         "Risk": "LOW"
@@ -942,8 +995,29 @@
             }
         },
         {
+            "Event_Name":"CMD reassign risk",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config":{
+                "class":"NodeSetAll"
+            },
+            "Start_Year":1960.5,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["CMD_ChangeRisk"],
+                    "Demographic_Coverage":1.0,
+                    "Actual_IndividualIntervention_Config":{
+                        "class": "PropertyValueChanger",
+                        "Target_Property_Key":"Risk",
+                        "Target_Property_Value":"MEDIUM"
+                    }
+                }
+            }
+        },
+        {
             "Event_Name":"CMD stage recovery without treatment",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -966,7 +1040,7 @@
         },
         {
             "Event_Name":"CMD stage recovery with treatment",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -990,7 +1064,7 @@
         {
             "Event_Name":"Stage CMD recovery",
             "COMMENT":"Need single event broadcast for the Death Rate Modifier intervention",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -1014,7 +1088,7 @@
         },
         {
             "Event_Name":"CMD recovery",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -1037,8 +1111,40 @@
         },
         {
             "BEGIN":"Adjust risk during depressive episode",
+            "Event_Name":"CMD risk adjust after recovery",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class":"NodeSetNodeList"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Recovery"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_ChangeRiskBack",
+                            "CMD_ChangeRisk_dummy"
+                        ],
+                        "Choice_Probabilities": [
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_ChangeRiskBack": "<-- MARKER"
+                    }
+                }
+            }
+        },
+        {
             "Event_Name":"CMD risk adjust after recovery - Homa Bay",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "Node_List": [
                     1
@@ -1064,14 +1170,13 @@
                             0.42941254500000003
                         ],
                         "Choice_Probabilities__KP_RiskChoice_Homa_Bay": "<-- MARKER"
-
                     }
                 }
             }
         },
         {
             "Event_Name":"CMD risk adjust after recovery - Kisii",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "Node_List": [
                     2
@@ -1104,7 +1209,7 @@
         },
         {
             "Event_Name":"CMD risk adjust after recovery - Kisumu",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "Node_List": [
                     3
@@ -1137,7 +1242,7 @@
         },
         {
             "Event_Name":"CMD risk adjust after recovery - Migori",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "Node_List": [
                     4
@@ -1170,7 +1275,7 @@
         },
         {
             "Event_Name":"CMD risk adjust after recovery - Nyamira",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "Node_List": [
                     5
@@ -1203,7 +1308,7 @@
         },
         {
             "Event_Name":"CMD risk adjust after recovery - Siaya",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "Node_List": [
                     6
@@ -1236,7 +1341,7 @@
         },
         {
             "Event_Name":"CMD recovery adjust to low risk",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -1259,7 +1364,7 @@
         {
             "END":"Adjust risk during depressive episode",
             "Event_Name":"CMD recovery adjust to medium risk",
-            "class":"CampaignEvent",
+            "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -3867,7 +3972,8 @@
                         "Choice_Probabilities": [
                             0.33,
                             0.67
-                        ]
+                        ],
+                        "Choice_Probabilities__KP_DelayDiagnosis": "<-- MARKER"
                     }
                 } 
             }
@@ -5513,7 +5619,8 @@
             "END":"DEPRESSION RECOVERY AND ART",
             "Event_Name": "Improve ART adherence following depression recovery",
             "COMMENT":"When depressed individuals recover, move some of them into effective ART category",
-            "class": "CampaignEvent",
+            "class": "CampaignEventByYear",
+            "Start_Year": 1960.5,
             "Nodeset_Config": {
                   "class": "NodeSetAll"
             },
