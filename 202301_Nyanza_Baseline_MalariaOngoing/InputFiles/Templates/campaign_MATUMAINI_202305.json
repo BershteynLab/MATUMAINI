@@ -3,6 +3,7 @@
     "Events": [
         {
             "BEGIN":"CMD",
+            "ALSO BEGIN":"CMD Incidence",
             "Event_Name": "CMD background - Males 18-24, HIV-",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
@@ -926,19 +927,19 @@
                                 ]
                             },
                             {
-                                "Intervention_Name":"CMD recalculate ART dropout time",
-                                "class": "BroadcastEvent",
-                                "Broadcast_Event": "RecalculateART"
-                            },
-                            {
                                 "Intervention_Name":"CMD reassign risk",
-                                "class": "PropertyValueChanger",
-                                "Target_Property_Key":"Risk",
-                                "Target_Property_Value":"MEDIUM",
-                                "Property_Restrictions_Within_Node": [
-                                    {
-                                        "Risk": "LOW"
-                                    }
+                                "class":"HIVRandomChoice",
+                                "Choice_Names": [
+                                    "CMD_ChangeRisk",
+                                    "CMD_ChangeRisk_dummy"
+                                ],
+                                "Choice_Probabilities": [
+                                    0,
+                                    1.0
+                                ],
+                                "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
+                                "Disqualifying_Properties": [
+                                    "Risk:HIGH"
                                 ]
                             }
                         ]
@@ -985,13 +986,18 @@
                             {
                                 "Intervention_Name":"CMD reassign risk",
                                 "class":"HIVRandomChoice",
-                                "Choice_Names": ["CMD_ChangeRisk"],
-                                "Choice_Probabilities": [1.0],
+                                "Choice_Names": [
+                                    "CMD_ChangeRisk",
+                                    "CMD_ChangeRisk_dummy"
+                                ],
+                                "Choice_Probabilities": [
+                                    0,
+                                    1.0
+                                ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
-                                "Property_Restrictions_Within_Node": [
-                                    {
-                                        "Risk": "LOW"
-                                    }
+                                "Disqualifying_Properties": [
+                                    "Risk:HIGH",
+                                    "Risk:MEDIUM"
                                 ]
                             }
                         ]
@@ -1000,7 +1006,8 @@
             }
         },
         {
-            "Event_Name":"CMD reassign risk",
+            "END":"CMD Incidence",
+            "Event_Name":"CMD upgrade risk",
             "class":"CampaignEventByYear",
             "Nodeset_Config":{
                 "class":"NodeSetAll"
@@ -1011,6 +1018,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": ["CMD_ChangeRisk"],
+                    "Property_Restrictions":["Risk:LOW"],
                     "Demographic_Coverage":1.0,
                     "Actual_IndividualIntervention_Config":{
                         "class": "PropertyValueChanger",
@@ -1027,11 +1035,11 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "Property_Restrictions":["CMDStatus:CMD_pos"],
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
                     "Trigger_Condition_List": ["CMD_NoTreat"],
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
@@ -1050,19 +1058,19 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "Property_Restrictions":["CMDStatus:CMD_pos"],
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": ["CMD_Treat"],
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 90,
                         "COMMENT":"Using 3 month recovery time",
                         "Broadcast_Event":"CMD_Treat_Recovery"
-                    }
+                    },
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
+                    "Trigger_Condition_List": ["CMD_Treat"]
                 }
             }
         },
@@ -1074,20 +1082,20 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "Property_Restrictions":["CMDStatus:CMD_pos"],
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [
-                        "CMD_Treat_Recovery",
-                        "CMD_NoTreat_Recovery"
-                    ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"BroadcastEvent",
                         "Broadcast_Event":"CMD_Recovery"    
-                    }
+                    },
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
+                    "Trigger_Condition_List": [
+                        "CMD_Treat_Recovery",
+                        "CMD_NoTreat_Recovery"
+                    ]
                 }
             }
         },
@@ -1119,10 +1127,7 @@
             "Event_Name":"CMD risk adjust after recovery",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
-                "Node_List": [
-                    1
-                ],
-                "class":"NodeSetNodeList"
+                "class":"NodeSetAll"
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config":{
@@ -1139,8 +1144,8 @@
                             "CMD_ChangeRisk_dummy"
                         ],
                         "Choice_Probabilities": [
-                            1.0,
-                            0
+                            0,
+                            1.0
                         ],
                         "Choice_Probabilities__KP_ChangeRiskBack": "<-- MARKER"
                     }
@@ -1162,7 +1167,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_Recovery"
+                        "CMD_ChangeRiskBack"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
@@ -1194,7 +1199,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_Recovery"
+                        "CMD_ChangeRiskBack"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
@@ -1227,7 +1232,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_Recovery"
+                        "CMD_ChangeRiskBack"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
@@ -1260,7 +1265,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_Recovery"
+                        "CMD_ChangeRiskBack"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
@@ -1293,7 +1298,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_Recovery"
+                        "CMD_ChangeRiskBack"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
@@ -1326,7 +1331,7 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_Recovery"
+                        "CMD_ChangeRiskBack"
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
@@ -1367,7 +1372,8 @@
             }
         },
         {
-            "END":"Adjust risk during depressive episode",
+            "END":"CMD",
+            "ALSO END":"Adjust risk during depressive episode",
             "Event_Name":"CMD recovery adjust to medium risk",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
@@ -3968,15 +3974,13 @@
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
-                        ".Choice_Names": ["HCTTestingLoopRapidTest"],
-                        ".Choice_Probabilities": [1.0],
                         "Choice_Names": [
                             "HCTTestingLoopRapidTest",
                             "HCTTestingLoop0"
                         ],
                         "Choice_Probabilities": [
-                            0.33,
-                            0.67
+                            1.0,
+                            0.0
                         ],
                         "Choice_Probabilities__KP_DelayDiagnosis": "<-- MARKER"
                     }
@@ -5242,12 +5246,12 @@
                             "NonSuppressiveART"
                         ],
                         ".Choice_Probabilities": [
-                            1.0,
-                            0.0
-                        ],
-                        "Choice_Probabilities": [
                             0.68,
                             0.32
+                        ],
+                        "Choice_Probabilities": [
+                            0.833,
+                            0.167
                         ],
                         "Choice_Probabilities__KP_EffectiveART_CMDpos" :"<== marker",
                         "Disqualifying_Properties": [
@@ -5272,10 +5276,8 @@
                     "Trigger_Condition_List": [ "EffectiveART" ],
                     "Actual_IndividualIntervention_Config": {
                         "class": "PropertyValueChanger",
-                        "New_Property_Value": "",
                         "Target_Property_Key": "InterventionStatus",
-                        "Target_Property_Value": "OnEffectiveART",
-                        "Disqualifying_Properties": []
+                        "Target_Property_Value": "OnEffectiveART"
                     }
                 }
             }
@@ -5293,16 +5295,14 @@
                     "Trigger_Condition_List": [ "NonSuppressiveART" ],
                     "Actual_IndividualIntervention_Config": {
                         "class": "PropertyValueChanger",
-                        "New_Property_Value": "",
                         "Target_Property_Key": "InterventionStatus",
-                        "Target_Property_Value": "OnNonSuppressiveART",
-                        "Disqualifying_Properties": []
+                        "Target_Property_Value": "OnNonSuppressiveART"
                     }
                 }
             }
         },
         {
-            "Event_Name": "OnART: state 2 (delay to dropout)",
+            "Event_Name": "OnART: state 2 (delay to dropout) - CMD negative",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -5315,13 +5315,51 @@
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 3650,
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever"
+                            "InterventionStatus:LostForever",
+                            "CMDStatus:CMD_pos"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",
                         "New_Property_Value": "",
                         "class": "HIVMuxer"
                     },
+                    "Property_Restrictions": [
+                        "CMDStatus:CMD_neg"
+                    ],
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "OnART: state 2 (delay to dropout) - CMD Positive",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Broadcast_Event": "OnART3",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 3650,
+                        "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
+                        "Disqualifying_Properties": [
+                            "InterventionStatus:LostForever",
+                            "CMDStatus:CMD_neg"
+                        ],
+                        "Intervention_Name": "On_ART",
+                        "Muxer_Name": "ARTDropoutDelay",
+                        "New_Property_Value": "",
+                        "class": "HIVMuxer"
+                    },
+                    "Property_Restrictions":[
+                        "CMDStatus:CMD_pos"
+                    ],
                     "Trigger_Condition_List": [
                         "OnART1"
                     ],
@@ -5345,7 +5383,8 @@
                         "Delay_Period_Exponential": 3650,
                         "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever"
+                            "InterventionStatus:LostForever",
+                            "CMDStatus:CMD_neg"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",
@@ -5355,9 +5394,13 @@
                     "Trigger_Condition_List": [
                         "CMD_Incidence2"
                     ],
-                    "Property_Restrictions":[
-                        "InterventionStatus:OnNonSuppressiveART",
-                        "InterventionStatus:OnEffectiveART"
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "InterventionStatus" : "OnNonSuppressiveART"
+                        },
+                        {
+                            "InterventionStatus" : "OnEffectiveART"
+                        }
                     ],
                     "class": "NodeLevelHealthTriggeredIV"
                 },
@@ -5388,13 +5431,50 @@
                     "Trigger_Condition_List": [
                         "CMD_Recovery"
                     ],
-                    "Property_Restrictions":[
-                        "InterventionStatus:OnNonSuppressiveART",
-                        "InterventionStatus:OnEffectiveART"
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "InterventionStatus" : "OnNonSuppressiveART"
+                        },
+                        {
+                            "InterventionStatus" : "OnEffectiveART"
+                        }
                     ],
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "BEGIN":"DEPRESSION RECOVERY AND ART",
+            "END":"DEPRESSION RECOVERY AND ART",
+            "Event_Name": "Improve ART adherence following depression recovery",
+            "COMMENT":"When depressed individuals recover, move some of them into effective ART category",
+            "class": "CampaignEventByYear",
+            "Start_Year": 1960.5,
+            "Nodeset_Config": {
+                  "class": "NodeSetAll"
+            },
+            "Demographic_Coverage":0.833,
+            "Demographic_Coverage__KP_CMD_Recovery_Effective_ART":"<== marker",
+            "Event_Coordinator_Config": {
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Recovery"
+                    ],
+                    "Property_Restrictions": [
+                        "InterventionStatus:OnNonSuppressiveART"
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "BroadcastEvent",
+                        "Broadcast_Event": "EffectiveART",
+                        "Disqualifying_Properties": [
+                              "InterventionStatus:LostForever",
+                              "InterventionStatus:OnEffectiveART"
+                        ]                        
+                    }
+                }
             }
         },
         {
@@ -5686,39 +5766,6 @@
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
-            }
-        },
-        {
-            "BEGIN":"DEPRESSION RECOVERY AND ART",
-            "END":"DEPRESSION RECOVERY AND ART",
-            "Event_Name": "Improve ART adherence following depression recovery",
-            "COMMENT":"When depressed individuals recover, move some of them into effective ART category",
-            "class": "CampaignEventByYear",
-            "Start_Year": 1960.5,
-            "Nodeset_Config": {
-                  "class": "NodeSetAll"
-            },
-            "Demographic_Coverage":0.81,
-            "Event_Coordinator_Config": {
-                "class":"StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config":{
-                    "class":"NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [
-                        "CMD_Recovery",
-                        "CMD_NoTreat_Recovery"
-                    ],
-                    "Property_Restrictions": [
-                        "InterventionStatus:OnNonSuppressiveART"
-                    ],
-                    "Actual_IndividualIntervention_Config": { 
-                        "class": "BroadcastEvent",
-                        "Broadcast_Event": "EffectiveART",
-                        "Disqualifying_Properties": [
-                              "InterventionStatus:LostForever",
-                              "InterventionStatus:OnEffectiveART"
-                        ]                        
-                    }
-                }
             }
         },
         {
