@@ -1,0 +1,405 @@
+---
+title: "Ad Hoc Analysis of MATUMAINI Mental Health Model"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The purpose of this notebook is to be able to perform quick ad hoc analysis of the mental health model outputs.
+
+Generally speaking, I will be using this notebook to compare different versions of the model. One version will be baseline, and the other version of the model will have one or more changes to the baseline model. We will compare to see whether the changes to the baseline model yield expected results.
+
+```{r Load Libraries}
+library(tidyverse)
+library(tidyr)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(devtools)
+library(readxl)
+devtools::install_github("BershteynLab/EMODAnalyzeR")
+```
+
+# Useful Functions
+
+```{r}
+
+calculate.prevalence <- function(data, stratify_columns = c("Year", "Gender", "sim.id"), numerator = 'Infected', denominator = 'Population'){
+  data['num'] = data[numerator]
+  data['den'] = data[denominator]
+  data <- data %>% 
+    dplyr::group_by_at(stratify_columns) %>% 
+    dplyr::summarize_at(c('num', 'den'), sum, na.rm = T) %>% 
+    ungroup() %>%
+    dplyr::mutate(Prevalence = case_when(den == 0 ~ 0,
+                                         den > 0 ~ num/den)) 
+  
+  colnames(data) <- c(stratify_columns, numerator, denominator, "Prevalence")
+  
+  return(data)
+}
+
+```
+
+
+# Read in Data
+
+```{r Baseline results}
+res.path.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_5/Baseline-campaign_MATUMAINI_202305-IDMtest_base/ReportHIVByAgeAndGender"
+
+sim.results.base <- EMODAnalyzeR::read.simulation.results(
+  results_path  = res.path.base,
+  scenario_name = 'prep',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.base %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.base <- sim.results.base %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+```
+
+```{r Changed model results}
+res.path.new = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_5/Baseline-campaign_MATUMAINI_202305-IDMtest_delaydiag/ReportHIVByAgeAndGender"
+
+sim.results.new <- EMODAnalyzeR::read.simulation.results(
+  results_path  = res.path.new,
+  scenario_name = 'prep',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.new %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.new <- sim.results.new %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+```
+
+## Prevalence 
+```{r}
+base.prev <- sim.results.base %>% 
+  calculate.prevalence(numerator = 'Infected', denominator = 'Population') %>% 
+  # dplyr::group_by(Year, Gender) %>% dplyr::summarize(Prevalence = mean(Prevalence), .groups = 'keep') %>% 
+  # ungroup %>% 
+  mutate(scenario_name = 'blah')
+
+EMODAnalyzeR::emodplot.by_gender(base.prev,
+                   date.start = 1990, date.end = 2040,
+                   col2plot = 'Prevalence',
+                   title = 'CMD Prevalence'
+)
+```
+
+### Prevalence by CMD status
+
+Remember: the incidence of depression is twice as high for people who are HIV positive
+
+```{r}
+base.prev.cmd.pos <- sim.results.base %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(Infected = sum(Infected), 
+                   Population = sum(Population), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Prevalence = case_when(Population == 0 ~ 0,
+                          Population > 0 ~ Infected / Population)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(Prevalence.cmd.pos = mean(Prevalence), .groups = 'keep')
+
+base.prev.cmd.neg <- sim.results.base %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_neg') %>%
+    group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(Infected = sum(Infected), 
+                   Population = sum(Population), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Prevalence = case_when(Population == 0 ~ 0,
+                          Population > 0 ~ Infected / Population)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(Prevalence.cmd.neg = mean(Prevalence), .groups = 'keep')
+
+merge(
+  base.prev.cmd.pos, base.prev.cmd.neg, by = c("Year", "Gender")
+)
+```
+```{r}
+new.prev.cmd.pos <- sim.results.new %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(Infected = sum(Infected), 
+                   Population = sum(Population), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Prevalence = case_when(Population == 0 ~ 0,
+                          Population > 0 ~ Infected / Population)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(Prevalence.cmd.pos = mean(Prevalence), .groups = 'keep')
+
+new.prev.cmd.neg <- sim.results.new %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus != 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(Infected = sum(Infected), 
+                   Population = sum(Population), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Prevalence = case_when(Population == 0 ~ 0,
+                          Population > 0 ~ Infected / Population)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(Prevalence.cmd.neg = mean(Prevalence), .groups = 'keep')
+
+merge(
+  new.prev.cmd.pos, new.prev.cmd.neg, by = c("Year", "Gender")
+) %>% tail(10)
+```
+
+## Diagnosis of PLHIV
+
+```{r Diagnosis by CMD status - baseline}
+
+base.diag.cmd.pos <- sim.results.base %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(Diagnosed = sum(Diagnosed), 
+                   Infected = sum(Infected), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Diagnosed = case_when(Infected == 0 ~ 0,
+                          Infected > 0 ~ Diagnosed / Infected)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(Diagnosed.cmd.pos = mean(Diagnosed), .groups = 'keep')
+
+base.diag.cmd.neg <- sim.results.base %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus != 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(Diagnosed = sum(Diagnosed), 
+                   Infected = sum(Infected), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Diagnosed = case_when(Infected == 0 ~ 0,
+                          Infected > 0 ~ Diagnosed / Infected)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(Diagnosed.cmd.neg = mean(Diagnosed), .groups = 'keep')
+
+merge(
+  base.diag.cmd.pos, base.diag.cmd.neg, by = c("Year", "Gender")
+) %>% head(10)
+
+```
+
+
+```{r Diagnosis by CMD status - new}
+new.diag.cmd.pos <- sim.results.new %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(Diagnosed = sum(Diagnosed), 
+                   Infected = sum(Infected), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Diagnosed = case_when(Infected == 0 ~ 0,
+                          Infected > 0 ~ Diagnosed / Infected)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(Diagnosed.cmd.pos = mean(Diagnosed), .groups = 'keep')
+
+new.diag.cmd.neg <- sim.results.new %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus != 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(Diagnosed = sum(Diagnosed), 
+                   Infected = sum(Infected), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Diagnosed = case_when(Infected == 0 ~ 0,
+                          Infected > 0 ~ Diagnosed / Infected)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(Diagnosed.cmd.neg = mean(Diagnosed), .groups = 'keep')
+
+merge(
+  new.diag.cmd.pos, new.diag.cmd.neg, by = c("Year", "Gender")
+) %>% head(10)
+
+```
+```{r}
+merge(
+  merge(
+    base.diag.cmd.pos, base.diag.cmd.neg, by = c("Year", "Gender")
+  ),
+  merge(
+    new.diag.cmd.pos, new.diag.cmd.neg, by = c("Year", "Gender")
+  ),
+  by = c("Year", "Gender"),
+  suffixes = c("base","new")
+) %>% View
+
+
+```
+## PLHIV on ART
+```{r Baseline Art Coverage among PLHIV }
+
+base.artcov.cmd.pos <- sim.results.base %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(On_ART = sum(On_ART), 
+                   Infected = sum(Infected), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(ARTcov = case_when(Infected == 0 ~ 0,
+                          Infected > 0 ~ On_ART / Infected)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(ARTcov.cmd.pos = mean(ARTcov), .groups = 'keep')
+
+base.artcov.cmd.neg <- sim.results.base %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus != 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(On_ART = sum(On_ART), 
+                   Infected = sum(Infected), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(ARTcov = case_when(Infected == 0 ~ 0,
+                          Infected > 0 ~ On_ART / Infected)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(ARTcov.cmd.neg = mean(ARTcov), .groups = 'keep')
+```
+
+```{r New Art Coverage among Diagnosed PLHIV}
+new.artcov.cmd.pos <- sim.results.new %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(On_ART = sum(On_ART), 
+                   Infected = sum(Infected), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(ARTcov = case_when(Infected == 0 ~ 0,
+                          Infected > 0 ~ On_ART / Infected)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(ARTcov.cmd.pos = mean(ARTcov), .groups = 'keep')
+
+new.artcov.cmd.neg <- sim.results.new %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus != 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(On_ART = sum(On_ART), 
+                   Infected = sum(Infected), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(ARTcov = case_when(Infected == 0 ~ 0,
+                          Infected > 0 ~ On_ART / Infected)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(ARTcov.cmd.neg = mean(ARTcov), .groups = 'keep')
+ 
+```
+
+```{r}
+merge(
+  merge(
+  base.artcov.cmd.pos, base.artcov.cmd.neg, by = c("Year", "Gender")
+),
+
+merge(
+  new.artcov.cmd.pos, new.artcov.cmd.neg, by = c("Year", "Gender")
+),
+by = c("Year", "Gender"),
+suffixes = c(".base",".new")
+) %>% tail(25)
+```
+## Diagnosed PLHIV on ART
+
+```{r Baseline Art Coverage among Diagnosed PLHIV }
+
+base.artcov.cmd.pos <- sim.results.base %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(On_ART = sum(On_ART), 
+                   Diagnosed = sum(Diagnosed), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(ARTcov = case_when(Diagnosed == 0 ~ 0,
+                          Diagnosed > 0 ~ On_ART / Diagnosed)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(ARTcov.cmd.pos = mean(ARTcov), .groups = 'keep')
+
+base.artcov.cmd.neg <- sim.results.base %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus != 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(On_ART = sum(On_ART), 
+                   Diagnosed = sum(Diagnosed), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(ARTcov = case_when(Diagnosed == 0 ~ 0,
+                          Diagnosed > 0 ~ On_ART / Diagnosed)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(ARTcov.cmd.neg = mean(ARTcov), .groups = 'keep')
+```
+
+```{r New Art Coverage among Diagnosed PLHIV}
+new.artcov.cmd.pos <- sim.results.new %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus == 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(On_ART = sum(On_ART), 
+                   Diagnosed = sum(Diagnosed), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(ARTcov = case_when(Diagnosed == 0 ~ 0,
+                          Diagnosed > 0 ~ On_ART / Diagnosed)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(ARTcov.cmd.pos = mean(ARTcov), .groups = 'keep')
+
+new.artcov.cmd.neg <- sim.results.new %>% 
+  filter(Age >= 15) %>% 
+  filter(IP_Key.CMDStatus != 'CMD_pos') %>%
+  group_by(Year, Gender, sim.id) %>% 
+  dplyr::summarize(On_ART = sum(On_ART), 
+                   Diagnosed = sum(Diagnosed), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(ARTcov = case_when(Diagnosed == 0 ~ 0,
+                          Diagnosed > 0 ~ On_ART / Diagnosed)) %>% 
+  group_by(Year, Gender) %>% 
+  dplyr::summarize(ARTcov.cmd.neg = mean(ARTcov), .groups = 'keep')
+ 
+```
+
+```{r}
+merge(
+  merge(
+  base.artcov.cmd.pos, base.artcov.cmd.neg, by = c("Year", "Gender")
+),
+
+merge(
+  new.artcov.cmd.pos, new.artcov.cmd.neg, by = c("Year", "Gender")
+),
+by = c("Year", "Gender"),
+suffixes = c(".base",".new")
+) %>% tail(25)
+```
+
