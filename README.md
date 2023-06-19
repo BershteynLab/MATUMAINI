@@ -31,19 +31,20 @@
 * [ ] Implement interactions between CMD and HIV
     * [x] Increased risky behavior among those depressed
         * [x] Transition depressed individuals to MEDIUM risk
-        * [x] Transition depressed individuals back when they recover, at rates 
-        * [x] Test
+        * [x] Transition depressed individuals back when they recover, at appropriate rates 
     * [x] ART VLS outcomes
         * [x] Added effective/noneffective ART choice based on CMD status
         * [x] Added ARTMortality table
         * [x] Added transition from noneffective to effective ART following CMD recovery
-        * [x] Test
     * [x] Delays to testing - interrupt HCT Testing Loop
-        * [x] Add a check on HCTTestingLoop1
-        * [x] Delay 2/3 of CMDPositive individuals
-    * [ ] ART adherence - differential dropout rates
-    * [ ] Preventative measures
-        * [ ] PrEP
-        * [ ] Condom use
-        * [ ] VMMC
+        * [x] Add a check on HCTTestingLoop1 - HCTTestingLoopRapidTest
+    * [x] ART adherence - differential dropout rates
 * [ ] Re-calibrate full model with CMD
+* [ ] Future work: other preventative measures
+    * [ ] PrEP
+    * [ ] Condom use
+    * [ ] VMMC
+* [ ] Future work: Influence of HIV on depression
+    * [ ] Higher depression upon receiving diagnosis
+    * [ ] Reduced depression upon achieving VLS
+    * [ ] Linkage to treatment upon receiving depression diagnosis
