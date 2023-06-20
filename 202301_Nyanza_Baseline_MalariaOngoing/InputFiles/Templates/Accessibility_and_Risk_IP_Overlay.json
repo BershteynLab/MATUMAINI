@@ -212,8 +212,8 @@
                 "Values": [
                    "CMD_neg",
                    "CMD_pos",
-                   "CMD_remission",
-                   "CMD_remission_treated"
+                   "CMD_recovered",
+                   "CMD_treated"
                 ]
              }
           ],
@@ -425,8 +425,8 @@
                 "Values": [
                    "CMD_neg",
                    "CMD_pos",
-                   "CMD_remission",
-                   "CMD_remission_treated"
+                   "CMD_recovered",
+                   "CMD_treated"
                 ]
              }
           ],
@@ -638,8 +638,8 @@
                 "Values": [
                    "CMD_neg",
                    "CMD_pos",
-                   "CMD_remission",
-                   "CMD_remission_treated"
+                   "CMD_recovered",
+                   "CMD_treated"
                 ]
              }
           ],
@@ -851,8 +851,8 @@
                 "Values": [
                    "CMD_neg",
                    "CMD_pos",
-                   "CMD_remission",
-                   "CMD_remission_treated"
+                   "CMD_recovered",
+                   "CMD_treated"
                 ]
              }
           ],
@@ -1064,8 +1064,8 @@
                 "Values": [
                    "CMD_neg",
                    "CMD_pos",
-                   "CMD_remission",
-                   "CMD_remission_treated"
+                   "CMD_recovered",
+                   "CMD_treated"
                 ]
              }
           ],
@@ -1277,8 +1277,8 @@
                 "Values": [
                    "CMD_neg",
                    "CMD_pos",
-                   "CMD_remission",
-                   "CMD_remission_treated"
+                   "CMD_recovered",
+                   "CMD_treated"
                 ]
              }
           ],
