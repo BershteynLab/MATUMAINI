@@ -874,11 +874,11 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "Property_Restrictions":["CMDStatus:CMD_neg"],
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions":["CMDStatus:CMD_neg"],
                     "Trigger_Condition_List": ["CMD_Incidence1"],
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
@@ -901,8 +901,16 @@
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
-                    "Disqualifying_Properties": [
-                        "CMDStatus:CMD_pos"
+                    "Property_Restrictions_Within_Node": [
+                        {
+                            "CMDStatus": "CMD_neg"
+                        },
+                        {
+                            "CMDStatus": "CMD_recovered"
+                        },
+                        {
+                            "CMDStatus": "CMD_treated"
+                        }
                     ],
                     "Duration":21748,
                     "Trigger_Condition_List": ["CMD_Incidence2"],
@@ -960,8 +968,16 @@
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
-                    "Disqualifying_Properties": [
-                        "CMDStatus:CMD_pos"
+                    "Property_Restrictions_Within_Node": [
+                        {
+                            "CMDStatus": "CMD_neg"
+                        },
+                        {
+                            "CMDStatus": "CMD_recovered"
+                        },
+                        {
+                            "CMDStatus": "CMD_treated"
+                        }
                     ],
                     "Trigger_Condition_List": ["CMD_Incidence2"],
                     "Actual_IndividualIntervention_Config":{
@@ -1178,11 +1194,11 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "Property_Restrictions":["CMDStatus:CMD_treated"],
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions":["CMDStatus:CMD_treated"],
                     "Trigger_Condition_List": ["CMD_Relapse1"],
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
@@ -1309,7 +1325,6 @@
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
-                
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Actual_IndividualIntervention_Config": {
@@ -1333,7 +1348,6 @@
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
-                
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Actual_IndividualIntervention_Config": {
@@ -1355,11 +1369,11 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "Property_Restrictions":["CMDStatus:CMD_pos"],
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
                     "Trigger_Condition_List": [
                         "CMD_RecoverNoTreat"
                     ],
@@ -1380,11 +1394,11 @@
                 "class": "NodeSetAll"
             },
             "Start_Year": 1960.5,
-            "Property_Restrictions":["CMDStatus:CMD_pos"],
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
                     "Trigger_Condition_List": [
                         "CMD_RecoverTreat"
                     ],
@@ -5684,7 +5698,7 @@
             }
         },
         {
-            "Event_Name": "Recalculate delay to dropout upon CMD recovery",
+            "Event_Name": "Recalculate delay to ART dropout upon CMD recovery",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -5705,7 +5719,8 @@
                         "class": "HIVMuxer"
                     },
                     "Trigger_Condition_List": [
-                        "CMD_Recovery"
+                        "CMD_RecoverNoTreat",
+                        "CMD_RecoverTreat"
                     ],
                     "Property_Restrictions_Within_Node":[
                         {
@@ -5737,7 +5752,8 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_Recovery"
+                        "CMD_RecoverNoTreat",
+                        "CMD_RecoverTreat"
                     ],
                     "Property_Restrictions": [
                         "InterventionStatus:OnNonSuppressiveART"
