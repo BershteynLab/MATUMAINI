@@ -785,38 +785,38 @@ I am also going to make some quick spot checks on the event cascade, to see whet
 
 ```{r No Treatment}
 
-# res.path.notreat = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_sdrh/Baseline-campaign_MATUMAINI_202305-sdrh_notreat/ReportHIVByAgeAndGender/"
-# 
-# sim.results.sdrh <- EMODAnalyzeR::read.simulation.results(
-#   results_path  = res.path.notreat,
-#   scenario_name = 'sdrh',
-#   summarize_columns = c("Population","Infected", "On_ART",
-#                         "Died", "Died_from_HIV",
-#                         "Newly.Infected","Diagnosed"),
-#   stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-#   min_age_inclusive = 0,
-#   max_age_inclusive = 99
-# )
+res.path.notreat = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/test_sdrh/Baseline-campaign_MATUMAINI_202305-sdrh_notreat/ReportHIVByAgeAndGender/"
 
-SummarizeEachSimByAgeAndGender <- function (data, summarize_columns, stratify_columns, min_age_inclusive = 0, max_age_inclusive = Inf) {
-  data %>%
-    filter( (Age >= min_age_inclusive) & (Age <= max_age_inclusive) ) %>%
-    group_by_at(stratify_columns) %>%
-    summarise_at(summarize_columns, sum, na.rm=T) %>%
-    ungroup()
-}
-
-sim.results.sdrh <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-sdrh_notreat___2023_06_23_12_46_40_194042",
+sim.results.sdrh <- EMODAnalyzeR::read.simulation.results(
+  results_path  = res.path.notreat,
   scenario_name = 'sdrh',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
   stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
   min_age_inclusive = 0,
-  max_age_inclusive = 99,
-  verbose = TRUE
+  max_age_inclusive = 99
 )
+
+# SummarizeEachSimByAgeAndGender <- function (data, summarize_columns, stratify_columns, min_age_inclusive = 0, max_age_inclusive = Inf) {
+#   data %>%
+#     filter( (Age >= min_age_inclusive) & (Age <= max_age_inclusive) ) %>%
+#     group_by_at(stratify_columns) %>%
+#     summarise_at(summarize_columns, sum, na.rm=T) %>%
+#     ungroup()
+# }
+# 
+# sim.results.sdrh <- EMODAnalyzeR::read.simulation.results.bigpurple(
+#   experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-sdrh_notreat___2023_06_23_12_46_40_194042",
+#   scenario_name = 'sdrh',
+#   summarize_columns = c("Population","Infected", "On_ART",
+#                         "Died", "Died_from_HIV",
+#                         "Newly.Infected","Diagnosed"),
+#   stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+#   min_age_inclusive = 0,
+#   max_age_inclusive = 99,
+#   verbose = TRUE
+# )
 
 CENSUS_YEAR = 2009
 KEN_CENSUS_POP = 5352385
@@ -1125,6 +1125,11 @@ p <- cmd.data.age.mean %>% filter(Year %in% c(1994, 2004, 2014, 2024)) %>%
 
 p
 ```
+
+```{r}
+cmd.data.age.mean %>% filter(Year == 2004) %>% arrange(Gender, AgeBin) %>% head(14)
+```
+
 
 ```{r}
 cmd.data.age.treat <- sim.results.treat %>% 

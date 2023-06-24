@@ -189,6 +189,8 @@
             "CMD_MoveToLowRisk",
             "CMD_MoveToMediumRisk",
             "CMD_ChangeRiskBack",
+ 
+ 
             "CMD_ChangeRisk",
             "CMD_ChangeRisk_dummy",
             "EffectiveART",
