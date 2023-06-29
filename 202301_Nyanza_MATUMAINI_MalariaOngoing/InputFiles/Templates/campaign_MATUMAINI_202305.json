@@ -1263,8 +1263,8 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    0,
-                                    1.0
+                                    1.0,
+                                    0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
@@ -1330,8 +1330,8 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    0,
-                                    1.0
+                                    1.0,
+                                    0.0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
@@ -3864,8 +3864,8 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    0,
-                                    1.0
+                                    1.0,
+                                    0.0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
@@ -4043,8 +4043,8 @@
                             "CMD_ChangeRisk_dummy"
                         ],
                         "Choice_Probabilities": [
-                            0,
-                            1.0
+                            1.0,
+                            0.0
                         ],
                         "Choice_Probabilities__KP_ChangeRiskBack": "<-- MARKER"
                     }

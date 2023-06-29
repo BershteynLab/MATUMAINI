@@ -189,8 +189,6 @@
             "CMD_MoveToLowRisk",
             "CMD_MoveToMediumRisk",
             "CMD_ChangeRiskBack",
- 
- 
             "CMD_ChangeRisk",
             "CMD_ChangeRisk_dummy",
             "EffectiveART",
@@ -249,7 +247,7 @@
         ],
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [
         ],
-        "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 0,
+        "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 1,
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
         "Report_HIV_ByAgeAndGender_Start_Year": 1990,
@@ -274,6 +272,7 @@
         "Sexual_Debut_Age_Male_Weibull_Heterogeneity": 0.2929318575525576,
         "Sexual_Debut_Age_Male_Weibull_Scale": 15.633872769775984,
         "Sexual_Debut_Age_Min": 13,
+        ".Simulation_Duration": 21900,
         "Simulation_Duration": 29200,
         "Simulation_Timestep": 30.4166666666667,
         "Simulation_Type": "HIV_SIM",
