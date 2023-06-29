@@ -210,7 +210,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                            "InterventionStatus:OnEffectiveART",
+                            "InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -266,7 +267,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART"
+                            "InterventionStatus:OnEffectiveART",
+                            "InterventionStatus:OnNonSuppressiveART"
                         ],
                         "Negative_Diagnosis_Event": "ARTStaging1",
                         "New_Property_Value": "InterventionStatus:HCTTestingLoop",
@@ -311,7 +313,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -367,7 +370,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART"
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART"
                         ],
                         "Negative_Diagnosis_Event": "ARTStaging1",
                         "New_Property_Value": "InterventionStatus:HCTTestingLoop",
@@ -2297,7 +2301,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2337,7 +2342,8 @@
                     "Broadcast_Event": "HCTUptakePostDebut0",
                     "Disqualifying_Properties": [
                         "InterventionStatus:LostForever",
-                        "InterventionStatus:OnART",
+                         "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                         "InterventionStatus:LinkingToART",
                         "InterventionStatus:OnPreART",
                         "InterventionStatus:LinkingToPreART",
@@ -2386,7 +2392,8 @@
                         "Delay_Period_Exponential": 730,
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2424,7 +2431,8 @@
                         "Default_Value": 0,
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2499,7 +2507,8 @@
                         "Delay_Period_Exponential": 730,
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2530,7 +2539,8 @@
                         "Base_Specificity": 1,
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2581,7 +2591,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2647,7 +2658,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2718,7 +2730,8 @@
                         "Base_Specificity": 1,
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2767,7 +2780,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2842,7 +2856,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2897,7 +2912,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -2982,7 +2998,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -3037,7 +3054,8 @@
                         "Base_Specificity": 1,
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -3092,7 +3110,8 @@
                         ],
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -3124,7 +3143,8 @@
                         "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -3153,7 +3173,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -3240,7 +3261,8 @@
                         },
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -3279,7 +3301,8 @@
                         ],
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -3308,7 +3331,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -3368,7 +3392,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART"
                         ],
@@ -3405,7 +3430,8 @@
                         "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART"
                         ],
                         "Muxer_Name": "PreART",
@@ -3441,7 +3467,8 @@
                         "Choices__KP_PreART_Loss": "<-- MARKER",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART"
                         ],
                         "New_Property_Value": "InterventionStatus:OnPreART",
@@ -3519,7 +3546,8 @@
                         },
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART"
                         ],
                         "NOTE1": "Threshold for adult vs child guidelines",
@@ -3548,7 +3576,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART"
                         ],
                         "Event_Or_Config": "Event",
@@ -3577,7 +3606,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART",
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART",
                             "InterventionStatus:LinkingToART"
                         ],
                         "If_Active_TB": {
@@ -3637,7 +3667,8 @@
                     "Actual_IndividualIntervention_Config": {
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "InterventionStatus:OnART"
+                             "InterventionStatus:OnEffectiveART",
+"InterventionStatus:OnNonSuppressiveART"
                         ],
                         "Negative_Diagnosis_Event": "HCTUptakePostDebut3",
                         "New_Property_Value": "InterventionStatus:LinkingToART",
@@ -3674,7 +3705,6 @@
                             "InterventionStatus:LostForever"
                         ],
                         "Muxer_Name": "OnART",
-                        "New_Property_Value": "InterventionStatus:OnART",
                         "class": "HIVMuxer"
                     },
                     "Trigger_Condition_List": [
@@ -3692,28 +3722,316 @@
             "class": "CampaignEventByYear"
         },
         {
-            "Event_Coordinator_Config": {
-                "Intervention_Config": {
-                    "Actual_IndividualIntervention_Config": {
-                        "ART_Is_Active_Against_Mortality_And_Transmission": 1,
-                        "Intervention_Name": "On_ART",
-                        "New_Property_Value": "InterventionStatus:OnART",
-                        "class": "AntiretroviralTherapy"
-                    },
-                    "New_Property_Value": "",
-                    "Trigger_Condition_List": [
-                        "OnART1"
-                    ],
-                    "class": "NodeLevelHealthTriggeredIV"
-                },
-                "class": "StandardInterventionDistributionEventCoordinator"
-            },
-            "Event_Name": "OnART: state 1 (run AntiretroviralTherapy)",
+            "Event_Name": "OnART: random draw",
+            "COMMENT": "Initiate effective ART or non-suppressive ART",
+            "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 1990,
-            "class": "CampaignEventByYear"
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "EffectiveART",
+                            "NonSuppressiveART"
+                        ],
+                        "Choice_Probabilities": [
+                            0.833,
+                            0.167
+                        ],
+                        "Choice_Probabilities__KP_EffectiveART_CMDneg" :"<== marker",
+                        "Disqualifying_Properties": [
+                            "InterventionStatus:LostForever",
+                            "InterventionStatus:OnEffectiveART",
+                            "InterventionStatus:OnNonSuppressiveART"
+                        ]                        
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Change intervention fpr those initiating Effective ART",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "EffectiveART" ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "PropertyValueChanger",
+                        "Target_Property_Key": "InterventionStatus",
+                        "Target_Property_Value": "OnEffectiveART"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Change intervention status for those initiating NonSuppressive ART",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "NonSuppressiveART" ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "PropertyValueChanger",
+                        "Target_Property_Key": "InterventionStatus",
+                        "Target_Property_Value": "OnNonSuppressiveART"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Initiate effective ART: MALES",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "EffectiveART" ],
+                    "Target_Demographic": "ExplicitGender",
+                    "Target_Gender": "Male",
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "ARTMortalityTable",
+                        "Intervention_Name": "SuppressedOnART",
+                        "Cost_To_Consumer" : 1,
+                        "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.04,
+                        "ART_Is_Active_Against_Mortality_And_Transmission"        : 1,
+                        "Days_To_Achieve_Viral_Suppression"                       : 183.0,
+                        "ART_Duration_Days_Bins": [182, 365, 730, 1095, 45625],
+                        "Age_Years_Bins": [25, 35, 45, 125],
+                        "CD4_Count_Bins": [0, 25, 74.5, 149.5, 274.5, 424.5, 624.5],
+                        "MortalityTable": [
+                            [
+                                [0.2015, 0.2015, 0.1128, 0.0625, 0.0312, 0.0206, 0.0162],
+                                [0.2176, 0.2176, 0.1219, 0.0675, 0.0337, 0.0223, 0.0175],
+                                [0.2350, 0.2350, 0.1316, 0.0729, 0.0364, 0.0240, 0.0189],
+                                [0.2538, 0.2538, 0.1421, 0.0787, 0.0393, 0.0260, 0.0205]
+                            ],
+                            [
+                                [0.0875, 0.0875, 0.0490, 0.0271, 0.0136, 0.0062, 0.0041],
+                                [0.0945, 0.0945, 0.0529, 0.0293, 0.0146, 0.0067, 0.0044],
+                                [0.1021, 0.1021, 0.0572, 0.0316, 0.0158, 0.0073, 0.0047],
+                                [0.1102, 0.1102, 0.0617, 0.0342, 0.0171, 0.0079, 0.0051]
+                            ],
+                            [
+                                [0.0255, 0.0255, 0.0181, 0.0128, 0.0085, 0.0058, 0.0038],
+                                [0.0288, 0.0288, 0.0204, 0.0145, 0.0096, 0.0065, 0.0043],
+                                [0.0326, 0.0326, 0.0231, 0.0164, 0.0108, 0.0074, 0.0049],
+                                [0.0368, 0.0368, 0.0261, 0.0185, 0.0123, 0.0084, 0.0055]
+                            ],
+                            [
+                                [0.0164, 0.0164, 0.0116, 0.0083, 0.0055, 0.0037, 0.0025],
+                                [0.0186, 0.0186, 0.0131, 0.0093, 0.0062, 0.0042, 0.0042],
+                                [0.0210, 0.0210, 0.0148, 0.0106, 0.0070, 0.0048, 0.0048],
+                                [0.0237, 0.0237, 0.0168, 0.0119, 0.0079, 0.0054, 0.0054]
+                            ],
+                            [
+                                [0.0119, 0.0119, 0.0081, 0.0066, 0.0033, 0.0033, 0.0033],
+                                [0.0135, 0.0135, 0.0092, 0.0074, 0.0037, 0.0037, 0.0037],
+                                [0.0152, 0.0152, 0.0103, 0.0084, 0.0042, 0.0042, 0.0042],
+                                [0.0172, 0.0172, 0.0117, 0.0095, 0.0047, 0.0047, 0.0047]
+    
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Initiate non-suppressive ART: MALES",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "NonSuppressiveART" ],
+                    "Target_Demographic": "ExplicitGender",
+                    "Target_Gender": "Male",
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "ARTMortalityTable",
+                        "Intervention_Name": "NotSuppressedOnART",
+                        "Cost_To_Consumer" : 1,
+                        "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.65,
+                        "ART_Is_Active_Against_Mortality_And_Transmission"        : 1,
+                        "Days_To_Achieve_Viral_Suppression"                       : 183.0,
+                        "ART_Duration_Days_Bins": [182, 365, 730, 1095, 45625],
+                        "Age_Years_Bins": [25, 35, 45, 125],
+                        "CD4_Count_Bins": [0, 25, 74.5, 149.5, 274.5, 424.5, 624.5],
+                        "MortalityTable": [
+                            [
+                                [0.2015, 0.2015, 0.1128, 0.0625, 0.0312, 0.0206, 0.0162],
+                                [0.2176, 0.2176, 0.1219, 0.0675, 0.0337, 0.0223, 0.0175],
+                                [0.2350, 0.2350, 0.1316, 0.0729, 0.0364, 0.0240, 0.0189],
+                                [0.2538, 0.2538, 0.1421, 0.0787, 0.0393, 0.0260, 0.0205]
+                            ],
+                            [
+                                [ 0.1715, 0.1715, 0.5600, 0.3100, 0.1550, 0.0713, 0.0465 ],
+                                [ 0.1852, 0.1852, 0.6048, 0.3348, 0.1674, 0.0770, 0.0502 ],
+                                [ 0.2000, 0.2000, 0.6532, 0.3616, 0.1808, 0.0832, 0.0542 ],
+                                [ 0.2160, 0.2160, 0.7054, 0.3905, 0.1953, 0.0898, 0.0586 ]
+                            ],
+                            [
+                                [ 0.0532, 0.0532, 0.0362, 0.0293, 0.0171, 0.0116, 0.0095 ],
+                                [ 0.0601, 0.0601, 0.0409, 0.0331, 0.0193, 0.0131, 0.0107 ],
+                                [ 0.0679, 0.0679, 0.0462, 0.0374, 0.0218, 0.0148, 0.0121 ],
+                                [ 0.0768, 0.0768 ,0.0522, 0.0422, 0.0246, 0.0168, 0.0137 ]
+                            ],
+                            [
+                                [0.0335, 0.0335, 0.0228, 0.0184, 0.0108, 0.0073, 0.0060 ],
+                                [0.0379, 0.0379, 0.0258, 0.0208, 0.0122, 0.0083, 0.0068 ],
+                                [0.0428, 0.0428, 0.0291, 0.0235, 0.0137, 0.0094, 0.0076 ],
+                                [0.0484, 0.0484, 0.0329, 0.0266, 0.0155, 0.0106 ,0.0086 ]
+                            ],
+                            [
+                                [0.0234, 0.0234, 0.0159, 0.0129, 0.0091, 0.0069, 0.0064 ],
+                                [0.0265, 0.0265, 0.0180, 0.0145, 0.0103, 0.0077, 0.0073 ],
+                                [0.0299, 0.0299, 0.0203, 0.0164, 0.0116, 0.0088, 0.0082 ],
+                                [0.0338, 0.0338, 0.0230, 0.0186, 0.0131, 0.0099, 0.0093 ]
+    
+                            ]
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Initiate effective ART: FEMALES",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "EffectiveART" ],
+                    "Target_Demographic": "ExplicitGender",
+                    "Target_Gender": "Female",
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "ARTMortalityTable",
+                        "Intervention_Name": "SuppressedOnART",
+                        "Cost_To_Consumer" : 1,
+                        "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.04,
+                        "ART_Is_Active_Against_Mortality_And_Transmission"        : 1,
+                        "Days_To_Achieve_Viral_Suppression"                       : 183.0,
+                        "ART_Duration_Days_Bins": [182, 365, 730, 1095, 45625],
+                        "Age_Years_Bins": [25, 35, 45, 125],
+                        "CD4_Count_Bins": [0, 25, 74.5, 149.5, 274.5, 424.5, 624.5],
+                        "MortalityTable": [
+                            [
+                                    [ 0.2015, 0.2015, 0.0993, 0.0518, 0.0259, 0.0171, 0.0135 ],
+                                    [ 0.2156, 0.2156, 0.1062, 0.0554, 0.0277, 0.0183, 0.0144 ],
+                                    [ 0.2307, 0.2307, 0.1137, 0.0593, 0.0296, 0.0196, 0.0154 ],
+                                    [ 0.2468, 0.2468, 0.1216, 0.0634, 0.0317, 0.0209, 0.0165 ]
+                                ],
+                                [
+                                    [ 0.0875, 0.0875, 0.0431, 0.0225, 0.0112, 0.0052, 0.0034 ],
+                                    [ 0.0936, 0.0936, 0.0461, 0.0241, 0.0120, 0.0055, 0.0036 ],
+                                    [ 0.1002, 0.1002, 0.0494, 0.0257, 0.0129, 0.0059, 0.0039 ],
+                                    [ 0.1072, 0.1072, 0.0528, 0.0276, 0.0138, 0.0063, 0.0041 ]
+                                ],
+                                [
+                                    [0.0241, 0.0241, 0.0166, 0.0135, 0.0067, 0.0044, 0.0044 ],
+                                    [0.0262, 0.0262, 0.0181, 0.0147, 0.0073, 0.0048, 0.0048 ],
+                                    [0.0286, 0.0286, 0.0197, 0.0160, 0.0080, 0.0052, 0.0052 ],
+                                    [0.0312, 0.0312, 0.0215, 0.0175, 0.0087, 0.0057, 0.0057 ]
+                                ],
+                                [
+                                    [0.0149, 0.0149, 0.0103, 0.0084, 0.0042, 0.0042, 0.0042 ],
+                                    [0.0163, 0.0163, 0.0112, 0.0091, 0.0046, 0.0046, 0.0046 ],
+                                    [0.0177, 0.0177, 0.0122, 0.0099, 0.0050, 0.0050, 0.0050 ],
+                                    [0.0193, 0.0193, 0.0133, 0.0108, 0.0054, 0.0054, 0.0054 ]
+                                ],
+                                [
+                                    [0.0084, 0.0084, 0.0057, 0.0046, 0.0023, 0.0023, 0.0023 ],
+                                    [0.0092, 0.0092, 0.0062, 0.0051, 0.0025, 0.0025, 0.0025 ],
+                                    [0.0100, 0.0100, 0.0068, 0.0055, 0.0028, 0.0028, 0.0028 ],
+                                    [0.0109, 0.0109, 0.0074, 0.0060, 0.0030, 0.0030, 0.0030 ]
+                                ]
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Initiate non-suppressive ART: FEMALES",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [ "NonSuppressiveART" ],
+                    "Target_Demographic": "ExplicitGender",
+                    "Target_Gender": "Female",
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "ARTMortalityTable",
+                        "Intervention_Name": "NotSuppressedOnART",
+                        "Cost_To_Consumer" : 1,
+                        "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.65,
+                        "ART_Is_Active_Against_Mortality_And_Transmission"        : 1,
+                        "Days_To_Achieve_Viral_Suppression"                       : 183.0,
+                        "ART_Duration_Days_Bins": [182, 365, 730, 1095, 45625],
+                        "Age_Years_Bins": [25, 35, 45, 125],
+                        "CD4_Count_Bins": [0, 25, 74.5, 149.5, 274.5, 424.5, 624.5],
+                        "MortalityTable": [
+                            [
+                                    [ 0.2015, 0.2015, 0.1128, 0.0625, 0.0312, 0.0206, 0.0162 ],
+                                    [ 0.2176, 0.2176, 0.1219, 0.0675, 0.0337, 0.0223, 0.0175 ],
+                                    [ 0.2350, 0.2350, 0.1316, 0.0729, 0.0364, 0.0240, 0.0189 ],
+                                    [ 0.2538, 0.2538, 0.1421, 0.0787, 0.0393, 0.0260, 0.0205 ]
+                                ],
+                                [
+                                    [ 0.1837, 0.1837, 0.0845, 0.0441, 0.0220, 0.0101, 0.0066 ],
+                                    [ 0.1965, 0.1965, 0.0904, 0.0472, 0.0236, 0.0108, 0.0071 ],
+                                    [ 0.2103, 0.2103, 0.0967, 0.0505, 0.0252, 0.0116, 0.0076 ],
+                                    [ 0.2250, 0.2250, 0.1035, 0.0540, 0.0270, 0.0124, 0.0081 ]
+                                ],
+                                [
+                                    [ 0.0461, 0.0461, 0.0318, 0.0258, 0.0151, 0.0103, 0.0084 ],
+                                    [ 0.0502, 0.0502, 0.0346, 0.0281, 0.0164, 0.0113, 0.0091 ],
+                                    [ 0.0547, 0.0547, 0.0378, 0.0306, 0.0179, 0.0123, 0.0100 ],
+                                    [ 0.0596, 0.0596, 0.0412, 0.0334, 0.0195, 0.0134, 0.0109 ]
+                                ],
+                                [
+                                    [ 0.0286, 0.0286, 0.0197, 0.0160, 0.0113, 0.0086, 0.0080 ],
+                                    [ 0.0311, 0.0311, 0.0215, 0.0174, 0.0124, 0.0094, 0.0087 ],
+                                    [ 0.0339, 0.0339, 0.0234, 0.0190, 0.0135, 0.0102, 0.0095 ],
+                                    [ 0.0370, 0.0370, 0.0255, 0.0207, 0.0147, 0.0111, 0.0104 ]
+                                ],
+                                [
+                                    [ 0.0161, 0.0161, 0.0110, 0.0089, 0.0063, 0.0047, 0.0044 ],
+                                    [ 0.0176, 0.0176, 0.0119, 0.0097, 0.0068, 0.0052, 0.0048 ],
+                                    [ 0.0192, 0.0192, 0.0130, 0.0105, 0.0075, 0.0056, 0.0053 ],
+                                    [ 0.0209, 0.0209, 0.0142, 0.0115, 0.0081, 0.0061, 0.0057 ]
+                                ]
+                        ]
+                    }
+                }
+            }
         },
         {
             "Event_Coordinator_Config": {
@@ -3727,7 +4045,6 @@
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",
-                        "New_Property_Value": "InterventionStatus:OnART",
                         "class": "HIVMuxer"
                     },
                     "Trigger_Condition_List": [
@@ -3780,7 +4097,7 @@
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever"
                         ],
-                        "New_Property_Value": "InterventionStatus:OnART",
+                        "New_Property_Value": "InterventionStatus:None",
                         "class": "HIVRandomChoice"
                     },
                     "Trigger_Condition_List": [

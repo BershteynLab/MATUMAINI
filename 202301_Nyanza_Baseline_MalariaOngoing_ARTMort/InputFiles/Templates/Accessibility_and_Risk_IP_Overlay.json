@@ -92,26 +92,43 @@
                     "Transitions": []
                 },
                 {
-                   "Property": "InterventionStatus",
-                   "Transitions": [],
-                   "Values": [
-                      "None",
-                      "ARTStaging",
-                      "ARTStagingDiagnosticTest",
-                      "LinkingToART",
-                      "LinkingToPreART",
-                      "OnART",
-                      "OnPreART",
-                      "HCTTestingLoop",
-                      "HCTUptakeAtDebut",
-                      "HCTUptakePostDebut",
-                      "TestingOnANC",
-                      "TestingOnChild6w",
-                      "TestingOnSymptomatic",
-                      "LostForever"
-                   ],
-		   "Initial_Distribution": [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-                }
+                    "Property": "InterventionStatus",
+                    "Transitions": [],
+                    "Values": [
+                       "None",
+                       "ARTStaging",
+                       "ARTStagingDiagnosticTest",
+                       "LinkingToART",
+                       "LinkingToPreART",
+                       "OnEffectiveART",
+                       "OnNonSuppressiveART",
+                       "OnPreART",
+                       "HCTTestingLoop",
+                       "HCTUptakeAtDebut",
+                       "HCTUptakePostDebut",
+                       "TestingOnANC",
+                       "TestingOnChild6w",
+                       "TestingOnSymptomatic",
+                       "LostForever"
+                    ],
+                    "Initial_Distribution": [
+                       1,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0
+                    ]
+                 }
                 ]
         },
         {
@@ -225,7 +242,8 @@
                       "ARTStagingDiagnosticTest",
                       "LinkingToART",
                       "LinkingToPreART",
-                      "OnART",
+                      "OnEffectiveART",
+                      "OnNonSuppressiveART",
                       "OnPreART",
                       "HCTTestingLoop",
                       "HCTUptakeAtDebut",
@@ -237,6 +255,7 @@
                    ],
                    "Initial_Distribution": [
                       1,
+                      0,
                       0,
                       0,
                       0,
@@ -358,41 +377,43 @@
                     "Transitions": []
                 },
                 {
-                   "Initial_Distribution": [
-                      1,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0
-                   ],
-                   "Property": "InterventionStatus",
-                   "Transitions": [],
-                   "Values": [
-                      "None",
-                      "ARTStaging",
-                      "ARTStagingDiagnosticTest",
-                      "LinkingToART",
-                      "LinkingToPreART",
-                      "OnART",
-                      "OnPreART",
-                      "HCTTestingLoop",
-                      "HCTUptakeAtDebut",
-                      "HCTUptakePostDebut",
-                      "TestingOnANC",
-                      "TestingOnChild6w",
-                      "TestingOnSymptomatic",
-                      "LostForever"
-                   ]
-                }
+                    "Property": "InterventionStatus",
+                    "Transitions": [],
+                    "Values": [
+                       "None",
+                       "ARTStaging",
+                       "ARTStagingDiagnosticTest",
+                       "LinkingToART",
+                       "LinkingToPreART",
+                       "OnEffectiveART",
+                       "OnNonSuppressiveART",
+                       "OnPreART",
+                       "HCTTestingLoop",
+                       "HCTUptakeAtDebut",
+                       "HCTUptakePostDebut",
+                       "TestingOnANC",
+                       "TestingOnChild6w",
+                       "TestingOnSymptomatic",
+                       "LostForever"
+                    ],
+                    "Initial_Distribution": [
+                       1,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0
+                    ]
+                 }
             ],
             "NodeName": "Kisumu"
         },
@@ -499,41 +520,43 @@
                     "Transitions": []
                 },
                 {
-                   "Initial_Distribution": [
-                      1,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0
-                   ],
-                   "Property": "InterventionStatus",
-                   "Transitions": [],
-                   "Values": [
-                      "None",
-                      "ARTStaging",
-                      "ARTStagingDiagnosticTest",
-                      "LinkingToART",
-                      "LinkingToPreART",
-                      "OnART",
-                      "OnPreART",
-                      "HCTTestingLoop",
-                      "HCTUptakeAtDebut",
-                      "HCTUptakePostDebut",
-                      "TestingOnANC",
-                      "TestingOnChild6w",
-                      "TestingOnSymptomatic",
-                      "LostForever"
-                   ]
-                }
+                    "Property": "InterventionStatus",
+                    "Transitions": [],
+                    "Values": [
+                       "None",
+                       "ARTStaging",
+                       "ARTStagingDiagnosticTest",
+                       "LinkingToART",
+                       "LinkingToPreART",
+                       "OnEffectiveART",
+                       "OnNonSuppressiveART",
+                       "OnPreART",
+                       "HCTTestingLoop",
+                       "HCTUptakeAtDebut",
+                       "HCTUptakePostDebut",
+                       "TestingOnANC",
+                       "TestingOnChild6w",
+                       "TestingOnSymptomatic",
+                       "LostForever"
+                    ],
+                    "Initial_Distribution": [
+                       1,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0
+                    ]
+                 }
             ],
             "NodeName": "Migori"
         },
@@ -640,41 +663,43 @@
                     "Transitions": []
                 },
                 {
-                   "Initial_Distribution": [
-                      1,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0
-                   ],
-                   "Property": "InterventionStatus",
-                   "Transitions": [],
-                   "Values": [
-                      "None",
-                      "ARTStaging",
-                      "ARTStagingDiagnosticTest",
-                      "LinkingToART",
-                      "LinkingToPreART",
-                      "OnART",
-                      "OnPreART",
-                      "HCTTestingLoop",
-                      "HCTUptakeAtDebut",
-                      "HCTUptakePostDebut",
-                      "TestingOnANC",
-                      "TestingOnChild6w",
-                      "TestingOnSymptomatic",
-                      "LostForever"
-                   ]
-                }
+                    "Property": "InterventionStatus",
+                    "Transitions": [],
+                    "Values": [
+                       "None",
+                       "ARTStaging",
+                       "ARTStagingDiagnosticTest",
+                       "LinkingToART",
+                       "LinkingToPreART",
+                       "OnEffectiveART",
+                       "OnNonSuppressiveART",
+                       "OnPreART",
+                       "HCTTestingLoop",
+                       "HCTUptakeAtDebut",
+                       "HCTUptakePostDebut",
+                       "TestingOnANC",
+                       "TestingOnChild6w",
+                       "TestingOnSymptomatic",
+                       "LostForever"
+                    ],
+                    "Initial_Distribution": [
+                       1,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0
+                    ]
+                 }
             ],
             "NodeName": "Nyamira"
         },
@@ -781,41 +806,43 @@
                     "Transitions": []
                 },
                 {
-                   "Initial_Distribution": [
-                      1,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0
-                   ],
-                   "Property": "InterventionStatus",
-                   "Transitions": [],
-                   "Values": [
-                      "None",
-                      "ARTStaging",
-                      "ARTStagingDiagnosticTest",
-                      "LinkingToART",
-                      "LinkingToPreART",
-                      "OnART",
-                      "OnPreART",
-                      "HCTTestingLoop",
-                      "HCTUptakeAtDebut",
-                      "HCTUptakePostDebut",
-                      "TestingOnANC",
-                      "TestingOnChild6w",
-                      "TestingOnSymptomatic",
-                      "LostForever"
-                   ]
-                }
+                    "Property": "InterventionStatus",
+                    "Transitions": [],
+                    "Values": [
+                       "None",
+                       "ARTStaging",
+                       "ARTStagingDiagnosticTest",
+                       "LinkingToART",
+                       "LinkingToPreART",
+                       "OnEffectiveART",
+                       "OnNonSuppressiveART",
+                       "OnPreART",
+                       "HCTTestingLoop",
+                       "HCTUptakeAtDebut",
+                       "HCTUptakePostDebut",
+                       "TestingOnANC",
+                       "TestingOnChild6w",
+                       "TestingOnSymptomatic",
+                       "LostForever"
+                    ],
+                    "Initial_Distribution": [
+                       1,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0,
+                       0
+                    ]
+                 }
             ],
             "NodeName": "Siaya"
         }

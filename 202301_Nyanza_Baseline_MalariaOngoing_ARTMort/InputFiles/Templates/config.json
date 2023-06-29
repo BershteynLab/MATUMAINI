@@ -64,6 +64,8 @@
             "OnART0",
             "OnART1",
             "OnART3",
+            "EffectiveART",
+            "NonSuppressiveART",
             "OnPreART0",
             "OnPreART1",
             "OnPreART2",
