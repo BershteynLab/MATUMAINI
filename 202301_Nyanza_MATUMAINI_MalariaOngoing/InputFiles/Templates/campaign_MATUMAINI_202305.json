@@ -1229,7 +1229,10 @@
                         }
                     ],
                     "Duration":21748,
-                    "Trigger_Condition_List": ["CMD_Incidence2"],
+                    "Trigger_Condition_List": [
+                        "CMD_Incidence2",
+                        "CMD_Incidence2_diagnosis"
+                    ],
                     "Actual_IndividualIntervention_Config":{
                         "class":"MultiInterventionDistributor",
                         "Intervention_List":[
@@ -1292,7 +1295,9 @@
                             "CMDStatus": "CMD_recovered"
                         }
                     ],
-                    "Trigger_Condition_List": ["CMD_Incidence2"],
+                    "Trigger_Condition_List": [
+                        "CMD_Incidence2",
+                        "CMD_Incidence2_diagnosis"],
                     "Actual_IndividualIntervention_Config":{
                         "class":"MultiInterventionDistributor",
                         "Intervention_List":[
@@ -3826,7 +3831,10 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Property_Restrictions":["CMDStatus:CMD_treated"],
-                    "Trigger_Condition_List": ["CMD_Relapse2"],
+                    "Trigger_Condition_List": [
+                        "CMD_Relapse2",
+                        "CMD_Relapse2_diagnosis"
+                    ],
                     "Actual_IndividualIntervention_Config":{
                         "class":"MultiInterventionDistributor",
                         "Intervention_List":[
@@ -6940,6 +6948,79 @@
             }
         },
         {
+            "BEGIN":"DEPRESSION INCIDENCE UPON HIV DIAGNOSIS",
+            "Event_Name": "Depression incidence upon HIV diagnosis, CMD negative",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node": [
+                        {
+                            "CMDStatus":"CMD_neg"
+                        },
+                        {
+                            "CMDStatus":"CMD_recovered"
+                        }
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Incidence2_diagnosis",
+                            "CMD_ChangeRisk_dummy"
+                        ],
+                        "Choice_Probabilities": [
+                            0,
+                            1
+                        ],
+                        "Choice_Probabilities__KP_depression_incidence_hiv_diagnosis": "<-- MARKER"
+                    },
+                    "Trigger_Condition_List": [
+                        "ARTStaging9",
+                        "HIV_Positive_at_ANC"
+                    ]
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "END":"DEPRESSION INCIDENCE UPON HIV DIAGNOSIS",
+            "Event_Name": "Depression incidence upon HIV diagnosis, CMD treated",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions": [
+                        "CMDStatus:CMD_treated"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Relapse2_diagnosis",
+                            "CMD_ChangeRisk_dummy"
+                        ],
+                        "Choice_Probabilities": [
+                            0,
+                            1
+                        ],
+                        "Choice_Probabilities__KP_depression_incidence_hiv_diagnosis": "<-- MARKER"
+                    },
+                    "Trigger_Condition_List": [
+                        "ARTStaging9",
+                        "HIV_Positive_at_ANC"
+                    ]
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
             "BEGIN": "SYMPTOMATIC TESTING",
             "END": "SYMPTOMATIC TESTING",
             "Event_Coordinator_Config": {
@@ -8311,7 +8392,8 @@
                         "class": "HIVMuxer"
                     },
                     "Trigger_Condition_List": [
-                        "CMD_Incidence2"
+                        "CMD_Incidence2",
+                        "CMD_Incidence2_diagnosis"
                     ],
                     "Property_Restrictions_Within_Node":[
                         {
