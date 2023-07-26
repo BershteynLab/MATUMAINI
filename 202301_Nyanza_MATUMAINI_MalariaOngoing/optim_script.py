@@ -46,11 +46,11 @@ CALIBRATION_SCENARIO = 'Baseline'
  # For quick test simulations, BASE_POPULATION_SCALE_FACTOR is set to a very low value. 
  # 0.005 for testing. Use 0.2 for full calibration
  # I (David) has found that 0.02 can lead to the epidemic never taking off in some counties for Nyanza
-BASE_POPULATION_SCALE_FACTOR = 0.05
-N_ITERATIONS = 10
+BASE_POPULATION_SCALE_FACTOR = 0.2
+N_ITERATIONS = 15
 N_SAMPLES_PER_ITERATION = 83  # the number of distinct parameter sets to run per iteration
 N_REPLICATES = 3  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
-TEST_N = '1'  # TEST_N is macro variable used to create directory name
+TEST_N = '3'  # TEST_N is macro variable used to create directory name
 
 # The excel file with parameter, analyzer, and reference data to parse
 # ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form_Nyanza.xlsm')

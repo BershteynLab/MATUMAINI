@@ -392,8 +392,6 @@ res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseli
 
 res_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing/IDM_test_4/Baseline-campaign_MATUMAINI_202305-IDMtest_base/ReportHIVByAgeAndGender"
 
-
-
 sim.cmd <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = res_path,
   scenario_name = 'baseline',

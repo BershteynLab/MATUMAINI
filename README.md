@@ -10,7 +10,7 @@
 
 ## Project Outline
 
-* [ ] Implement [model of CMD](https://docs.google.com/presentation/d/1LaGunWwd2bJYsFmCAZPay9UfXygRY47RvCdVJKmSLjA/edit?usp=sharing) within EMOD
+* [x] Implement [model of CMD](https://docs.google.com/presentation/d/1LaGunWwd2bJYsFmCAZPay9UfXygRY47RvCdVJKmSLjA/edit?usp=sharing) within EMOD
     * [x] Add CMD Individual Property (IP) to EMOD which tracks individual CMD status
         * [x] Add CMD IP to the Demography File: `CMDStatus`
         * [x] Add CMD IP to the config file - report on IP
@@ -22,29 +22,32 @@
             * [x] Add CMD prevalence calibration target to the ingest form
             * [x] Add CMD as a variable to be calibrated
     * [x] Develop R analysis tools for postprocessing
-    * [ ] Develop more detailed CMD model
+    * [x] Develop more detailed CMD model
         * [x] Add age and gender-related incidence modifiers
-        * [ ] Add different relapse rates for Treated and Untreated individuals
-        * [ ] Add CMD-related excess mortality
-        * [ ] Add differentiation between treatment and non-treatment
-        * [ ] Track individual treatment history, such that individuals who have received treatment are more likely to seek treatment again, less likely to have relapse
-* [ ] Implement interactions between CMD and HIV
+        * [x] Add different relapse rates for Treated and Untreated individuals
+        * [x] Add differentiation between treatment and non-treatment
+        * [x] Track individual treatment history, such that individuals who have received treatment are more likely to seek treatment again, less likely to have relapse
+* [x] Implement interactions from CMD to HIV
     * [x] Increased risky behavior among those depressed
         * [x] Transition depressed individuals to MEDIUM risk
         * [x] Transition depressed individuals back when they recover, at appropriate rates 
+    * [x] Delays to testing - interrupt HCT Testing Loop
+        * [x] Add a check on HCTTestingLoop1 - HCTTestingLoopRapidTest
+    * [x] ART adherence - differential dropout rates
     * [x] ART VLS outcomes
         * [x] Added effective/noneffective ART choice based on CMD status
         * [x] Added ARTMortality table
         * [x] Added transition from noneffective to effective ART following CMD recovery
-    * [x] Delays to testing - interrupt HCT Testing Loop
-        * [x] Add a check on HCTTestingLoop1 - HCTTestingLoopRapidTest
-    * [x] ART adherence - differential dropout rates
-* [ ] Re-calibrate full model with CMD
+* [ ] Implement interactions from HIV to CMD
+    * [x] Elevated depression incidence among HIV positive
+    * [ ] Higher depression upon receiving diagnosis
+    * [ ] Increase depression recovery rate upon reaching VLS
+    * [ ] Linkage to treatment upon receiving depression diagnosis
 * [ ] Future work: other preventative measures
     * [ ] PrEP
     * [ ] Condom use
     * [ ] VMMC
-* [ ] Future work: Influence of HIV on depression
-    * [ ] Higher depression upon receiving diagnosis
-    * [ ] Reduced depression upon achieving VLS
-    * [ ] Linkage to treatment upon receiving depression diagnosis
+* [ ] Future work: Depression model demographics and dynamics
+    * [ ] Revisit demographics and aging and how it interacts with recovery, relapse, and treatment history
+    * [ ] Add CMD-related excess mortality
+* [ ] Re-calibrate full model with CMD
