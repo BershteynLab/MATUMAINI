@@ -1226,9 +1226,6 @@
                         },
                         {
                             "CMDStatus": "CMD_recovered"
-                        },
-                        {
-                            "CMDStatus": "CMD_treated"
                         }
                     ],
                     "Duration":21748,
@@ -1293,9 +1290,6 @@
                         },
                         {
                             "CMDStatus": "CMD_recovered"
-                        },
-                        {
-                            "CMDStatus": "CMD_treated"
                         }
                     ],
                     "Trigger_Condition_List": ["CMD_Incidence2"],
@@ -6839,8 +6833,16 @@
                     "Trigger_Condition_List": [
                         "HCTTestingLoop1"
                     ],
-                    "Property_Restrictions": [
-                        "CMDStatus:CMD_neg"
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "CMDStatus":"CMD_neg"
+                        },
+                        {
+                            "CMDStatus":"CMD_recovered"
+                        },
+                        {
+                            "CMDStatus":"CMD_treated"
+                        }
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
@@ -8078,7 +8080,7 @@
         },
         {
             "Event_Name": "OnART: random draw for CMD-negative",
-            "COMMENT": "Initiate effective ART or non-suppressive ART",
+            "COMMENT": "Initiate effective ART or non-suppressive ART - for everyone who is not currently CMD positive",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -8092,8 +8094,16 @@
                     "Trigger_Condition_List": [
                         "OnART1"
                     ],
-                    "Property_Restrictions": [
-                        "CMDStatus:CMD_neg"
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "CMDStatus":"CMD_neg"
+                        },
+                        {
+                            "CMDStatus":"CMD_recovered"
+                        },
+                        {
+                            "CMDStatus":"CMD_treated"
+                        }
                     ],
                     "Actual_IndividualIntervention_Config": { 
                         "class": "HIVRandomChoice",
@@ -8202,6 +8212,7 @@
         },
         {
             "Event_Name": "OnART: state 2 (delay to dropout) - CMD negative",
+            "COMMENT": "Delay dropout for everyone who is not CMD positive",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -8222,8 +8233,16 @@
                         "New_Property_Value": "",
                         "class": "HIVMuxer"
                     },
-                    "Property_Restrictions": [
-                        "CMDStatus:CMD_neg"
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "CMDStatus":"CMD_neg"
+                        },
+                        {
+                            "CMDStatus":"CMD_recovered"
+                        },
+                        {
+                            "CMDStatus":"CMD_treated"
+                        }
                     ],
                     "Trigger_Condition_List": [
                         "OnART1"
@@ -8249,7 +8268,9 @@
                         "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
-                            "CMDStatus:CMD_neg"
+                            "CMDStatus:CMD_neg",
+                            "CMDStatus:CMD_recovered",
+                            "CMDStatus:CMD_treated"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",
@@ -8282,8 +8303,7 @@
                         "Delay_Period_Exponential": 3650,
                         "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever",
-                            "CMDStatus:CMD_neg"
+                            "InterventionStatus:LostForever"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",

@@ -27,18 +27,22 @@
         * [x] Add different relapse rates for Treated and Untreated individuals
         * [x] Add differentiation between treatment and non-treatment
         * [x] Track individual treatment history, such that individuals who have received treatment are more likely to seek treatment again, less likely to have relapse
-* [x] Implement interactions between CMD and HIV
+* [x] Implement interactions from CMD to HIV
     * [x] Increased risky behavior among those depressed
         * [x] Transition depressed individuals to MEDIUM risk
         * [x] Transition depressed individuals back when they recover, at appropriate rates 
+    * [x] Delays to testing - interrupt HCT Testing Loop
+        * [x] Add a check on HCTTestingLoop1 - HCTTestingLoopRapidTest
+    * [x] ART adherence - differential dropout rates
     * [x] ART VLS outcomes
         * [x] Added effective/noneffective ART choice based on CMD status
         * [x] Added ARTMortality table
         * [x] Added transition from noneffective to effective ART following CMD recovery
-    * [x] Delays to testing - interrupt HCT Testing Loop
-        * [x] Add a check on HCTTestingLoop1 - HCTTestingLoopRapidTest
-    * [x] ART adherence - differential dropout rates
-* [ ] Re-calibrate full model with CMD
+* [ ] Implement interactions from HIV to CMD
+    * [x] Elevated depression incidence among HIV positive
+    * [ ] Higher depression upon receiving diagnosis
+    * [ ] Increase depression recovery rate upon reaching VLS
+    * [ ] Linkage to treatment upon receiving depression diagnosis
 * [ ] Future work: other preventative measures
     * [ ] PrEP
     * [ ] Condom use
@@ -46,7 +50,4 @@
 * [ ] Future work: Depression model demographics and dynamics
     * [ ] Revisit demographics and aging and how it interacts with recovery, relapse, and treatment history
     * [ ] Add CMD-related excess mortality
-* [ ] Future work: Influence of HIV on depression
-    * [ ] Higher depression upon receiving diagnosis
-    * [ ] Reduced depression upon achieving VLS
-    * [ ] Linkage to treatment upon receiving depression diagnosis
+* [ ] Re-calibrate full model with CMD

@@ -1,3 +1,2 @@
 Scenario,Campaign,Choice_Probabilities__KP_TreatmentTable,Choice_Probabilities__KP_CMD_reassign,Choice_Probabilities__KP_ChangeRiskBack,Choice_Probabilities__KP_DelayDiagnosis,Choice_Probabilities__KP_EffectiveART_CMDneg,Choice_Probabilities__KP_EffectiveART_CMDpos,Delay_Period_Exponential__KP_CMD_ARTdropout,Demographic_Coverage__KP_CMD_Recovery_Effective_ART
-sdrh_notreat,campaign_MATUMAINI_202305.json,"[0,1.0]","[1.0,0]","[1.0,0]","[0,1.0]","[0.833,0.167]","[0.68, 0.32]",1825,.833
-sdrh_treatall,campaign_MATUMAINI_202305.json,"[1.0,0]","[1.0,0]","[1.0,0]","[0,1.0]","[0.833,0.167]","[0.68, 0.32]",1825,.833
+base,campaign_MATUMAINI_202305.json,"[0,1.0]","[0,1.0]","[0,1.0]","[1.0,0]","[0.833,0.167]","[0.833,0.167]",3650,.833
