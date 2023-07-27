@@ -7021,6 +7021,64 @@
             }
         },
         {
+            "BEGIN":"DEPRESSION SCREENING FOLLOWING HIV DIAGNOSIS",
+            "Event_Name":"Depression screening following HIV diagnosis",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "ARTStaging9",
+                        "HIV_Positive_at_ANC"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVDelayedIntervention",
+                        "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
+                        "Delay_Period_Constant": 90,
+                        "Broadcast_Event":"CMD_HIV_screening"
+                    }
+                }
+            }
+        },
+        {
+            "END":"DEPRESSION SCREENING FOLLOWING HIV DIAGNOSIS",
+            "Event_Name": "Depression screening",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions": [
+                        "CMDStatus:CMD_pos"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Treat_diagnosis",
+                            "CMD_ChangeRisk_dummy"
+                        ],
+                        "Choice_Probabilities": [
+                            0,
+                            1
+                        ],
+                        "Choice_Probabilities__KP_hiv_diagnosis_depression_screening": "<-- MARKER"
+                    },
+                    "Trigger_Condition_List": [
+                        "CMD_HIV_screening"
+                    ]
+                }
+            }
+        },
+        {
             "BEGIN": "SYMPTOMATIC TESTING",
             "END": "SYMPTOMATIC TESTING",
             "Event_Coordinator_Config": {

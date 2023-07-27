@@ -83,6 +83,7 @@
             "CMD_NoIncidence",
             "CMD_NoTreat",
             "CMD_Treat",
+            "CMD_Treat_diagnosis",
             "CMD_NoTreat_Recovery",
             "CMD_Treat_Recovery",
             "CMD_RecoverNoTreat",
@@ -97,7 +98,8 @@
             "CMD_MoveToMediumRisk",
             "EffectiveART",
             "NonSuppressiveART",
-            "HCTTestingLoopRapidTest"
+            "HCTTestingLoopRapidTest",
+            "CMD_HIV_screening"
         ],
         "Custom_Node_Events": [],
         "Custom_Reports_Filename": "",
@@ -175,11 +177,13 @@
         "Report_Coital_Acts": 0,
         "Report_Coordinator_Event_Recorder": 0,
         "Report_Event_Recorder": 0,
-        "Report_Event_Recorder_Start_Year": 2017,
-        "Report_Event_Recorder_End_Year": 2023,
+        "Report_Event_Recorder_Start_Year": 2020,
+        "Report_Event_Recorder_End_Year": 2025,
         "Report_Event_Recorder_Events":[
             "CMD_Incidence2_diagnosis",
-            "CMD_Relapse2_diagnosis"
+            "CMD_Relapse2_diagnosis",
+            "CMD_HIV_screening",
+            "CMD_Treat_diagnosis"
         ],
         ".Report_Event_Recorder_Events": [
             "PrEP_Initiated",
