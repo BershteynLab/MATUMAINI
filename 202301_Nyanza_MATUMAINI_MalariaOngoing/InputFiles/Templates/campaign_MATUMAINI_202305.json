@@ -3922,7 +3922,10 @@
                         "Broadcast_Event":"CMD_Treat_Recovery"
                     },
                     "Property_Restrictions":["CMDStatus:CMD_pos"],
-                    "Trigger_Condition_List": ["CMD_Treat"]
+                    "Trigger_Condition_List": [
+                        "CMD_Treat",
+                        "CMD_Treat_diagnosis"
+                    ]
                 }
             }
         },
@@ -8312,7 +8315,7 @@
             }
         },
         {
-            "Event_Name": "Change intervention fpr those initiating Effective ART",
+            "Event_Name": "Change intervention status for those initiating Effective ART",
             "class": "CampaignEventByYear",
             "Nodeset_Config": { "class": "NodeSetAll" },
             "Start_Year": 1980,
@@ -8326,6 +8329,59 @@
                         "class": "PropertyValueChanger",
                         "Target_Property_Key": "InterventionStatus",
                         "Target_Property_Value": "OnEffectiveART"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"Stage Depression Recovery for those initiating Effective ART",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": { 
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": { 
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["EffectiveART"],
+                    "Property_Restrictions":[
+                        "CMDStatus:CMD_pos"
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_VLS_Recovery",
+                            "CMD_ChangeRisk_dummy"
+                        ],
+                        "Choice_Probabilities": [
+                            0,
+                            1
+                        ],
+                        "Choice_Probabilities__KP_CMD_VLS_Recovery" :"<== marker"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"Depression Recovery for those initiating Effective ART",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": { 
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": { 
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["CMD_VLS_Recovery"],
+                    "Property_Restrictions":[
+                        "CMDStatus:CMD_pos"
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "HIVDelayedIntervention",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 180,
+                        "Delay_Period_Exponential__KP_CMD_VLS_Recovery_Delay" :"<== marker",
+                        "Broadcast_Event":"CMD_NoTreat_Recovery"
                     }
                 }
             }
@@ -8451,7 +8507,9 @@
                     },
                     "Trigger_Condition_List": [
                         "CMD_Incidence2",
-                        "CMD_Incidence2_diagnosis"
+                        "CMD_Incidence2_diagnosis",
+                        "CMD_Relapse2",
+                        "CMD_Relapse2_diagnosis"
                     ],
                     "Property_Restrictions_Within_Node":[
                         {

@@ -98,6 +98,7 @@
             "CMD_MoveToMediumRisk",
             "EffectiveART",
             "NonSuppressiveART",
+            "CMD_VLS_Recovery",
             "HCTTestingLoopRapidTest",
             "CMD_HIV_screening"
         ],
@@ -176,13 +177,10 @@
         "Post_Infection_Transmission_Multiplier": 1,
         "Report_Coital_Acts": 0,
         "Report_Coordinator_Event_Recorder": 0,
-        "Report_Event_Recorder": 0,
+        "Report_Event_Recorder": 1,
         "Report_Event_Recorder_Start_Year": 2020,
         "Report_Event_Recorder_End_Year": 2025,
         "Report_Event_Recorder_Events":[
-            "CMD_Incidence2_diagnosis",
-            "CMD_Relapse2_diagnosis",
-            "CMD_HIV_screening",
             "CMD_Treat_diagnosis"
         ],
         ".Report_Event_Recorder_Events": [
