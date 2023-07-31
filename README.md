@@ -33,16 +33,17 @@
         * [x] Transition depressed individuals back when they recover, at appropriate rates 
     * [x] Delays to testing - interrupt HCT Testing Loop
         * [x] Add a check on HCTTestingLoop1 - HCTTestingLoopRapidTest
+    * [ ] Delays to initiating ART
     * [x] ART adherence - differential dropout rates
     * [x] ART VLS outcomes
         * [x] Added effective/noneffective ART choice based on CMD status
         * [x] Added ARTMortality table
         * [x] Added transition from noneffective to effective ART following CMD recovery
-* [ ] Implement interactions from HIV to CMD
+* [x] Implement interactions from HIV to CMD
     * [x] Elevated depression incidence among HIV positive
-    * [ ] Higher depression upon receiving diagnosis
-    * [ ] Increase depression recovery rate upon reaching VLS
-    * [ ] Linkage to treatment upon receiving depression diagnosis
+    * [x] Higher depression upon receiving diagnosis
+    * [x] Increase depression recovery rate upon reaching VLS
+    * [x] Linkage to treatment upon receiving depression diagnosis
 * [ ] Future work: other preventative measures
     * [ ] PrEP
     * [ ] Condom use
