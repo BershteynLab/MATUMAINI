@@ -7043,6 +7043,7 @@
                         "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
                         "Delay_Period_Constant": 90,
+                        "Delay_Period_Constant__KP_CMD_screening_delay":  "<-- MARKER",
                         "Broadcast_Event":"CMD_HIV_screening"
                     }
                 }
@@ -8484,7 +8485,7 @@
             }
         },
         {
-            "Event_Name": "Recalculate delay to dropout upon CMD starting",
+            "Event_Name": "Recalculate delay to ART dropout upon CMD starting",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
