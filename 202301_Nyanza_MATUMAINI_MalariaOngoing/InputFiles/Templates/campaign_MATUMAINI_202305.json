@@ -1350,7 +1350,7 @@
             "Nodeset_Config":{
                 "class":"NodeSetAll"
             },
-            "Start_Year":1960.5,
+            "Start_Year":1982,
             "Event_Coordinator_Config":{
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -4032,7 +4032,7 @@
             "Nodeset_Config": {
                 "class":"NodeSetAll"
             },
-            "Start_Year": 1960.5,
+            "Start_Year": 1982,
             "Event_Coordinator_Config":{
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -4043,6 +4043,9 @@
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
+                        "Disqualifying_Properties": [
+                            "Risk:HIGH"
+                        ],
                         "Choice_Names": [
                             "CMD_ChangeRiskBack",
                             "CMD_ChangeRisk_dummy"
