@@ -1350,7 +1350,7 @@
             "Nodeset_Config":{
                 "class":"NodeSetAll"
             },
-            "Start_Year":1982,
+            "Start_Year":1960.5,
             "Event_Coordinator_Config":{
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -4032,7 +4032,7 @@
             "Nodeset_Config": {
                 "class":"NodeSetAll"
             },
-            "Start_Year": 1982,
+            "Start_Year": 1960.5,
             "Event_Coordinator_Config":{
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
