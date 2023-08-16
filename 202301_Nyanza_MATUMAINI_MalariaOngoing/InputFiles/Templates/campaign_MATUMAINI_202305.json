@@ -1268,7 +1268,8 @@
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
-                                    "Risk:HIGH"
+                                    "Risk:HIGH",
+                                    "Risk:MEDIUM"
                                 ]
                             }
                         ]
@@ -3871,7 +3872,8 @@
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
-                                    "Risk:HIGH"
+                                    "Risk:HIGH",
+                                    "Risk:MEDIUM"
                                 ]
                             }
                         ]
