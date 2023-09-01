@@ -1,2 +1,2 @@
-Scenario,Campaign,Choice_Probabilities__KP_DelayDiagnosis,Choice_Probabilities__KP_EffectiveART_CMDpos,Demographic_Coverage__KP_CMD_Recovery_Effective_ART,Delay_Period_Exponential__KP_CMD_ARTdropout
-minimal,campaign_MATUMAINI_202305.json,"[.333,.667]","[0.68,0.32]",.833,1825
+Scenario,Campaign
+math,campaign_MATUMAINI_202305.json
