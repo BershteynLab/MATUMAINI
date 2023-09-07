@@ -1345,6 +1345,31 @@
             }
         },
         {
+            "Event_Name":"CMD upgrade STI Coinfection",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config":{
+                "class":"NodeSetAll"
+            },
+            "Start_Year":1985,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List":["CMD_ChangeRisk"],
+                    "Property_Restrictions":["Risk:LOW"],
+                    "Demographic_Coverage": 0.3,
+                    "Demographic_Coverage__KP_STI_Coinfection_MEDIUM_Risk": "<-- MARKER",
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"STIIsPostDebut",
+                        "Positive_Diagnosis_Config": { 
+                            "New_STI_CoInfection_Status": 1,
+                            "class": "ModifyStiCoInfectionStatus"
+                        }
+                    }
+                }
+            }
+        },
+        {
             "END":"CMD Incidence",
             "Event_Name":"CMD upgrade risk",
             "class":"CampaignEventByYear",
@@ -4254,6 +4279,54 @@
                         ],
                         "Choice_Probabilities__KP_RiskChoice_Siaya": "<-- MARKER"
 
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD recovery adjust to low risk STI coinfection",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config":{
+                "class":"NodeSetAll"
+            },
+            "Start_Year":1985,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List":["CMD_MoveToLowRisk"],
+                    "Demographic_Coverage": 0.1,
+                    "Demographic_Coverage__KP_STI_Coinfection_LOW_Risk": "<-- MARKER",
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"STIIsPostDebut",
+                        "Positive_Diagnosis_Config": { 
+                            "New_STI_CoInfection_Status": 1,
+                            "class": "ModifyStiCoInfectionStatus"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD recovery adjust to medium risk STI coinfection",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config":{
+                "class":"NodeSetAll"
+            },
+            "Start_Year":1985,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List":["CMD_MoveToMediumRisk"],
+                    "Demographic_Coverage": 0.1,
+                    "Demographic_Coverage__KP_STI_Coinfection_MEDIUM_Risk": "<-- MARKER",
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"STIIsPostDebut",
+                        "Positive_Diagnosis_Config": { 
+                            "New_STI_CoInfection_Status": 1,
+                            "class": "ModifyStiCoInfectionStatus"
+                        }
                     }
                 }
             }
