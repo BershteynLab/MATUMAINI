@@ -54,6 +54,9 @@ res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_M
 res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_risk_adj___2023_08_16_17_26_59_961531"
 
 
+# This one is after implementing changes to STI Coinfection rates
+res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_risk_adj___2023_09_07_09_46_35_185996"
+
 sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.cmd,
   scenario_name = 'minimal',
@@ -102,6 +105,9 @@ res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_
 
 # this is the part where we changed the dqs
 res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_adj___2023_08_16_17_27_57_545382"
+
+# this one after we implement STI coinfection rate changes
+res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_adj___2023_09_07_09_47_24_695802"
 
 sim.results.orig <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.orig,
