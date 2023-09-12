@@ -57,6 +57,9 @@ res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_M
 # This one is after implementing changes to STI Coinfection rates
 res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_risk_adj___2023_09_07_09_46_35_185996"
 
+# This one is trying to use CoitalActRiskFactors
+res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-CARF___2023_09_11_17_16_02_274260"
+
 sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.cmd,
   scenario_name = 'minimal',
@@ -108,6 +111,9 @@ res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_
 
 # this one after we implement STI coinfection rate changes
 res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_adj___2023_09_07_09_47_24_695802"
+
+# this one after we implement CoitalActRiskFactors - checking baseline is still baseline
+res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline___2023_08_04_13_37_25_577700"
 
 sim.results.orig <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.orig,
