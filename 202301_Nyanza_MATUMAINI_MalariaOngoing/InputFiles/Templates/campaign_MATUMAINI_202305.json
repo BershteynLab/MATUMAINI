@@ -30,13 +30,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.05999848,
-                        0.94000152
-                    ],
-                    ".Choice_Probabilities":[
-                        0.037628866,
-                        0.962371134
+                    ".Choice_Probabilities.SIS":[
+                        0.03983294,
+                        0.96016706
                     ],
                     "Choice_Probabilities":[
                         0.0430865,
@@ -72,13 +68,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.086288416,
-                        0.913711584
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.127656134,
-                        0.872343866
+                    ".Choice_Probabilities.SIS": [
+                        0.082084539,
+                        0.917915461
                     ],
                     "Choice_Probabilities": [
                         0.0867621,
@@ -114,13 +106,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.090171858,
-                        0.909828142
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.14182739,
-                        0.85817261
+                    ".Choice_Probabilities.SIS": [
+                        0.090599835,
+                        0.909400165
                     ],
                     "Choice_Probabilities": [
                         0.0932564,
@@ -156,13 +144,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.216421758,
-                        0.783578242
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.33053348,
-                        0.66946652
+                    ".Choice_Probabilities.SIS": [
+                        0.194215832,
+                        0.805784168
                     ],
                     "Choice_Probabilities": [
                         0.189299,
@@ -198,13 +182,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.132187731,
-                        0.867812269
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.2038864,
-                        0.7961136
+                    ".Choice_Probabilities.SIS": [
+                        0.126613616,
+                        0.873386384
                     ],
                     "Choice_Probabilities": [
                         0.121123,
@@ -240,13 +220,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.329555924,
-                        0.670444076
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.512204287,
-                        0.487795713
+                    ".Choice_Probabilities.SIS": [
+                        0.279395216,
+                        0.720604784
                     ],
                     "Choice_Probabilities": [
                         0.247914,
@@ -282,13 +258,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.150374532,
-                        0.849625468
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.180059999,
-                        0.819940001
+                    ".Choice_Probabilities.SIS": [
+                        0.113026757,
+                        0.886973243
                     ],
                     "Choice_Probabilities": [
                         0.10523,
@@ -324,13 +296,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.381291548,
-                        0.618708452
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.439202866,
-                        0.560797134
+                    ".Choice_Probabilities.SIS": [
+                        0.246677972,
+                        0.753322028
                     ],
                     "Choice_Probabilities": [
                         0.215467,
@@ -366,13 +334,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.150374532,
-                        0.849625468
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.2503458,
-                        0.7496542
+                    ".Choice_Probabilities.SIS": [
+                        0.152287681,
+                        0.847712319
                     ],
                     "Choice_Probabilities": [
                         0.14585,
@@ -408,13 +372,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.381291548,
-                        0.618708452
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.667896745,
-                        0.332103255
+                    ".Choice_Probabilities.SIS": [
+                        0.343241967,
+                        0.656758033
                     ],
                     "Choice_Probabilities": [
                         0.299053,
@@ -450,13 +410,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.331515009,
-                        0.668484991
+                    ".Choice_Probabilities.SIS": [
+                        0.194711355,
+                        0.805288645
                     ],
                     "Choice_Probabilities": [
                         0.179246,
@@ -492,13 +448,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.991839797,
-                        0.008160203
+                    ".Choice_Probabilities.SIS": [
+                        0.454950643,
+                        0.545049357
                     ],
                     "Choice_Probabilities": [
                         0.369688,
@@ -534,13 +486,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.304166667,
-                        0.695833333
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.651013545,
-                        0.348986455
+                    ".Choice_Probabilities.SIS": [
+                        0.336677874,
+                        0.663322126
                     ],
                     "Choice_Probabilities": [
                         0.287498,
@@ -576,13 +524,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.901234568,
-                        0.098765432
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        1.0,
-                        0.0
+                    ".Choice_Probabilities.SIS": [
+                        0.896671145,
+                        0.103328855
                     ],
                     "Choice_Probabilities": [
                         0.59456,
@@ -618,13 +562,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.084581105,
-                        0.915418895
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.130415348,
-                        0.869584652
+                    ".Choice_Probabilities.SIS": [
+                        0.083751296,
+                        0.916248704
                     ],
                     "Choice_Probabilities": [
                         0.0884435,
@@ -660,13 +600,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.202000851,
-                        0.797999149
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.299948596,
-                        0.700051404
+                    ".Choice_Probabilities.SIS": [
+                        0.178565248,
+                        0.821434752
                     ],
                     "Choice_Probabilities": [
                         0.179167,
@@ -702,13 +638,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.114478483,
-                        0.885521517
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.169583963,
-                        0.830416037
+                    ".Choice_Probabilities.SIS": [
+                        0.106959399,
+                        0.893040601
                     ],
                     "Choice_Probabilities": [
                         0.104338,
@@ -744,13 +676,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.280819467,
-                        0.719180533
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.408431329,
-                        0.591568671
+                    ".Choice_Probabilities.SIS": [
+                        0.2322984,
+                        0.7677016
                     ],
                     "Choice_Probabilities": [
                         0.212837,
@@ -786,13 +714,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.087370489,
-                        0.912629511
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.127362915,
-                        0.872637085
+                    ".Choice_Probabilities.SIS": [
+                        0.081907163,
+                        0.918092837
                     ],
                     "Choice_Probabilities": [
                         0.0770589,
@@ -828,13 +752,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.209178,
-                        0.790822
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.291903511,
-                        0.708096489
+                    ".Choice_Probabilities.SIS": [
+                        0.174379799,
+                        0.825620201
                     ],
                     "Choice_Probabilities": [
                         0.156945,
@@ -870,13 +790,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.27436083,
-                        0.72563917
+                    ".Choice_Probabilities.SIS": [
+                        0.16515158,
+                        0.83484842
                     ],
                     "Choice_Probabilities": [
                         0.162022,
@@ -912,13 +828,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.756190792,
-                        0.243809208
+                    ".Choice_Probabilities.SIS": [
+                        0.376271035,
+                        0.623728965
                     ],
                     "Choice_Probabilities": [
                         0.331506,
@@ -954,13 +866,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.322625982,
-                        0.677374018
+                    ".Choice_Probabilities.SIS": [
+                        0.190208608,
+                        0.809791392
                     ],
                     "Choice_Probabilities": [
                         0.17594,
@@ -996,13 +904,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.952578555,
-                        0.047421445
+                    ".Choice_Probabilities.SIS": [
+                        0.442707106,
+                        0.557292894
                     ],
                     "Choice_Probabilities": [
                         0.362624,
@@ -1038,13 +942,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.104361202,
-                        0.895638798
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.181631885,
-                        0.818368115
+                    ".Choice_Probabilities.SIS": [
+                        0.113932164,
+                        0.886067836
                     ],
                     "Choice_Probabilities": [
                         0.103257,
@@ -1080,13 +980,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.253672913,
-                        0.746327087
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.443887981,
-                        0.556112019
+                    ".Choice_Probabilities.SIS": [
+                        0.248835863,
+                        0.751164137
                     ],
                     "Choice_Probabilities": [
                         0.211823,
@@ -1122,13 +1018,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.065384615,
-                        0.934615385
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.112024926,
-                        0.887975074
+                    ".Choice_Probabilities.SIS": [
+                        0.072560867,
+                        0.927439133
                     ],
                     "Choice_Probabilities": [
                         0.0693344,
@@ -1164,13 +1056,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.153551101,
-                        0.846448899
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.252315475,
-                        0.747684525
+                    ".Choice_Probabilities.SIS": [
+                        0.15335298,
+                        0.84664702
                     ],
                     "Choice_Probabilities": [
                         0.140893,
@@ -1256,6 +1144,20 @@
                                 ]
                             },
                             {
+                                "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
+                                "class":"CoitalActRiskFactors",
+                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
+                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
+                                "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
+                                "Expiration_Constant": 365000,
+                                "Disqualifying_Properties": [
+                                    "CMDStatus:CMD_treated",
+                                    "CMDStatus:CMD_recovered"
+                                ]
+                            },
+                            {
                                 "Intervention_Name":"CMD reassign risk",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
@@ -1263,12 +1165,13 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    1.0,
-                                    0
+                                    0.0,
+                                    1.0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
-                                    "Risk:HIGH"
+                                    "Risk:HIGH",
+                                    "Risk:MEDIUM"
                                 ]
                             }
                         ]
@@ -1322,6 +1225,20 @@
                                 "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
                             },
                             {
+                                "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
+                                "class":"CoitalActRiskFactors",
+                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
+                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
+                                "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
+                                "Expiration_Constant": 365000,
+                                "Disqualifying_Properties": [
+                                    "CMDStatus:CMD_treated",
+                                    "CMDStatus:CMD_recovered"
+                                ]
+                            },
+                            {
                                 "Intervention_Name":"CMD reassign risk",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
@@ -1329,8 +1246,8 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    1.0,
-                                    0.0
+                                    0.0,
+                                    1.0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
@@ -1344,13 +1261,38 @@
             }
         },
         {
+            "Event_Name":"CMD upgrade STI Coinfection",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config":{
+                "class":"NodeSetAll"
+            },
+            "Start_Year":1985,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List":["CMD_ChangeRisk"],
+                    "Property_Restrictions":["Risk:LOW"],
+                    "Demographic_Coverage": 0.3,
+                    "Demographic_Coverage__KP_STI_Coinfection_MEDIUM_Risk": "<-- MARKER",
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"STIIsPostDebut",
+                        "Positive_Diagnosis_Config": { 
+                            "New_STI_CoInfection_Status": 1,
+                            "class": "ModifyStiCoInfectionStatus"
+                        }
+                    }
+                }
+            }
+        },
+        {
             "END":"CMD Incidence",
             "Event_Name":"CMD upgrade risk",
             "class":"CampaignEventByYear",
             "Nodeset_Config":{
                 "class":"NodeSetAll"
             },
-            "Start_Year":1960.5,
+            "Start_Year":1985,
             "Event_Coordinator_Config":{
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -1396,13 +1338,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.05999848,
-                        0.94000152
-                    ],
-                    ".Choice_Probabilities":[
-                        0.037628866,
-                        0.962371134
+                    ".Choice_Probabilities.SIS":[
+                        0.03983294,
+                        0.96016706
                     ],
                     "Choice_Probabilities":[
                         0.0430865,
@@ -1438,13 +1376,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.086288416,
-                        0.913711584
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.127656134,
-                        0.872343866
+                    ".Choice_Probabilities.SIS": [
+                        0.082084539,
+                        0.917915461
                     ],
                     "Choice_Probabilities": [
                         0.0867621,
@@ -1480,13 +1414,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.090171858,
-                        0.909828142
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.14182739,
-                        0.85817261
+                    ".Choice_Probabilities.SIS": [
+                        0.090599835,
+                        0.909400165
                     ],
                     "Choice_Probabilities": [
                         0.0932564,
@@ -1522,13 +1452,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.216421758,
-                        0.783578242
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.33053348,
-                        0.66946652
+                    ".Choice_Probabilities.SIS": [
+                        0.194215832,
+                        0.805784168
                     ],
                     "Choice_Probabilities": [
                         0.189299,
@@ -1564,13 +1490,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.132187731,
-                        0.867812269
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.2038864,
-                        0.7961136
+                    ".Choice_Probabilities.SIS": [
+                        0.126613616,
+                        0.873386384
                     ],
                     "Choice_Probabilities": [
                         0.121123,
@@ -1606,13 +1528,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.329555924,
-                        0.670444076
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.512204287,
-                        0.487795713
+                    ".Choice_Probabilities.SIS": [
+                        0.279395216,
+                        0.720604784
                     ],
                     "Choice_Probabilities": [
                         0.247914,
@@ -1648,13 +1566,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.150374532,
-                        0.849625468
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.180059999,
-                        0.819940001
+                    ".Choice_Probabilities.SIS": [
+                        0.113026757,
+                        0.886973243
                     ],
                     "Choice_Probabilities": [
                         0.10523,
@@ -1690,13 +1604,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.381291548,
-                        0.618708452
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.439202866,
-                        0.560797134
+                    ".Choice_Probabilities.SIS": [
+                        0.246677972,
+                        0.753322028
                     ],
                     "Choice_Probabilities": [
                         0.215467,
@@ -1732,13 +1642,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.150374532,
-                        0.849625468
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.2503458,
-                        0.7496542
+                    ".Choice_Probabilities.SIS": [
+                        0.152287681,
+                        0.847712319
                     ],
                     "Choice_Probabilities": [
                         0.14585,
@@ -1774,13 +1680,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.381291548,
-                        0.618708452
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.667896745,
-                        0.332103255
+                    ".Choice_Probabilities.SIS": [
+                        0.343241967,
+                        0.656758033
                     ],
                     "Choice_Probabilities": [
                         0.299053,
@@ -1816,13 +1718,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.331515009,
-                        0.668484991
+                    ".Choice_Probabilities.SIS": [
+                        0.194711355,
+                        0.805288645
                     ],
                     "Choice_Probabilities": [
                         0.179246,
@@ -1858,13 +1756,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.991839797,
-                        0.008160203
+                    ".Choice_Probabilities.SIS": [
+                        0.454950643,
+                        0.545049357
                     ],
                     "Choice_Probabilities": [
                         0.369688,
@@ -1900,13 +1794,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.304166667,
-                        0.695833333
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.651013545,
-                        0.348986455
+                    ".Choice_Probabilities.SIS": [
+                        0.336677874,
+                        0.663322126
                     ],
                     "Choice_Probabilities": [
                         0.287498,
@@ -1942,13 +1832,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.901234568,
-                        0.098765432
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        1.0,
-                        0.0
+                    ".Choice_Probabilities.SIS": [
+                        0.896671145,
+                        0.103328855
                     ],
                     "Choice_Probabilities": [
                         0.59456,
@@ -1984,13 +1870,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.084581105,
-                        0.915418895
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.130415348,
-                        0.869584652
+                    ".Choice_Probabilities.SIS": [
+                        0.083751296,
+                        0.916248704
                     ],
                     "Choice_Probabilities": [
                         0.0884435,
@@ -2026,13 +1908,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.202000851,
-                        0.797999149
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.299948596,
-                        0.700051404
+                    ".Choice_Probabilities.SIS": [
+                        0.178565248,
+                        0.821434752
                     ],
                     "Choice_Probabilities": [
                         0.179167,
@@ -2068,13 +1946,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.114478483,
-                        0.885521517
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.169583963,
-                        0.830416037
+                    ".Choice_Probabilities.SIS": [
+                        0.106959399,
+                        0.893040601
                     ],
                     "Choice_Probabilities": [
                         0.104338,
@@ -2110,13 +1984,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.280819467,
-                        0.719180533
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.408431329,
-                        0.591568671
+                    ".Choice_Probabilities.SIS": [
+                        0.2322984,
+                        0.7677016
                     ],
                     "Choice_Probabilities": [
                         0.212837,
@@ -2152,13 +2022,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.087370489,
-                        0.912629511
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.127362915,
-                        0.872637085
+                    ".Choice_Probabilities.SIS": [
+                        0.081907163,
+                        0.918092837
                     ],
                     "Choice_Probabilities": [
                         0.0770589,
@@ -2194,13 +2060,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.209178,
-                        0.790822
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.291903511,
-                        0.708096489
+                    ".Choice_Probabilities.SIS": [
+                        0.174379799,
+                        0.825620201
                     ],
                     "Choice_Probabilities": [
                         0.156945,
@@ -2236,13 +2098,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.27436083,
-                        0.72563917
+                    ".Choice_Probabilities.SIS": [
+                        0.16515158,
+                        0.83484842
                     ],
                     "Choice_Probabilities": [
                         0.162022,
@@ -2278,13 +2136,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.756190792,
-                        0.243809208
+                    ".Choice_Probabilities.SIS": [
+                        0.376271035,
+                        0.623728965
                     ],
                     "Choice_Probabilities": [
                         0.331506,
@@ -2320,13 +2174,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.322625982,
-                        0.677374018
+                    ".Choice_Probabilities.SIS": [
+                        0.190208608,
+                        0.809791392
                     ],
                     "Choice_Probabilities": [
                         0.17594,
@@ -2362,13 +2212,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.952578555,
-                        0.047421445
+                    ".Choice_Probabilities.SIS": [
+                        0.442707106,
+                        0.557292894
                     ],
                     "Choice_Probabilities": [
                         0.362624,
@@ -2404,13 +2250,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.104361202,
-                        0.895638798
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.181631885,
-                        0.818368115
+                    ".Choice_Probabilities.SIS": [
+                        0.113932164,
+                        0.886067836
                     ],
                     "Choice_Probabilities": [
                         0.103257,
@@ -2446,13 +2288,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.253672913,
-                        0.746327087
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.443887981,
-                        0.556112019
+                    ".Choice_Probabilities.SIS": [
+                        0.248835863,
+                        0.751164137
                     ],
                     "Choice_Probabilities": [
                         0.211823,
@@ -2488,13 +2326,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.065384615,
-                        0.934615385
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.112024926,
-                        0.887975074
+                    ".Choice_Probabilities.SIS": [
+                        0.072560867,
+                        0.927439133
                     ],
                     "Choice_Probabilities": [
                         0.0693344,
@@ -2531,13 +2365,9 @@
                         "CMD_Incidence1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.153551101,
-                        0.846448899
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.252315475,
-                        0.747684525
+                    ".Choice_Probabilities.SIS": [
+                        0.15335298,
+                        0.84664702
                     ],
                     "Choice_Probabilities": [
                         0.140893,
@@ -2576,17 +2406,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.05999848,
-                        0.94000152
-                    ],
-                    ".Choice_Probabilities":[
-                        0.037628866,
-                        0.962371134
-                    ],
-                    "Choice_Probabilities":[
+                    ".Choice_Probabilities.SIS": [
                         0.023870366,
                         0.976129634
+                    ],
+                    "Choice_Probabilities":[
+                        0.0260476,
+                        0.9739524
                     ]
                 }
             }
@@ -2618,17 +2444,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.086288416,
-                        0.913711584
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.127656134,
-                        0.872343866
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.049190141,
                         0.950809859
+                    ],
+                    "Choice_Probabilities": [
+                        0.0529357,
+                        0.9470643
                     ]
                 }
             }
@@ -2660,17 +2482,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.090171858,
-                        0.909828142
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.14182739,
-                        0.85817261
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.054293034,
                         0.945706966
+                    ],
+                    "Choice_Probabilities": [
+                        0.0569775,
+                        0.9430225
                     ]
                 }
             }
@@ -2702,17 +2520,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.216421758,
-                        0.783578242
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.33053348,
-                        0.66946652
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.116386159,
                         0.883613841
+                    ],
+                    "Choice_Probabilities": [
+                        0.118172,
+                        0.881828
                     ]
                 }
             }
@@ -2744,17 +2558,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.132187731,
-                        0.867812269
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.2038864,
-                        0.7961136
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.075874723,
                         0.924125277
+                    ],
+                    "Choice_Probabilities": [
+                        0.0744535,
+                        0.9255465
                     ]
                 }
             }
@@ -2786,17 +2596,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.329555924,
-                        0.670444076
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.512204287,
-                        0.487795713
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.167430923,
                         0.832569077
+                    ],
+                    "Choice_Probabilities": [
+                        0.156953,
+                        0.843047
                     ]
                 }
             }
@@ -2828,17 +2634,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.150374532,
-                        0.849625468
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.180059999,
-                        0.819940001
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.067732636,
                         0.932267364
+                    ],
+                    "Choice_Probabilities": [
+                        0.0644598,
+                        0.9355402
                     ]
                 }
             }
@@ -2870,17 +2672,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.381291548,
-                        0.618708452
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.439202866,
-                        0.560797134
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.147824724,
                         0.852175276
+                    ],
+                    "Choice_Probabilities": [
+                        0.135342,
+                        0.864658
                     ]
                 }
             }
@@ -2912,17 +2710,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.150374532,
-                        0.849625468
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.2503458,
-                        0.7496542
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.091260213,
                         0.908739787
+                    ],
+                    "Choice_Probabilities": [
+                        0.0901472,
+                        0.9098528
                     ]
                 }
             }
@@ -2954,17 +2748,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.381291548,
-                        0.618708452
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.667896745,
-                        0.332103255
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.205691853,
                         0.794308147
+                    ],
+                    "Choice_Probabilities": [
+                        0.191789,
+                        0.808211
                     ]
                 }
             }
@@ -2996,17 +2786,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.331515009,
-                        0.668484991
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.116683108,
                         0.883316892
+                    ],
+                    "Choice_Probabilities": [
+                        0.111636,
+                        0.888364
                     ]
                 }
             }
@@ -3038,17 +2824,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.991839797,
-                        0.008160203
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.272634612,
                         0.727365388
+                    ],
+                    "Choice_Probabilities": [
+                        0.24163,
+                        0.75837
                     ]
                 }
             }
@@ -3080,17 +2862,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.304166667,
-                        0.695833333
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.651013545,
-                        0.348986455
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.201758241,
                         0.798241759
+                    ],
+                    "Choice_Probabilities": [
+                        0.183831,
+                        0.816169
                     ]
                 }
             }
@@ -3122,17 +2900,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.901234568,
-                        0.098765432
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        1.0,
-                        0.0
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.537340904,
                         0.462659096
+                    ],
+                    "Choice_Probabilities": [
+                        0.417836,
+                        0.582164
                     ]
                 }
             }
@@ -3164,17 +2938,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.084581105,
-                        0.915418895
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.130415348,
-                        0.869584652
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.050188966,
                         0.949811034
+                    ],
+                    "Choice_Probabilities": [
+                        0.0539811,
+                        0.9460189
                     ]
                 }
             }
@@ -3206,17 +2976,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.202000851,
-                        0.797999149
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.299948596,
-                        0.700051404
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.107007359,
                         0.892992641
+                    ],
+                    "Choice_Probabilities": [
+                        0.111584,
+                        0.888416
                     ]
                 }
             }
@@ -3248,17 +3014,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.114478483,
-                        0.885521517
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.169583963,
-                        0.830416037
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.064096699,
                         0.935903301
+                    ],
+                    "Choice_Probabilities": [
+                        0.0639012,
+                        0.9360988
                     ]
                 }
             }
@@ -3290,17 +3052,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.280819467,
-                        0.719180533
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.408431329,
-                        0.591568671
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.139207593,
                         0.860792407
+                    ],
+                    "Choice_Probabilities": [
+                        0.133606,
+                        0.866394
                     ]
                 }
             }
@@ -3332,17 +3090,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.087370489,
-                        0.912629511
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.127362915,
-                        0.872637085
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.049083847,
                         0.950916153
+                    ],
+                    "Choice_Probabilities": [
+                        0.0469184,
+                        0.9530816
                     ]
                 }
             }
@@ -3374,17 +3128,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.209178,
                         0.790822
                     ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.291903511,
-                        0.708096489
-                    ],
                     "Choice_Probabilities": [
-                        0.104499179,
-                        0.895500821
+                        0.0972487,
+                        0.9027513
                     ]
                 }
             }
@@ -3416,17 +3166,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.27436083,
-                        0.72563917
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.098969059,
                         0.901030941
+                    ],
+                    "Choice_Probabilities": [
+                        0.10051,
+                        0.89949
                     ]
                 }
             }
@@ -3458,17 +3204,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.756190792,
-                        0.243809208
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.225484916,
                         0.774515084
+                    ],
+                    "Choice_Probabilities": [
+                        0.214425,
+                        0.785575
                     ]
                 }
             }
@@ -3500,17 +3242,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.181800766,
-                        0.818199234
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.322625982,
-                        0.677374018
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.113984782,
                         0.886015218
+                    ],
+                    "Choice_Probabilities": [
+                        0.109493,
+                        0.890507
                     ]
                 }
             }
@@ -3542,17 +3280,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.474974975,
-                        0.525025025
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.952578555,
-                        0.047421445
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.265297526,
                         0.734702474
+                    ],
+                    "Choice_Probabilities": [
+                        0.236548,
+                        0.763452
                     ]
                 }
             }
@@ -3584,17 +3318,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.104361202,
-                        0.895638798
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.181631885,
-                        0.818368115
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.068275211,
                         0.931724789
+                    ],
+                    "Choice_Probabilities": [
+                        0.0632239,
+                        0.9367761
                     ]
                 }
             }
@@ -3626,17 +3356,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.253672913,
-                        0.746327087
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.443887981,
-                        0.556112019
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.149117866,
                         0.850882134
+                    ],
+                    "Choice_Probabilities": [
+                        0.132937,
+                        0.867063
                     ]
                 }
             }
@@ -3668,17 +3394,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.065384615,
-                        0.934615385
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.112024926,
-                        0.887975074
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.043482967,
                         0.956517033
+                    ],
+                    "Choice_Probabilities": [
+                        0.0421462,
+                        0.9578538
                     ]
                 }
             }
@@ -3711,86 +3433,13 @@
                         "CMD_Relapse1",
                         "CMD_NoIncidence"
                     ],
-                    ".Choice_Probabilities": [
-                        0.153551101,
-                        0.846448899
-                    ],
-                    ".Choice_Probabilities.SDHR": [
-                        0.252315475,
-                        0.747684525
-                    ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities.SIS": [
                         0.091898607,
                         0.908101393
-                    ]
-                }
-            }
-        }, 
-        {
-            "BEGIN":"CMD Relapse After Treatment",
-            "COMMENT":"People in CMDStatus:CMD_treated get moved to CMD_treated_pos",
-            "Event_Name": "CMD relapse after treatment - Males",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1960.5,
-            "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions":["CMDStatus:CMD_treated"],
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
-                "Timesteps_Between_Repetitions": 12,
-                "Number_Repetitions": -1,
-                "Target_Demographic": "ExplicitAgeRangesAndGender",
-                "Target_Age_Min": 18,
-                "Target_Age_Max": 99,
-                "Target_Gender": "Male",
-                "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Relapse1",
-                        "CMD_NoIncidence"
                     ],
-                    "Choice_Probabilities":[
-                        0.2294327957,
-                        0.770567205
-                    ]
-                }
-            }
-        },
-        {
-            "COMMENT":"People in CMDStatus:CMD_treated get moved back to CMD_pos",
-            "Event_Name": "CMD relapse after treatment - Females",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1960.5,
-            "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions":["CMDStatus:CMD_treated"],
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
-                "Timesteps_Between_Repetitions": 12,
-                "Number_Repetitions": -1,
-                "Target_Demographic": "ExplicitAgeRangesAndGender",
-                "Target_Age_Min": 18,
-                "Target_Age_Max": 99,
-                "Target_Gender": "Female",
-                "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Relapse1",
-                        "CMD_NoIncidence"
-                    ],
-                    "Choice_Probabilities":[
-                        0.2294327957,
-                        0.770567205
+                    "Choice_Probabilities": [
+                        0.0869868,
+                        0.9130132
                     ]
                 }
             }
@@ -3859,6 +3508,20 @@
                                 "Choice_Probabilities__KP_treatment_after_relapse":"<== marker"
                             },
                             {
+                                "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
+                                "class":"CoitalActRiskFactors",
+                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
+                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
+                                "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
+                                "Expiration_Constant": 365000,
+                                "Disqualifying_Properties": [
+                                    "CMDStatus:CMD_treated",
+                                    "CMDStatus:CMD_recovered"
+                                ]
+                            },
+                            {
                                 "Intervention_Name":"CMD reassign risk",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
@@ -3866,12 +3529,13 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    1.0,
-                                    0.0
+                                    0.0,
+                                    1.0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
-                                    "Risk:HIGH"
+                                    "Risk:HIGH",
+                                    "Risk:MEDIUM"
                                 ]
                             }
                         ]
@@ -4032,7 +3696,7 @@
             "Nodeset_Config": {
                 "class":"NodeSetAll"
             },
-            "Start_Year": 1960.5,
+            "Start_Year": 1985,
             "Event_Coordinator_Config":{
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -4043,6 +3707,9 @@
                     ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
+                        "Disqualifying_Properties": [
+                            "Risk:HIGH"
+                        ],
                         "Choice_Names": [
                             "CMD_ChangeRiskBack",
                             "CMD_ChangeRisk_dummy"
@@ -4249,6 +3916,54 @@
                         ],
                         "Choice_Probabilities__KP_RiskChoice_Siaya": "<-- MARKER"
 
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD recovery adjust to low risk STI coinfection",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config":{
+                "class":"NodeSetAll"
+            },
+            "Start_Year":1985,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List":["CMD_MoveToLowRisk"],
+                    "Demographic_Coverage": 0.1,
+                    "Demographic_Coverage__KP_STI_Coinfection_LOW_Risk": "<-- MARKER",
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"STIIsPostDebut",
+                        "Positive_Diagnosis_Config": { 
+                            "New_STI_CoInfection_Status": 1,
+                            "class": "ModifyStiCoInfectionStatus"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD recovery adjust to medium risk STI coinfection",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config":{
+                "class":"NodeSetAll"
+            },
+            "Start_Year":1985,
+            "Event_Coordinator_Config":{
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List":["CMD_MoveToMediumRisk"],
+                    "Demographic_Coverage": 0.1,
+                    "Demographic_Coverage__KP_STI_Coinfection_MEDIUM_Risk": "<-- MARKER",
+                    "Actual_IndividualIntervention_Config":{
+                        "class":"STIIsPostDebut",
+                        "Positive_Diagnosis_Config": { 
+                            "New_STI_CoInfection_Status": 1,
+                            "class": "ModifyStiCoInfectionStatus"
+                        }
                     }
                 }
             }
