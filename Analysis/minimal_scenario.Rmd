@@ -21,10 +21,10 @@ Test case will be the "minimal scenario," which includes
   1. Age/sex-specific annual incidence of depression
   2. HIV+ status also increases depression incidence
   3. Relapse rate equal to incidence rate
-2. Depression-caused increased risky sexual behavior (promoting LOW to MEDIUM risk upon depression incidence)
+2. Depression-caused increase to incidence - CoitalActRiskFactor increases from 1 to 1.646
 3. Depression-caused delays to diagnosis (2/3 of depressed skip diagnosis)
-3. Depression-caused dropout from ART (mean time 5 years for depressed, 10 years for non-depressed)
-4. Depression-caused non-adherence to ART
+4. Depression-caused dropout from ART (mean time 5 years for depressed, 10 years for non-depressed)
+5. Depression-caused non-adherence to ART
 
 Treatment and effects of HIV on depression are not included.
 
@@ -35,30 +35,8 @@ Treatment and effects of HIV on depression are not included.
 
 ## Read in the data
 ```{r}
-# Original minimal scenario run
-#res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal___2023_07_31_18_44_08_900970"
-# New minimal scenario run, with risk breakdown
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal___2023_08_04_13_38_20_386959"
-
-# This is the minimal scenario run, having reverted
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal___2023_08_09_16_24_08_464534"
-# This is the minimal scenario, 1960-1990
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_early___2023_08_10_11_55_53_679238"
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_early___2023_08_10_16_28_16_505795"
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_early___2023_08_10_17_49_23_487771"
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_risk_adj___2023_08_11_11_26_34_622526"
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_risk_adj___2023_08_14_14_01_50_505039"
-# reverting back
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-check_risk_adj_minimal___2023_08_15_16_00_49_810651"
-# This one is after replacing the dqs
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_risk_adj___2023_08_16_17_26_59_961531"
-
-
-# This one is after implementing changes to STI Coinfection rates
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_risk_adj___2023_09_07_09_46_35_185996"
-
-# This one is trying to use CoitalActRiskFactors
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-CARF___2023_09_11_17_16_02_274260"
+# Minimal scenario run
+res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal___2023_09_12_13_07_34_073192"
 
 sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.cmd,
@@ -89,35 +67,12 @@ sim.results <- sim.results %>%
 ```
 
 ```{r}
-# Original minimal scenario run
-#res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal___2023_07_31_18_44_08_900970"
-# New minimal scenario run, with risk breakdown
-# res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal___2023_08_04_13_38_20_386959"
-
-# No risk
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk___2023_08_09_16_24_59_917797"
-# 1960-1990 only
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_early___2023_08_10_11_56_26_611511"
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_early___2023_08_10_16_28_47_883536"
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_early___2023_08_10_17_49_57_480807"
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_adj___2023_08_11_11_27_11_280838"
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_adj___2023_08_14_14_02_24_314984"
-
-# reverting back
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-check_risk_adj_baseline___2023_08_15_16_01_42_368639"
-
-# this is the part where we changed the dqs
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_adj___2023_08_16_17_27_57_545382"
-
-# this one after we implement STI coinfection rate changes
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-norisk_adj___2023_09_07_09_47_24_695802"
-
-# this one after we implement CoitalActRiskFactors - checking baseline is still baseline
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline___2023_08_04_13_37_25_577700"
+# Original run
+res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline___2023_09_12_13_06_44_626990"
 
 sim.results.orig <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.orig,
-  scenario_name = 'norisk',
+  scenario_name = 'baseline',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -143,6 +98,11 @@ sim.results.orig <- sim.results.orig %>%
 
 ```
 
+Combine datasets:
+```{r}
+sim.results <- rbind(sim.results, sim.results.orig)
+```
+
 
 ## HIV Prevalence over time
 
@@ -157,115 +117,46 @@ obs.prev.sheet.base <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-Pr
 #p <- EMODAnalyzeR::emodplot.prevalence(sim.results %>% filter(Age <= 50, Age >=15), 
 #                                       1990, 20240)
 p <- EMODAnalyzeR::emodplot.prevalence(sim.results %>% filter(Age <= 50, Age >=15), 
-                                       1980, 2010)
+                                       1980, 2040)
 
 p +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
     ylab("HIV Prevalence (%)") + 
+  scale_color_manual(values=c("blue","red")) +
   geom_point(data = obs.prev.sheet.base %>%
                filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
              mapping = aes(x = Year, y = Prevalence)) + 
   geom_errorbar(data = obs.prev.sheet.base %>%
              filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
              mapping = aes(x = Year, ymin = lb, ymax = ub))
+
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_HIV_prev.pdf",
+       width = 8, height = 6, units = "in")
 ```
-
-```{r, fig.width=8}
-data.orig <- sim.results.orig %>% filter(Age <= 50, Age >= 15) %>% 
-  group_by(Year, Gender, sim.id) %>% 
-  summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'keep') %>% 
-  mutate(Prevalence = case_when(Population == 0 ~ 0,
-                                Population > 0 ~ Infected/Population)) %>% 
-  group_by(Year, Gender) %>% 
-  summarize(Prevalence = mean(Prevalence), .groups = 'keep') %>% 
-  ungroup() %>% 
-  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-
-# p <- EMODAnalyzeR::emodplot.prevalence(sim.results %>% filter(Age <= 50, Age >=15), 
-#                                        1990, 2040)
-p <- EMODAnalyzeR::emodplot.prevalence(sim.results %>% filter(Age <= 50, Age >=15), 
-                                       1980, 2010)
-
-p +
-  geom_line(data.orig %>% filter(Year >= 1980), mapping = aes(x = Year, y = Prevalence), color = 'red', size = 1) + 
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
-    ylab("HIV Prevalence (%)") +
-  geom_point(data = obs.prev.sheet.base %>%
-               filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
-             mapping = aes(x = Year, y = Prevalence)) +
-  geom_errorbar(data = obs.prev.sheet.base %>%
-             filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
-             mapping = aes(x = Year, ymin = lb, ymax = ub))
-```
-
-```{r}
-merge(
-  sim.results %>% filter(Age >= 15, Age <= 50) %>% 
-    EMODAnalyzeR::calculate.prevalence() %>% 
-    group_by(Year, Gender) %>% summarize(Prevalence = mean(Prevalence)),
-  sim.results.orig %>% filter(Age >= 15, Age <= 50) %>% 
-    EMODAnalyzeR::calculate.prevalence() %>% 
-    group_by(Year, Gender) %>% summarize(Prevalence = mean(Prevalence)),
-  by = c("Year", "Gender")
-)
-```
-
 
 ### Prevalence broken down by risk group
 ```{r}
-data <- sim.results %>% EMODAnalyzeR::calculate.prevalence(stratify_columns = c("Year", "Gender", "sim.id", "IP_Key.Risk"))
+data <- sim.results %>% 
+  EMODAnalyzeR::calculate.prevalence(stratify_columns = c("Year", "Gender", "sim.id", "scenario_name", "IP_Key.Risk")) 
 
 data.mean <- data %>%
     dplyr::group_by(Year, Gender, IP_Key.Risk) %>%
-    dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep')
+    dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep') %>% 
+    ungroup() %>% 
+    mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
 
 ggplot() + 
-  geom_line(data.mean, mapping = aes(x = Year, y = Prevalence, color = IP_Key.Risk)) + 
+  geom_line(data.mean, mapping = aes(x = Year, y = Prevalence, color = IP_Key.Risk),
+            size = 2 ) + 
   facet_wrap(~ Gender, ncol = 2) + 
   xlab("Year")+
   #xlim(c(date.start, date.end)) +
-  ylab("Prevalence by Risk Group")+
+  ylab("HIV Prevalence by Risk Group")+
   theme_bw(base_size=16) +
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  scale_x_continuous(breaks = seq(1980,2010,10)) +
-  xlim(1980, 2010) + 
-  theme(legend.position="bottom") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(strip.background = element_rect(colour="black", fill="white")) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-```
-
-
-```{r, fig.height=8}
-data <- sim.results %>% EMODAnalyzeR::calculate.prevalence(stratify_columns = c("Year", "Gender", "sim.id", "IP_Key.Risk"))
-
-data.mean <- data %>%
-    dplyr::group_by(Year, Gender, IP_Key.Risk) %>%
-    dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep')
-
-data.orig <- sim.results.orig %>% EMODAnalyzeR::calculate.prevalence(stratify_columns = c("Year", "Gender", "sim.id", "IP_Key.Risk"))
-
-data.mean.orig <- data.orig %>%
-    dplyr::group_by(Year, Gender, IP_Key.Risk) %>%
-    dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep')
-
-dat = rbind(
-  data.mean %>% mutate(scenario = "Risk Adjustment"),
-  data.mean.orig %>% mutate(scenario = "No Risk Adjustment")
-) %>% 
-  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-
-ggplot() + 
-  geom_line(dat, mapping = aes(x = Year, y = Prevalence, color = scenario), size = 2) + 
-  facet_wrap(IP_Key.Risk~ Gender, ncol = 2, scales = "free_y") + 
-  xlab("Year")+
-  #xlim(c(date.start, date.end)) +
-  ylab("Prevalence by Risk Group")+
-  theme_bw(base_size=16) +
-  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  scale_x_continuous(breaks = seq(1980,2010,10)) +
-  xlim(1980, 2010) + 
+  scale_x_continuous(breaks = seq(1990,2020,10)) +
+  xlim(1990, 2020) + 
   theme(legend.position="bottom") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
@@ -279,7 +170,7 @@ ggplot() +
 age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65)
 subset_years = c(2003, 2007, 2008, 2012, 2018)
 
-p <- EMODAnalyzeR::emodplot.age_prevalence(sim.results, 
+p <- EMODAnalyzeR::emodplot.age_prevalence(sim.results %>% filter(scenario_name == "minimal"), 
                                            subset_years = subset_years, 
                                            age_bins = age_bins,
                                            title = "HIV Age-Prevalence Curves")
@@ -290,9 +181,11 @@ p + theme(aspect.ratio = .15) +
            Gender %in% c("Male", "Female"),  
            AgeBin != "[15:50)") %>% 
     mutate(AgeBin_index = factor(AgeBin, labels = 1:10)),
-  mapping = aes(x = AgeBin_index, y = Prevalence))
+  mapping = aes(x = AgeBin_index, y = Prevalence)) + 
+  scale_color_manual(values="blue")
 
-
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_HIV_age_prev.pdf",
+       width = 8, height = 6, units = "in")
 ```
 
 ## Numbers on ART over time 
@@ -330,7 +223,11 @@ p +
               summarize(OnART = sum(OnART)) %>% ungroup() %>% 
               mutate(lb = OnART - OnART/5,
                      ub = OnART + OnART/5),
-              mapping = aes(x = Year, ymin = lb, ymax = ub))
+              mapping = aes(x = Year, ymin = lb, ymax = ub)) + 
+  scale_color_manual(values = c("blue","red"))
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_onART.pdf",
+       width = 8, height = 6, units = "in")
 ```
 ## 90-90-90 
 
@@ -349,7 +246,11 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 2000, 2040,
                         "Diagnosed", title = "Diagnosed PLHIV") 
 
 p + scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
-    ylab("% PLHIV Diagnosed")
+    ylab("% PLHIV Diagnosed") + 
+  scale_color_manual(values = c("blue","red"))
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_diagnosed.pdf",
+       width = 8, height = 6, units = "in")
 ```
 
 ### ART coverage over time
@@ -367,7 +268,11 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 2000, 2040,
                         "On_ART", title = "ART Coverage") 
 
 p + scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
-    ylab("% Diagnosed and On ART")
+    ylab("% Diagnosed and On ART") + 
+  scale_color_manual(values = c("blue","red"))
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_art_coverage.pdf",
+       width = 8, height = 6, units = "in")
 ```
 
 ## Incidence
@@ -388,16 +293,20 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 1990, 2040,
                         "NewCases", title = "New HIV Infections") 
 
 p + #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
-    ylab("")
+    ylab("") + 
+  scale_color_manual(values = c("blue","red"))
 
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_HIV_new_cases.pdf",
+       width = 8, height = 6, units = "in")
 ```
 
 
 ### Incidence by Depression Status
 
  
-```{r}
-data <- sim.results %>% filter(Age == 20)%>%
+```{r, fig.width=8}
+data <- sim.results %>% #filter(scenario_name == "minimal")%>%
   mutate(Year_Integer = floor(Year-.5)) %>% 
   mutate(cmd = case_when(IP_Key.CMDStatus == 'CMD_pos' ~ "Depressed",
                          IP_Key.CMDStatus != 'CMD_pos' ~ "Not Depressed")) %>% 
@@ -435,7 +344,7 @@ p = ggplot() +
   # geom_line(data.mean, mapping = aes(x = Year, y = Incidence - Incidence.sd, color = cmd), 
   #   size = 1.0) + 
   #scale_y_continuous(limits = c(0.05,.22)) + 
-  facet_wrap(~ Gender, ncol=2) +
+  facet_wrap(scenario_name~ Gender, ncol=2) +
   xlab("Year")+ylab("") + 
   ggtitle("Incidence Rate by Depression Status") + 
   theme_bw(base_size=16) +
@@ -452,7 +361,8 @@ p
 ### Percent low and medium risk by depression status
 ```{r, fig.height=8, fig.width=6}
 
-data.pop <- sim.results %>% group_by(Year, Gender, sim.id, IP_Key.Risk) %>% 
+data.pop <- sim.results %>% filter(scenario_name == "minimal") %>% 
+  group_by(Year, Gender, sim.id, IP_Key.Risk) %>% 
   summarize(Population = sum(Population * pop.scaling.factor), .groups = 'keep') %>% 
   group_by(Year, Gender, IP_Key.Risk) %>% 
   summarize(total.pop = mean(Population)) %>% ungroup()
@@ -479,7 +389,7 @@ data %>%
   theme_bw(base_size=16) +
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
   scale_x_continuous(breaks = seq(1990,2040,10)) +
-  scale_y_continuous(limits = c(0,.25)) + 
+  scale_y_continuous(limits = c(0,1)) + 
   theme(legend.position="bottom") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
@@ -487,9 +397,7 @@ data %>%
 
 ```
 
-```{r}
-data %>% filter(IP_Key.Risk == "LOW")
-```
+
 ### Population of each risk group over time
 ```{r}
 # sim.results <- merge(
@@ -499,15 +407,15 @@ data %>% filter(IP_Key.Risk == "LOW")
 # )
 
 data <- sim.results %>% 
-  group_by(Year, Gender, IP_Key.Risk, sim.id) %>% 
+  group_by(Year, Gender, IP_Key.Risk, scenario_name, sim.id) %>% 
   #summarize(Population = sum(Population * pop.scaling.factor), .groups = 'keep') %>% 
   summarize(Population = sum(Population), .groups = 'keep') %>% 
-  group_by(Year, Gender, IP_Key.Risk) %>% 
+  group_by(Year, Gender, IP_Key.Risk, scenario_name, ) %>% 
   summarize(Population = mean(Population), .groups = 'keep')
 
 ggplot() + 
   geom_line(data, mapping = aes(x = Year, y = Population, color = IP_Key.Risk)) + 
-  facet_wrap(~ Gender) +   
+  facet_wrap(scenario_name ~ Gender) +   
   scale_x_continuous(breaks = seq(1980,2010,5)) +
   theme(legend.position="bottom") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
@@ -515,52 +423,6 @@ ggplot() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + theme_bw(base_size=16)
 ```
 
-
-```{r}
-# sim.results.orig <- merge(
-#   sim.results.orig %>% group_by(Year, Gender, sim.ix) %>% summarize(total.pop = sum(Population), .groups = 'keep') %>% ungroup(),
-#   sim.results.orig,
-#   by = c("Year", "Gender", "sim.ix")
-# )
-
-data.orig <- sim.results.orig %>% 
-  group_by(Year, Gender, IP_Key.Risk, sim.id) %>% 
-  #summarize(Population = sum(Population * pop.scaling.factor), .groups = 'keep') %>% 
-  summarize(Population = sum(Population), .groups = 'keep') %>% 
-  group_by(Year, Gender, IP_Key.Risk) %>% 
-  summarize(Population = mean(Population), .groups = 'keep')
-
-ggplot() + 
-  geom_line(data.orig, mapping = aes(x = Year, y = Population, color = IP_Key.Risk)) + 
-  facet_wrap(~ Gender) +   
-  scale_x_continuous(breaks = seq(1980,2010,5)) +
-  theme(legend.position="bottom") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(strip.background = element_rect(colour="black", fill="white")) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + theme_bw(base_size=16)
-```
-
-```{r, fig.height=8}
-ggplot() + 
-  geom_line(data , mapping = aes(x = Year, y = Population), color = 'blue') + 
-  geom_line(data.orig, mapping = aes(x = Year, y = Population), color = 'red') + 
-  facet_wrap(IP_Key.Risk ~ Gender, ncol = 2, scales = 'free_y') +   
-  scale_x_continuous(breaks = seq(1980,2010,5)) +
-  theme(legend.position="bottom") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(strip.background = element_rect(colour="black", fill="white")) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + theme_bw(base_size=16)
-```
-
- 
-```{r}
-data %>% filter( Year == 1980.5, IP_Key.Risk == "HIGH")
-```
-```{r}
-data.orig %>% filter( Year == 1980.5, IP_Key.Risk == "HIGH")
-```
-
- 
 ### Incidence by Depression Status and Risk Group
 
 ```{r, fig.height=8, fig.width = 6}
@@ -687,12 +549,17 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 1990, 2040,
                         "NewCases", title = "HIV deaths") 
 
 p + #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
-    ylab("")
+    ylab("") + 
+  scale_color_manual(values = c("blue","red"))
+
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_HIV_deaths.pdf",
+       width = 8, height = 6, units = "in")
 ```
 
 
 ## Depression Prevalence over time
-```{r}
+```{r, fig.width=6, fig.height=8}
 data.cmd <- sim.results %>% filter(Age > 18) %>% 
   mutate(HIVneg = Population - Infected) %>% 
   group_by(Year, Gender, sim.id, IP_Key.CMDStatus, scenario_name) %>% 
@@ -715,7 +582,7 @@ data.cmd <- sim.results %>% filter(Age > 18) %>%
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
 
 data.cmd.mean <- data.cmd %>% 
-  group_by(Year, Gender) %>%
+  group_by(Year, Gender, scenario_name) %>%
   summarize(Overall = mean(CMD_prev_overall), Overall_sd = sd(CMD_prev_overall),
             HIVneg = mean(CMD_prev_HIVneg), HIVneg_sd = sd(CMD_prev_HIVneg),
             Infected = mean(CMD_prev_Infected), Infected_sd = sd(CMD_prev_Infected),
@@ -725,14 +592,14 @@ data.cmd.mean <- data.cmd %>%
 # Plot  
 p = ggplot() +
   geom_line( data = data.cmd.mean %>% 
-                    select(Year, Gender, Overall, Infected, HIVneg) %>% 
+                    select(Year, Gender, Overall, Infected, HIVneg, scenario_name) %>% 
                     pivot_longer(cols = c(Overall, Infected, HIVneg),
                                  names_to = "Depression.Prevalence", 
                                  values_to = "CMD_prev"),
     mapping = aes(x = Year, y = CMD_prev, color = Depression.Prevalence), 
     size = 1.0) + 
   scale_y_continuous(limits = c(0.05,.22)) + 
-  facet_wrap(~ Gender, ncol=2) +
+  facet_wrap(scenario_name ~ Gender, ncol=2) +
   xlab("Year")+ylab("") + 
   ggtitle("Depression Prevalence by HIV status") + 
   theme_bw(base_size=16) +
@@ -744,29 +611,10 @@ p = ggplot() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 p
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_prev.pdf",
+       width = 8, height = 8, units = "in")
 ```
-
-```{r}
-p = ggplot() +
-  geom_line( data = data.cmd.mean, size=1.0, 
-             aes(x=Year, y=Overall), color = 'darkgreen') +
-  geom_errorbar(data= data.cmd.mean %>% mutate(lb = Overall - Overall_sd, ub = Overall + Overall_sd), 
-                mapping = aes(x = Year, ymin = lb, ymax = ub), color="darkgreen", width=.5, size=.5) +
-  scale_y_continuous(limits = c(0.07,.11)) + 
-  facet_wrap(~ Gender, ncol=2) +
-  xlab("Year") + ylab("Depression Prevalence") + 
-  ggtitle("Depression Prevalence, general population") + 
-  theme_bw(base_size=16) +
-  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  scale_x_continuous(breaks = seq(1990,2040,10)) +
-  theme(legend.position="bottom") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(strip.background = element_rect(colour="black", fill="white")) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-p
-```
-
 
 ## Depression Age-Prevalence Curves
 
@@ -835,6 +683,7 @@ cmd.data.age.mean <- cmd.data.age %>%
 )
 
 p <- cmd.data.age.mean %>% 
+  filter(scenario_name == "minimal") %>% 
   ggplot() + 
   geom_point(mapping = aes(x = AgeBin_index, y = mean.Overall), 
              size = 2, color = 'darkgreen') + 
@@ -858,80 +707,10 @@ p +
              mapping = aes(x = AgeBin_index, y = CMDPrevalence), color = 'orange', size = 3) + 
   ylab("Depression Prevalence by Age")
 
-```
-
-# Comparison against baseline
-
-The baseline model has no interactions between Depression->HIV, so we can perform a direct comparison between baseline and the minimal scenario to see whether we have a marginal increase in HIV prevalence by adding those interactions
-
-## Read in the data
-```{r}
-# Baseline scenario run
-res.path.base = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline___2023_08_04_13_37_25_577700"
-
-sim.results.base <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  res.path.base,
-  scenario_name = 'baseline',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus","IP_Key.Risk"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-
-CENSUS_YEAR = 2009
-KEN_CENSUS_POP = 5352385
-
-sim.results.pop.scaling <- sim.results.base %>% 
-      filter(Year == CENSUS_YEAR) %>%
-      group_by(sim.id) %>%
-      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
-      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
-
-sim.results.base <- sim.results.base %>% 
-  inner_join(
-    sim.results.pop.scaling,
-    by = c("sim.id")
-  )
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_age_prev.pdf",
+       width = 8, height = 8, units = "in")
 
 ```
-
-
-## HIV prevalence over time
-
-```{r, fig.width=8}
-# Convert baseline simulation results to plottable format:
-data <- sim.results.base %>% 
-  filter(Age <= 50, Age >=15) %>% 
-  group_by(Year, Gender, scenario_name, sim.id) %>% 
-  summarize(Infected = sum(Infected), 
-            Population = sum(Population), .groups = 'keep') %>% 
-  ungroup() %>% 
-  mutate(Prevalence = case_when(Population == 0 ~ 0,
-                                Population > 0 ~ Infected/Population))
-
-data.mean <- data %>% 
-  group_by(Year, Gender, scenario_name) %>% 
-  summarize(Prevalence = mean(Prevalence), Prevalence.sd = sd(Prevalence), .groups = 'keep') %>% 
-  ungroup()  %>% 
-  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-
-p <- EMODAnalyzeR::emodplot.prevalence(sim.results %>% filter(Age <= 50, Age >=15), 
-                                       1990, 2040)
-p +
-  # geom_line(data = data.mean,
-  #           mapping = aes(x = Year, y = Prevalence), color = 'red') + 
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
-    ylab("HIV Prevalence (%)") +
-  geom_point(data = obs.prev.sheet.base %>%
-               filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
-             mapping = aes(x = Year, y = Prevalence)) + 
-  geom_errorbar(data = obs.prev.sheet.base %>%
-             filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
-             mapping = aes(x = Year, ymin = lb, ymax = ub))
-```
-
 
 # Examine event recorder
 
@@ -942,60 +721,3 @@ event.rec %>% filter(Event_Name == "CMD_ChangeRisk") %>% count(Risk)
 
 event.rec %>% filter(Event_Name == "CMD_ChangeRiskBack") %>% count(Risk)
 ```
-
-## Depression Prevalence Over Time
-
-```{r}
-data.cmd <- sim.results.orig %>% filter(Age > 18) %>% 
-  mutate(HIVneg = Population - Infected) %>% 
-  group_by(Year, Gender, sim.id, IP_Key.CMDStatus, scenario_name) %>% 
-  summarize(Population = sum(Population),
-            HIVneg = sum(HIVneg),
-            Infected = sum(Infected), .groups = 'keep') %>% 
-  ungroup() %>% 
-  pivot_wider(id_cols = c(Year, Gender, sim.id, scenario_name),
-              names_from = c(IP_Key.CMDStatus),
-              values_from = c(Population, HIVneg, Infected))  %>% 
-  mutate(Population_total = Population_CMD_pos + Population_CMD_neg + Population_CMD_recovered + Population_CMD_treated,
-         HIVneg_total = HIVneg_CMD_pos + HIVneg_CMD_neg + HIVneg_CMD_recovered + HIVneg_CMD_treated,
-         Infected_total = Infected_CMD_pos + Infected_CMD_neg + Infected_CMD_recovered + Infected_CMD_treated) %>% 
-  mutate(CMD_prev_overall = case_when(Population_total == 0 ~ 0,
-                                    Population_total > 0 ~ Population_CMD_pos/Population_total),
-         CMD_prev_HIVneg = case_when(HIVneg_total == 0 ~ 0,
-                                    HIVneg_total > 0 ~ HIVneg_CMD_pos/HIVneg_total),
-         CMD_prev_Infected = case_when(Infected_total == 0 ~ 0,
-                                    Infected_total > 0 ~ Infected_CMD_pos/Infected_total)) %>% 
-  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-
-data.cmd.mean <- data.cmd %>% 
-  group_by(Year, Gender) %>%
-  summarize(Overall = mean(CMD_prev_overall), Overall_sd = sd(CMD_prev_overall),
-            HIVneg = mean(CMD_prev_HIVneg), HIVneg_sd = sd(CMD_prev_HIVneg),
-            Infected = mean(CMD_prev_Infected), Infected_sd = sd(CMD_prev_Infected),
-            .groups = "keep") %>% 
-  ungroup()
-
-# Plot  
-p = ggplot() +
-  geom_line( data = data.cmd.mean %>% 
-                    select(Year, Gender, Overall, Infected, HIVneg) %>% 
-                    pivot_longer(cols = c(Overall, Infected, HIVneg),
-                                 names_to = "Depression.Prevalence", 
-                                 values_to = "CMD_prev"),
-    mapping = aes(x = Year, y = CMD_prev, color = Depression.Prevalence), 
-    size = 1.0) + 
-  scale_y_continuous(limits = c(0.05,.22)) + 
-  facet_wrap(~ Gender, ncol=2) +
-  xlab("Year")+ylab("") + 
-  ggtitle("Depression Prevalence by HIV status") + 
-  theme_bw(base_size=16) +
-  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  scale_x_continuous(breaks = seq(1980,2040,10)) +
-  theme(legend.position="bottom") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(strip.background = element_rect(colour="black", fill="white")) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-p
-```
-
