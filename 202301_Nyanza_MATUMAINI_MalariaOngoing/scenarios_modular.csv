@@ -1,6 +1,2 @@
-Scenario,Campaign,Choice_Probabilities__KP_TreatmentTable,Choice_Probabilities__KP_CMD_reassign,Choice_Probabilities__KP_ChangeRiskBack,Choice_Probabilities__KP_DelayDiagnosis,Choice_Probabilities__KP_EffectiveART_CMDneg,Choice_Probabilities__KP_EffectiveART_CMDpos,Delay_Period_Exponential__KP_CMD_ARTdropout,Demographic_Coverage__KP_CMD_Recovery_Effective_ART
-base,campaign_MATUMAINI_202305.json,"[0,1.0]","[0,1.0]","[0,1.0]","[1.0,0]","[0.833,0.167]","[0.833,0.167]",3650,.833
-ART,campaign_MATUMAINI_202305.json,"[0,1.0]","[0,1.0]","[0,1.0]","[1.0,0]","[0.833,0.167]","[0.68,0.32]",1825,.833
-dropout,campaign_MATUMAINI_202305.json,"[0,1.0]","[0,1.0]","[0,1.0]","[1.0,0]","[0.833,0.167]","[0.833,0.167]",1825,.833
-risk,campaign_MATUMAINI_202305.json,"[0,1.0]","[1.0,0]","[1.0,0]","[1.0,0]","[0.833,0.167]","[0.833,0.167]",3650,.833
-delaydiag,campaign_MATUMAINI_202305.json,"[0,1.0]","[0,1.0]","[0,1.0]","[0,1.0]","[0.833,0.167]","[0.833,0.167]",3650,.833
+Scenario,Campaign,Choice_Probabilities__KP_TreatmentTable,Choice_Probabilities__KP_CMD_reassign,Choice_Probabilities__KP_ChangeRiskBack,Choice_Probabilities__KP_DelayDiagnosis,Delay_Period_Exponential__KP_CMD_ARTdropout,Choice_Probabilities__KP_EffectiveART_CMDneg,Choice_Probabilities__KP_EffectiveART_CMDpos,Demographic_Coverage__KP_CMD_Recovery_Effective_ART,Choice_Probabilities__KP_CMD_VLS_Recovery,Delay_Period_Exponential__KP_CMD_VLS_Recovery_Delay,Choice_Probabilities__KP_depression_incidence_hiv_diagnosis,Delay_Period_Constant__KP_CMD_screening_delay,Choice_Probabilities__KP_hiv_diagnosis_depression_screening
+baseline, campaign_MATUMAINI_202305.json,"[0,1]","[1,0]","[1,0]","[1.0,0]",3650,"[0.833,0.167]","[0.833,0.167]",.833,"[1,0]",180,"[0,1]",90,"[0,1]"

@@ -1256,6 +1256,20 @@
                                 ]
                             },
                             {
+                                "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
+                                "class":"CoitalActRiskFactors",
+                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
+                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
+                                "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
+                                "Expiration_Constant": 365000,
+                                "Disqualifying_Properties": [
+                                    "CMDStatus:CMD_treated",
+                                    "CMDStatus:CMD_recovered"
+                                ]
+                            },
+                            {
                                 "Intervention_Name":"CMD reassign risk",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
@@ -1263,8 +1277,8 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    1.0,
-                                    0
+                                    0.0,
+                                    1.0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
@@ -1323,6 +1337,20 @@
                                 "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
                             },
                             {
+                                "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
+                                "class":"CoitalActRiskFactors",
+                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
+                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
+                                "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
+                                "Expiration_Constant": 365000,
+                                "Disqualifying_Properties": [
+                                    "CMDStatus:CMD_treated",
+                                    "CMDStatus:CMD_recovered"
+                                ]
+                            },
+                            {
                                 "Intervention_Name":"CMD reassign risk",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
@@ -1330,8 +1358,8 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    1.0,
-                                    0.0
+                                    0.0,
+                                    1.0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
@@ -3885,6 +3913,20 @@
                                 "Choice_Probabilities__KP_treatment_after_relapse":"<== marker"
                             },
                             {
+                                "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
+                                "class":"CoitalActRiskFactors",
+                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
+                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
+                                "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
+                                "Expiration_Constant": 365000,
+                                "Disqualifying_Properties": [
+                                    "CMDStatus:CMD_treated",
+                                    "CMDStatus:CMD_recovered"
+                                ]
+                            },
+                            {
                                 "Intervention_Name":"CMD reassign risk",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
@@ -3892,8 +3934,8 @@
                                     "CMD_ChangeRisk_dummy"
                                 ],
                                 "Choice_Probabilities": [
-                                    1.0,
-                                    0.0
+                                    0.0,
+                                    1.0
                                 ],
                                 "Choice_Probabilities__KP_CMD_reassign" :"<== marker",
                                 "Disqualifying_Properties": [
