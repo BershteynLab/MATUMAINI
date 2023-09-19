@@ -4120,8 +4120,8 @@
                             "CMD_ChangeRisk_dummy"
                         ],
                         "Choice_Probabilities": [
-                            1.0,
-                            0.0
+                            0.0,
+                            1.0
                         ],
                         "Choice_Probabilities__KP_ChangeRiskBack": "<-- MARKER"
                     }
