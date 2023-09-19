@@ -3738,7 +3738,6 @@
             }
         },
         {
-            "END":"CMD relapse with treatment",
             "Event_Name": "CMD relapse with treatment - Females 60-99, HIV+",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
@@ -3781,75 +3780,6 @@
             }
         }, 
         {
-            "BEGIN":"CMD Relapse After Treatment",
-            "COMMENT":"People in CMDStatus:CMD_treated get moved to CMD_treated_pos",
-            "Event_Name": "CMD relapse after treatment - Males",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1960.5,
-            "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions":["CMDStatus:CMD_treated"],
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
-                "Timesteps_Between_Repetitions": 12,
-                "Number_Repetitions": -1,
-                "Target_Demographic": "ExplicitAgeRangesAndGender",
-                "Target_Age_Min": 18,
-                "Target_Age_Max": 99,
-                "Target_Gender": "Male",
-                "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Relapse1",
-                        "CMD_NoIncidence"
-                    ],
-                    "Choice_Probabilities":[
-                        0.2294327957,
-                        0.770567205
-                    ]
-                }
-            }
-        },
-        {
-            "COMMENT":"People in CMDStatus:CMD_treated get moved back to CMD_pos",
-            "Event_Name": "CMD relapse after treatment - Females",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1960.5,
-            "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions":["CMDStatus:CMD_treated"],
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
-                "Timesteps_Between_Repetitions": 12,
-                "Number_Repetitions": -1,
-                "Target_Demographic": "ExplicitAgeRangesAndGender",
-                "Target_Age_Min": 18,
-                "Target_Age_Max": 99,
-                "Target_Gender": "Female",
-                "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Relapse1",
-                        "CMD_NoIncidence"
-                    ],
-                    "Choice_Probabilities":[
-                        0.2294327957,
-                        0.770567205
-                    ]
-                }
-            }
-        },
-        {
             "Event_Name":"CMD relapse",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
@@ -3873,7 +3803,7 @@
             }
         },
         {
-            "END":"CMD Relapse After Treatment",
+            "END":"CMD relapse with treatment",
             "Event_Name":"CMD relapse, changing property - with treatment after 2020",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
@@ -4120,8 +4050,8 @@
                             "CMD_ChangeRisk_dummy"
                         ],
                         "Choice_Probabilities": [
-                            1.0,
-                            0.0
+                            0.0,
+                            1.0
                         ],
                         "Choice_Probabilities__KP_ChangeRiskBack": "<-- MARKER"
                     }
