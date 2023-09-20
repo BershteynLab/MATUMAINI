@@ -39,7 +39,9 @@ Treatment and effects of HIV on depression are not included.
 res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal___2023_09_12_13_07_34_073192"
 
 # Minimal scenario run with new math model
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_math___2023_09_14_16_34_27_369719"
+res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_math___2023_09_19_12_54_57_112912"
+
+res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_math___2023_09_15_15_28_59_153177"
 
 sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.cmd,
@@ -74,7 +76,9 @@ sim.results <- sim.results %>%
 res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline___2023_09_12_13_06_44_626990"
 
 # With new mathematical model: 
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_math___2023_09_14_16_35_14_562051"
+res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_math___2023_09_19_12_54_08_123876"
+
+res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_math___2023_09_15_15_28_09_823522"
 
 sim.results.orig <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.orig,
@@ -107,6 +111,7 @@ sim.results.orig <- sim.results.orig %>%
 Combine datasets:
 ```{r}
 sim.results <- rbind(sim.results, sim.results.orig)
+
 ```
 
 
@@ -716,6 +721,28 @@ p +
 ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_age_prev.pdf",
        width = 8, height = 8, units = "in")
 
+```
+
+
+```{r}
+cmd.data.age.mean %>% 
+  filter(scenario_name == "minimal",
+         Gender == "Male", Year == 2004) %>% 
+  select("Year" ,"AgeBin_index", "AgeBin", "Gender", "mean.Infected", "mean.HIVneg"
+)
+
+cmd.data.age.mean %>% 
+  filter(scenario_name == "minimal",
+         Gender == "Female") %>% 
+  select("Year" ,"AgeBin_index", "AgeBin", "Gender", "mean.Infected", "mean.HIVneg"
+)
+```
+```{r}
+c(0.217733957, 0.246694099)/c(0.17464915, 0.20913706)
+
+c(0.108866979, 0.12334705)/c(0.09847428, 0.11259429)
+
+c(.39878229, 0.199391144)/c(0.23025204, 0.17824759)
 ```
 
 # Examine event recorder
