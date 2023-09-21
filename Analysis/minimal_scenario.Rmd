@@ -41,7 +41,8 @@ res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_M
 # Minimal scenario run with new math model
 res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_math___2023_09_19_12_54_57_112912"
 
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_math___2023_09_15_15_28_59_153177"
+# After tweaking incidence rates
+res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_math___2023_09_20_15_06_20_601206"
 
 sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.cmd,
@@ -78,7 +79,8 @@ res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_
 # With new mathematical model: 
 res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_math___2023_09_19_12_54_08_123876"
 
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_math___2023_09_15_15_28_09_823522"
+# After tweaking the incidence rates in the model:
+res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_math___2023_09_20_15_05_32_732302"
 
 sim.results.orig <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.orig,
@@ -623,8 +625,8 @@ p = ggplot() +
 
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_prev.pdf",
-       width = 8, height = 8, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_prev.pdf",
+#        width = 8, height = 8, units = "in")
 ```
 
 ## Depression Age-Prevalence Curves
@@ -718,8 +720,8 @@ p +
              mapping = aes(x = AgeBin_index, y = CMDPrevalence), color = 'orange', size = 3) + 
   ylab("Depression Prevalence by Age")
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_age_prev.pdf",
-       width = 8, height = 8, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_age_prev.pdf",
+#        width = 8, height = 8, units = "in")
 
 ```
 
@@ -737,13 +739,7 @@ cmd.data.age.mean %>%
   select("Year" ,"AgeBin_index", "AgeBin", "Gender", "mean.Infected", "mean.HIVneg"
 )
 ```
-```{r}
-c(0.217733957, 0.246694099)/c(0.17464915, 0.20913706)
 
-c(0.108866979, 0.12334705)/c(0.09847428, 0.11259429)
-
-c(.39878229, 0.199391144)/c(0.23025204, 0.17824759)
-```
 
 # Examine event recorder
 

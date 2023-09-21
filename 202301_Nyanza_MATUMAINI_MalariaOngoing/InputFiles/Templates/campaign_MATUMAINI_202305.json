@@ -2378,7 +2378,7 @@
         },
 
         {
-            "BEGIN":"CMD relapse with treatment",
+            "BEGIN":"CMD relapse after treatment",
             "COMMENT":"People in CMDStatus:CMD_treated get moved back to CMD_pos",
             "Event_Name": "CMD relapse with treatment - Males 18-24, HIV-",
             "class": "CampaignEventByYear",
@@ -3406,7 +3406,6 @@
             }
         },
         {
-            "END":"CMD relapse with treatment",
             "Event_Name": "CMD relapse with treatment - Females 60-99, HIV+",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
@@ -3715,8 +3714,8 @@
                             "CMD_ChangeRisk_dummy"
                         ],
                         "Choice_Probabilities": [
-                            1.0,
-                            0.0
+                            0.0,
+                            1.0
                         ],
                         "Choice_Probabilities__KP_ChangeRiskBack": "<-- MARKER"
                     }
