@@ -4977,6 +4977,30 @@
             "class": "CampaignEventByYear"
         },
         {
+            "Event_Coordinator_Config": {
+                "Demographic_Coverage": 0.075,
+                "Demographic_Coverage__KP_Seeding": "<-- MARKER",
+                "Intervention_Config": {
+                    "class": "HIVDelayedIntervention",
+                    "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
+                    "Delay_Period_Constant": 365000000000,
+                    "Broadcast_Event":"CMD_ChangeRisk_dummy"
+                },
+                "Property_Restrictions": [
+                    "Risk:HIGH"
+                ],
+                "Travel_Linked": 0,
+                "class": "StandardInterventionDistributionEventCoordinator"
+            },
+            "Event_Name": "Epidemic seeding",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1978.3813879660481,
+            "Start_Year__KP_Seeding_Year": "<-- MARKER",
+            "class": "CampaignEventByYear"
+        },
+        {
             "BEGIN": "STI CO-INFECTION",
             "Event_Coordinator_Config": {
                 "Demographic_Coverage": 0.3,
