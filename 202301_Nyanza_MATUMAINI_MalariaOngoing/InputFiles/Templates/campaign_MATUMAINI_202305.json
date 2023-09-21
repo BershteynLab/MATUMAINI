@@ -8287,7 +8287,6 @@
                     "Trigger_Condition_List": [
                         "OnART1"
                     ],
-                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
                     "Property_Restrictions_Within_Node":[
                         {
                             "CMDStatus":"CMD_neg"
@@ -8339,7 +8338,6 @@
                     "Trigger_Condition_List": [
                         "OnART1"
                     ],
-                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
                     "Property_Restrictions": [
                         "CMDStatus:CMD_pos"
                     ],
@@ -8495,7 +8493,6 @@
                     "Trigger_Condition_List": [
                         "OnART1"
                     ],
-                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
@@ -8532,7 +8529,6 @@
                     "Trigger_Condition_List": [
                         "OnART1"
                     ],
-                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
@@ -9047,7 +9043,6 @@
                     "Trigger_Condition_List": [
                         "OnART1"
                     ],
-                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
