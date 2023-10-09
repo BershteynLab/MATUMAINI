@@ -4,3 +4,8 @@ baseline_noART,campaign_MATUMAINI_202305.json,"[.333,.667]","[0.68,0.32]",.833,1
 decouple_ART,campaign_MATUMAINI_202305_decouple.json,"[1.0,0]","[0.833,0.167]",.833,3650,1,1,"['OnART1']"
 decouple_noART,campaign_MATUMAINI_202305_decouple.json,"[1.0,0]","[0.833,0.167]",.833,3650,1,1,"['NoARTDummy']"
 noHIV,campaign_MATUMAINI_202305_NoHIV.json,"[1.0,0]","[0.833,0.167]",.833,3650,1,1,"['OnART1']"
+
+art_adh,campaign_MATUMAINI_202305.json,"[1.0,0]","[0.68,0.32]",.833,3650,1,1,"['OnART1']"
+art_delay,campaign_MATUMAINI_202305.json,"[.333,.667]","[0.833,0.167]",.833,3650,1,1,"['OnART1']"
+art_drop,campaign_MATUMAINI_202305.json,"[1.0,0]","[0.833,0.167]",.833,3650,1,1,"['OnART1']"
+risk,campaign_MATUMAINI_202305.json,"[1.0,0]","[0.833,0.167]",.833,3650,1.676206,1.676206,"['OnART1']"
