@@ -250,6 +250,8 @@ sim.results.all <- rbind(sim.results, sim.results.dec, sim.results.noart, sim.re
 ```
 
 
+# Plot Results 
+
 ## HIV Prevalence over time
 
 ```{r}

@@ -1,0 +1,316 @@
+---
+title: "ART_effects"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Load Libraries}
+library(tidyverse)
+library(tidyr)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(devtools)
+library(readxl)
+devtools::install_github("BershteynLab/EMODAnalyzeR")
+```
+
+
+```{r}
+# Confidence interval functions
+lower_ci <- function(mean, se, n, conf_level = 0.95){
+  lower_ci <- mean - qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(lower_ci)
+}
+upper_ci <- function(mean, se, n, conf_level = 0.95){
+  upper_ci <- mean + qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(upper_ci)
+}
+```
+
+
+
+# HIV-Depression model postprocessing
+
+The "minimal scenario" set of HIV-CMD interactions
+1. Depression dynamics
+  1. Age/sex-specific annual incidence of depression
+  2. HIV+ status also increases depression incidence
+  3. Relapse rate equal to incidence rate
+2. Depression-caused increase to incidence - CoitalActRiskFactor increases from 1 to 1.646
+3. Depression-caused delays to diagnosis (2/3 of depressed skip diagnosis)
+4. Depression-caused dropout from ART (mean time 5 years for depressed, 10 years for non-depressed)
+5. Depression-caused non-adherence to ART
+
+
+Each of the effects on ART and transmission risk will be isolated, to test that they are working in the right direction
+1. Baseline - with all HIV-CMD interactions, ART
+2. art_adh - depression leads to lower ART adherence
+3. art_delay - depression leads to delays to ART uptake
+4. art_drop - depression increases ART dropout
+5. risk - depression elevated transmission/acquisition risk
+
+
+
+# Read in the data
+
+## Baseline-ART
+
+```{r}
+sim.results.base <- EMODAnalyzeR::read.simulation.results(
+  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/croi/Baseline-campaign_MATUMAINI_202305-baseline_ART/ReportHIVByAgeAndGender/",
+  scenario_name = 'baseline.art',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.base %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.base <- sim.results.base %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+```
+
+## ART Adherence
+
+```{r}
+sim.results.adh <- EMODAnalyzeR::read.simulation.results(
+  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/art/Baseline-campaign_MATUMAINI_202305-art_adh/ReportHIVByAgeAndGender",
+  scenario_name = 'adherence',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.adh %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.adh <- sim.results.adh %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+```
+
+## Delays to ART 
+
+```{r}
+sim.results.delay <- EMODAnalyzeR::read.simulation.results(
+  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/art/Baseline-campaign_MATUMAINI_202305-art_delay/ReportHIVByAgeAndGender/",
+  scenario_name = 'delay',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.delay %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.delay <- sim.results.delay %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+
+## ART dropout
+
+```{r}
+sim.results.drop <- EMODAnalyzeR::read.simulation.results(
+  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/art/Baseline-campaign_MATUMAINI_202305-art_drop/ReportHIVByAgeAndGender/",
+  scenario_name = 'dropout',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.drop %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.drop <- sim.results.drop %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Increased risk
+
+```{r}
+sim.results.risk <- EMODAnalyzeR::read.simulation.results(
+  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/art/Baseline-campaign_MATUMAINI_202305-risk/ReportHIVByAgeAndGender/",
+  scenario_name = 'risk',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.risk %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.risk <- sim.results.risk %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Combine datasets
+```{r}
+sim.results.adh$scenario_name %>% unique()
+
+sim.results.adh$scenario_name <- "adherence"
+
+sim.results.delay$scenario_name %>% unique
+
+sim.results.delay$scenario_name <- "delay"
+
+sim.results.risk$scenario_name <- "risk"
+
+sim.results.drop$scenario_name <- "dropout"
+```
+
+
+```{r}
+#sim.results.all <- rbind(sim.results.base, sim.results.adh, sim.results.delay, sim.results.drop, sim.results.risk)
+sim.results.all <- rbind(sim.results.adh, sim.results.drop)
+```
+
+# Plot Results 
+
+## HIV Prevalence over time
+
+```{r}
+ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/Data/calibration_ingest_form_Nyanza.xlsm"
+
+obs.prev.sheet.base <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-Prevalence")
+```
+
+
+```{r, fig.width=8}
+#p <- EMODAnalyzeR::emodplot.prevalence(sim.results %>% filter(Age <= 50, Age >=15), 
+#                                       1990, 20240)
+p <- EMODAnalyzeR::emodplot.prevalence(sim.results.all %>% filter(Age <= 50, Age >=15), 
+                                       1980, 2040)
+
+p +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    ylab("HIV Prevalence (%)") + 
+  #scale_color_manual(values=c("blue","red","darkgreen","orange")) +
+  geom_point(data = obs.prev.sheet.base %>%
+               filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
+             mapping = aes(x = Year, y = Prevalence)) + 
+  geom_errorbar(data = obs.prev.sheet.base %>%
+             filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
+             mapping = aes(x = Year, ymin = lb, ymax = ub))
+
+data <- EMODAnalyzeR::calculate.prevalence(
+  sim.results.all %>% filter(Age <= 50, Age >=15) %>% filter(scenario_name %in% c("dropout", "adherence")),
+         stratify_columns = c("Year", "Gender", "sim.id", "scenario_name"),
+         numerator = "Infected",
+         denominator = "Population")
+
+data.mean <- data %>%
+    dplyr::group_by(Year, Gender, scenario_name) %>%
+    dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep')
+
+ggplot(data.mean) +
+    geom_line(data=subset(data.mean, (1980 <= Year) & (Year <= 2040)),
+              aes(x=Year, y=Prevalence, group=scenario_name, color=scenario_name), linewidth=.75) +
+    facet_wrap(~ Gender, ncol=2) +
+    xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    ylab("Prevalence") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1980,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    scale_color_manual(values=c("black", "blue","red","darkgreen","orange"))
+
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_HIV_prev.pdf",
+#        width = 8, height = 6, units = "in")
+```
+
+
+```{r}
+ data <- sim.results.all %>% 
+  mutate(Year = ceiling(Year)) %>%
+  filter(Year >= 1985, Year <=2025) %>% 
+  group_by(Year, Gender, sim.ix, sim.id, scenario_name) %>% 
+  summarize(Deaths = sum(Died_from_HIV * pop.scaling.factor), .groups = 'keep') %>%  
+  ungroup()
+
+data.mean <- data %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  dplyr::summarise(Deaths = mean(Deaths), .groups = 'keep')
+
+p <- EMODAnalyzeR::emodplot.by_gender(data, 1990, 2025, 
+                        "Deaths", title = "HIV deaths") 
+
+p + #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
+    ylab("") + 
+  scale_color_manual(values = c("blue","red"))
+  #scale_color_manual(values = c("blue","red","darkgreen","orange"))
+
+
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/croi_HIV_deaths.pdf",
+#       width = 8, height = 6, units = "in")
+```
