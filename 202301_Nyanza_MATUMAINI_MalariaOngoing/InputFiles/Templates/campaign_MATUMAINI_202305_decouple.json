@@ -6702,7 +6702,7 @@
                     ],
                     "Actual_IndividualIntervention_Config": { 
                         "class": "BroadcastEvent",
-                        "Broadcast_Event": "NonSuppressiveART",
+                        "Broadcast_Event": "EffectiveART",
                         "Disqualifying_Properties": [
                               "InterventionStatus:LostForever",
                               "InterventionStatus:OnNonSuppressiveART"
