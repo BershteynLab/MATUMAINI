@@ -3581,7 +3581,7 @@
                         "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 90,
-                        "Delay_Period_Exponential__KP_TreatRecoveryTime": 90,
+                        "Delay_Period_Exponential__KP_TreatRecoveryTime": "<-- MARKER",
                         "COMMENT":"Using 3 month recovery time",
                         "Broadcast_Event":"CMD_Treat_Recovery"
                     },
