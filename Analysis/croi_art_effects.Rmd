@@ -214,7 +214,7 @@ sim.results.adh.art.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
   #experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-adh_ART___2023_10_12_18_10_56_333947/",
   #experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-new_adh_ART___2023_10_17_17_55_12_533863/",
   experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-new_adh_ART_xtreem___2023_10_19_11_53_58_458404/",
-    scenario_name = 'adh.art',
+    scenario_name = 'adh.art.max',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -476,7 +476,8 @@ sim.results.delay <- sim.results.delay %>%
 ```{r}
 #sim.results.all <- rbind(sim.results.base, sim.results.adh, sim.results.delay, sim.results.drop, sim.results.risk)
 sim.results.all <- rbind(sim.results.adh.art, #sim.results.adh.noart, 
-                         sim.results.decouple.art, sim.results.decouple.noart)
+                         sim.results.decouple.art, sim.results.decouple.noart,
+                         sim.results.adh.art.max)
 ```
 
 # Plot Results 
@@ -521,7 +522,8 @@ data.mean <- data %>%
     dplyr::group_by(Year, Gender, scenario_name) %>%
     dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep') %>% 
   mutate(ART = case_when(
-    scenario_name == "adh_ART" ~ "art",
+    scenario_name == "adh.art" ~ "art",
+    scenario_name == "adh.art.max" ~ "art",
     scenario_name == "adh.noart" ~ "noart",
     scenario_name == "decouple.art" ~ "art",
     scenario_name == "decouple.noart" ~ "noart"
@@ -612,17 +614,21 @@ art.benefit <- data %>%
   pivot_wider(id_cols = c("sim.ix"), names_from=c("scenario_name"), values_from = c("Deaths", "OnART", "PLHIV")) %>% 
   # This is the number of deaths averted
   # deaths is higher without ART, should be positive
-  mutate(baseline.averted = Deaths_decouple.noart - Deaths_adh_ART, 
-         decouple.averted = Deaths_decouple.noart - Deaths_decouple.art) %>% 
+  mutate(baseline.averted = Deaths_decouple.noart - Deaths_adh.art, 
+         decouple.averted = Deaths_decouple.noart - Deaths_decouple.art,
+         max.averted = Deaths_decouple.noart - Deaths_adh.art.max) %>% 
   # find the difference in ART benefit, and the percent difference 
   # we expect that ART benefit is *smaller* if people are depressed
   mutate(averted.difference = baseline.averted - decouple.averted,
+         averted.difference.max = baseline.averted - max.averted,
          averted.pct = (baseline.averted - decouple.averted)/decouple.averted) 
 
 art.benefit %>% 
   ungroup() %>% 
   summarize(averted.difference = mean(averted.difference),
-            averted.pct = mean(averted.pct))
+            averted.pct = mean(averted.pct),
+            averted.difference.max = mean(averted.difference.max),
+            )
 
 ```
 
