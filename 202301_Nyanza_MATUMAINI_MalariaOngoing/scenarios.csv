@@ -1,5 +1,1 @@
 Scenario,Campaign,Acquisition_Multiplier__KP_CMD_increase_incidence,Transmission_Multiplier__KP_CMD_increase_transmission,Delay_Period_Exponential__KP_CMD_ARTdropout,Choice_Probabilities__KP_DelayDiagnosis,Choice_Probabilities__KP_EffectiveART_CMDneg,Choice_Probabilities__KP_EffectiveART_CMDpos,Demographic_Coverage__KP_CMD_Recovery_Effective_ART,Demographic_Coverage__KP_CMD_Onset_Effective_ART,Choice_Probabilities__KP_TreatmentTable,Choice_Probabilities__KP_treatment_after_relapse,Choice_Probabilities__KP_hiv_diagnosis_depression_screening
-treat_uni,campaign_MATUMAINI_202305.json,1.676206,1.676206,1825,"[.333,.667]","[0.833,0.167]","[0.68,0.32]",.833,0.68,"[1,0]","[1,0]","[0,1]"
-treat_uni_decouple,campaign_MATUMAINI_202305_decouple.json,1,1,3650,"[1.0,0]","[0.833,0.167]","[0.833,0.167]",.833,.833,"[1,0]","[1,0]","[0,1]"
-baseline,campaign_MATUMAINI_202305.json,1.676206,1.676206,1825,"[.333,.667]","[0.833,0.167]","[0.68,0.32]",.833,0.68,"[0,1]","[0,1]","[0,1]"
-baseline_decouple,campaign_MATUMAINI_202305_decouple.json,1,1,3650,"[1.0,0]","[0.833,0.167]","[0.833,0.167]",.833,.833,"[0,1]","[0,1]","[0,1]"
