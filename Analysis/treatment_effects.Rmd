@@ -172,7 +172,7 @@ sim.results.uni.decouple <- sim.results.uni.decouple %>%
 
 ```{r}
  sim.results.screen.tt <- EMODAnalyzeR::read.simulation.results(
-  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/treat/Baseline-campaign_MATUMAINI_202305-treat_screen/ReportHIVByAgeAndGender/",
+  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/treatment/Baseline-campaign_MATUMAINI_202305_screening-treat_screen/ReportHIVByAgeAndGender/",
   scenario_name = 'screen.tt',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
@@ -194,12 +194,14 @@ sim.results.screen.tt <- sim.results.screen.tt %>%
     by = c("sim.id")
   )
 
+
+
 ```
 
 ## Combine datasets
 
 ```{r}
-sim.results.all <- rbind(sim.results.minimal, sim.results.uni.tt)
+sim.results.all <- rbind(sim.results.minimal, sim.results.uni.tt, sim.results.screen.tt)
 ```
 
 
@@ -254,8 +256,8 @@ ggplot(data.mean) +
                filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
                mapping = aes(x = Year, ymin = lb, ymax = ub))
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treat_HIV_prev.pdf",
-       width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treat_HIV_prev.pdf",
+#        width = 8, height = 6, units = "in")
 ```
 
 
@@ -317,8 +319,8 @@ p = ggplot() +
 
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_depression_prev.pdf",
-      width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_depression_prev.pdf",
+#       width = 8, height = 6, units = "in")
 ```
 ### Depression cases
 
@@ -351,8 +353,8 @@ p = ggplot() +
 
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_depression_episodes.pdf",
-      width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_depression_episodes.pdf",
+#       width = 8, height = 6, units = "in")
 ```
 
 
@@ -380,10 +382,13 @@ p + #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   #scale_color_manual(values = c("blue","red"))
   scale_color_manual(values = c("blue","red","darkgreen","orange"))
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_HIV_deaths.pdf",
-      width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_HIV_deaths.pdf",
+#       width = 8, height = 6, units = "in")
 ```
-
+Deaths by scenario
+```{r}
+data %>% group_by(Year, Gender, scenario_name) %>% summarize(mean(Deaths)) %>% filter(Year >= 2015)
+```
 
 ### New cases
 
@@ -405,10 +410,17 @@ p + #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
     ylab("") + 
   scale_color_manual(values = c("blue","red","darkgreen","orange"))
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_HIV_casdes.pdf",
-      width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_HIV_casdes.pdf",
+#       width = 8, height = 6, units = "in")
 
 ```
+
+New cases by scenario
+```{r}
+data %>% group_by(Year, Gender, scenario_name) %>% summarize(mean(NewCases)) %>% filter(Year >= 2015)
+```
+
+
 ## ART numbers over time
 
 ```{r}
@@ -447,8 +459,8 @@ p +
               mapping = aes(x = Year, ymin = lb, ymax = ub)) + 
   scale_color_manual(values = c("blue","red","darkgreen","orange"))
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_onART.pdf",
-       width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_onART.pdf",
+#        width = 8, height = 6, units = "in")
 ```
 
 ```{r}
@@ -475,10 +487,10 @@ p <- EMODAnalyzeR::emodplot.by_gender(data.diag, 2000, 2040,
 
 p + scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
     ylab("% PLHIV Diagnosed") + 
-  scale_color_manual(values = c("blue","red"))
+  scale_color_manual(values = c("blue","red", "darkgreen"))
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_diagnosed.pdf",
-       width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_diagnosed.pdf",
+#        width = 8, height = 6, units = "in")
 ```
 
 ```{r}
@@ -504,10 +516,10 @@ p <- EMODAnalyzeR::emodplot.by_gender(data.artcov, 2000, 2040,
 
 p + scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
     ylab("% Diagnosed and On ART") + 
-  scale_color_manual(values = c("blue","red"))
+  scale_color_manual(values = c("blue","red", "darkgreen"))
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_art_coverage.pdf",
-       width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/treatment_art_coverage.pdf",
+#        width = 8, height = 6, units = "in")
 ```
 
 ```{r}
