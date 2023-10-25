@@ -3602,7 +3602,7 @@
             }
         },
         {
-        "Event_Name":"CMD delay to recovery with treatment for people on ART",
+        "Event_Name":"CMD delay to recovery with treatment for people not no ART",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -3617,13 +3617,13 @@
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 270,
                         "COMMENT":"Using 9 month recovery time",
-                        "Broadcast_Event":"CMD_Treat_Recovery"
+                        "Broadcast_Event":"CMD_Treat_Recovery",
+                        "Disqualifying_Properties":[
+                            "InterventionStatus:OnEffectiveART",
+                            "InterventionStatus:OnNonSuppressiveART"
+                        ]
                     },
                     "Property_Restrictions":["CMDStatus:CMD_pos"],
-                    "Disqualifying_Properties":[
-                        "InterventionStatus:OnEffectiveART",
-                        "InterventionStatus:OnNonSuppressiveART"
-                    ],
                     "Trigger_Condition_List": [
                         "CMD_Treat",
                         "CMD_Treat_diagnosis"
