@@ -3561,62 +3561,13 @@
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 270,
                         "COMMENT":"Using 9 month recovery time",
-                        "Broadcast_Event":"CMD_NoTreat_Recovery",
-                        "Disqualifying_Properties": [
-                            "CMDStatus:CMD_treated",
-                            "CMDStatus:CMD_neg",
-                            "CMDStatus:CMD_recovered"
-                        ]
+                        "Broadcast_Event":"CMD_NoTreat_Recovery"
                     }
                 }
             }
         },
         {
-            "Event_Name": "Annually distribute CMD treatment for all who are currently on ART",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 2020,
-            "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions":[],
-                "Property_Restrictions_Within_Node":[
-                    {
-                        "CMDStatus":"CMD_pos",
-                        "InterventionStatus":"OnEffectiveART"
-                    },
-                    {
-                        "CMDStatus":"CMD_pos",
-                        "InterventionStatus":"OnNonSuppressiveART"
-                    }
-                ],
-                "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [2020,2200],
-                    "Values":[1.0,1.0]
-                },
-                "Timesteps_Between_Repetitions": 12,
-                "Number_Repetitions": -1,
-                "Target_Demographic": "ExplicitAgeRangesAndGender",
-                "Target_Age_Min": 15,
-                "Target_Age_Max": 99,
-                "Target_Gender": "All",
-                "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Treat",
-                        "CMD_NoIncidence"
-                    ],
-                    "Choice_Probabilities":[
-                        1,
-                        0
-                    ]
-                }
-            }
-        },
-        {
-            "Event_Name":"CMD delay to recovery with treatment",
+            "Event_Name":"CMD delay to recovery with treatment for individuals not on ART",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -3626,6 +3577,41 @@
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Targeting_Config": {
+                        "class": "IsOnART", 
+                        "Is_Equal_To": 0
+                    },
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVDelayedIntervention",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 270,
+                        "Delay_Period_Exponential__KP_TreatRecoveryTime": "<-- MARKER",
+                        "COMMENT":"Using 9 month recovery time, no treatment",
+                        "Broadcast_Event":"CMD_NoTreat_Recovery"
+                    },
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
+                    "Trigger_Condition_List": [
+                        "CMD_Treat",
+                        "CMD_Treat_diagnosis"
+                    ]
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD delay to recovery with treatment for individuals on ART",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Targeting_Config": {
+                        "class": "IsOnART", 
+                        "Is_Equal_To": 1
+                    },
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
