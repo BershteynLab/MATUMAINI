@@ -54,3 +54,10 @@
 * [ ] Future work: Depression model demographics and dynamics
     * [ ] Add CMD-related excess mortality
 * [ ] Re-calibrate full model with CMD
+
+## Major Updates
+
+* 2023-10-31 - Presented results from `nimh` branch at Global Mental Health Research without Borders Conference
+    * Need to revisit treatment and diagnosis scenarios: 
+        * link to depression care -> screening -> diagnosis -> treatment response
+        * floated the possibility of implementing depression treatment distribution in the same way as PrEP distribution
