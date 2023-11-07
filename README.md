@@ -15,6 +15,9 @@
         * [x] Add CMD IP to the Demography File: `CMDStatus`
         * [x] Add CMD IP to the config file - report on IP
         * [x] Check: run calibrated model
+        * [x] Revisit demographics and aging and how it interacts with recovery, relapse, and treatment history
+            * [x] New mathematical model allows for already-depressed individuals to enter the next age bracket with memory of depression history
+            * [x] Check: run calibrated model
     * [x] Integrate CMD into model with calibration - Proof of concept
         * [x] Implement simple SIS model of Depression
         * [x] Try calibrating with proof of concept
@@ -33,12 +36,12 @@
         * [x] Transition depressed individuals back when they recover, at appropriate rates 
     * [x] Delays to testing - interrupt HCT Testing Loop
         * [x] Add a check on HCTTestingLoop1 - HCTTestingLoopRapidTest
-    * [ ] Delays to initiating ART
     * [x] ART adherence - differential dropout rates
     * [x] ART VLS outcomes
         * [x] Added effective/noneffective ART choice based on CMD status
         * [x] Added ARTMortality table
         * [x] Added transition from noneffective to effective ART following CMD recovery
+    * [ ] Delays to initiating ART
 * [x] Implement interactions from HIV to CMD
     * [x] Elevated depression incidence among HIV positive - CoitalActRiskFactors
     * [x] Adjust Risk Group to MEDIUM for depressed individuals
@@ -50,6 +53,12 @@
     * [ ] Condom use
     * [ ] VMMC
 * [ ] Future work: Depression model demographics and dynamics
-    * [ ] Revisit demographics and aging and how it interacts with recovery, relapse, and treatment history
     * [ ] Add CMD-related excess mortality
 * [ ] Re-calibrate full model with CMD
+
+## Major Updates
+
+* 2023-10-31 - Presented results from `nimh` branch at Global Mental Health Research without Borders Conference
+    * Need to revisit treatment and diagnosis scenarios: 
+        * link to depression care -> screening -> diagnosis -> treatment response
+        * floated the possibility of implementing depression treatment distribution in the same way as PrEP distribution

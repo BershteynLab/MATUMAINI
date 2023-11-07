@@ -1981,6 +1981,9 @@ res.path.cmd2 = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_
 # 3. Trigger depression recovery upon VLS - 
 res.path.cmd2 = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-CMD_vls___2023_07_28_19_37_58_913010"
 
+# 4. Updated mathematical model of CMD
+res.path.cmd2 = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-math___2023_09_01_17_59_02_621173"
+
 SummarizeEachSimByAgeAndGender <- function (data, summarize_columns, stratify_columns, min_age_inclusive = 0, max_age_inclusive = Inf) {
   data %>%
     filter( (Age >= min_age_inclusive) & (Age <= max_age_inclusive) ) %>%
@@ -2193,6 +2196,145 @@ p = ggplot() +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 p
+```
+
+## CMD prevalence by age
+
+```{r, fig.height=8,fig.width=10}
+cmd.data.age <- sim.results.cmd2 %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Population)) %>% 
+  group_by(Year, Age, Gender, sim.id, scenario_name) %>% 
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_recovered + CMD_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population)) %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+age_bins = c(18, 25, 30, 40, 45, 50, 60, 99)
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
+# Label each age by its bin
+cmd.data.age <- cmd.data.age %>% mutate(
+  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+cmd.data.age$AgeBin_index = factor(cmd.data.age$AgeBin,labels = 1:length(age_labels))
+
+cmd.data.age.mean <- cmd.data.age %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
+  summarize(mean.CMD_prev = mean(CMD_prev),
+              sd.CMD_prev = sd(CMD_prev),
+              .groups = 'keep') %>% 
+  mutate(lower = max(mean.CMD_prev - 2* sd.CMD_prev, 0), 
+           upper = mean.CMD_prev + 2*sd.CMD_prev)
+
+p <- cmd.data.age.mean %>% filter(Year %in% c(1994, 2004, 2014, 2024)) %>% 
+    ggplot() + 
+    # plot means
+    geom_point(
+      mapping = aes(x = AgeBin_index, y = mean.CMD_prev),
+      size=2, color = 'darkgreen'
+    ) + 
+    geom_errorbar(
+      mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper),
+      width=.3, size=2, color = 'darkgreen') + 
+    facet_grid(cols = vars(Gender), rows = vars(Year)) + 
+    xlab("Age") + ylab("") + 
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_discrete(
+      breaks = 1:length(age_labels),
+      labels = age_labels
+      ) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+```
+
+```{r}
+cmd.data.age.mean %>% filter(Year == 2004) %>% arrange(Gender, AgeBin_index) %>% head(14)
+```
+```{r}
+cmd.data.age <- sim.results.cmd2 %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Infected)) %>% 
+  group_by(Year, Age, Gender, sim.id, scenario_name) %>% 
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_recovered + CMD_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population)) %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+age_bins = c(18, 25, 30, 40, 45, 50, 60, 99)
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
+# Label each age by its bin
+cmd.data.age.hivpos <- cmd.data.age %>% mutate(
+  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+cmd.data.age.hivpos$AgeBin_index = factor(cmd.data.age.hivpos$AgeBin,labels = 1:length(age_labels))
+
+cmd.data.age.hivpos.mean <- cmd.data.age.hivpos %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
+  summarize(mean.CMD_prev = mean(CMD_prev),
+              sd.CMD_prev = sd(CMD_prev),
+              .groups = 'keep') %>% 
+  mutate(lower = max(mean.CMD_prev - 2* sd.CMD_prev, 0), 
+           upper = mean.CMD_prev + 2*sd.CMD_prev)
+
+cmd.data.age.hivpos.mean %>% filter(Year == 2004) %>% arrange(Gender, AgeBin_index) %>% head(14)
+```
+```{r}
+cmd.data.age <- sim.results.cmd2 %>%
+  mutate(Susceptible = Population - Infected) %>% 
+  pivot_wider(id_cols = c(Year, Age, Gender, sim.id, scenario_name),
+              names_from = c(IP_Key.CMDStatus),
+              values_from = c(Susceptible)) %>% 
+  group_by(Year, Age, Gender, sim.id, scenario_name) %>% 
+  summarize(CMD_pos = sum(CMD_pos), 
+            Population = sum(CMD_pos + CMD_neg + CMD_recovered + CMD_treated), 
+            .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(CMD_prev = case_when(Population == 0 ~ 0,
+                              Population > 0 ~ CMD_pos / Population)) %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+age_bins = c(18, 25, 30, 40, 45, 50, 60, 99)
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
+# Label each age by its bin
+cmd.data.age.hivneg <- cmd.data.age %>% mutate(
+  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+cmd.data.age.hivneg$AgeBin_index = factor(cmd.data.age.hivneg$AgeBin,labels = 1:length(age_labels))
+
+cmd.data.age.hivneg.mean <- cmd.data.age.hivneg %>% group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
+  summarize(mean.CMD_prev = mean(CMD_prev),
+              sd.CMD_prev = sd(CMD_prev),
+              .groups = 'keep') %>% 
+  mutate(lower = max(mean.CMD_prev - 2* sd.CMD_prev, 0), 
+           upper = mean.CMD_prev + 2*sd.CMD_prev)
+
+cmd.data.age.hivneg.mean %>% filter(Year == 2004) %>% arrange(Gender, AgeBin_index) %>% head(14)
 ```
 
 

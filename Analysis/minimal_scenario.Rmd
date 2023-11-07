@@ -35,8 +35,8 @@ Treatment and effects of HIV on depression are not included.
 
 ## Read in the data
 ```{r}
-# Minimal scenario run
-res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal___2023_09_12_13_07_34_073192"
+# After tweaking incidence rates
+res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-minimal_math___2023_09_20_15_06_20_601206"
 
 sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.cmd,
@@ -67,8 +67,8 @@ sim.results <- sim.results %>%
 ```
 
 ```{r}
-# Original run
-res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline___2023_09_12_13_06_44_626990"
+# After tweaking the incidence rates in the model:
+res.path.orig = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_math___2023_09_20_15_05_32_732302"
 
 sim.results.orig <- EMODAnalyzeR::read.simulation.results.bigpurple(
   res.path.orig,
@@ -612,8 +612,9 @@ p = ggplot() +
 
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_prev.pdf",
-       width = 8, height = 8, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_prev.pdf",
+#        width = 8, height = 8, units = "in")
+
 ```
 
 ## Depression Age-Prevalence Curves
@@ -707,9 +708,24 @@ p +
              mapping = aes(x = AgeBin_index, y = CMDPrevalence), color = 'orange', size = 3) + 
   ylab("Depression Prevalence by Age")
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_age_prev.pdf",
-       width = 8, height = 8, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_depression_age_prev.pdf",
+#        width = 8, height = 8, units = "in")
 
+```
+
+
+```{r}
+cmd.data.age.mean %>% 
+  filter(scenario_name == "minimal",
+         Gender == "Male", Year == 2004) %>% 
+  select("Year" ,"AgeBin_index", "AgeBin", "Gender", "mean.Infected", "mean.HIVneg"
+)
+
+cmd.data.age.mean %>% 
+  filter(scenario_name == "minimal",
+         Gender == "Female") %>% 
+  select("Year" ,"AgeBin_index", "AgeBin", "Gender", "mean.Infected", "mean.HIVneg"
+)
 ```
 
 # Examine event recorder
