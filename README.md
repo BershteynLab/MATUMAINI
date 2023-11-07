@@ -43,7 +43,8 @@
         * [x] Added transition from noneffective to effective ART following CMD recovery
     * [ ] Delays to initiating ART
 * [x] Implement interactions from HIV to CMD
-    * [x] Elevated depression incidence among HIV positive
+    * [x] Elevated depression incidence among HIV positive - CoitalActRiskFactors
+    * [x] Adjust Risk Group to MEDIUM for depressed individuals
     * [x] Higher depression upon receiving diagnosis
     * [x] Increase depression recovery rate upon reaching VLS
     * [x] Linkage to treatment upon receiving depression diagnosis

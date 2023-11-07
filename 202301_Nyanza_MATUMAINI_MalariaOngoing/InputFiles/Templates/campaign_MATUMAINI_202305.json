@@ -3467,7 +3467,7 @@
             }
         },
         {
-            "END":"CMD Relapse After Treatment",
+            "END":"CMD relapse with treatment",
             "Event_Name":"CMD relapse, changing property - with treatment after 2020",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
