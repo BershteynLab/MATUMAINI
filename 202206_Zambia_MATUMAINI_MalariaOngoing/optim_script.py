@@ -77,7 +77,7 @@ plotters = [
 
 province_names = list(site_info['node_map'].values())
 
-static_params = {'Base_Population_Scale_Factor': BASE_POPULATION_SCALE_FACTOR}
+static_params = {'x_Base_Population': BASE_POPULATION_SCALE_FACTOR}
 
 # Setting up our model configuration from templates
 # There must be at least ONE entry in the scenario_template_sets dictionary: Baseline
@@ -94,7 +94,7 @@ static_files_dir = os.path.join(dir_path, 'InputFiles', 'Static')
 
 # Defining the base calibration scenario
 config_templates = []
-config_filename = os.path.join(template_files_dir, 'config_testing.json')
+config_filename = os.path.join(template_files_dir, 'config.json')
 cfg = ConfigTemplate.from_file(config_filename)
 cfg.set_params(static_params)
 config_templates.append(cfg)
@@ -193,7 +193,7 @@ def map_sample_to_model_input(sample_dict, template_set_name, scenario_name, cam
         value = sample.pop('BaseInfectivity')
         table['Base_Infectivity'] = value
 
-    if ('PreART Link Min' in sample) and ('PreART Link Max' in sample):
+    if ('PreARTLinkMin' in sample) and ('PreART Link Max' in sample):
         min_value = sample.pop('PreART Link Min')
         max_value = sample.pop('PreART Link Max')
         if max_value > min_value:
