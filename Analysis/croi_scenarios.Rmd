@@ -160,6 +160,9 @@ sim.results.dec <- sim.results.dec %>%
 #   max_age_inclusive = 99
 # )
 
+# Path to scratch directory:
+# /gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_noART___2023_09_22_11_39_23_843593
+
 sim.results.noart <- EMODAnalyzeR::read.simulation.results(
   results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/croi/Baseline-campaign_MATUMAINI_202305-baseline_noART/ReportHIVByAgeAndGender/",
   scenario_name = 'baseline.noart',
@@ -193,6 +196,7 @@ Checking that noART actually has no ART in it
 sim.results.noart$On_ART %>% summary
 
 ```
+
 
 
 ## Decoupled No ART
@@ -243,6 +247,7 @@ Checking that noART actually has no ART in it
 sim.results.decnoart$On_ART %>% summary
 
 ```
+
 
 ## Combine datasets
 ```{r}
@@ -542,56 +547,6 @@ p = ggplot() +
 
 p
 
-```
-
-### Incidence by Depression Status and Risk Group
-
-```{r, fig.height=8, fig.width = 6}
-data <- sim.results %>% filter(Age == 25) %>% 
-  mutate(Year_Integer = floor(Year-.5)) %>% 
-  mutate(cmd = case_when(IP_Key.CMDStatus == 'CMD_pos' ~ "Depressed",
-                         IP_Key.CMDStatus != 'CMD_pos' ~ "Not Depressed")) %>% 
-  group_by(Year_Integer, Year, Gender, sim.id, scenario_name, cmd, IP_Key.Risk) %>% 
-  summarize(Newly.Infected = sum(Newly.Infected), 
-            Infected = sum(Infected),
-            Population = sum(Population), 
-            .groups = 'keep') %>%  
-  ungroup()
-
-trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+sim.id+scenario_name+cmd+IP_Key.Risk, data=data,FUN=sum)
-#Make the denominator as HIV-negative individuals
-trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+sim.id+scenario_name + cmd + IP_Key.Risk, data=data, FUN=sum)
-trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
-#remove second instance of duplicate rows
-trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","sim.id","scenario_name","cmd","IP_Key.Risk")]),]
-trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
-trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","sim.id","scenario_name", "cmd","IP_Key.Risk"))
-trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population-(trajectories_IRoverall$Newly.Infected/2))
-trajectories_IRoverall <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
-
-data.mean <- trajectories_IRoverall %>% group_by(Year, Gender, scenario_name, cmd, IP_Key.Risk) %>% 
-  summarize(Incidence = mean(incidence), Incidence.sd = sd(incidence), .groups = 'keep') %>% 
-  ungroup() %>% 
-  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
-
-# Plot  
-p = ggplot() +
-  geom_line(data.mean, mapping = aes(x = Year, y = Incidence, color = cmd), 
-    size = 1.0) + 
-  geom_errorbar(data = data.mean, mapping = aes(x = Year, ymin = Incidence - Incidence.sd, ymax = Incidence + Incidence.sd, color = cmd)) + 
-  #scale_y_continuous(limits = c(0.05,.22)) + 
-  facet_wrap(IP_Key.Risk ~ Gender, ncol=2, scales = "free_y") +
-  xlab("Year")+ylab("") + 
-  ggtitle("Incidence Rate by Depression Status") + 
-  theme_bw(base_size=16) +
-  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  scale_x_continuous(breaks = seq(1980,2010,10)) +
-  theme(legend.position="bottom") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(strip.background = element_rect(colour="black", fill="white")) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
-p
 ```
 
 ### HIV Deaths
@@ -1037,7 +992,7 @@ sim.results.all %>% filter(sim.ix == 1) %>%
   summarize(On_ART = sum(On_ART))
 ```
 
-## Depression episodes
+## Depression episodes averted
 
 Try just counting people who are depressed, say it happens once per year per person:
 ```{r}
@@ -1094,3 +1049,5 @@ data %>% group_by(sim.ix, scenario_name) %>% summarise(deps = sum(deps)) %>%
 
 c(17691275	, lower_ci(17691275	,124847.12		/sqrt(250), 250, .95), upper_ci(17691275	,124847.12		/sqrt(250), 250, .95))
 ```
+
+## DALYs averted
