@@ -17,11 +17,11 @@
 
 #SBATCH --mail-user=daniel.citron@nyulangone.org
 
-#SBATCH --output=/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/slurm_%j.out
+#SBATCH --output=/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202206_Zambia_MATUMAINI_MalariaOngoing/slurm_%j.out
 
 #python optim_script.py
 
-python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir test1 --suite-name test11 --table scenarios.csv
+python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir test1 --suite-name test1 --table scenarios.csv
 
 # in CLI: 
 # sbatch script.batch

@@ -50,7 +50,7 @@ N_REPLICATES = 3  # replicates > 1 helps OptimTool to be more stable at the cost
 TEST_N = 'FixedARTCoverage013'  # TEST_N is macro variable used to create directory name
 
 # The excel file with parameter, analyzer, and reference data to parse/gpfs/data/bershteynlab/EMOD/kaftad01/202203_Zambia/Data/
-ingest_xlsm_filename = os.path.join('Data', 'Zambia_calibration_ingest_form_2022-05-12.xlsm')
+ingest_xlsm_filename = os.path.join('Data', 'Zambia_calibration_ingest_form_2022-05-19.xlsm')
 
 # params is a dict, site_info is a dict, reference is a PopulationObs object, analyzers is a list of dictionaries of
 # analyzer arguments
@@ -193,7 +193,7 @@ def map_sample_to_model_input(sample_dict, template_set_name, scenario_name, cam
         value = sample.pop('BaseInfectivity')
         table['Base_Infectivity'] = value
 
-    if ('PreARTLinkMin' in sample) and ('PreART Link Max' in sample):
+    if ('PreART Link Min' in sample) and ('PreART Link Max' in sample):
         min_value = sample.pop('PreART Link Min')
         max_value = sample.pop('PreART Link Max')
         if max_value > min_value:
