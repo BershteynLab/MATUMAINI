@@ -2,730 +2,6 @@
    "Campaign_Name": "Campaign file for Zambia",
    "Default_Campaign_Path": "campaign_StatusQuo_Reference_Tracking.json",
    "Events": [
-
-      {
-         "Event_Coordinator_Config": {
-            "Distributions": [
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2019.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2018.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2021.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2020.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2023.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2022.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2025.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2024.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2027.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2026.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2029.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2028.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2031.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2030.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2033.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2032.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2035.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2034.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               },
-               {
-                  "Age_Ranges_Years": [
-                     {
-                        "Max": 19.99999,
-                        "Min": 15
-                     },
-                     {
-                        "Max": 24.99999,
-                        "Min": 20
-                     },
-                     {
-                        "Max": 29.99999,
-                        "Min": 25
-                     },
-                     {
-                        "Max": 34.99999,
-                        "Min": 30
-                     },
-                     {
-                        "Max": 39.99999,
-                        "Min": 35
-                     },
-                     {
-                        "Max": 44.99999,
-                        "Min": 40
-                     },
-                     {
-                        "Max": 49.99999,
-                        "Min": 45
-                     }
-                  ],
-                  "End_Year": 2037.999,
-                  "Num_Targeted_Females": [
-                     90228.87335,
-                     268208.6178,
-                     272015.09,
-                     186762.1358,
-                     123703.7167,
-                     68579.03093,
-                     16900.39753
-                  ],
-                  "Num_Targeted_Males": [
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0,
-                     0
-                  ],
-                  "Property_Restrictions_Within_Node": [],
-                  "Start_Year": 2036.0,
-                  "Target_Disease_State": [
-                     [
-                        "Not_Have_Intervention"
-                     ]
-                  ],
-                  "Target_Disease_State_Has_Intervention_Name": "DMPA_or_control"
-               }
-            ],
-            "Intervention_Config": {
-               "Intervention_List": [
-                  {
-                     "Broadcast_Event": "Interval_of_DMPA_Use",
-                     "Delay_Distribution": "FIXED_DURATION",
-                     "Delay_Period": 730,
-                     "Intervention_Name": "DMPA_or_control",
-                     "New_Property_Value": "",
-                     "class": "HIVDelayedIntervention"
-                  },
-                  {
-                     "Choices": {
-                        "Receive_Control_Intervention": 0.5,
-                        "Receive_DMPA_Intervention": 0.5
-                     },
-                     "class": "HIVRandomChoice"
-                  }
-               ],
-               "class": "MultiInterventionDistributor"
-            },
-            "class": "NChooserEventCoordinatorHIV"
-         },
-         "Event_Name": "NChooser to take specified number of women off DMPA",
-         "Nodeset_Config": {
-            "class": "NodeSetAll"
-         },
-         "Start_Year": 2018,
-         "class": "CampaignEvent"
-      },
-
-      {
-         "Event_Coordinator_Config": {
-            "Intervention_Config": {
-               "Actual_IndividualIntervention_Config": {
-                  "Broadcast_Event": "End_of_Control_Label",
-                  "Delay_Distribution": "FIXED_DURATION",
-                  "Delay_Period": 730,
-                  "Intervention_Name": "DMPA_Impact_Control_Group",
-                  "New_Property_Value": "",
-                  "class": "HIVDelayedIntervention"
-               },
-               "Target_Demographic": "ExplicitGender",
-               "Target_Gender": "Female",
-               "Trigger_Condition_List": [
-                  "Receive_Control_Intervention"
-               ],
-               "class": "NodeLevelHealthTriggeredIV"
-            },
-            "class": "StandardInterventionDistributionEventCoordinator"
-         },
-         "Event_Name": "DMPA Control Group",
-         "Nodeset_Config": {
-            "class": "NodeSetAll"
-         },
-         "Start_Year": 2018,
-         "class": "CampaignEventByYear"
-      },
-
-      {
-         "Event_Coordinator_Config": {
-            "Intervention_Config": {
-               "Actual_IndividualIntervention_Config": {
-                  "Broadcast_Event": "End_of_Intervention_Label",
-                  "Delay_Distribution": "FIXED_DURATION",
-                  "Delay_Period": 730,
-                  "Intervention_Name": "DMPA_Impact_Intervention_Group",
-                  "New_Property_Value": "",
-                  "class": "HIVDelayedIntervention"
-               },
-               "Target_Demographic": "ExplicitGender",
-               "Target_Gender": "Female",
-               "Trigger_Condition_List": [
-                  "Receive_DMPA_Intervention"
-               ],
-               "class": "NodeLevelHealthTriggeredIV"
-            },
-            "class": "StandardInterventionDistributionEventCoordinator"
-         },
-         "Event_Name": "DMPA Intervention Group Label",
-         "Nodeset_Config": {
-            "class": "NodeSetAll"
-         },
-         "Start_Year": 2018,
-         "class": "CampaignEventByYear"
-      },
-
-      {
-         "Event_Coordinator_Config": {
-            "Intervention_Config": {
-               "Actual_IndividualIntervention_Config": {
-                  "Intervention_Name": "DMPA_Impact_Receive_Vaccine",
-                  "Vaccine_Type": "AcquisitionBlocking",
-                  "Waning_Config": {
-                     "Durability_Map": {
-                        "Times": [
-                           0,
-                           730,
-                           731
-                        ],
-                        "Values": [
-                           1.0,
-                           1.0,
-                           0.0
-                        ]
-                     },
-                     "Expire_At_Durability_Map_End": 1,
-                     "Initial_Effect": 0,
-                     "Initial_Effect__KP_Impact_of_Switching_from_DMPA": 0.2857,
-                     "class": "WaningEffectMapLinear"
-                  },
-                  "class": "SimpleVaccine"
-               },
-               "Target_Demographic": "ExplicitGender",
-               "Target_Gender": "Female",
-               "Trigger_Condition_List": [
-                  "Receive_DMPA_Intervention"
-               ],
-               "class": "NodeLevelHealthTriggeredIV"
-            },
-            "class": "StandardInterventionDistributionEventCoordinator"
-         },
-         "Event_Name": "DMPA Intervention Group",
-         "Nodeset_Config": {
-            "class": "NodeSetAll"
-         },
-         "Start_Year": 2018,
-         "class": "CampaignEventByYear"
-      },
-
       {
          "Event_Coordinator_Config": {
             "Intervention_Config": {
@@ -771,7 +47,6 @@
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut3",
@@ -812,7 +87,6 @@
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "LostForever0",
@@ -859,7 +133,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:HCTTestingLoop"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut1",
@@ -905,7 +178,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "ARTStaging1",
@@ -951,7 +223,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "New_Property_Value": "CascadeState:TestingOnSymptomatic",
@@ -1112,7 +383,6 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "Interpolation_Order": 1,
                   "New_Property_Value": "",
                   "Positive_Diagnosis_Event": "Commercial_DelayFromDebutToUptake",
@@ -1155,7 +425,6 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "Interpolation_Order": 1,
                   "New_Property_Value": "",
                   "Positive_Diagnosis_Event": "Commercial_DelayFromDebutToUptake",
@@ -1198,7 +467,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "Commercial_Uptake",
-                  "Delay_Distribution": "UNIFORM_DURATION",
+                  "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
                   "Delay_Period_Max": 1825,
                   "Delay_Period_Min": 0,
                   "Disqualifying_Properties": [],
@@ -1253,7 +522,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "Commercial_Dropout",
-                  "Delay_Distribution": "WEIBULL_DURATION",
+                  "Delay_Period_Distribution": "WEIBULL_DISTRIBUTION",
                   "Delay_Period_Scale": 2215,
                   "Delay_Period_Shape": 3.312,
                   "Disqualifying_Properties": [],
@@ -1308,7 +577,6 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config ": "Event",
                   "Interpolation_Order": 1,
                   "New_Property_Value": "",
                   "Positive_Diagnosis_Event": "Commercial_DelayFromDebutToUptake",
@@ -1351,7 +619,6 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config ": "Event",
                   "Interpolation_Order": 1,
                   "New_Property_Value": "",
                   "Positive_Diagnosis_Event": "Commercial_DelayFromDebutToUptake",
@@ -1394,7 +661,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "Commercial_Uptake",
-                  "Delay_Distribution": "UNIFORM_DURATION",
+                  "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
                   "Delay_Period_Max": 3650,
                   "Delay_Period_Min": 0,
                   "Disqualifying_Properties": [],
@@ -1425,7 +692,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "Commercial_Dropout",
-                  "Delay_Distribution": "UNIFORM_DURATION",
+                  "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
                   "Delay_Period_Max": 10950,
                   "Delay_Period_Min": 730,
                   "Disqualifying_Properties": [],
@@ -1875,7 +1142,6 @@
             "Demographic_Coverage": 0.3,
             "Demographic_Coverage__KP_STI_Coinfection_HIGH_MEDIUM_Risk": "<-- MARKER",
             "Intervention_Config": {
-               "Event_Or_Config": "Config",
                "Positive_Diagnosis_Config": {
                   "New_STI_CoInfection_Status": 1,
                   "class": "ModifyStiCoInfectionStatus"
@@ -1905,7 +1171,6 @@
             "Demographic_Coverage": 0.1,
             "Demographic_Coverage__KP_STI_Coinfection_LOW_Risk": "<-- MARKER",
             "Intervention_Config": {
-               "Event_Or_Config": "Config",
                "Positive_Diagnosis_Config": {
                   "New_STI_CoInfection_Status": 1,
                   "class": "ModifyStiCoInfectionStatus"
@@ -1998,10 +1263,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.945021349,
-                  "WillReceiveTraditionalMaleCircumcision": 0.054978651
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.945021349,
+                  0.054978651
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2016,15 +1285,18 @@
          "Start_Year": 1975,
          "class": "CampaignEventByYear"
       },
-
       {
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.945021349,
-                     "WillReceiveTraditionalMaleCircumcision": 0.054978651
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.945021349,
+                     0.054978651
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2049,10 +1321,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.860537139,
-                  "WillReceiveTraditionalMaleCircumcision": 0.139462861
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.860537139,
+                  0.139462861
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2072,10 +1348,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.860537139,
-                     "WillReceiveTraditionalMaleCircumcision": 0.139462861
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.860537139,
+                     0.139462861
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2100,10 +1380,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.971323957,
-                  "WillReceiveTraditionalMaleCircumcision": 0.028676043
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.971323957,
+                  0.028676043
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2123,10 +1407,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.971323957,
-                     "WillReceiveTraditionalMaleCircumcision": 0.028676043
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.971323957,
+                     0.028676043
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2151,10 +1439,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.908650642,
-                  "WillReceiveTraditionalMaleCircumcision": 0.091349358
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.908650642,
+                  0.091349358
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2174,10 +1466,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.908650642,
-                     "WillReceiveTraditionalMaleCircumcision": 0.091349358
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.908650642,
+                     0.091349358
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2202,10 +1498,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.87681293,
-                  "WillReceiveTraditionalMaleCircumcision": 0.12318707
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.87681293,
+                  0.12318707
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2225,10 +1525,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.87681293,
-                     "WillReceiveTraditionalMaleCircumcision": 0.12318707
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.87681293,
+                     0.12318707
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2253,10 +1557,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.960691901,
-                  "WillReceiveTraditionalMaleCircumcision": 0.039308099
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.960691901,
+                  0.039308099
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2276,10 +1584,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.960691901,
-                     "WillReceiveTraditionalMaleCircumcision": 0.039308099
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.960691901,
+                     0.039308099
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2304,10 +1616,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.272082678,
-                  "WillReceiveTraditionalMaleCircumcision": 0.727917322
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.272082678,
+                  0.727917322
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2327,10 +1643,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.272082678,
-                     "WillReceiveTraditionalMaleCircumcision": 0.727917322
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.272082678,
+                     0.727917322
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2355,10 +1675,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.958894737,
-                  "WillReceiveTraditionalMaleCircumcision": 0.041105263
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.958894737,
+                  0.041105263
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2378,10 +1702,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.958894737,
-                     "WillReceiveTraditionalMaleCircumcision": 0.041105263
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.958894737,
+                     0.041105263
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2406,10 +1734,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.955611898,
-                  "WillReceiveTraditionalMaleCircumcision": 0.044388102
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.955611898,
+                  0.044388102
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2429,10 +1761,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.955611898,
-                     "WillReceiveTraditionalMaleCircumcision": 0.044388102
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.955611898,
+                     0.044388102
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2457,10 +1793,14 @@
          "Event_Coordinator_Config": {
             "Demographic_Coverage": 1,
             "Intervention_Config": {
-               "Choices": {
-                  "WillNotReceiveTraditionalMaleCircumcision": 0.601760206,
-                  "WillReceiveTraditionalMaleCircumcision": 0.398239794
-               },
+               "Choice_Names": [
+                  "WillNotReceiveTraditionalMaleCircumcision",
+                  "WillReceiveTraditionalMaleCircumcision"
+               ],
+               "Choice_Probabilities": [
+                  0.601760206,
+                  0.398239794
+               ],
                "class": "HIVRandomChoice"
             },
             "class": "StandardInterventionDistributionEventCoordinator"
@@ -2480,10 +1820,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "WillNotReceiveTraditionalMaleCircumcision": 0.601760206,
-                     "WillReceiveTraditionalMaleCircumcision": 0.398239794
-                  },
+                  "Choice_Names": [
+                     "WillNotReceiveTraditionalMaleCircumcision",
+                     "WillReceiveTraditionalMaleCircumcision"
+                  ],
+                  "Choice_Probabilities": [
+                     0.601760206,
+                     0.398239794
+                  ],
                   "class": "HIVRandomChoice"
                },
                "Trigger_Condition_List": [
@@ -2525,8 +1869,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     211.0848024,
-                     1292.310185
+                     211,
+                     1292
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -2555,8 +1899,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     294.2361103,
-                     1000.057649
+                     294,
+                     1000
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -2595,10 +1939,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     200.8985828,
-                     4498.78751,
-                     11210.51765,
-                     133.6678417
+                     201,
+                     4499,
+                     11211,
+                     134
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2012.0,
@@ -2637,10 +1981,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     1079.24099,
-                     9533.979274,
-                     16314.57767,
-                     221.4271639
+                     1079,
+                     9534,
+                     16315,
+                     221
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -2679,10 +2023,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     215.6473025,
-                     10734.92538,
-                     18020.29797,
-                     433.5301958
+                     216,
+                     10735,
+                     18020,
+                     434
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -2722,9 +2066,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     8064.777513,
-                     25054.39959,
-                     179.0207223
+                     8065,
+                     25054,
+                     179
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2015.0,
@@ -2778,7 +2122,7 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     538.3500193
+                     538
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2009.0,
@@ -2807,8 +2151,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     813.1816759,
-                     3192.249911
+                     813,
+                     3192
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -2837,8 +2181,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     788.2441919,
-                     2974.160658
+                     788,
+                     2974
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -2877,10 +2221,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     585.3523172,
-                     22906.55582,
-                     27378.4308,
-                     147.1434485
+                     585,
+                     22907,
+                     27378,
+                     147
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2012.0,
@@ -2919,10 +2263,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     734.2040535,
-                     37500.71032,
-                     68967.55478,
-                     194.4360077
+                     734,
+                     37501,
+                     68968,
+                     194
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -2961,10 +2305,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     1036.277457,
-                     34458.34558,
-                     56370.22041,
-                     324.9682632
+                     1036,
+                     34458,
+                     56370,
+                     325
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -3004,9 +2348,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     21166.24886,
-                     24809.06529,
-                     159.2349525
+                     21166,
+                     24809,
+                     159
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2015.0,
@@ -3059,8 +2403,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     165.9622642,
-                     283.9622642
+                     166,
+                     284
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2009.0,
@@ -3089,8 +2433,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     634.8834598,
-                     1249.522047
+                     635,
+                     1250
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -3119,8 +2463,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     224.6563818,
-                     531.3877543
+                     225,
+                     531
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -3160,8 +2504,8 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     1494.153473,
-                     6249.27964,
+                     1494,
+                     6249,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -3201,10 +2545,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     183.8569031,
-                     3659.190492,
-                     9783.72803,
-                     148.901548
+                     184,
+                     3659,
+                     9784,
+                     149
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -3243,10 +2587,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     604.6920564,
-                     13391.10546,
-                     25868.40989,
-                     180.9517776
+                     605,
+                     13391,
+                     25868,
+                     181
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -3286,9 +2630,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     9029.79171,
-                     18086.49209,
-                     159.9277018
+                     9030,
+                     18086,
+                     160
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2015.0,
@@ -3341,8 +2685,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     550.4982736,
-                     1448.21374
+                     550,
+                     1448
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -3371,8 +2715,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     366.6204174,
-                     543.2569596
+                     367,
+                     543
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -3411,9 +2755,9 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     556.0597673,
-                     3766.98344,
-                     5020.857947,
+                     556,
+                     3767,
+                     5021,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -3454,8 +2798,8 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     6893.582954,
-                     10134.4401,
+                     6894,
+                     10134,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -3495,10 +2839,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     953.4622239,
-                     12267.53231,
-                     16568.9204,
-                     241.6484234
+                     953,
+                     12268,
+                     16569,
+                     242
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -3538,9 +2882,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     11632.98355,
-                     14928.46832,
-                     178.2428044
+                     11633,
+                     14928,
+                     178
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2015.0,
@@ -3593,8 +2937,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     275.7660616,
-                     773.1394793
+                     276,
+                     773
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -3623,8 +2967,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     439.7406458,
-                     1356.936902
+                     440,
+                     1357
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -3663,9 +3007,9 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     129.7103689,
-                     8314.236657,
-                     18471.03037,
+                     130,
+                     8314,
+                     18471,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -3705,10 +3049,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     142.4194661,
-                     12899.07877,
-                     21247.23411,
-                     160.2532274
+                     142,
+                     12899,
+                     21247,
+                     160
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -3748,9 +3092,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     8353.237082,
-                     12870.07137,
-                     216.2270771
+                     8353,
+                     12870,
+                     216
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -3790,9 +3134,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     8620.898424,
-                     13422.53791,
-                     139.7547809
+                     8621,
+                     13423,
+                     140
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2015.0,
@@ -3846,7 +3190,7 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     257.9622642
+                     258
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -3876,7 +3220,7 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     157.9622642
+                     158
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -3915,9 +3259,9 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     130.609304,
-                     417.3763254,
-                     2524.384431,
+                     131,
+                     417,
+                     2524,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -3957,10 +3301,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     367.9721002,
-                     209.9622642,
-                     1326.962264,
-                     149.9950348
+                     368,
+                     210,
+                     1327,
+                     150
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -4000,9 +3344,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     1931.622314,
-                     4542.599981,
-                     126.1680216
+                     1932,
+                     4543,
+                     126
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -4042,8 +3386,8 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     2455.962264,
-                     3660.962264,
+                     2456,
+                     3661,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -4098,7 +3442,7 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     201.5077187
+                     202
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2009.0,
@@ -4127,8 +3471,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     1299.613627,
-                     1280.94983
+                     1300,
+                     1281
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -4157,8 +3501,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     1277.161628,
-                     1115.198743
+                     1277,
+                     1115
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -4197,9 +3541,9 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     1101.018578,
-                     10913.48016,
-                     5899.036307,
+                     1101,
+                     10913,
+                     5899,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -4239,10 +3583,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     1592.131261,
-                     11442.75182,
-                     5019.52398,
-                     150.3100414
+                     1592,
+                     11443,
+                     5020,
+                     150
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -4281,9 +3625,9 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     1079.144822,
-                     17498.12119,
-                     4532.103533,
+                     1079,
+                     17498,
+                     4532,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -4324,8 +3668,8 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     14441.29543,
-                     5691.944755,
+                     14441,
+                     5692,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -4379,8 +3723,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     271.87277,
-                     1097.145144
+                     272,
+                     1097
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -4410,7 +3754,7 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     486.5876511
+                     487
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -4449,9 +3793,9 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     447.8262355,
-                     2530.601031,
-                     7696.76555,
+                     448,
+                     2531,
+                     7697,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -4491,10 +3835,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     295.2823885,
-                     4690.743247,
-                     7310.470654,
-                     166.266232
+                     295,
+                     4691,
+                     7310,
+                     166
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -4533,10 +3877,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     231.1950767,
-                     3966.962264,
-                     5886.962264,
-                     146.5829538
+                     231,
+                     3967,
+                     5887,
+                     147
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -4576,8 +3920,8 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     2864.710439,
-                     4894.838177,
+                     2865,
+                     4895,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -4632,7 +3976,7 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     185.9622642
+                     186
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2008.0,
@@ -4662,7 +4006,7 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     223.9622642
+                     224
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2009.0,
@@ -4691,8 +4035,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     1123.093489,
-                     2365.357109
+                     1123,
+                     2365
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -4721,8 +4065,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     927.7243274,
-                     1943.717672
+                     928,
+                     1944
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -4761,10 +4105,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     198.6620991,
-                     5679.725836,
-                     12402.51883,
-                     200.4847559
+                     199,
+                     5680,
+                     12403,
+                     200
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2012.0,
@@ -4803,10 +4147,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     224.6503542,
-                     13374.89198,
-                     23714.25037,
-                     161.5199821
+                     225,
+                     13375,
+                     23714,
+                     162
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -4845,10 +4189,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     187.6194611,
-                     12459.97627,
-                     21718.88802,
-                     337.5683744
+                     188,
+                     12460,
+                     21719,
+                     338
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -4888,9 +4232,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     7361.463215,
-                     17281.8046,
-                     132.2932661
+                     7361,
+                     17282,
+                     132
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2015.0,
@@ -4944,8 +4288,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     297.6755975,
-                     1266.225597
+                     298,
+                     1266
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2010.0,
@@ -4974,8 +4318,8 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     737.4401974,
-                     1224.476258
+                     737,
+                     1224
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2011.0,
@@ -5015,9 +4359,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     5032.643938,
-                     6336.280979,
-                     134.908427
+                     5033,
+                     6336,
+                     135
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2012.0,
@@ -5057,9 +4401,9 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     12710.26399,
-                     8950.712003,
-                     140.6493719
+                     12710,
+                     8951,
+                     141
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2013.0,
@@ -5098,10 +4442,10 @@
                      0
                   ],
                   "Num_Targeted_Males": [
-                     229.3530145,
-                     14772.89275,
-                     10155.80718,
-                     208.8526039
+                     229,
+                     14773,
+                     10156,
+                     209
                   ],
                   "Property_Restrictions_Within_Node": [],
                   "Start_Year": 2014.0,
@@ -5141,8 +4485,8 @@
                   ],
                   "Num_Targeted_Males": [
                      0,
-                     3845.473383,
-                     2879.165192,
+                     3845,
+                     2879,
                      0
                   ],
                   "Property_Restrictions_Within_Node": [],
@@ -5238,7 +4582,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1.0,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut1",
                   "New_Property_Value": "CascadeState:HCTUptakeAtDebut",
@@ -5281,7 +4624,6 @@
                   "CascadeState:LinkingToPreART",
                   "CascadeState:ARTStaging"
                ],
-               "Event_Or_Config": "Event",
                "New_Property_Value": "CascadeState:HCTUptakePostDebut",
                "Broadcast_Event": "HCTUptakePostDebut0",
                "class": "BroadcastEvent"
@@ -5324,7 +4666,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "HCTUptakePostDebut2",
-                  "Delay_Distribution": "EXPONENTIAL_DURATION",
+                  "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                   "Delay_Period": 365,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
@@ -5376,7 +4718,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:HCTTestingLoop"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut7",
                   "New_Property_Value": "CascadeState:HCTUptakePostDebut",
@@ -5413,9 +4754,12 @@
             "Demographic_Coverage": 1,
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "HCTUptakePostDebut0": 1
-                  },
+                  "Choice_Names": [
+                     "HCTUptakePostDebut0"
+                  ],
+                  "Choice_Probabilities": [
+                     1
+                  ],
                   "Disqualifying_Properties": [],
                   "NOTE": "No Abort_States so we can churn from deep in the cascade",
                   "New_Property_Value": "CascadeState:HCTUptakePostDebut",
@@ -5443,7 +4787,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "HCTTestingLoop1",
-                  "Delay_Distribution": "EXPONENTIAL_DURATION",
+                  "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                   "Delay_Period": 730,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
@@ -5481,7 +4825,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "HCTTestingLoop1",
-                  "Delay_Distribution": "EXPONENTIAL_DURATION",
+                  "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                   "Delay_Period": 365,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
@@ -5519,7 +4863,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "HCTTestingLoop1",
-                  "Delay_Distribution": "EXPONENTIAL_DURATION",
+                  "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                   "Delay_Period": 1100,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
@@ -5589,10 +4933,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "HCTTestingLoop0": 0.95,
-                     "HCTUptakePostDebut1": 0.05
-                  },
+                  "Choice_Names": [
+                     "HCTTestingLoop0",
+                     "HCTUptakePostDebut1"
+                  ],
+                  "Choice_Probabilities": [
+                     0.95,
+                     0.05
+                  ],
                   "Choices__KP_TestingDropout": "<-- MARKER",
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
@@ -5635,7 +4983,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Negative_Diagnosis_Event": "ARTStaging8",
                   "New_Property_Value": "CascadeState:TestingOnSymptomatic",
@@ -5648,7 +4995,7 @@
                },
                "Actual_IndividualIntervention_Config__KP_Sympt_Link": "<-- MARKER",
                "Trigger_Condition_List": [
-                  "HIVSymptomatic"
+                  "NewlySymptomatic"
                ],
                "class": "NodeLevelHealthTriggeredIV"
             },
@@ -5676,7 +5023,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "CascadeState:TestingOnANC",
                   "Positive_Diagnosis_Event": "Needs_PMTCT_Diagnostic_Test",
                   "Ramp_Max": 0.975,
@@ -5740,10 +5086,14 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "ARTStaging1": 0.8,
-                     "DummyTrigger": 0.2
-                  },
+                  "Choice_Names": [
+                     "ARTStaging1",
+                     "DummyTrigger"
+                  ],
+                  "Choice_Probabilities": [
+                     0.8,
+                     0.2
+                  ],
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
                      "CascadeState:OnART",
@@ -5783,7 +5133,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "Negative_Diagnosis_Event": "Needs_Combination_PMTCT",
                   "New_Property_Value": "CascadeState:TestingOnANC",
                   "Positive_Diagnosis_Event": "Needs_sdNVP_PMTCT",
@@ -5841,7 +5190,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "Needs_Option_A",
                   "New_Property_Value": "CascadeState:TestingOnANC",
@@ -5934,7 +5282,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 1,
                   "New_Property_Value": "CascadeState:TestingOnChild6w",
@@ -6017,10 +5364,14 @@
             "Demographic_Coverage": 1,
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "ARTStaging2": 0.85,
-                     "HCTUptakePostDebut3": 0.15
-                  },
+                  "Choice_Names": [
+                     "ARTStaging2",
+                     "HCTUptakePostDebut3"
+                  ],
+                  "Choice_Probabilities": [
+                     0.85,
+                     0.15
+                  ],
                   "Choices__KP_PreStagingLoss": "<-- MARKER",
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
@@ -6052,8 +5403,8 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "ARTStaging3",
-                  "Delay_Distribution": "FIXED_DURATION",
-                  "Delay_Period": 1,
+                  "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
+                  "Delay_Period_Constant": 1,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
                      "CascadeState:OnART",
@@ -6186,7 +5537,6 @@
                      "CascadeState:OnPreART",
                      "CascadeState:LinkingToPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "NOTE1": "Threshold for adult vs child guidelines",
                   "Negative_Diagnosis_Event": "ARTStaging5",
                   "New_Property_Value": "CascadeState:ARTStaging",
@@ -6212,10 +5562,14 @@
             "Demographic_Coverage": 1,
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "ARTStaging6": 1,
-                     "HCTUptakePostDebut9": 0
-                  },
+                  "Choice_Names": [
+                     "ARTStaging6",
+                     "HCTUptakePostDebut9"
+                  ],
+                  "Choice_Probabilities": [
+                     1,
+                     0
+                  ],
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
                      "CascadeState:OnART",
@@ -6253,7 +5607,6 @@
                      "CascadeState:OnPreART",
                      "CascadeState:LinkingToPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "If_Active_TB": {
                      "Times": [
                         2002,
@@ -6321,7 +5674,6 @@
                      "CascadeState:LinkingToART",
                      "CascadeState:OnPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1.5,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut9",
                   "New_Property_Value": "CascadeState:LinkingToPreART",
@@ -6354,8 +5706,8 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "OnPreART1",
-                  "Delay_Distribution": "FIXED_DURATION",
-                  "Delay_Period": 182,
+                  "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
+                  "Delay_Period_Constant": 182,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
                      "CascadeState:OnART",
@@ -6385,10 +5737,14 @@
             "Demographic_Coverage": 1,
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "HCTUptakePostDebut9": 0.25,
-                     "OnPreART2": 0.75
-                  },
+                  "Choice_Names": [
+                     "HCTUptakePostDebut9",
+                     "OnPreART2"
+                  ],
+                  "Choice_Probabilities": [
+                     0.25,
+                     0.75
+                  ],
                   "Choices__KP_PreART_Loss": "<-- MARKER",
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
@@ -6485,7 +5841,6 @@
                      "CascadeState:OnART",
                      "CascadeState:LinkingToART"
                   ],
-                  "Event_Or_Config": "Event",
                   "NOTE1": "Threshold for adult vs child guidelines",
                   "Negative_Diagnosis_Event": "OnPreART3",
                   "New_Property_Value": "CascadeState:OnPreART",
@@ -6546,7 +5901,6 @@
                      "CascadeState:OnART",
                      "CascadeState:LinkingToART"
                   ],
-                  "Event_Or_Config": "Event",
                   "If_Active_TB": {
                      "Times": [
                         2002,
@@ -6612,7 +5966,6 @@
                      "CascadeState:LostForever",
                      "CascadeState:OnART"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut3",
                   "New_Property_Value": "CascadeState:LinkingToART",
@@ -6644,10 +5997,14 @@
             "Demographic_Coverage": 1,
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "OnART1": 0.1,
-                     "ARTInitiationDelayed": 0.9
-                  },
+                  "Choice_Names": [
+                     "OnART1",
+                     "ARTInitiationDelayed"
+                  ],
+                  "Choice_Probabilities": [
+                     0.1,
+                     0.9
+                  ],
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
                   ],
@@ -6678,7 +6035,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "OnART1",
-                  "Delay_Distribution": "WEIBULL_DURATION",
+                  "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                   "Delay_Period_Scale": 63.381,
                   "Delay_Period_Shape": 0.711,
                   "Delay_Period_Max": 120,
@@ -6732,7 +6089,7 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "OnART3",
-                  "Delay_Distribution": "EXPONENTIAL_DURATION",
+                  "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                   "Delay_Period": 7300,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
@@ -6783,10 +6140,14 @@
             "Demographic_Coverage": 1,
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Choices": {
-                     "HCTUptakePostDebut8": 0.9,
-                     "LostForever9": 0.1
-                  },
+                  "Choice_Names": [
+                     "HCTUptakePostDebut8",
+                     "LostForever9"
+                 ],
+                 "Choice_Probabilities": [
+                     0.9,
+                     0.1
+                 ],
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
                   ],
@@ -6807,22 +6168,6 @@
          "Start_Year": 1990,
          "class": "CampaignEventByYear"
       },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       {
          "BEGIN": "LOST FOREVER",
          "END": "LOST FOREVER",
@@ -6831,7 +6176,6 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "Positive_Diagnosis_Event": "LTFU0",
                   "class": "PropertyValueChanger",
                   "Target_Property_Key": "CascadeState",
