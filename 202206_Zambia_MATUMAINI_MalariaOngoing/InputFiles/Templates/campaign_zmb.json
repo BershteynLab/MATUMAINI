@@ -523,8 +523,8 @@
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "Commercial_Dropout",
                   "Delay_Period_Distribution": "WEIBULL_DISTRIBUTION",
-                  "Delay_Period_Scale": 2215,
-                  "Delay_Period_Shape": 3.312,
+                  "Delay_Period_Lambda": 2215,
+                  "Delay_Period_Kappa": 3.312,
                   "Disqualifying_Properties": [],
                   "Event_Or_Config": "Event",
                   "New_Property_Value": "",
@@ -4667,7 +4667,7 @@
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "HCTUptakePostDebut2",
                   "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                  "Delay_Period": 365,
+                  "Delay_Period_Exponential": 365,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
                      "CascadeState:OnART",
@@ -4788,7 +4788,7 @@
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "HCTTestingLoop1",
                   "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                  "Delay_Period": 730,
+                  "Delay_Period_Exponential": 730,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
                      "CascadeState:OnART",
@@ -4826,7 +4826,7 @@
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "HCTTestingLoop1",
                   "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                  "Delay_Period": 365,
+                  "Delay_Period_Exponential": 365,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
                      "CascadeState:OnART",
@@ -4864,7 +4864,7 @@
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "HCTTestingLoop1",
                   "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                  "Delay_Period": 1100,
+                  "Delay_Period_Exponential": 1100,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever",
                      "CascadeState:OnART",
@@ -6035,11 +6035,9 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "OnART1",
-                  "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                  "Delay_Period_Scale": 63.381,
-                  "Delay_Period_Shape": 0.711,
-                  "Delay_Period_Max": 120,
-                  "Delay_Period_Min": 1,
+                  "Delay_Period_Distribution": "WEIBULL_DISTRIBUTION",
+                  "Delay_Period_Lambda": 63.381,
+                  "Delay_Period_Kappa": 0.711,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
                   ],
@@ -6090,7 +6088,7 @@
                "Actual_IndividualIntervention_Config": {
                   "Broadcast_Event": "OnART3",
                   "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                  "Delay_Period": 7300,
+                  "Delay_Period_Exponential": 7300,
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
                   ],
