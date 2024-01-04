@@ -1,0 +1,136 @@
+{
+    "Metadata": {
+        "Author": "abershteyn no change from 2016-17 calibrations", 
+        "NodeCount": 6, 
+        "Tool": "Nodepad++", 
+        "IdReference": "0", 
+        "DateCreated": "20161207"
+    }, 
+    "Defaults": {
+        "Society": {
+            "COMMERCIAL": {
+                "Pair_Formation_Parameters": {
+                    "Assortivity": {
+                        "Group": "INDIVIDUAL_PROPERTY", 
+                        "Property_Name": "Risk", 
+                        "Axes": [
+                            "LOW", 
+                            "MEDIUM", 
+                            "HIGH"
+                        ], 
+                        "Weighting_Matrix_RowMale_ColumnFemale": [
+                            [
+                                1, 
+                                1, 
+                                1
+                            ], 
+                            [
+                                1, 
+                                1, 
+                                1
+                            ], 
+                            [
+                                1, 
+                                1, 
+                                1
+                            ]
+                        ]
+                    }
+                }
+            }, 
+            "TRANSITORY": {
+                "Pair_Formation_Parameters": {
+                    "Assortivity": {
+                        "Group": "INDIVIDUAL_PROPERTY", 
+                        "Property_Name": "Risk", 
+                        "Axes": [
+                            "LOW", 
+                            "MEDIUM", 
+                            "HIGH"
+                        ], 
+                        "Weighting_Matrix_RowMale_ColumnFemale__KP_RiskAssortivity": "<-- MARKER", 
+                        "Weighting_Matrix_RowMale_ColumnFemale": [
+                            [
+                                0.7032523334501651, 
+                                0.29674766654983487, 
+                                0
+                            ], 
+                            [
+                                0.29674766654983487, 
+                                0.7032523334501651, 
+                                0.7032523334501651
+                            ], 
+                            [
+                                0, 
+                                0.7032523334501651, 
+                                0.29674766654983487
+                            ]
+                        ]
+                    }
+                }
+            }, 
+            "INFORMAL": {
+                "Pair_Formation_Parameters": {
+                    "Assortivity": {
+                        "Group": "INDIVIDUAL_PROPERTY", 
+                        "Property_Name": "Risk", 
+                        "Axes": [
+                            "LOW", 
+                            "MEDIUM", 
+                            "HIGH"
+                        ], 
+                        "Weighting_Matrix_RowMale_ColumnFemale__KP_RiskAssortivity": "<-- MARKER", 
+                        "Weighting_Matrix_RowMale_ColumnFemale": [
+                            [
+                                0.7032523334501651, 
+                                0.29674766654983487, 
+                                0
+                            ], 
+                            [
+                                0.29674766654983487, 
+                                0.7032523334501651, 
+                                0.7032523334501651
+                            ], 
+                            [
+                                0, 
+                                0.7032523334501651, 
+                                0.29674766654983487
+                            ]
+                        ]
+                    }
+                }
+            }, 
+            "MARITAL": {
+                "Pair_Formation_Parameters": {
+                    "Assortivity": {
+                        "Group": "INDIVIDUAL_PROPERTY", 
+                        "Property_Name": "Risk", 
+                        "Axes": [
+                            "LOW", 
+                            "MEDIUM", 
+                            "HIGH"
+                        ], 
+                        "Weighting_Matrix_RowMale_ColumnFemale__KP_RiskAssortivity": "<-- MARKER", 
+                        "Weighting_Matrix_RowMale_ColumnFemale": [
+                            [
+                                0.7032523334501651, 
+                                0.29674766654983487, 
+                                0
+                            ], 
+                            [
+                                0.29674766654983487, 
+                                0.7032523334501651, 
+                                0.7032523334501651
+                            ], 
+                            [
+                                0, 
+                                0.7032523334501651, 
+                                0.29674766654983487
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
