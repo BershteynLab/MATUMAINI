@@ -194,7 +194,6 @@ sim.results.noart <- sim.results.noart %>%
 Checking that noART actually has no ART in it
 ```{r}
 sim.results.noart$On_ART %>% summary
-
 ```
 
 
@@ -245,17 +244,86 @@ sim.results.decnoart <- sim.results.decnoart %>%
 Checking that noART actually has no ART in it
 ```{r}
 sim.results.decnoart$On_ART %>% summary
+```
 
+
+## No HIV
+```{r}
+# Decoupled-No ART scenario run
+# res.path.cmd = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_noART___2023_09_22_11_43_25_438993"
+# 
+# sim.results.decnoart <- EMODAnalyzeR::read.simulation.results.bigpurple(
+#   res.path.cmd,
+#   scenario_name = 'decouple.gnoart',
+#   summarize_columns = c("Population","Infected", "On_ART",
+#                         "Died", "Died_from_HIV",
+#                         "Newly.Infected","Diagnosed"),
+#   stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+#   min_age_inclusive = 0,
+#   max_age_inclusive = 99
+# )
+
+sim.results.nohiv <- EMODAnalyzeR::read.simulation.results(
+  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/croi/Baseline-campaign_MATUMAINI_202305_NoHIV-noHIV/ReportHIVByAgeAndGender/",
+  scenario_name = 'decouple.nohiv',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.nohiv %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.nohiv <- sim.results.nohiv %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+```{r}
+sim.results.nohiv$Infected %>% summary
+
+#sim.results.nohiv$On_ART %>% summary
 ```
 
 
 ## Combine datasets
 ```{r}
-sim.results.all <- rbind(sim.results, sim.results.dec, sim.results.noart, sim.results.decnoart)
+sim.results.all <- rbind(sim.results, sim.results.dec, 
+                         sim.results.noart, sim.results.decnoart, 
+                         sim.results.nohiv)
 ```
 
 
 # Plot Results 
+
+## Population over time
+
+```{r}
+data.pop <- sim.results.all %>% 
+  group_by(Year, Gender, sim.id, scenario_name) %>% 
+  summarize(Population = sum(Population*pop.scaling.factor), .groups = "keep") %>% 
+  # group_by(Year, Gender,scenario_name) %>% 
+  # summarize(Population = mean(Population), .groups = "keep") %>% 
+  ungroup()
+
+p <- EMODAnalyzeR::emodplot.by_gender(data.pop, 1985, 2025, "Population", title = "Population over Time")
+
+p +
+  ylab("HIV Prevalence (%)") + 
+  scale_color_manual(values=c("blue","red","darkgreen","orange","black"))
+```
+
 
 ## HIV Prevalence over time
 
@@ -275,7 +343,7 @@ p <- EMODAnalyzeR::emodplot.prevalence(sim.results.all %>% filter(Age <= 50, Age
 p +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
     ylab("HIV Prevalence (%)") + 
-  scale_color_manual(values=c("blue","red","darkgreen","orange")) +
+  scale_color_manual(values=c("blue","red","darkgreen","orange","black")) +
   geom_point(data = obs.prev.sheet.base %>%
                filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
              mapping = aes(x = Year, y = Prevalence)) + 
@@ -348,7 +416,7 @@ p +
               mutate(lb = OnART - OnART/5,
                      ub = OnART + OnART/5),
               mapping = aes(x = Year, ymin = lb, ymax = ub)) + 
-  scale_color_manual(values = c("blue","red","darkgreen","orange"))
+  scale_color_manual(values = c("blue","red","darkgreen","orange", "black"))
 
 # ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_onART.pdf",
 #        width = 8, height = 6, units = "in")
@@ -358,7 +426,7 @@ p +
 ### Diagnosis coverage over time
 
 ```{r}
-data <- sim.results %>% 
+data <- sim.results.all %>% 
   filter(Age >=15) %>% 
   group_by(Year, Gender,sim.id,scenario_name) %>% 
   summarize(Diagnosed = sum(Diagnosed), Infected = sum(Infected), .groups = "keep") %>% 
@@ -371,16 +439,16 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 2000, 2040,
 
 p + scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
     ylab("% PLHIV Diagnosed") + 
-  scale_color_manual(values = c("blue","red"))
+  scale_color_manual(values = c("blue","red","darkgreen","orange", "black"))
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_diagnosed.pdf",
-       width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_diagnosed.pdf",
+#        width = 8, height = 6, units = "in")
 ```
 
 ### ART coverage over time
 
 ```{r}
-data <- sim.results %>% 
+data <- sim.results.all %>% 
   filter(Age >=15) %>% 
   group_by(Year, Gender,sim.id,scenario_name) %>% 
   summarize(On_ART = sum(On_ART), Diagnosed = sum(Diagnosed), .groups = "keep") %>% 
@@ -393,10 +461,10 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 2000, 2040,
 
 p + scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
     ylab("% Diagnosed and On ART") + 
-  scale_color_manual(values = c("blue","red"))
+  scale_color_manual(values = c("blue","red","darkgreen","orange", "black"))
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_art_coverage.pdf",
-       width = 8, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_art_coverage.pdf",
+#        width = 8, height = 6, units = "in")
 ```
 
 ## Incidence
@@ -419,7 +487,7 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 1990, 2025,
 
 p + #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
     ylab("") + 
-  scale_color_manual(values = c("blue","red","darkgreen","orange"))
+  scale_color_manual(values = c("blue","red","darkgreen","orange", "black"))
 
 
 # ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/croi_HIV_new_cases.pdf",
@@ -427,6 +495,8 @@ p + #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
 
 
 ```
+
+### New HIV infections averted
 CROI measurement of new infections: Absolute and percent difference of new infections with and without coupling HIV together
 ```{r}
 new.infections.difference <- data %>% 
@@ -442,19 +512,12 @@ new.infections.difference <- data %>%
 #             baseline.art = mean(baseline.art), baseline.art.sd = sd(baseline.art),
 #             decouple.art = mean(decouple.art), decouple.art.sd = sd(decouple.art))
 
-(mean(new.infections.difference$decouple.art) - mean(new.infections.difference$baseline.art))/mean(new.infections.difference$decouple.art) 
+```
 
-
-mean(new.infections.difference$diff)
-
-mean(new.infections.difference$diff/new.infections.difference$decouple.art)
-sd(new.infections.difference$diff/new.infections.difference$decouple.art)
-
-mean(new.infections.difference$pct.diff)
-
-sd(new.infections.difference$pct.diff)
-
+```{r}
+# These are the total number of cases attributable to depression
 c(mean(new.infections.difference$diff),
+  sd(new.infections.difference$diff),
   lower_ci(mean(new.infections.difference$diff), 
          sd(new.infections.difference$diff)/sqrt(250),
          n = 250,
@@ -464,9 +527,12 @@ c(mean(new.infections.difference$diff),
          n = 250,
          conf_level = .95)
 )
+```
 
-
+```{r}
+# These are the percent additional cases of HIV attributable to depression
 c(mean(new.infections.difference$pct.diff),
+  sd(new.infections.difference$pct.diff),
   lower_ci(mean(new.infections.difference$pct.diff), 
          sd(new.infections.difference$pct.diff)/sqrt(250),
          n = 250,
@@ -476,9 +542,8 @@ c(mean(new.infections.difference$pct.diff),
          n = 250,
          conf_level = .95)
 )
-
-
 ```
+
 
 Cumulative cases
 ```{r}
@@ -552,7 +617,7 @@ p
 ### HIV Deaths
 
 ```{r}
- data <- sim.results.all %>% 
+data <- sim.results.all %>% 
   mutate(Year = ceiling(Year)) %>%
   filter(Year >= 1985, Year <=2025) %>% 
   group_by(Year, Gender, sim.ix, sim.id, scenario_name) %>% 
@@ -567,13 +632,13 @@ p <- EMODAnalyzeR::emodplot.by_gender(data, 1990, 2025,
 
 p + #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
     ylab("") + 
-  scale_color_manual(values = c("blue","red","darkgreen","orange"))
+  scale_color_manual(values = c("blue","red","darkgreen","orange", "black"))
 
 
 # ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/croi_HIV_deaths.pdf",
 #       width = 8, height = 6, units = "in")
 ```
-
+### HIV deaths averted
 CROI measurement of deaths: Absolute and percent difference of new infections with and without coupling HIV together
 ```{r}
 deaths.difference <- data %>% 
@@ -589,20 +654,12 @@ deaths.difference <- data %>%
 #             baseline.art = mean(baseline.art), baseline.art.sd = sd(baseline.art),
 #             decouple.art = mean(decouple.art), decouple.art.sd = sd(decouple.art))
 
-(mean(deaths.difference$decouple.art) - mean(deaths.difference$baseline.art))/mean(deaths.difference$decouple.art) 
+```
 
-
-mean(deaths.difference$diff)
-
-mean(deaths.difference$diff/deaths.difference$decouple.art)
-sd(deaths.difference$diff/deaths.difference$decouple.art)
-
-mean(deaths.difference$pct.diff)
-
-sd(deaths.difference$pct.diff)
-
-
+```{r}
+# Total difference in HIV-related deaths attributable to depression
 c(mean(deaths.difference$diff),
+  sd(deaths.difference$diff),
   lower_ci(mean(deaths.difference$diff), 
          sd(deaths.difference$diff)/sqrt(250),
          n = 250,
@@ -613,7 +670,10 @@ c(mean(deaths.difference$diff),
          conf_level = .95)
 )
 
+```
 
+```{r}
+# Total percentage difference in HIV-related deaths attributable to depression
 c(mean(deaths.difference$pct.diff),
   lower_ci(mean(deaths.difference$pct.diff), 
          sd(deaths.difference$pct.diff)/sqrt(250),
@@ -624,9 +684,6 @@ c(mean(deaths.difference$pct.diff),
          n = 250,
          conf_level = .95)
 )
-
-
-
 ```
 
 
@@ -680,7 +737,7 @@ p = ggplot() +
     mapping = aes(x = Year, y = CMD_prev, color = Depression.Prevalence), 
     size = 1.0) + 
   scale_y_continuous(limits = c(0.05,.22)) + 
-  facet_wrap(scenario_name ~ Gender, ncol=2) +
+  facet_wrap(Gender ~ scenario_name, nrow = 2) +
   xlab("Year")+ylab("") + 
   ggtitle("Depression Prevalence by HIV status") + 
   theme_bw(base_size=16) +
@@ -693,8 +750,8 @@ p = ggplot() +
 
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/croi_depression_prev.pdf",
-       width = 8, height = 8, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/croi_depression_prev.pdf",
+#        width = 8, height = 8, units = "in")
 ```
 
 ## Depression Age-Prevalence Curves
@@ -820,7 +877,7 @@ data <- sim.results.all %>%
             OnART = sum(On_ART * pop.scaling.factor), # factor of 2 to avoid double counting
             .groups = 'keep')
 
-# Deaths averted by lookign at difference between art and no art - baseline
+# Deaths averted by looking at difference between art and no art - baseline
 
 art.benefit <- data %>% 
   pivot_wider(id_cols = c("sim.ix"), names_from=c("scenario_name"), values_from = c("NewInf", "OnART")) %>% 
@@ -834,20 +891,38 @@ art.benefit <- data %>%
   # find the difference in ART benefit, and the percent difference 
   mutate(averted.difference = baseline.averted.rescale - decouple.averted.rescale,
          averted.pct = (baseline.averted.rescale - decouple.averted.rescale)/decouple.averted.rescale) 
-
-
-c(art.benefit$baseline.averted %>% mean,
-  art.benefit$decouple.averted %>% mean)
-
-c(art.benefit$averted.difference %>% mean,
-  art.benefit$averted.difference %>% sd,
-  art.benefit$averted.pct %>% mean,
-  art.benefit$averted.pct %>% sd)
 ```
 
+```{r}
+# Cases averted due to ART, with and without influence of depression
+c(mean(art.benefit$averted.difference),
+  sd(art.benefit$averted.difference),
+  lower_ci(mean(art.benefit$averted.difference), 
+         sd(art.benefit$averted.difference)/sqrt(250),
+         n = 250,
+         conf_level = .95),
+  upper_ci(mean(art.benefit$averted.difference), 
+         sd(art.benefit$averted.difference)/sqrt(250),
+         n = 250,
+         conf_level = .95)
+)
+```
+
+```{r}
+c(mean(art.benefit$averted.pct),
+  sd(art.benefit$averted.pct),
+  lower_ci(mean(art.benefit$averted.pct), 
+         sd(art.benefit$averted.pct)/sqrt(250),
+         n = 250,
+         conf_level = .95),
+  upper_ci(mean(art.benefit$averted.pct), 
+         sd(art.benefit$averted.pct)/sqrt(250),
+         n = 250,
+         conf_level = .95)
+)
+```
 
 ## HIV deaths averted
-
 ```{r}
 data <- sim.results.all %>%
   #mutate(Year = ceiling(Year)) %>% 
@@ -863,32 +938,7 @@ data <- sim.results.all %>%
 Deaths Averted
 
 ```{r}
-art.benefit <- data %>% 
-  pivot_wider(id_cols = c("sim.ix"), names_from=c("scenario_name"), values_from = c("Deaths", "OnART", "PLHIV")) %>% 
-  # This is the number of deaths averted
-  # deaths is higher without ART, should be positive
-  mutate(baseline.averted = Deaths_baseline.noart - Deaths_baseline.art, 
-         decouple.averted = Deaths_decouple.noart - Deaths_decouple.art) %>% 
-  # find the difference in ART benefit, and the percent difference 
-  # we expect that ART benefit is *smaller* if people are depressed
-  mutate(averted.difference = baseline.averted - decouple.averted,
-         averted.pct = (baseline.averted - decouple.averted)/decouple.averted) 
-
-art.benefit %>% 
-  ungroup() %>% 
-  summarize(averted.difference = mean(averted.difference),
-            averted.pct = mean(averted.pct))
-
-```
-
-
-Deaths Averted per person-year of living with HIV
-
-```{r}
-
-
-# Deaths averted by lookign at difference between art and no art - baseline
-
+# Deaths averted by looking at difference between art and no art - baseline
 art.benefit <- data %>% 
   pivot_wider(id_cols = c("sim.ix"), names_from=c("scenario_name"), values_from = c("Deaths", "OnART", "PLHIV")) %>% 
   # This is the number of deaths averted
@@ -896,24 +946,89 @@ art.benefit <- data %>%
   mutate(baseline.averted = Deaths_baseline.noart - Deaths_baseline.art, 
          decouple.averted = Deaths_decouple.noart - Deaths_decouple.art) %>% 
   # rescale each of these by the number of person-years on ART
-  # mutate(baseline.averted.rescale = baseline.averted/OnART_baseline.art,
-  #        decouple.averted.rescale = decouple.averted/OnART_decouple.art) %>% 
-  mutate(baseline.averted.rescale = baseline.averted/PLHIV_baseline.art, 
-         decouple.averted.rescale = decouple.averted/PLHIV_decouple.art) %>% 
+  mutate(baseline.averted.rescale = baseline.averted/OnART_baseline.art,
+         decouple.averted.rescale = decouple.averted/OnART_decouple.art) %>%
+  # rescale each of these by number of person-years lived with HIV
+  #mutate(baseline.averted.rescale = baseline.averted/PLHIV_baseline.art, 
+  #       decouple.averted.rescale = decouple.averted/PLHIV_decouple.art) %>% 
   # find the difference in ART benefit, and the percent difference 
-  mutate(averted.difference = baseline.averted.rescale - decouple.averted.rescale,
-         averted.pct = (baseline.averted.rescale - decouple.averted.rescale)/decouple.averted.rescale) 
+  mutate(averted.difference = baseline.averted - decouple.averted,
+         averted.pct = (baseline.averted - decouple.averted)/decouple.averted,
+         averted.rescale.difference = baseline.averted.rescale - decouple.averted.rescale,
+         averted.rescale.pct = (baseline.averted.rescale - decouple.averted.rescale)/decouple.averted.rescale)
+```
 
+Deaths averted
+```{r}
+# Deaths Averted
+c(mean(art.benefit$averted.difference),
+  sd(art.benefit$averted.difference),
+  lower_ci(mean(art.benefit$averted.difference), 
+         sd(art.benefit$averted.difference)/sqrt(250),
+         n = 250,
+         conf_level = .95),
+  upper_ci(mean(art.benefit$averted.difference), 
+         sd(art.benefit$averted.difference)/sqrt(250),
+         n = 250,
+         conf_level = .95)
+)
 
-art.benefit %>% 
-  ungroup() %>% 
-  summarize(
-    averted.difference.sd = sd(averted.difference),
-    averted.difference = mean(averted.difference),
-    averted.pct.sd = sd(averted.pct),
-    averted.pct = mean(averted.pct))
+# Deaths Averted percentage
+c(mean(art.benefit$averted.pct),
+  sd(art.benefit$averted.pct),
+  lower_ci(mean(art.benefit$averted.pct), 
+         sd(art.benefit$averted.pct)/sqrt(250),
+         n = 250,
+         conf_level = .95),
+  upper_ci(mean(art.benefit$averted.pct), 
+         sd(art.benefit$averted.pct)/sqrt(250),
+         n = 250,
+         conf_level = .95)
+)
+```
 
+Deaths averted per person year living with ART
+```{r}
+# Deaths Averted per person-year living with ART
+c(mean(art.benefit$averted.rescale.difference),
+  sd(art.benefit$averted.rescale.difference),
+  lower_ci(mean(art.benefit$averted.rescale.difference), 
+         sd(art.benefit$averted.rescale.difference)/sqrt(250),
+         n = 250,
+         conf_level = .95),
+  upper_ci(mean(art.benefit$averted.rescale.difference), 
+         sd(art.benefit$averted.rescale.difference)/sqrt(250),
+         n = 250,
+         conf_level = .95)
+)
 
+# Deaths Averted per person-year living with ART, percent difference
+c(mean(art.benefit$averted.rescale.pct),
+  sd(art.benefit$averted.rescale.pct),
+  lower_ci(mean(art.benefit$averted.rescale.pct), 
+         sd(art.benefit$averted.rescale.pct)/sqrt(250),
+         n = 250,
+         conf_level = .95),
+  upper_ci(mean(art.benefit$averted.rescale.pct), 
+         sd(art.benefit$averted.rescale.pct)/sqrt(250),
+         n = 250,
+         conf_level = .95)
+)
+```
+
+```{r}
+# Deaths Averted per person-year of living with HIV
+c(mean(art.benefit$averted.difference),
+  sd(art.benefit$averted.difference),
+  lower_ci(mean(art.benefit$averted.difference), 
+         sd(art.benefit$averted.difference)/sqrt(250),
+         n = 250,
+         conf_level = .95),
+  upper_ci(mean(art.benefit$averted.difference), 
+         sd(art.benefit$averted.difference)/sqrt(250),
+         n = 250,
+         conf_level = .95)
+)
 ```
 
 
