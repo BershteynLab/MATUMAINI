@@ -1,0 +1,270 @@
+---
+title: "Baseline_scenario"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The purpose of this notebook is to assess the baseline scenario
+
+```{r Load Libraries}
+library(tidyverse)
+library(tidyr)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(devtools)
+library(readxl)
+devtools::install_github("BershteynLab/EMODAnalyzeR")
+```
+
+```{r}
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+```
+
+## Import data
+
+## Baseline scenario
+
+This is the original version of the model, calibrated by David, without any CMD or ART Mortality added:
+
+```{r}
+sim.results.baseline <- EMODAnalyzeR::read.simulation.results(
+  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/model_0/Baseline-campaign_Nyanza_baseline_202301-Baseline/ReportHIVByAgeAndGender/",
+  scenario_name = 'baseline',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- sim.results.baseline %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.baseline <- sim.results.baseline %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+```{r}
+sim.results.newdemog <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_Nyanza_baseline_202301-Baseline___2023_11_16_16_23_55_946052",
+  scenario_name = 'newdemog',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- sim.results.newdemog %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.newdemog <- sim.results.newdemog %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+Combine datasets
+```{r}
+sim.results.all <- rbind(sim.results.baseline, sim.results.newdemog)
+
+```
+
+# Prevalence
+
+```{r}
+ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/Data/calibration_ingest_form_Nyanza.xlsm"
+
+obs.prev.sheet.base <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-Prevalence")
+```
+
+```{r, fig.width=8}
+data <- EMODAnalyzeR::calculate.prevalence(
+  sim.results.all %>% filter( Age < 50, Age >=15),
+         stratify_columns = c("Year", "Gender", "sim.id", "scenario_name"),
+         numerator = "Infected",
+         denominator = "Population")
+
+prev.data.mean <- data %>%
+    dplyr::group_by(Year, Gender, scenario_name) %>%
+    dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep') %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+ggplot() +
+    geom_line(data= prev.data.mean %>% filter(Year > 2000),
+              aes(x=Year, y=Prevalence, group=scenario_name, color=scenario_name), linewidth=.75) +
+    facet_wrap(~ Gender, ncol=2) +
+    xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    ylab("Prevalence") +
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1980,2040,10)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+      ylab("HIV Prevalence (%)") + 
+    scale_color_manual(values=c("blue","red","darkgreen","orange")) +
+    geom_point(data = obs.prev.sheet.base %>%
+                 filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
+               mapping = aes(x = Year, y = Prevalence)) + 
+    geom_errorbar(data = obs.prev.sheet.base %>%
+               filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
+               mapping = aes(x = Year, ymin = lb, ymax = ub))
+```
+# Age Prevalence
+
+```{r, fig.width=8, fig.height=10}
+age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65)
+subset_years = c(2003, 2007, 2008, 2012, 2018)
+
+# Subset data on years
+data <- sim.results.all %>% filter(Year %in% subset_years)
+
+# Age bins
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
+# Label each age by its bin
+data <- data %>% mutate(
+  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+data$AgeBin_index = factor(data$AgeBin,labels = 1:length(age_labels))
+
+# Calculate prevalence, grouping by age bin
+data.prev <- data %>% EMODAnalyzeR::calculate.prevalence(
+  stratify_columns = c("Year", "AgeBin_index", "AgeBin", "Gender", "scenario_name", "sim.id"),
+  numerator = "Infected",
+  denominator = "Population")
+
+# Calculate mean prevalence across all sim runs
+data.mean <- data.prev %>%
+  dplyr::group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>%
+  dplyr::summarize(mean.Prevalence = mean(Prevalence),
+            sd.Prevalence = sd(Prevalence),
+            .groups = 'keep') %>%
+  ungroup() %>%
+  dplyr::mutate(upper = mean.Prevalence + 2*sd.Prevalence,
+                lower = case_when(mean.Prevalence - 2 * sd.Prevalence > 0 ~ mean.Prevalence - 2 * sd.Prevalence,
+                         mean.Prevalence - 2 * sd.Prevalence <= 0 ~ 0)
+                )
+
+# Transform data
+data.prev <- data.prev %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+data.mean <- data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+p <- data.mean %>%
+  ggplot() +
+  # plot means
+  geom_point(
+    mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = scenario_name),
+    size=1
+  ) +
+  geom_errorbar(
+    mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper, color=scenario_name),
+    width=.15, size=1) +
+  facet_grid(cols = vars(Gender), rows = vars(Year)) +
+  xlab("Age") +
+  ylab("Prevalence") +
+  theme_bw(base_size=16) +
+  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+  scale_x_discrete(
+    breaks = 1:length(age_labels),
+    labels = age_labels
+    ) +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_color_manual(values=c("blue", "red")) 
+
+# p <- EMODAnalyzeR::emodplot.age_prevalence(sim.results.all %>% filter(scenario_name == "minimal"), 
+#                                            subset_years = subset_years, 
+#                                            age_bins = age_bins,
+#                                            title = "HIV Age-Prevalence Curves")
+
+p + theme(aspect.ratio = .15) + 
+  geom_point(data = obs.prev.sheet.base %>% 
+    filter(Province == "All", 
+           Gender %in% c("Male", "Female"),  
+           AgeBin != "[15:50)") %>% 
+    mutate(AgeBin_index = factor(AgeBin, labels = 1:10)),
+  mapping = aes(x = AgeBin_index, y = Prevalence)) + 
+  scale_color_manual(values=c("blue", "red"))
+```
+
+
+# ART
+
+```{r}
+ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/Data/calibration_ingest_form_Nyanza.xlsm"
+
+obs.onart.sheet <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-OnART")
+```
+
+```{r, fig.width=8}
+sim.onart <- sim.results.all %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>% 
+  dplyr::summarize(On_ART = sum(On_ART * pop.scaling.factor),
+                   Population = sum(Infected * pop.scaling.factor), 
+                   .groups = "keep") %>% 
+  ungroup()
+
+# sim.onart %>% group_by(Year, Gender, scenario_name) %>% 
+#   summarize(On_ART = mean(On_ART), Population = mean(Population)) %>% 
+#   mutate(ARTCov = case_when(Population == 0 ~ 0 ,
+#                    Population > 0 ~ On_ART/Population)) %>% View
+
+p <- EMODAnalyzeR::emodplot.by_gender(sim.onart, 2000, 2025, 
+                        "On_ART", title = "Population on ART") + 
+    ylab("Number on ART")
+
+p + 
+  geom_point(data = obs.onart.sheet %>% 
+               filter(Province != "All", 
+                      Gender %in% c("Male", "Female"), 
+                      AgeBin == "[15:100)") %>%
+              group_by(Year, Gender) %>% 
+              summarize(OnART = sum(OnART)) %>% ungroup(),
+              mapping = aes(x = Year, y = OnART)) + 
+  geom_errorbar(data = obs.onart.sheet %>% 
+                  filter(Province != "All", 
+                         Gender %in% c("Male", "Female"), 
+                         AgeBin == "[15:100)") %>%
+              group_by(Year, Gender) %>% 
+              summarize(OnART = sum(OnART)) %>% ungroup() %>% 
+              mutate(lb = OnART - OnART/5,
+                     ub = OnART + OnART/5),
+              mapping = aes(x = Year, ymin = lb, ymax = ub)) + 
+  scale_color_manual(values = c("blue","red","darkgreen","orange"))
+
+```
+
+# Average age of death by year
+
+```{r}
+
+```
+

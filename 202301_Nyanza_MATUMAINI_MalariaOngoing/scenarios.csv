@@ -1,2 +1,2 @@
 Scenario,Campaign,Choice_Probabilities__KP_DelayDiagnosis,Choice_Probabilities__KP_EffectiveART_CMDpos,Demographic_Coverage__KP_CMD_Recovery_Effective_ART,Delay_Period_Exponential__KP_CMD_ARTdropout,Acquisition_Multiplier__KP_CMD_increase_incidence,Transmission_Multiplier__KP_CMD_increase_transmission,Trigger_Condition_List__KP_ART_trigger_condition
-decouple_adh_ART,campaign_MATUMAINI_202305_decouple.json,"[1.0,0]","[0.68,0.32]",.833,3650,1,1,"['OnART1']"
+NOadh_ART,campaign_MATUMAINI_202305.json,"[1.0,0]","[0.833,0.167]",.833,3650,1,1,"['OnART1']"
