@@ -1,3 +1,6 @@
+
+.vscode/
+
 *.DS_Store
 **/COMPS_log.log
 **/DownloadAnalyzerTPI_cache/
@@ -26,3 +29,14 @@
 
 202301_Nyanza_MATUMAINI_MalariaOngoing/croi/**
 202301_Nyanza_MATUMAINI_MalariaOngoing/croi_2/**
+202301_Nyanza_MATUMAINI_MalariaOngoing/art/**
+202301_Nyanza_MATUMAINI_MalariaOngoing/minimal/**
+202301_Nyanza_MATUMAINI_MalariaOngoing/treatment/**
+202301_Nyanza_MATUMAINI_MalariaOngoing/treat/**
+.Rproj.user
+
+Analysis/.RData
+Analysis/.Rhistory
+Analysis/Analysis.RData
+
+**/*.out
