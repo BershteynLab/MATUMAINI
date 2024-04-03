@@ -1,0 +1,946 @@
+---
+title: "croi_manuscript_analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The purpose of this notebook will be to perform the analysis post-CROI, in preparation for completing the manuscript of the CROI results
+
+
+```{r Load Libraries}
+library(tidyverse)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(devtools)
+library(readxl)
+devtools::install_github("BershteynLab/EMODAnalyzeR")
+```
+
+
+```{r}
+# Confidence interval functions
+lower_ci <- function(mean, se, n, conf_level = 0.95){
+  lower_ci <- mean - qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(lower_ci)
+}
+upper_ci <- function(mean, se, n, conf_level = 0.95){
+  upper_ci <- mean + qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(upper_ci)
+}
+```
+
+# Context 
+
+The "baseline scenario" set of HIV-CMD interactions
+1. Depression dynamics
+  1. Age/sex-specific annual incidence of depression
+  2. HIV+ status also increases depression incidence
+  3. Relapse rate equal to incidence rate
+2. Depression-caused increase to incidence - CoitalActRiskFactor increases from 1 to 1.646
+3. Depression-caused delays to diagnosis (2/3 of depressed skip diagnosis)
+4. Depression-caused dropout from ART (mean time 5 years for depressed, 10 years for non-depressed)
+5. Depression-caused non-adherence to ART
+
+
+## 2024-03-18
+At the moment we are stuck on trying to figure out how to show that depression reducing art adherence has been bad.
+
+# Read in data
+
+## Decouple, ART
+```{r}
+# results used for CROI
+# results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/croi/Baseline-campaign_MATUMAINI_202305_decouple-decouple_adh_ART/ReportHIVByAgeAndGender/",
+
+sim.results.decouple.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  # results from post-croi
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art___2024_03_19_17_41_32_249809",
+  scenario_name = 'decouple.art',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art <- sim.results.decouple.art %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Decouple, no ART
+```{r}
+# "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_noart___2024_03_15_13_34_32_937184"
+# results used for CROI
+# 
+sim.results.decouple.noart <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_noart___2024_03_19_17_43_29_880079",
+  scenario_name = 'decouple.noart',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.noart %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.noart <- sim.results.decouple.noart %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+
+```
+
+## Decouple, ART, Reduced ART Adherence
+```{r}
+# "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/croi/Baseline-campaign_MATUMAINI_202305_decouple-decouple_adh_ART/ReportHIVByAgeAndGender/"
+# results used for croi
+
+sim.results.decouple.art.adh <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_artadh___2024_03_19_17_45_09_291000",
+  scenario_name = 'decouple.art.adh',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.adh %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.adh <- sim.results.decouple.art.adh %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Decouple, ART, extreme Reduced ART Adherence
+```{r}
+# /gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/croi/Baseline-campaign_MATUMAINI_202305_decouple-decouple_adh_ART_xtreem/ReportHIVByAgeAndGender/
+# croi results path
+
+sim.results.decouple.art.adh.xtreem <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_artadh_xtreem___2024_03_19_17_47_00_519738",
+  scenario_name = 'decouple.art.adh.xtreem',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.adh.xtreem %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.adh.xtreem <- sim.results.decouple.art.adh.xtreem %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Decouple, ART, Lower ART Adherence after depression recovery
+
+```{r}
+sim.results.decouple.art.adh.recov <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_recov-decouple_art_artadh_recov___2024_03_28_18_18_34_208629",
+  scenario_name = 'decouple.art.adh.recov',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.adh.recov %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.adh.recov <- sim.results.decouple.art.adh.recov %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Decouple, ART, delay
+
+```{r}
+sim.results.decouple.art.delay <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_delay___2024_03_19_17_50_33_326405",
+  scenario_name = 'decouple.art.delay',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.delay %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.delay <- sim.results.decouple.art.delay %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Decouple, ART, delay extreme
+
+```{r}
+sim.results.decouple.art.delay.xtreem <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_delay_xtreem___2024_03_19_17_52_27_860408",
+  scenario_name = 'decouple.art.delay.xtreem',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.delay.xtreem %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.delay.xtreem <- sim.results.decouple.art.delay.xtreem %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Decouple, no ART, delay
+
+```{r}
+sim.results.decouple.noart.delay <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_noart_delay___2024_03_19_17_54_07_121268",
+  scenario_name = 'decouple.noart.delay',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.noart.delay %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.noart.delay <- sim.results.decouple.noart.delay %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+## Decouple, ART, ART Dropout
+
+```{r}
+sim.results.decouple.art.artdrop <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_artdrop___2024_03_19_17_55_46_804213",
+  scenario_name = 'decouple.art.artdrop',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.artdrop %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.artdrop <- sim.results.decouple.art.artdrop %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+
+
+## Decouple, ART, extreme ART Dropout
+
+```{r}
+sim.results.decouple.art.artdrop.xtreem <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_artdrop_xtreem___2024_03_19_17_57_45_611817/",
+  scenario_name = 'decouple.art.artdrop.xtreem',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.artdrop.xtreem %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.artdrop.xtreem <- sim.results.decouple.art.artdrop.xtreem %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+
+## Join data together
+
+```{r}
+sim.results.all <- rbind(sim.results.decouple.art,
+                         sim.results.decouple.noart,
+                         sim.results.decouple.art.adh,
+                         sim.results.decouple.art.adh.xtreem,
+                         sim.results.decouple.art.adh.recov)
+# ,
+#                          sim.results.decouple.art.delay,
+#                          sim.results.decouple.art.delay.xtreem,
+#                          sim.results.decouple.noart.delay,
+#                          sim.results.decouple.art.artdrop,
+#                          sim.results.decouple.art.artdrop.xtreem)
+```
+
+# Plot
+
+## Population
+
+```{r, fig.width = 8}
+data.pop <- sim.results.all %>% 
+  group_by(Year, Gender, sim.id, scenario_name) %>% 
+  summarize(Population = sum(Population*pop.scaling.factor), .groups = "keep") %>% 
+  # group_by(Year, Gender,scenario_name) %>% 
+  # summarize(Population = mean(Population), .groups = "keep") %>% 
+  ungroup()
+
+p <- EMODAnalyzeR::emodplot.by_gender(data.pop, 1985, 2025, "Population", title = "Population over Time")
+
+p +
+  ylab("HIV Prevalence (%)") + 
+  scale_color_manual(values=c("blue","red","darkgreen","orange","black")) + 
+  theme(legend.position = "right")
+```
+## PLHIV over time
+
+```{r}
+plhiv.data <- sim.results.all %>% 
+  filter(Age >= 15, Age < 50) %>% 
+  group_by(Year, Gender, scenario_name, sim.id) %>% 
+  summarize(PLHIV = sum(Infected*pop.scaling.factor), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+  
+plhiv.data.mean <- plhiv.data %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(PLHIV = mean(PLHIV), .groups = "keep")
+
+p <- ggplot() +
+      geom_line(data= plhiv.data.mean %>% filter(Year > 1985),
+              aes(x=Year, y=PLHIV, group=scenario_name, color=scenario_name), linewidth=.5) +
+    facet_wrap(~ Gender, ncol=2) +
+    #xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    #ylab("Prevalence") +
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    #scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    #ylab("HIV Prevalence (%)") + 
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) 
+
+p 
+
+```
+```{r}
+plhiv.data.mean %>% filter(Year > 2004)
+```
+
+
+## HIV Prevalence over time
+
+```{r}
+ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/Data/calibration_ingest_form_Nyanza.xlsm"
+
+obs.prev.sheet.base <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-Prevalence")
+
+obs.prev.sheet.base
+```
+
+
+```{r, fig.width=8}
+#p <- EMODAnalyzeR::emodplot.prevalence(sim.results %>% filter(Age <= 50, Age >=15), 
+#                                       1990, 20240)
+p <- EMODAnalyzeR::emodplot.prevalence(sim.results.all %>% filter(Age <= 50, Age >=15), 
+                                       1980, 2040)
+
+p +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    ylab("HIV Prevalence (%)") + 
+  scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) +
+  geom_point(data = obs.prev.sheet.base %>%
+               filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
+             mapping = aes(x = Year, y = Prevalence)) + 
+  geom_errorbar(data = obs.prev.sheet.base %>%
+             filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
+             mapping = aes(x = Year, ymin = lb, ymax = ub)) + 
+  theme(legend.position = "right")
+
+
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/minimal_HIV_prev.pdf",
+#        width = 8, height = 6, units = "in")
+```
+
+```{r}
+croi.prev.data <- sim.results.all %>% 
+  filter(Age >= 15, Age < 50) %>% 
+  group_by(Year, Gender, scenario_name, sim.id) %>% 
+  summarize(Population = sum(Population*pop.scaling.factor), 
+            Infected = sum(Infected*pop.scaling.factor), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Prevalence = case_when(Population == 0 ~ 0,
+                                Population > 0 ~ Infected/Population)) %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+  
+croi.prev.data.mean <- croi.prev.data %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(Prevalence = mean(Prevalence), .groups = "keep")
+
+p <- ggplot() +
+      geom_line(data= croi.prev.data.mean %>% filter(Year > 1985),
+              aes(x=Year, y=Prevalence, group=scenario_name, color=scenario_name), linewidth=.5) +
+    facet_wrap(~ Gender, ncol=2) +
+    #xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    #ylab("Prevalence") +
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    #ylab("HIV Prevalence (%)") + 
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) +
+    geom_point(data = obs.prev.sheet.base %>%
+                 filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
+               mapping = aes(x = Year, y = Prevalence) , color = 'black', size = 3, shape = 15) + 
+    geom_errorbar(data = obs.prev.sheet.base %>%
+               filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
+               mapping = aes(x = Year, ymin = lb, ymax = ub), color = 'black', size = 1)
+
+p 
+
+```
+## Number on ART over time
+
+```{r}
+ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/Data/calibration_ingest_form_Nyanza.xlsm"
+
+obs.onart.sheet <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-OnART")
+```
+
+
+
+
+```{r, fig.width=8}
+sim.onart <- sim.results.all %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>% 
+  dplyr::summarize(On_ART = sum(On_ART * pop.scaling.factor), .groups = "keep") %>% 
+  ungroup() %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+sim.onart.mean <- sim.onart %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(On_ART = mean(On_ART), .groups = "keep")
+
+p <- ggplot() +
+      geom_line(data= sim.onart.mean %>% filter(Year > 1985),
+              aes(x=Year, y=On_ART, group=scenario_name, color=scenario_name), linewidth=.75) +
+    facet_wrap(~ Gender, ncol=2) +
+    #xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    #ylab("Prevalence") +
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    #scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    #ylab("HIV Prevalence (%)") + 
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple"))
+p 
+```
+
+
+## Number of New HIV cases
+
+```{r}
+sim.cases <- sim.results.all %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>% 
+  dplyr::summarize(Newly.Infected = sum(Newly.Infected * pop.scaling.factor), .groups = "keep") %>% 
+  ungroup() %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+sim.cases.mean <- sim.cases %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(Newly.Infected = mean(Newly.Infected), .groups = "keep")
+
+p <- ggplot() +
+      geom_line(data= sim.cases.mean %>% filter(Year > 1985),
+              aes(x=Year, y= Newly.Infected, group=scenario_name, color=scenario_name), linewidth=.5) +
+    facet_wrap(~ Gender, ncol=2) +
+    #xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    #ylab("Prevalence") +
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    #scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    #ylab("HIV Prevalence (%)") + 
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple"))
+
+p
+```
+
+```{r}
+sim.cases.mean
+```
+
+
+## Number of HIV-related Deaths
+
+```{r, fig.width=8}
+sim.deaths <- sim.results.all %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>% 
+  dplyr::summarize(Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor), .groups = "keep") %>% 
+  ungroup() %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+sim.deaths.mean <- sim.deaths %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(Died_from_HIV = mean(Died_from_HIV), .groups = "keep")
+
+p <- ggplot() +
+      geom_line(data= sim.deaths.mean %>% filter(Year > 1985),
+              aes(x=Year, y= Died_from_HIV, group=scenario_name, color=scenario_name), linewidth=.5) +
+    facet_wrap(~ Gender, ncol=2) +
+    #xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    #ylab("Prevalence") +
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    #scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    #ylab("HIV Prevalence (%)") + 
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple"))
+
+p
+```
+```{r}
+sim.deaths.mean
+```
+
+# Metrics
+
+Break down time into five periods:
+* Entire epidemic: 1980-2025
+* Period before ART: 1980-2005
+* ART scale-up period: 2006-2015
+* Universal ART: 2016-2025
+* Future: 2025-2050
+
+Things to measure
+* New infections
+  * New infections
+  * New infections per person-year lived with HIV
+  * New infections per person-year lived with ART
+* Deaths
+  * Deaths
+  * Deaths per person-year lived with HIV
+  * Deaths per person-year lived with ART
+* Sources of transmission from people on/off ART
+  * Transmissions
+  * Transmissions per person-year lived with HIV
+  * Transmissions per person-year lived with ART
+
+Produce these metrics for each dataset that we have produced so far.
+
+### Entire past epidemic 1980-2025
+
+```{r}
+# aggregate metrics by year and scenario
+metrics.all <- sim.results.all %>% 
+  filter(Year >= 1980, Year <= 2025) %>% 
+  group_by(Year, scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+    Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor), 
+    Infected = sum(Infected * pop.scaling.factor/2), 
+    On_ART = sum(On_ART * pop.scaling.factor/2),
+    .groups = "keep")
+
+metrics.all %>% 
+  group_by(Year, scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+metrics.1985.2025 <- metrics.all %>% 
+  filter(Year >= 1985,Year <= 2025) %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected),
+    Died_from_HIV = sum(Died_from_HIV), 
+    Infected = sum(Infected), 
+    On_ART = sum(On_ART),
+    .groups = "keep") %>% 
+  group_by(scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+
+metrics.1985.2025 %>% 
+  cbind(metrics.1985.2025 %>% filter(scenario_name == "decouple.noart" ) %>% 
+  ungroup() %>% 
+  select( Newly.Infected.noart = Newly.Infected, Died_from_HIV.noart = Died_from_HIV, 
+          Infected.noart = Infected, On_ART.noart = On_ART)) %>% 
+  mutate(Period = "1985-2025") %>% 
+  mutate(ART.infections.prevented = Newly.Infected.noart - Newly.Infected,
+         ART.infections.prevented.per.yr.LHIV = (Newly.Infected.noart - Newly.Infected)/Infected,
+         ART.infections.prevented.per.yr.ART = (Newly.Infected.noart - Newly.Infected)/On_ART,
+         ART.HIVdeaths.prevented = Died_from_HIV.noart - Died_from_HIV,
+         ART.HIVdeaths.prevented.per.yr.LHIV = (Died_from_HIV.noart - Died_from_HIV)/Infected,
+         ART.HIVdeaths.prevented.per.yr.ART = (Died_from_HIV.noart - Died_from_HIV)/On_ART
+         )
+```
+
+### Pre-ART 1985-2005
+
+```{r}
+# aggregate metrics by year and scenario
+metrics.all <- sim.results.all %>% 
+  filter(Year >= 1980, Year < 2006) %>% 
+  group_by(Year, scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+    Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor), 
+    Infected = sum(Infected * pop.scaling.factor/2), 
+    On_ART = sum(On_ART * pop.scaling.factor/2),
+    .groups = "keep")
+
+metrics.all %>% 
+  group_by(Year, scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+metrics.1985.2005 <- metrics.all %>% 
+  filter(Year >= 1985,Year < 2006) %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected),
+    Died_from_HIV = sum(Died_from_HIV), 
+    Infected = sum(Infected), 
+    On_ART = sum(On_ART),
+    .groups = "keep") %>% 
+  group_by(scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+
+metrics.1985.2005 %>% 
+  cbind(metrics.1985.2005 %>% filter(scenario_name == "decouple.noart" ) %>% 
+  ungroup() %>% 
+  select( Newly.Infected.noart = Newly.Infected, Died_from_HIV.noart = Died_from_HIV, 
+          Infected.noart = Infected, On_ART.noart = On_ART)) %>% 
+  mutate(Period = "1985-2005") %>% 
+  mutate(ART.infections.prevented = Newly.Infected.noart - Newly.Infected,
+         ART.infections.prevented.per.yr.LHIV = (Newly.Infected.noart - Newly.Infected)/Infected,
+         ART.infections.prevented.per.yr.ART = (Newly.Infected.noart - Newly.Infected)/On_ART,
+         ART.HIVdeaths.prevented = Died_from_HIV.noart - Died_from_HIV,
+         ART.HIVdeaths.prevented.per.yr.LHIV = (Died_from_HIV.noart - Died_from_HIV)/Infected,
+         ART.HIVdeaths.prevented.per.yr.ART = (Died_from_HIV.noart - Died_from_HIV)/On_ART
+         )
+```
+
+### ART Scaleup 2006-2015
+
+```{r}
+# aggregate metrics by year and scenario
+metrics.all <- sim.results.all %>% 
+  filter(Year >= 2006, Year < 2016) %>% 
+  group_by(Year, scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+    Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor), 
+    Infected = sum(Infected * pop.scaling.factor/2), 
+    On_ART = sum(On_ART * pop.scaling.factor/2),
+    .groups = "keep")
+
+metrics.all %>% 
+  group_by(Year, scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+metrics.2006.2015 <- metrics.all %>% 
+  filter(Year >= 2006,Year < 2016) %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected),
+    Died_from_HIV = sum(Died_from_HIV), 
+    Infected = sum(Infected), 
+    On_ART = sum(On_ART),
+    .groups = "keep") %>% 
+  group_by(scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+
+metrics.2006.2015 %>% 
+  cbind(metrics.2006.2015 %>% filter(scenario_name == "decouple.noart" ) %>% 
+  ungroup() %>% 
+  select( Newly.Infected.noart = Newly.Infected, Died_from_HIV.noart = Died_from_HIV, 
+          Infected.noart = Infected, On_ART.noart = On_ART)) %>% 
+  mutate(Period = "2006-2015") %>% 
+  mutate(ART.infections.prevented = Newly.Infected.noart - Newly.Infected,
+         ART.infections.prevented.per.yr.LHIV = (Newly.Infected.noart - Newly.Infected)/Infected,
+         ART.infections.prevented.per.yr.ART = (Newly.Infected.noart - Newly.Infected)/On_ART,
+         ART.HIVdeaths.prevented = Died_from_HIV.noart - Died_from_HIV,
+         ART.HIVdeaths.prevented.per.yr.LHIV = (Died_from_HIV.noart - Died_from_HIV)/Infected,
+         ART.HIVdeaths.prevented.per.yr.ART = (Died_from_HIV.noart - Died_from_HIV)/On_ART
+         )
+```
+
+### Universal ART 2016-2025
+
+```{r}
+# aggregate metrics by year and scenario
+metrics.all <- sim.results.all %>% 
+  filter(Year >= 2016, Year < 2026) %>% 
+  group_by(Year, scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+    Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor), 
+    Infected = sum(Infected * pop.scaling.factor/2), 
+    On_ART = sum(On_ART * pop.scaling.factor/2),
+    .groups = "keep")
+
+metrics.all %>% 
+  group_by(Year, scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+metrics.2016.2025 <- metrics.all %>% 
+  filter(Year >= 2016,Year < 2026) %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected),
+    Died_from_HIV = sum(Died_from_HIV), 
+    Infected = sum(Infected), 
+    On_ART = sum(On_ART),
+    .groups = "keep") %>% 
+  group_by(scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+metrics.2016.2025 %>% 
+  cbind(metrics.2016.2025 %>% filter(scenario_name == "decouple.noart" ) %>% 
+  ungroup() %>% 
+  select( Newly.Infected.noart = Newly.Infected, Died_from_HIV.noart = Died_from_HIV, 
+          Infected.noart = Infected, On_ART.noart = On_ART)) %>% 
+  mutate(Period = "2016-2025") %>% 
+  mutate(ART.infections.prevented = Newly.Infected.noart - Newly.Infected,
+         ART.infections.prevented.per.yr.LHIV = (Newly.Infected.noart - Newly.Infected)/Infected,
+         ART.infections.prevented.per.yr.ART = (Newly.Infected.noart - Newly.Infected)/On_ART,
+         ART.HIVdeaths.prevented = Died_from_HIV.noart - Died_from_HIV,
+         ART.HIVdeaths.prevented.per.yr.LHIV = (Died_from_HIV.noart - Died_from_HIV)/Infected,
+         ART.HIVdeaths.prevented.per.yr.ART = (Died_from_HIV.noart - Died_from_HIV)/On_ART
+         )
+```
+
+
+### Future 2026-2050
+
+```{r}
+# aggregate metrics by year and scenario
+metrics.all <- sim.results.all %>% 
+  filter(Year >= 2026, Year <= 2050) %>% 
+  group_by(Year, scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+    Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor), 
+    Infected = sum(Infected * pop.scaling.factor/2), 
+    On_ART = sum(On_ART * pop.scaling.factor/2),
+    .groups = "keep")
+
+metrics.all %>% 
+  group_by(Year, scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+metrics.2026.2050 <- metrics.all %>% 
+  filter(Year >= 2026, Year <= 2050) %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected),
+    Died_from_HIV = sum(Died_from_HIV), 
+    Infected = sum(Infected), 
+    On_ART = sum(On_ART),
+    .groups = "keep") %>% 
+  group_by(scenario_name) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    Infected = mean(Infected),
+    On_ART = mean(On_ART), 
+    .groups = 'keep'
+  )
+
+metrics.2026.2050 %>% 
+  cbind(metrics.2026.2050 %>% filter(scenario_name == "decouple.noart" ) %>% 
+  ungroup() %>% 
+  select( Newly.Infected.noart = Newly.Infected, Died_from_HIV.noart = Died_from_HIV, 
+          Infected.noart = Infected, On_ART.noart = On_ART)) %>% 
+  mutate(Period = "2026-2025") %>% 
+  mutate(ART.infections.prevented = Newly.Infected.noart - Newly.Infected,
+         ART.infections.prevented.per.yr.LHIV = (Newly.Infected.noart - Newly.Infected)/Infected,
+         ART.infections.prevented.per.yr.ART = (Newly.Infected.noart - Newly.Infected)/On_ART,
+         ART.HIVdeaths.prevented = Died_from_HIV.noart - Died_from_HIV,
+         ART.HIVdeaths.prevented.per.yr.LHIV = (Died_from_HIV.noart - Died_from_HIV)/Infected,
+         ART.HIVdeaths.prevented.per.yr.ART = (Died_from_HIV.noart - Died_from_HIV)/On_ART
+         )
+```
+
