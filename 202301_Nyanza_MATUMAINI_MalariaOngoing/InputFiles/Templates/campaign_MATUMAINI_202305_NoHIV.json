@@ -3467,7 +3467,7 @@
             }
         },
         {
-            "END":"CMD Relapse After Treatment",
+            "END":"CMD relapse with treatment",
             "Event_Name":"CMD relapse, changing property - with treatment after 2020",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
@@ -3581,6 +3581,7 @@
                         "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 90,
+                        "Delay_Period_Exponential__KP_TreatRecoveryTime": "<-- MARKER",
                         "COMMENT":"Using 3 month recovery time",
                         "Broadcast_Event":"CMD_Treat_Recovery"
                     },
@@ -7936,8 +7937,8 @@
             "class": "CampaignEventByYear"
         },
         {
-            "Event_Name": "OnART: random draw for CMD-negative",
-            "COMMENT": "Initiate effective ART or non-suppressive ART - for everyone who is not currently CMD positive",
+            "Event_Name": "OnART: random draw for CMD-negative not in recovery",
+            "COMMENT": "Initiate effective ART or non-suppressive ART for everyone with a history of treatment or no history of depression",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -7955,9 +7956,6 @@
                     "Property_Restrictions_Within_Node":[
                         {
                             "CMDStatus":"CMD_neg"
-                        },
-                        {
-                            "CMDStatus":"CMD_recovered"
                         },
                         {
                             "CMDStatus":"CMD_treated"
@@ -7978,6 +7976,52 @@
                             0.167
                         ],
                         "Choice_Probabilities__KP_EffectiveART_CMDneg" :"<== marker",
+                        "Disqualifying_Properties": [
+                            "InterventionStatus:LostForever",
+                            "InterventionStatus:OnEffectiveART",
+                            "InterventionStatus:OnNonSuppressiveART"
+                        ]                        
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "OnART: random draw for CMD-negative and in recovery",
+            "COMMENT": "Initiate effective ART or non-suppressive ART - for everyone with a history of depression and in recovery (CMD-negative)",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "CMDStatus":"CMD_recovered"
+                        }
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "EffectiveART",
+                            "NonSuppressiveART"
+                        ],
+                        ".Choice_Probabilities": [
+                            1.0,
+                            0.0
+                        ],
+                        "Choice_Probabilities": [
+                            0.833,
+                            0.167
+                        ],
+                        "Choice_Probabilities__KP_EffectiveART_CMDneg_recov" :"<== marker",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
@@ -8310,6 +8354,42 @@
                         "Disqualifying_Properties": [
                               "InterventionStatus:LostForever",
                               "InterventionStatus:OnEffectiveART"
+                        ]                        
+                    }
+                }
+            }
+        },
+        {
+            "BEGIN":"DEPRESSION ONSET AND ART",
+            "END":"DEPRESSION ONSET AND ART",
+            "Event_Name": "Reduce ART adherence following depression onset",
+            "COMMENT":"When individuals become depressed, move some of them into NonSuppressive ART category",
+            "class": "CampaignEventByYear",
+            "Start_Year": 1960.5,
+            "Nodeset_Config": {
+                  "class": "NodeSetAll"
+            },
+            "Demographic_Coverage":0.833,
+            "Demographic_Coverage__KP_CMD_Onset_Effective_ART":"<== marker",
+            "Event_Coordinator_Config": {
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_Incidence2",
+                        "CMD_Relapse2",
+                        "CMD_Incidence2_diagnosis",
+                        "CMD_Relapse2_diagnosis"
+                    ],
+                    "Property_Restrictions": [
+                        "InterventionStatus:OnNonSuppressiveART"
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "BroadcastEvent",
+                        "Broadcast_Event": "EffectiveART",
+                        "Disqualifying_Properties": [
+                              "InterventionStatus:LostForever",
+                              "InterventionStatus:OnNonSuppressiveART"
                         ]                        
                     }
                 }

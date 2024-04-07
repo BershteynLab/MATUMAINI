@@ -364,6 +364,65 @@ sim.results.decouple.art.artdrop.xtreem <- sim.results.decouple.art.artdrop.xtre
   )
 ```
 
+## Minimum/Maximum effect of ART
+
+```{r}
+sim.results.decouple.art.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_max___2024_04_04_10_59_05_565894",
+  scenario_name = 'decouple.art.max',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.max %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.max <- sim.results.decouple.art.max %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+```{r}
+sim.results.decouple.art.min <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_min___2024_04_04_11_01_11_057115",
+  scenario_name = 'decouple.art.min',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.decouple.art.min %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.min <- sim.results.decouple.art.min %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+
 
 ## Join data together
 
@@ -379,6 +438,11 @@ sim.results.all <- rbind(sim.results.decouple.art,
 #                          sim.results.decouple.noart.delay,
 #                          sim.results.decouple.art.artdrop,
 #                          sim.results.decouple.art.artdrop.xtreem)
+
+sim.results.all <- rbind(sim.results.decouple.art,
+                         sim.results.decouple.art.max,
+                         sim.results.decouple.art.min,
+                         sim.results.decouple.noart)
 ```
 
 # Plot
@@ -630,6 +694,38 @@ p
 sim.deaths.mean
 ```
 
+## Depression Prevalence
+
+### Depression Prevalence
+
+```{r}
+data.cmdpos.pop <- sim.results.all %>% 
+  group_by(Year, Gender, sim.id, scenario_name) %>% 
+  filter(IP_Key.CMDStatus == "CMD_pos") %>% 
+  summarize(Population = sum(Population*pop.scaling.factor), .groups = "keep") %>% 
+  # group_by(Year, Gender,scenario_name) %>% 
+  # summarize(Population = mean(Population), .groups = "keep") %>% 
+  ungroup()
+```
+
+
+### Number of people living with Depression
+
+```{r}
+data.cmdpos.pop <- sim.results.all %>% 
+  group_by(Year, Gender, sim.id, scenario_name) %>% 
+  filter(IP_Key.CMDStatus == "CMD_pos") %>% 
+  summarize(Population = sum(Population*pop.scaling.factor), .groups = "keep") %>% 
+  # group_by(Year, Gender,scenario_name) %>% 
+  # summarize(Population = mean(Population), .groups = "keep") %>% 
+  ungroup()
+
+data.cmdpos.pop %>% 
+  group_by(Year, Gender) %>% 
+  summarize(Population = mean(Population))
+```
+
+
 # Metrics
 
 Break down time into five periods:
@@ -696,7 +792,6 @@ metrics.1985.2025 <- metrics.all %>%
     On_ART = mean(On_ART), 
     .groups = 'keep'
   )
-
 
 metrics.1985.2025 %>% 
   cbind(metrics.1985.2025 %>% filter(scenario_name == "decouple.noart" ) %>% 
@@ -776,7 +871,7 @@ metrics.1985.2005 %>%
 ```{r}
 # aggregate metrics by year and scenario
 metrics.all <- sim.results.all %>% 
-  filter(Year >= 2006, Year < 2016) %>% 
+  filter(Year >= 2006, Year < 2026) %>% 
   group_by(Year, scenario_name, sim.ix) %>% 
   summarize(
     Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
@@ -796,7 +891,7 @@ metrics.all %>%
   )
 
 metrics.2006.2015 <- metrics.all %>% 
-  filter(Year >= 2006,Year < 2016) %>%
+  filter(Year >= 2006,Year < 2026) %>%
   group_by(scenario_name, sim.ix) %>% 
   summarize(
     Newly.Infected = sum(Newly.Infected),
@@ -883,7 +978,7 @@ metrics.2016.2025 %>%
          ART.HIVdeaths.prevented = Died_from_HIV.noart - Died_from_HIV,
          ART.HIVdeaths.prevented.per.yr.LHIV = (Died_from_HIV.noart - Died_from_HIV)/Infected,
          ART.HIVdeaths.prevented.per.yr.ART = (Died_from_HIV.noart - Died_from_HIV)/On_ART
-         )
+         ) 
 ```
 
 
