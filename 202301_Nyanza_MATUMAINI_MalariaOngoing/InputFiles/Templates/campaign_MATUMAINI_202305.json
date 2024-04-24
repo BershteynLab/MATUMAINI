@@ -1146,9 +1146,9 @@
                             {
                                 "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
                                 "class":"CoitalActRiskFactors",
-                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier":1.0,
                                 "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
-                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier":1.0,
                                 "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
                                 "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
                                 "Expiration_Constant": 365000,
@@ -1227,9 +1227,9 @@
                             {
                                 "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
                                 "class":"CoitalActRiskFactors",
-                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier":1.0,
                                 "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
-                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier":1.0,
                                 "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
                                 "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
                                 "Expiration_Constant": 365000,
@@ -3509,9 +3509,9 @@
                             {
                                 "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
                                 "class":"CoitalActRiskFactors",
-                                "Acquisition_Multiplier":1,
+                                "Acquisition_Multiplier":1.0,
                                 "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
-                                "Transmission_Multiplier":1,
+                                "Transmission_Multiplier":1.0,
                                 "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
                                 "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
                                 "Expiration_Constant": 365000,
@@ -8331,7 +8331,7 @@
             "Event_Name": "Improve ART adherence following depression recovery",
             "COMMENT":"When depressed individuals recover, move some of them into effective ART category",
             "class": "CampaignEventByYear",
-            "Start_Year": 1960.5,
+            "Start_Year": 1990,
             "Nodeset_Config": {
                   "class": "NodeSetAll"
             },

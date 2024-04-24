@@ -1,5 +1,3 @@
-Scenario,Campaign,Choice_Probabilities__KP_DelayDiagnosis,Choice_Probabilities__KP_EffectiveART_CMDpos,Choice_Probabilities__KP_EffectiveART_CMDneg,Choice_Probabilities__KP_EffectiveART_CMDneg_recov,Demographic_Coverage__KP_CMD_Recovery_Effective_ART,Delay_Period_Exponential__KP_CMD_ARTdropout,Acquisition_Multiplier__KP_CMD_increase_incidence,Transmission_Multiplier__KP_CMD_increase_transmission,Trigger_Condition_List__KP_ART_trigger_condition
-
-decouple_art,campaign_MATUMAINI_202305_decouple.json,"[1.0,0]","[0.833,0.167]","[0.833,0.167]","[0.833,0.167]",0.833,3650,1,1,"['OnART1']"
-decouple_noart,campaign_MATUMAINI_202305_decouple.json,"[1.0,0]","[0.833,0.167]","[0.833,0.167]","[0.833,0.167]",0.833,3650,1,1,"['NoARTDummy']"
-decouple_art_artadh_recov,campaign_MATUMAINI_202305_decouple.json,"[1.0,0]","[0.833,0.167]","[0.68,0.32]","[0.801,0.199]",0.801,3650,1,1,"['OnART1']"
+Scenario,Campaign
+baseline_art_cmdinc_test_helloworld,campaign_MATUMAINI_202305_test_helloworld.json
+decouple_art_test_helloworld,campaign_MATUMAINI_202305_decouple_test_helloworld.json
