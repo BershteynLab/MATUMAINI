@@ -7380,6 +7380,102 @@
             "class": "CampaignEventByYear"
         },
         {
+            "Event_Name": "OnART: random draw for CMD-negative not in recovery",
+            "COMMENT": "Initiate effective ART or non-suppressive ART for everyone with a history of treatment or no history of depression",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "CMDStatus":"CMD_neg"
+                        },
+                        {
+                            "CMDStatus":"CMD_treated"
+                        }
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "EffectiveART",
+                            "NonSuppressiveART"
+                        ],
+                        ".Choice_Probabilities": [
+                            1.0,
+                            0.0
+                        ],
+                        "Choice_Probabilities": [
+                            0.833,
+                            0.167
+                        ],
+                        "Choice_Probabilities__KP_EffectiveART_CMDneg" :"<== marker",
+                        "Disqualifying_Properties": [
+                            "InterventionStatus:LostForever",
+                            "InterventionStatus:OnEffectiveART",
+                            "InterventionStatus:OnNonSuppressiveART"
+                        ]                        
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "OnART: random draw for CMD-negative and in recovery",
+            "COMMENT": "Initiate effective ART or non-suppressive ART - for everyone with a history of depression and in recovery (CMD-negative)",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "CMDStatus":"CMD_recovered"
+                        }
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "EffectiveART",
+                            "NonSuppressiveART"
+                        ],
+                        ".Choice_Probabilities": [
+                            1.0,
+                            0.0
+                        ],
+                        "Choice_Probabilities": [
+                            0.833,
+                            0.167
+                        ],
+                        "Choice_Probabilities__KP_EffectiveART_CMDneg_recov" :"<== marker",
+                        "Disqualifying_Properties": [
+                            "InterventionStatus:LostForever",
+                            "InterventionStatus:OnEffectiveART",
+                            "InterventionStatus:OnNonSuppressiveART"
+                        ]                        
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "OnART: random draw for CMD-positive",
             "COMMENT": "Initiate effective ART or non-suppressive ART",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
@@ -7395,6 +7491,9 @@
                         "OnART1"
                     ],
                     "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
+                    "Property_Restrictions": [
+                        "CMDStatus:CMD_pos"
+                    ],
                     "Actual_IndividualIntervention_Config": { 
                         "class": "HIVRandomChoice",
                         "Choice_Names": [
@@ -7409,6 +7508,7 @@
                             0.833,
                             0.167
                         ],
+                        "Choice_Probabilities__KP_EffectiveART_CMDpos" :"<== marker",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
