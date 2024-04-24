@@ -6121,7 +6121,7 @@
             }
         },
         {
-            "Event_Name":"Check status at time of test",
+            "Event_Name":"Check CMD status at time of test - CMD negative",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -6134,6 +6134,17 @@
                     "Trigger_Condition_List": [
                         "HCTTestingLoop1"
                     ],
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "CMDStatus":"CMD_neg"
+                        },
+                        {
+                            "CMDStatus":"CMD_recovered"
+                        },
+                        {
+                            "CMDStatus":"CMD_treated"
+                        }
+                    ],
                     "Actual_IndividualIntervention_Config": {
                         "class":"HIVRandomChoice",
                         "Choice_Names": [
@@ -6144,6 +6155,38 @@
                         ]
                     }
                 }
+            }
+        },
+        {
+            "Event_Name":"Check CMD status at time of test - CMD positive",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config":{
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "HCTTestingLoop1"
+                    ],
+                    "Property_Restrictions": [
+                        "CMDStatus:CMD_pos"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"HIVRandomChoice",
+                        "Choice_Names": [
+                            "HCTTestingLoopRapidTest",
+                            "HCTTestingLoop0"
+                        ],
+                        "Choice_Probabilities": [
+                            1.0,
+                            0.0
+                        ],
+                        "Choice_Probabilities__KP_DelayDiagnosis": "<-- MARKER"
+                    }
+                } 
             }
         },
         {
