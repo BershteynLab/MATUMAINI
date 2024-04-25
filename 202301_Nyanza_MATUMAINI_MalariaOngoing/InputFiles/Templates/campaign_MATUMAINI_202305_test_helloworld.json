@@ -7557,7 +7557,8 @@
             }
         },
         {
-            "Event_Name": "OnART: state 2 (delay to dropout)",
+            "Event_Name": "OnART: state 2 (delay to dropout) - CMD negative",
+            "COMMENT": "Delay dropout for everyone who is not CMD positive",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -7570,13 +7571,62 @@
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 3650,
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever"
+                            "InterventionStatus:LostForever",
+                            "CMDStatus:CMD_pos"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",
                         "New_Property_Value": "",
                         "class": "HIVMuxer"
                     },
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "CMDStatus":"CMD_neg"
+                        },
+                        {
+                            "CMDStatus":"CMD_recovered"
+                        },
+                        {
+                            "CMDStatus":"CMD_treated"
+                        }
+                    ],
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "Trigger_Condition_List__KP_ART_trigger_condition": "<== marker",
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "OnART: state 2 (delay to dropout) - CMD Positive",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Broadcast_Event": "OnART3",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 3650,
+                        "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
+                        "Disqualifying_Properties": [
+                            "InterventionStatus:LostForever",
+                            "CMDStatus:CMD_neg",
+                            "CMDStatus:CMD_recovered",
+                            "CMDStatus:CMD_treated"
+                        ],
+                        "Intervention_Name": "On_ART",
+                        "Muxer_Name": "ARTDropoutDelay",
+                        "New_Property_Value": "",
+                        "class": "HIVMuxer"
+                    },
+                    "Property_Restrictions":[
+                        "CMDStatus:CMD_pos"
+                    ],
                     "Trigger_Condition_List": [
                         "OnART1"
                     ],

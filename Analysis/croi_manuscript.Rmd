@@ -93,7 +93,21 @@ sim.results.baseline.art <- sim.results.baseline.art %>%
 #experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test-baseline_noart_cmdinc_test___2024_04_23_15_13_17_007588"
 
 # up through 2020, with depression starting in 1990
-experiment_path  = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test-baseline_art_cmdinc_test___2024_04_23_16_38_15_171047"
+#experiment_path  = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test-baseline_art_cmdinc_test___2024_04_23_16_38_15_171047"
+
+# 1960-2020 using hello world
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_23_18_29_38_731319"
+
+# putting back in delay to diagnosis
+# experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_24_14_53_35_336366"
+# putting back in art adherence
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_24_21_15_08_905770"
+# putting back in art dropout
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_25_09_50_58_418277"
+
+# At scale again
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_25_11_27_26_995660"
+
 sim.results.baseline.art.cmdinc.test <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path,
   scenario_name = 'baseline.art.cmdinc.test',
@@ -106,7 +120,17 @@ sim.results.baseline.art.cmdinc.test <- EMODAnalyzeR::read.simulation.results.bi
   max_age_inclusive = 99
 )
 
+sim.results.pop.scaling <- sim.results.baseline.art.cmdinc.test %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
 
+sim.results.baseline.art.cmdinc.test <- sim.results.baseline.art.cmdinc.test %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
 ```
 
 ## Baseline, no ART
@@ -182,9 +206,21 @@ sim.results.decouple.art <- sim.results.decouple.art %>%
 # up through year 1990
 #   #experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art___2024_04_23_10_21_49_057655",
 # up through year 2000, after copy-pasting the baseline campaign file over
-experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test-decouple_art___2024_04_23_12_52_05_739472"
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test-decouple_art___2024_04_23_12_52_05_739472"
 # Starting depression in 1990
 # experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test-decouple_art_test___2024_04_23_15_15_30_050866",
+# start depression in 1990 up through 2020
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_23_18_32_12_699193"
+# putting back in delay to diagnosis
+# experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_24_14_55_56_088033"
+# putting back in art adherence
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_24_21_17_26_424609"
+
+# putting back in art dropout
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_25_09_53_53_533674"
+
+# At scale again
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_25_11_29_53_962972"
 
 sim.results.decouple.art.test <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path,
@@ -197,6 +233,18 @@ sim.results.decouple.art.test <- EMODAnalyzeR::read.simulation.results.bigpurple
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
+
+sim.results.pop.scaling <- sim.results.decouple.art.test %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.test <- sim.results.decouple.art.test %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
 
 ```
 
@@ -1099,8 +1147,8 @@ Count the number of cases, deaths, depression episodes for each of the following
 7. All effects turned off: decouple.art
 
 ```{r}
-start_year = 1980
-end_year = 1990
+start_year = 2000
+end_year = 2021
 nruns = 250
 ```
 
@@ -1177,11 +1225,22 @@ ggplot(data = sim.results.all.agg.numbers) +
 
 ```
 
+```{r}
+ggplot(data = sim.results.all.agg.numbers) + 
+  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV, color = Gender)) + 
+  geom_errorbar(aes(x=scenario_name, ymin = Died_from_HIV_95LL, ymax = Died_from_HIV_95UL)) + 
+  facet_wrap(~ Gender, ncol=2) + 
+  scale_color_manual(values = c("red", "blue"))  + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+#+ 
+#  scale_y_continuous(limits = c(5e5, 9e5)) 
+```
+
 
 ### Differences
 ```{r}
 sim.results.all.agg.differences = sim.results.all.agg %>% 
-  filter(scenario_name == "decouple.art") %>% 
+  filter(scenario_name == "decouple.art.test") %>% 
   select(Gender, sim.ix, 
          Newly.Infected.Decouple = Newly.Infected,
          Died_from_HIV.Decouple = Died_from_HIV,
@@ -1293,7 +1352,6 @@ This is testing the difference between decouple.art and baseline.cmdinc
 sim.results.all <- rbind(sim.results.baseline.art.cmdinc.test,
                         sim.results.decouple.art.test)
 
-
 test.comparison <- sim.results.all %>%
  group_by(Year, Gender, scenario_name, IP_Key.CMDStatus, sim.ix) %>% 
   summarize(Population = sum(Population), 
@@ -1303,9 +1361,10 @@ test.comparison <- sim.results.all %>%
             Newly.Infected = sum(Newly.Infected)) %>% ungroup()
 
 test.comparison %>% 
-  filter(sim.ix == 1, Year > 1989) %>% arrange(Year, Gender, scenario_name, IP_Key.CMDStatus) %>% View
+  filter(sim.ix == 1) %>% arrange(Year, Gender, scenario_name, IP_Key.CMDStatus) %>% View
 
 test.comp.mean <- test.comparison %>% 
+  
   group_by(Year, Gender, scenario_name) %>% 
   summarize(Population = mean(Population), 
             Infected = mean(Infected),
@@ -1315,13 +1374,14 @@ test.comp.mean <- test.comparison %>%
 
 
 test.comp.mean %>% arrange(Year, Gender, scenario_name) %>% 
-  filter(Year >= 1995, Year <= 2000) %>% 
+  filter(Year >= 1980, Year < 2001) %>% 
   group_by(Gender, scenario_name) %>% 
   summarize(Infected = sum(Infected),
            Died_from_HIV = sum(Died_from_HIV),
            Newly.Infected = sum(Newly.Infected)) %>% View
 
 test.comparison %>% 
+  filter(Year >= 1989) %>% 
   group_by(Year, Gender, scenario_name, IP_Key.CMDStatus) %>% 
   summarize(Population = mean(Population), 
             Infected = mean(Infected),
@@ -1334,6 +1394,7 @@ test.comparison %>%
 
 test.comparison %>% 
   group_by(Year, Gender, scenario_name) %>% 
+  filter(Year >= 1989) %>% 
   summarize(Population = mean(Population), 
             Infected = mean(Infected),
             Died = mean(Died),
@@ -1354,17 +1415,23 @@ test.comparison %>%
   geom_line(mapping = aes(x = Year, y = Died_from_HIV, color = scenario_name)) + 
   facet_wrap(~ Gender, ncol=2)
 
+
 test.comparison %>% 
   group_by(Year, Gender, scenario_name) %>% 
+  filter(Year >= 1989) %>% 
   summarize(Population = mean(Population), 
             Infected = mean(Infected),
             Died = mean(Died),
             Died_from_HIV = mean(Died_from_HIV),
-            Newly.Infected = mean(Newly.Infected)) %>% #ungroup() %>% arrange(Year, Gender, scenario_name) %>% View
-  ggplot() + 
-  geom_line(mapping = aes(x = Year, y = Infected, color = scenario_name)) + 
-  facet_wrap(~ Gender, ncol=2)
+            Newly.Infected = mean(Newly.Infected)) %>% View
+```
 
+
+```{r}
+sim.results.all %>% group_by(Year, Gender, scenario_name, sim.ix ) %>% 
+  summarize(On_ART = sum(On_ART)) %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(On_ART = mean(On_ART))
 ```
 
 
