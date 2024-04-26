@@ -7633,6 +7633,85 @@
             }
         },
         {
+            "Event_Name": "Recalculate delay to ART dropout upon CMD starting",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Broadcast_Event": "OnART3",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 3650,
+                        "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
+                        "Disqualifying_Properties": [
+                            "InterventionStatus:LostForever"
+                        ],
+                        "Intervention_Name": "On_ART",
+                        "Muxer_Name": "ARTDropoutDelay",
+                        "New_Property_Value": "",
+                        "class": "HIVMuxer"
+                    },
+                    "Trigger_Condition_List": [
+                        "CMD_Incidence2",
+                        "CMD_Incidence2_diagnosis",
+                        "CMD_Relapse2",
+                        "CMD_Relapse2_diagnosis"
+                    ],
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "InterventionStatus" : "OnNonSuppressiveART"
+                        },
+                        {
+                            "InterventionStatus" : "OnEffectiveART"
+                        }
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Recalculate delay to ART dropout upon CMD recovery",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Broadcast_Event": "OnART3",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 3650,
+                        "Disqualifying_Properties": [
+                            "InterventionStatus:LostForever"
+                        ],
+                        "Intervention_Name": "On_ART",
+                        "Muxer_Name": "ARTDropoutDelay",
+                        "New_Property_Value": "",
+                        "class": "HIVMuxer"
+                    },
+                    "Trigger_Condition_List": [
+                        "CMD_RecoverNoTreat",
+                        "CMD_RecoverTreat"
+                    ],
+                    "Property_Restrictions_Within_Node":[
+                        {
+                            "InterventionStatus" : "OnNonSuppressiveART"
+                        },
+                        {
+                            "InterventionStatus" : "OnEffectiveART"
+                        }
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
             "Event_Name": "Initiate effective ART: MALES",
             "class": "CampaignEventByYear",
             "Nodeset_Config": { "class": "NodeSetAll" },

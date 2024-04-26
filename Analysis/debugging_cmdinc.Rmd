@@ -158,9 +158,9 @@ sim.results.decouple.delay.adh <- EMODAnalyzeR::read.simulation.results.bigpurpl
 ## Putting back in delay to ART dropout - calculated at time of ART initiation
 ```{r}
 # CMDINC
-experiment_path.dropout1 = ""
+experiment_path.dropout1 = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_26_12_11_44_035581"
 
-sim.results.cmdinc.delay.adh <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sim.results.cmdinc.delay.adh.dropout1 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path.dropout1,
   scenario_name = 'cmdinc.delay.adh.dropout1',
   summarize_columns = c("Population","Infected", "On_ART",
@@ -173,9 +173,9 @@ sim.results.cmdinc.delay.adh <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 # Decouple
-experiment_path.dropout1 = ""
+experiment_path.dropout1 = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_26_12_14_22_055171"
 
-sim.results.decouple.delay.adh <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sim.results.decouple.delay.adh.dropout1 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path.dropout1,
   scenario_name = 'decouple.delay.adh.dropout1',
   summarize_columns = c("Population","Infected", "On_ART",
@@ -198,7 +198,9 @@ sim.results.all <- rbind(sim.results.decouple,
                          sim.results.decouple.delay,
                          sim.results.cmdinc.delay,
                          sim.results.decouple.delay.adh,
-                         sim.results.cmdinc.delay.adh
+                         sim.results.cmdinc.delay.adh,
+                         sim.results.decouple.delay.adh.dropout1,
+                         sim.results.cmdinc.delay.adh.dropout1
                          )
 ```
 
