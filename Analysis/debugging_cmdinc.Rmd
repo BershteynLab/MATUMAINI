@@ -188,6 +188,40 @@ sim.results.decouple.delay.adh.dropout1 <- EMODAnalyzeR::read.simulation.results
 )
 ```
 
+## Adding recalculation ART dropout upon switching CMD status
+
+```{r}
+
+# CMDINC
+experiment_path.dropout2 = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_26_13_45_31_841017"
+
+sim.results.cmdinc.delay.adh.dropout2 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path.dropout2,
+  scenario_name = 'cmdinc.delay.adh.dropout2',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+# Decouple
+experiment_path.dropout2 = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_26_13_47_50_726968"
+
+sim.results.decouple.delay.adh.dropout2 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path.dropout2,
+  scenario_name = 'decouple.delay.adh.dropout2',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
 
 
 # Combine data
@@ -200,7 +234,9 @@ sim.results.all <- rbind(sim.results.decouple,
                          sim.results.decouple.delay.adh,
                          sim.results.cmdinc.delay.adh,
                          sim.results.decouple.delay.adh.dropout1,
-                         sim.results.cmdinc.delay.adh.dropout1
+                         sim.results.cmdinc.delay.adh.dropout1,
+                         sim.results.decouple.delay.adh.dropout2,
+                         sim.results.cmdinc.delay.adh.dropout2
                          )
 ```
 
@@ -283,9 +319,9 @@ test.comp.mean %>% arrange(Year, Gender, scenario_name) %>%
 sim.results.all.agg <- sim.results.all %>% 
   filter(Year >= start_year, Year < end_year)  %>% 
   group_by(Gender, scenario_name, sim.ix) %>% 
-  summarize(Newly.Infected = sum(Newly.Infected ), 
-            Died_from_HIV = sum(Died_from_HIV ),
-            Depression.eps = sum(Population/2),
+  summarize(Newly.Infected = sum(Newly.Infected), # * pop.scaling.factor), 
+            Died_from_HIV = sum(Died_from_HIV), # * pop.scaling.factor),
+            Depression.eps = sum(Population/2),# * pop.scaling.factor),
             .groups = 'keep') %>%
   ungroup() 
 
