@@ -7571,8 +7571,7 @@
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 3650,
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever",
-                            "CMDStatus:CMD_pos"
+                            "InterventionStatus:LostForever"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",
@@ -7614,10 +7613,7 @@
                         "Delay_Period_Exponential": 3650,
                         "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever",
-                            "CMDStatus:CMD_neg",
-                            "CMDStatus:CMD_recovered",
-                            "CMDStatus:CMD_treated"
+                            "InterventionStatus:LostForever"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",

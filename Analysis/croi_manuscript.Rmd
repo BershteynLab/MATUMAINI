@@ -101,16 +101,11 @@ sim.results.baseline.art <- sim.results.baseline.art %>%
 # putting back in delay to diagnosis
 # experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_24_14_53_35_336366"
 # putting back in art adherence
-#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_24_21_15_08_905770"
-# putting back in art dropout
-#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_25_09_50_58_418277"
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_24_21_15_08_905770"
 
-# At scale again
-experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_25_11_27_26_995660"
-
-sim.results.baseline.art.cmdinc.test <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sim.results.cmdinc.art.nodropout.test <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path,
-  scenario_name = 'baseline.art.cmdinc.test',
+  scenario_name = 'cmdinc.art.nodropout.test',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -120,13 +115,46 @@ sim.results.baseline.art.cmdinc.test <- EMODAnalyzeR::read.simulation.results.bi
   max_age_inclusive = 99
 )
 
-sim.results.pop.scaling <- sim.results.baseline.art.cmdinc.test %>% 
+sim.results.pop.scaling <- sim.results.cmdinc.art.nodropout.test %>% 
       filter(Year == CENSUS_YEAR) %>%
       group_by(sim.id) %>%
       summarize(total.pop = sum(Population), .groups = 'keep') %>% 
       mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
 
-sim.results.baseline.art.cmdinc.test <- sim.results.baseline.art.cmdinc.test %>% 
+sim.results.cmdinc.art.nodropout.test <- sim.results.cmdinc.art.nodropout.test %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+# putting back in art dropout
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_25_09_50_58_418277"
+
+# At scale again
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_25_11_27_26_995660"
+
+# putting back in art dropout, but not recalculate
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_25_17_59_27_430769"
+
+sim.results.cmdinc.art.dropout.test <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path,
+  scenario_name = 'cmdinc.art.dropout.test',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- sim.results.cmdinc.art.dropout.test %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.cmdinc.art.dropout.test <- sim.results.cmdinc.art.dropout.test %>% 
   inner_join(
     sim.results.pop.scaling,
     by = c("sim.id")
@@ -214,17 +242,11 @@ sim.results.decouple.art <- sim.results.decouple.art %>%
 # putting back in delay to diagnosis
 # experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_24_14_55_56_088033"
 # putting back in art adherence
-#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_24_21_17_26_424609"
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_24_21_17_26_424609"
 
-# putting back in art dropout
-#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_25_09_53_53_533674"
-
-# At scale again
-experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_25_11_29_53_962972"
-
-sim.results.decouple.art.test <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sim.results.decouple.art.nodropout.test <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path,
-  scenario_name = 'decouple.art.test',
+  scenario_name = 'decouple.art.nodropout.test',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -234,13 +256,47 @@ sim.results.decouple.art.test <- EMODAnalyzeR::read.simulation.results.bigpurple
   max_age_inclusive = 99
 )
 
-sim.results.pop.scaling <- sim.results.decouple.art.test %>% 
+sim.results.pop.scaling <- sim.results.decouple.art.nodropout.test %>% 
       filter(Year == CENSUS_YEAR) %>%
       group_by(sim.id) %>%
       summarize(total.pop = sum(Population), .groups = 'keep') %>% 
       mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
 
-sim.results.decouple.art.test <- sim.results.decouple.art.test %>% 
+sim.results.decouple.art.nodropout.test <- sim.results.decouple.art.nodropout.test %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+# putting back in art dropout
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_25_09_53_53_533674"
+
+# At scale again
+#experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_25_11_29_53_962972"
+
+
+# ART dropout only, without recalculation
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_25_18_01_52_065003"
+
+sim.results.decouple.art.dropout.test <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path,
+  scenario_name = 'decouple.art.dropout.test',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- sim.results.decouple.art.dropout.test %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.decouple.art.dropout.test <- sim.results.decouple.art.dropout.test %>% 
   inner_join(
     sim.results.pop.scaling,
     by = c("sim.id")
@@ -1147,7 +1203,7 @@ Count the number of cases, deaths, depression episodes for each of the following
 7. All effects turned off: decouple.art
 
 ```{r}
-start_year = 2000
+start_year = 1980
 end_year = 2021
 nruns = 250
 ```
@@ -1364,7 +1420,6 @@ test.comparison %>%
   filter(sim.ix == 1) %>% arrange(Year, Gender, scenario_name, IP_Key.CMDStatus) %>% View
 
 test.comp.mean <- test.comparison %>% 
-  
   group_by(Year, Gender, scenario_name) %>% 
   summarize(Population = mean(Population), 
             Infected = mean(Infected),
@@ -1379,6 +1434,13 @@ test.comp.mean %>% arrange(Year, Gender, scenario_name) %>%
   summarize(Infected = sum(Infected),
            Died_from_HIV = sum(Died_from_HIV),
            Newly.Infected = sum(Newly.Infected)) %>% View
+
+test.comp.mean %>% arrange(Year, Gender, scenario_name) %>% 
+  group_by(Gender, scenario_name) %>% 
+  summarize(Infected = sum(Infected),
+           Died_from_HIV = sum(Died_from_HIV),
+           Newly.Infected = sum(Newly.Infected)) %>% View
+
 
 test.comparison %>% 
   filter(Year >= 1989) %>% 
