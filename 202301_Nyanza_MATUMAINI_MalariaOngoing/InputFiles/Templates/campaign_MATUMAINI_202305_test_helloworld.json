@@ -7738,45 +7738,7 @@
                         "class": "BroadcastEvent",
                         "Broadcast_Event": "EffectiveART",
                         "Disqualifying_Properties": [
-                              "InterventionStatus:LostForever",
-                              "InterventionStatus:OnEffectiveART"
-                        ]                        
-                    }
-                }
-            }
-        },
-        {
-            "BEGIN":"DEPRESSION ONSET AND ART",
-            "END":"DEPRESSION ONSET AND ART",
-            "Event_Name": "Reduce ART adherence following depression onset",
-            "COMMENT":"When individuals become depressed, move some of them into NonSuppressive ART category",
-            "class": "CampaignEventByYear",
-            "Start_Year": 1990,
-            "Nodeset_Config": {
-                  "class": "NodeSetAll"
-            },
-            "Demographic_Coverage":0.833,
-            "Demographic_Coverage__KP_CMD_Onset_Effective_ART":"<== marker",
-            "Event_Coordinator_Config": {
-                "class":"StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config":{
-                    "class":"NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [
-                        "CMD_Incidence2",
-                        "CMD_Relapse2",
-                        "CMD_Incidence2_diagnosis",
-                        "CMD_Relapse2_diagnosis"
-                    ],
-                    "Property_Restrictions": [
-                        "InterventionStatus:OnNonSuppressiveART"
-                    ],
-                    "Actual_IndividualIntervention_Config": { 
-                        "class": "BroadcastEvent",
-                        "Broadcast_Event": "EffectiveART",
-                        "Disqualifying_Properties": [
-                              "InterventionStatus:LostForever",
-                              "InterventionStatus:OnNonSuppressiveART"
-                        ]                        
+                              "InterventionStatus:LostForever"                        ]                        
                     }
                 }
             }
