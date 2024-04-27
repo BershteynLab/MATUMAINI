@@ -229,7 +229,8 @@ sim.results.decouple.delay.adh.dropout2 <- EMODAnalyzeR::read.simulation.results
 ```{r}
 
 # CMDINC
-experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_26_19_21_22_297654"
+#experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_26_19_21_22_297654"
+experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_26_23_13_23_491256"
 
 sim.results.cmdinc.delay.adh.dropout2.artswitch <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path.artswitch,
@@ -244,7 +245,9 @@ sim.results.cmdinc.delay.adh.dropout2.artswitch <- EMODAnalyzeR::read.simulation
 )
 
 # Decouple
-experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_26_19_23_49_117978"
+#experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_26_19_23_49_117978"
+
+experiment_path.artswitch =  "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_26_23_15_56_174258"
 
 sim.results.decouple.delay.adh.dropout2.artswitch <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path.artswitch,
@@ -368,7 +371,7 @@ sim.results.all.agg <- sim.results.all %>%
   group_by(Gender, scenario_name, sim.ix) %>% 
   summarize(Newly.Infected = sum(Newly.Infected), # * pop.scaling.factor), 
             Died_from_HIV = sum(Died_from_HIV), # * pop.scaling.factor),
-            Depression.eps = sum(Population/2),# * pop.scaling.factor),
+            Depression.eps = sum(Died), # sum(Population/2),# * pop.scaling.factor),
             .groups = 'keep') %>%
   ungroup() 
 
