@@ -7717,41 +7717,63 @@
             "Event_Name": "Improve ART adherence following depression recovery",
             "COMMENT":"When depressed individuals recover, move some of them into effective ART category",
             "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
             "Start_Year": 1990,
+            "Nodeset_Config": {
+                  "class": "NodeSetAll"
+            },
+            "Demographic_Coverage":0.833,
+            "Demographic_Coverage__KP_CMD_Recovery_Effective_ART":"<== marker",
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",
-                "Demographic_Coverage": 1,
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
                         "CMD_RecoverNoTreat",
                         "CMD_RecoverTreat"
                     ],
-                    "Property_Restrictions_Within_Node":[
-                        {
-                            "InterventionStatus":"OnNonSuppressiveART"
-                        }
+                    "Property_Restrictions": [
+                        "InterventionStatus:OnNonSuppressiveART"
                     ],
                     "Actual_IndividualIntervention_Config": { 
-                        "class": "HIVRandomChoice",
-                        "Choice_Names": [
-                            "EffectiveART",
-                            "NonSuppressiveART"
-                        ],
-                        ".Choice_Probabilities": [
-                            1.0,
-                            0.0
-                        ],
-                        "Choice_Probabilities": [
-                            0.833,
-                            0.167
-                        ],
+                        "class": "BroadcastEvent",
+                        "Broadcast_Event": "EffectiveART",
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever",
-                            "InterventionStatus:OnEffectiveART"
+                              "InterventionStatus:LostForever",
+                              "InterventionStatus:OnEffectiveART"
+                        ]                        
+                    }
+                }
+            }
+        },
+        {
+            "BEGIN":"DEPRESSION ONSET AND ART",
+            "END":"DEPRESSION ONSET AND ART",
+            "Event_Name": "Reduce ART adherence following depression onset",
+            "COMMENT":"When individuals become depressed, move some of them into NonSuppressive ART category",
+            "class": "CampaignEventByYear",
+            "Start_Year": 1990,
+            "Nodeset_Config": {
+                  "class": "NodeSetAll"
+            },
+            "Demographic_Coverage":0.167,
+            "Demographic_Coverage__KP_CMD_Recovery_Effective_ART":"<== marker",
+            "Event_Coordinator_Config": {
+                "class":"StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": [
+                        "CMD_RecoverNoTreat",
+                        "CMD_RecoverTreat"
+                    ],
+                    "Property_Restrictions": [
+                        "InterventionStatus:OnEffectiveART"
+                    ],
+                    "Actual_IndividualIntervention_Config": { 
+                        "class": "BroadcastEvent",
+                        "Broadcast_Event": "NonSuppressiveART",
+                        "Disqualifying_Properties": [
+                              "InterventionStatus:LostForever",
+                              "InterventionStatus:OnNonSuppressiveART"
                         ]                        
                     }
                 }
