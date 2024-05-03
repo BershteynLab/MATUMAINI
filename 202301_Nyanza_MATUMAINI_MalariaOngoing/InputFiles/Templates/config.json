@@ -99,6 +99,7 @@
             "CMD_MoveToMediumRisk",
             "EffectiveART",
             "NonSuppressiveART",
+            "NonSuppressiveARTDepressed",
             "CMD_VLS_Recovery",
             "HCTTestingLoopRapidTest",
             "CMD_HIV_screening"
