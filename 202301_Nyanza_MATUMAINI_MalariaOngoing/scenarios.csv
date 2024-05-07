@@ -1,3 +1,2 @@
-Scenario,Campaign
-artswitch,campaign_MATUMAINI_202305_test_helloworld.json
-artswitch,campaign_MATUMAINI_202305_decouple_test_helloworld.json
+Scenario,Campaign,Start_Year__KP_ARTswitch
+artswitch_off,campaign_MATUMAINI_202305_test_helloworld.json,2200

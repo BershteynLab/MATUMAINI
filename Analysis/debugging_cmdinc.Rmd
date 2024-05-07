@@ -240,7 +240,7 @@ sim.results.decouple.delay.adh.dropout2 <- EMODAnalyzeR::read.simulation.results
 experiment_path.artswitch.on = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-artswitch_on___2024_05_05_19_59_23_236963"
 sim.results.cmdinc.delay.adh.dropout2.artswitch.on <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path.artswitch.on,
-  scenario_name = 'cmdinc.delay.adh.dropout2.artswitch',
+  scenario_name = 'cmdinc.delay.adh.dropout2.artswitch.on',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -249,6 +249,21 @@ sim.results.cmdinc.delay.adh.dropout2.artswitch.on <- EMODAnalyzeR::read.simulat
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
+
+experiment_path.artswitch.off = 
+  "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-artswitch_off___2024_05_07_13_46_33_769070/"
+sim.results.cmdinc.delay.adh.dropout2.artswitch.off <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path.artswitch.off,
+  scenario_name = 'cmdinc.delay.adh.dropout2.artswitch.off',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
 
 # Decouple
 #experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_26_19_23_49_117978"
@@ -262,11 +277,9 @@ sim.results.cmdinc.delay.adh.dropout2.artswitch.on <- EMODAnalyzeR::read.simulat
 
 # brand new art switching action
 experiment_path.artswitch.on = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-artswitch___2024_05_03_11_47_57_792384"
-
-
 sim.results.decouple.delay.adh.dropout2.artswitch.on <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path.artswitch.on,
-  scenario_name = 'decouple.delay.adh.dropout2.artswitch',
+  scenario_name = 'decouple.delay.adh.dropout2.artswitch.on',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -278,10 +291,9 @@ sim.results.decouple.delay.adh.dropout2.artswitch.on <- EMODAnalyzeR::read.simul
 
 ## Turning off art switching - sanity check
 experiment_path.artswitch.off = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-artswitch_off___2024_05_05_20_15_11_137933"
-
 sim.results.decouple.delay.adh.dropout2.artswitch.off <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment_path.artswitch.off,
-  scenario_name = 'decouple.delay.adh.dropout2.artswitch',
+  scenario_name = 'decouple.delay.adh.dropout2.artswitch.off',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -308,7 +320,8 @@ sim.results.all <- rbind(sim.results.decouple,
                          sim.results.cmdinc.delay.adh.dropout2,
                          sim.results.decouple.delay.adh.dropout2.artswitch.on,
                          sim.results.cmdinc.delay.adh.dropout2.artswitch.on,
-                         sim.results.decouple.delay.adh.dropout2.artswitch.off
+                         sim.results.decouple.delay.adh.dropout2.artswitch.off,
+                         sim.results.cmdinc.delay.adh.dropout2.artswitch.off
                          )
 ```
 
@@ -367,7 +380,7 @@ test.comp.mean %>% arrange(Year, Gender, scenario_name) %>%
   group_by(Gender, scenario_name) %>% 
   summarize(Infected = sum(Infected),
            Died_from_HIV = sum(Died_from_HIV),
-           Newly.Infected = sum(Newly.Infected)) %>% head(24)
+           Newly.Infected = sum(Newly.Infected)) 
 
 ```
 
