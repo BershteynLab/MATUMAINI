@@ -7778,6 +7778,7 @@
             "COMMENT":"When individuals become depressed, move some of them into NonSuppressiveARTDepressed category",
             "class": "CampaignEventByYear",
             "Start_Year": 1990,
+            "Start_Year__KP_ARTswitch":"<== marker",
             "Nodeset_Config": {
                   "class": "NodeSetAll"
             },
@@ -7788,8 +7789,10 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Trigger_Condition_List": [
-                        "CMD_RecoverNoTreat",
-                        "CMD_RecoverTreat"
+                        "CMD_Incidence2",
+                        "CMD_Incidence2_diagnosis",
+                        "CMD_Relapse2",
+                        "CMD_Relapse2_diagnosis"
                     ],
                     "Property_Restrictions": [
                         "InterventionStatus:OnEffectiveART"
@@ -7813,6 +7816,7 @@
             "COMMENT":"Only depressed individuals who switched to NonSuppressiveART upon depression recovery switch to EffectiveART",
             "class": "CampaignEventByYear",
             "Start_Year": 1990,
+            "Start_Year__KP_ARTswitch":"<== marker",
             "Nodeset_Config": {
                   "class": "NodeSetAll"
             },

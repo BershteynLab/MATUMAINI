@@ -233,9 +233,13 @@ sim.results.decouple.delay.adh.dropout2 <- EMODAnalyzeR::read.simulation.results
 #experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_26_23_13_23_491256"
 #experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_27_13_46_18_860232"
 # switching on and off
-experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_27_22_56_00_832523"
-sim.results.cmdinc.delay.adh.dropout2.artswitch <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment_path.artswitch,
+# experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-baseline_art_cmdinc_test_helloworld___2024_04_27_22_56_00_832523"
+
+# brand new art switching action
+#experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-artswitch___2024_05_03_11_45_24_723135"
+experiment_path.artswitch.on = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_test_helloworld-artswitch_on___2024_05_05_19_59_23_236963"
+sim.results.cmdinc.delay.adh.dropout2.artswitch.on <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path.artswitch.on,
   scenario_name = 'cmdinc.delay.adh.dropout2.artswitch',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
@@ -254,9 +258,29 @@ sim.results.cmdinc.delay.adh.dropout2.artswitch <- EMODAnalyzeR::read.simulation
 # new version of art switch
 #experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_27_13_48_45_250204"
 # switching on and off
-experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_27_22_58_28_726370"
-sim.results.decouple.delay.adh.dropout2.artswitch <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment_path.artswitch,
+#experiment_path.artswitch = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-decouple_art_test_helloworld___2024_04_27_22_58_28_726370"
+
+# brand new art switching action
+experiment_path.artswitch.on = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-artswitch___2024_05_03_11_47_57_792384"
+
+
+sim.results.decouple.delay.adh.dropout2.artswitch.on <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path.artswitch.on,
+  scenario_name = 'decouple.delay.adh.dropout2.artswitch',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+## Turning off art switching - sanity check
+experiment_path.artswitch.off = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple_test_helloworld-artswitch_off___2024_05_05_20_15_11_137933"
+
+sim.results.decouple.delay.adh.dropout2.artswitch.off <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path.artswitch.off,
   scenario_name = 'decouple.delay.adh.dropout2.artswitch',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
@@ -282,8 +306,9 @@ sim.results.all <- rbind(sim.results.decouple,
                          sim.results.cmdinc.delay.adh.dropout1,
                          sim.results.decouple.delay.adh.dropout2,
                          sim.results.cmdinc.delay.adh.dropout2,
-                         sim.results.decouple.delay.adh.dropout2.artswitch,
-                         sim.results.cmdinc.delay.adh.dropout2.artswitch
+                         sim.results.decouple.delay.adh.dropout2.artswitch.on,
+                         sim.results.cmdinc.delay.adh.dropout2.artswitch.on,
+                         sim.results.decouple.delay.adh.dropout2.artswitch.off
                          )
 ```
 
@@ -333,8 +358,9 @@ test.comparison %>%
   filter(sim.ix == 1) %>% arrange(Gender, Year, scenario_name) %>% View
 ```
 
-Check aggregated mean:
+## Check aggregated mean:
 
+### 1980-1990 (pre=art)
 ```{r}
 test.comp.mean %>% arrange(Year, Gender, scenario_name) %>% 
   filter(Year >= 1980, Year < 1990) %>% 
@@ -345,6 +371,7 @@ test.comp.mean %>% arrange(Year, Gender, scenario_name) %>%
 
 ```
 
+### 1990-2000 (pre-art)
 ```{r}
 test.comp.mean %>% arrange(Year, Gender, scenario_name) %>% 
   filter(Year >= 1990, Year < 2000) %>% 
@@ -354,6 +381,7 @@ test.comp.mean %>% arrange(Year, Gender, scenario_name) %>%
            Newly.Infected = sum(Newly.Infected))
 ```
 
+### 2000-2020 (ART)
 ```{r}
 test.comp.mean %>% arrange(Year, Gender, scenario_name) %>% 
   filter(Year >= 2000, Year < 2020) %>% 
