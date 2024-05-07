@@ -72,9 +72,9 @@
                         0.082084539,
                         0.917915461
                     ],
-                    "Choice_Probabilities":[
-                        0.0430865,
-                        0.9569135
+                    "Choice_Probabilities": [
+                        0.0867621,
+                        0.9132379
                     ]
                 }
             }
@@ -149,8 +149,8 @@
                         0.805784168
                     ],
                     "Choice_Probabilities": [
-                        0.0932564,
-                        0.9067436
+                        0.189299,
+                        0.810701
                     ]
                 }
             }
@@ -225,8 +225,8 @@
                         0.720604784
                     ],
                     "Choice_Probabilities": [
-                        0.121123,
-                        0.878877
+                        0.247914,
+                        0.752086
                     ]
                 }
             }
@@ -301,8 +301,8 @@
                         0.753322028
                     ],
                     "Choice_Probabilities": [
-                        0.10523,
-                        0.89477
+                        0.215467,
+                        0.784533
                     ]
                 }
             }
@@ -377,8 +377,8 @@
                         0.656758033
                     ],
                     "Choice_Probabilities": [
-                        0.14585,
-                        0.85415
+                        0.299053,
+                        0.700947
                     ]
                 }
             }
@@ -453,8 +453,8 @@
                         0.545049357
                     ],
                     "Choice_Probabilities": [
-                        0.179246,
-                        0.820754
+                        0.369688,
+                        0.630312
                     ]
                 }
             }
@@ -529,8 +529,8 @@
                         0.103328855
                     ],
                     "Choice_Probabilities": [
-                        0.311245,
-                        0.688755
+                        0.629559,
+                        0.370441
                     ]
                 }
             }
@@ -605,8 +605,8 @@
                         0.821434752
                     ],
                     "Choice_Probabilities": [
-                        0.0884435,
-                        0.9115565
+                        0.179167,
+                        0.820833
                     ]
                 }
             }
@@ -681,8 +681,8 @@
                         0.7677016
                     ],
                     "Choice_Probabilities": [
-                        0.104338,
-                        0.895662
+                        0.212837,
+                        0.787163
                     ]
                 }
             }
@@ -757,8 +757,8 @@
                         0.825620201
                     ],
                     "Choice_Probabilities": [
-                        0.0770589,
-                        0.9229411
+                        0.156945,
+                        0.843055
                     ]
                 }
             }
@@ -833,8 +833,8 @@
                         0.623728965
                     ],
                     "Choice_Probabilities": [
-                        0.176704,
-                        0.823296
+                        0.3578927,
+                        0.6421073
                     ]
                 }
             }
@@ -909,8 +909,8 @@
                         0.557292894
                     ],
                     "Choice_Probabilities": [
-                        0.191733,
-                        0.808267
+                        0.3906945,
+                        0.6093055
                     ]
                 }
             }
@@ -985,8 +985,8 @@
                         0.751164137
                     ],
                     "Choice_Probabilities": [
-                        0.103257,
-                        0.896743
+                        0.211823,
+                        0.788177
                     ]
                 }
             }
@@ -1061,8 +1061,8 @@
                         0.84664702
                     ],
                     "Choice_Probabilities": [
-                        0.0693344,
-                        0.9306656
+                        0.140893,
+                        0.859107
                     ]
                 }
             }
@@ -1298,8 +1298,8 @@
                         0.917915461
                     ],
                     "Choice_Probabilities": [
-                        0.0430865,
-                        0.9569135
+                        0.0867621,
+                        0.9132379
                     ]
                 }
             }
@@ -1374,8 +1374,8 @@
                         0.805784168
                     ],
                     "Choice_Probabilities": [
-                        0.0932564,
-                        0.9067436
+                        0.189299,
+                        0.810701
                     ]
                 }
             }
@@ -1450,8 +1450,8 @@
                         0.720604784
                     ],
                     "Choice_Probabilities": [
-                        0.121123,
-                        0.878877
+                        0.247914,
+                        0.752086
                     ]
                 }
             }
@@ -1526,8 +1526,8 @@
                         0.753322028
                     ],
                     "Choice_Probabilities": [
-                        0.10523,
-                        0.89477
+                        0.215467,
+                        0.784533
                     ]
                 }
             }
@@ -1602,8 +1602,8 @@
                         0.656758033
                     ],
                     "Choice_Probabilities": [
-                        0.14585,
-                        0.85415
+                        0.299053,
+                        0.700947
                     ]
                 }
             }
@@ -1678,8 +1678,8 @@
                         0.545049357
                     ],
                     "Choice_Probabilities": [
-                        0.179246,
-                        0.820754
+                        0.369688,
+                        0.630312
                     ]
                 }
             }
@@ -1754,8 +1754,8 @@
                         0.103328855
                     ],
                     "Choice_Probabilities": [
-                        0.311245,
-                        0.688755
+                        0.629559,
+                        0.370441
                     ]
                 }
             }
@@ -1830,8 +1830,8 @@
                         0.821434752
                     ],
                     "Choice_Probabilities": [
-                        0.0884435,
-                        0.9115565
+                        0.179167,
+                        0.820833
                     ]
                 }
             }
@@ -1906,8 +1906,8 @@
                         0.7677016
                     ],
                     "Choice_Probabilities": [
-                        0.104338,
-                        0.895662
+                        0.212837,
+                        0.787163
                     ]
                 }
             }
@@ -1982,8 +1982,8 @@
                         0.825620201
                     ],
                     "Choice_Probabilities": [
-                        0.0770589,
-                        0.9229411
+                        0.156945,
+                        0.843055
                     ]
                 }
             }
@@ -2058,8 +2058,8 @@
                         0.623728965
                     ],
                     "Choice_Probabilities": [
-                        0.176704,
-                        0.823296
+                        0.3578927,
+                        0.6421073
                     ]
                 }
             }
@@ -2134,8 +2134,8 @@
                         0.557292894
                     ],
                     "Choice_Probabilities": [
-                        0.191733,
-                        0.808267
+                        0.3906945,
+                        0.6093055
                     ]
                 }
             }
@@ -2210,8 +2210,8 @@
                         0.751164137
                     ],
                     "Choice_Probabilities": [
-                        0.103257,
-                        0.896743
+                        0.211823,
+                        0.788177
                     ]
                 }
             }
@@ -2287,8 +2287,8 @@
                         0.84664702
                     ],
                     "Choice_Probabilities": [
-                        0.0693344,
-                        0.9306656
+                        0.140893,
+                        0.859107
                     ]
                 }
             }
@@ -2365,9 +2365,9 @@
                         0.049190141,
                         0.950809859
                     ],
-                    "Choice_Probabilities":[
-                        0.0260476,
-                        0.9739524
+                    "Choice_Probabilities": [
+                        0.0529357,
+                        0.9470643
                     ]
                 }
             }
@@ -2442,8 +2442,8 @@
                         0.883613841
                     ],
                     "Choice_Probabilities": [
-                        0.0569775,
-                        0.9430225
+                        0.118172,
+                        0.881828
                     ]
                 }
             }
@@ -2518,8 +2518,8 @@
                         0.832569077
                     ],
                     "Choice_Probabilities": [
-                        0.0744535,
-                        0.9255465
+                        0.156953,
+                        0.843047
                     ]
                 }
             }
@@ -2594,8 +2594,8 @@
                         0.852175276
                     ],
                     "Choice_Probabilities": [
-                        0.0644598,
-                        0.9355402
+                        0.135342,
+                        0.864658
                     ]
                 }
             }
@@ -2670,8 +2670,8 @@
                         0.794308147
                     ],
                     "Choice_Probabilities": [
-                        0.0901472,
-                        0.9098528
+                        0.191789,
+                        0.808211
                     ]
                 }
             }
@@ -2746,8 +2746,8 @@
                         0.727365388
                     ],
                     "Choice_Probabilities": [
-                        0.111636,
-                        0.888364
+                        0.24163,
+                        0.75837
                     ]
                 }
             }
@@ -2822,8 +2822,8 @@
                         0.462659096
                     ],
                     "Choice_Probabilities": [
-                        0.183831,
-                        0.816169
+                        0.417836,
+                        0.582164
                     ]
                 }
             }
@@ -2898,8 +2898,8 @@
                         0.892992641
                     ],
                     "Choice_Probabilities": [
-                        0.0539811,
-                        0.9460189
+                        0.111584,
+                        0.888416
                     ]
                 }
             }
@@ -2974,8 +2974,8 @@
                         0.860792407
                     ],
                     "Choice_Probabilities": [
-                        0.0639012,
-                        0.9360988
+                        0.133606,
+                        0.866394
                     ]
                 }
             }
@@ -3050,8 +3050,8 @@
                         0.790822
                     ],
                     "Choice_Probabilities": [
-                        0.0469184,
-                        0.9530816
+                        0.0972487,
+                        0.9027513
                     ]
                 }
             }
@@ -3126,8 +3126,8 @@
                         0.774515084
                     ],
                     "Choice_Probabilities": [
-                        0.10051,
-                        0.89949
+                        0.214425,
+                        0.785575
                     ]
                 }
             }
@@ -3202,8 +3202,8 @@
                         0.734702474
                     ],
                     "Choice_Probabilities": [
-                        0.109493,
-                        0.890507
+                        0.236548,
+                        0.763452
                     ]
                 }
             }
@@ -3278,8 +3278,8 @@
                         0.850882134
                     ],
                     "Choice_Probabilities": [
-                        0.0632239,
-                        0.9367761
+                        0.132937,
+                        0.867063
                     ]
                 }
             }
@@ -3354,8 +3354,8 @@
                         0.908101393
                     ],
                     "Choice_Probabilities": [
-                        0.0421462,
-                        0.9578538
+                        0.0869868,
+                        0.9130132
                     ]
                 }
             }
@@ -3800,7 +3800,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -3857,8 +3856,7 @@
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
-                            "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed"
+                            "InterventionStatus:OnNonSuppressiveART"
                         ],
                         "Negative_Diagnosis_Event": "ARTStaging1",
                         "New_Property_Value": "InterventionStatus:HCTTestingLoop",
@@ -3905,7 +3903,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -3962,8 +3959,7 @@
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
-                            "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed"
+                            "InterventionStatus:OnNonSuppressiveART"
                         ],
                         "Negative_Diagnosis_Event": "ARTStaging1",
                         "New_Property_Value": "InterventionStatus:HCTTestingLoop",
@@ -5895,7 +5891,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -5937,7 +5932,6 @@
                         "InterventionStatus:LostForever",
                         "InterventionStatus:OnEffectiveART",
                         "InterventionStatus:OnNonSuppressiveART",
-                        "InterventionStatus:OnNonSuppressiveARTDepressed",
                         "InterventionStatus:LinkingToART",
                         "InterventionStatus:OnPreART",
                         "InterventionStatus:LinkingToPreART",
@@ -5988,7 +5982,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6028,7 +6021,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6212,7 +6204,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6259,7 +6250,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6327,7 +6317,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6400,7 +6389,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6451,7 +6439,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6528,7 +6515,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6585,7 +6571,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6672,7 +6657,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART",
@@ -6729,7 +6713,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -6786,7 +6769,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -6820,7 +6802,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -6851,7 +6832,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -6940,7 +6920,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -6981,7 +6960,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -7012,7 +6990,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART",
                             "InterventionStatus:LinkingToPreART"
@@ -7074,7 +7051,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART",
                             "InterventionStatus:OnPreART"
                         ],
@@ -7113,7 +7089,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART"
                         ],
                         "Muxer_Name": "PreART",
@@ -7151,7 +7126,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART"
                         ],
                         "New_Property_Value": "InterventionStatus:OnPreART",
@@ -7231,7 +7205,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART"
                         ],
                         "NOTE1": "Threshold for adult vs child guidelines",
@@ -7262,7 +7235,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART"
                         ],
                         "Event_Or_Config": "Event",
@@ -7293,7 +7265,6 @@
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
                             "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed",
                             "InterventionStatus:LinkingToART"
                         ],
                         "If_Active_TB": {
@@ -7354,8 +7325,7 @@
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
-                            "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed"
+                            "InterventionStatus:OnNonSuppressiveART"
                         ],
                         "Negative_Diagnosis_Event": "HCTUptakePostDebut3",
                         "New_Property_Value": "InterventionStatus:LinkingToART",
@@ -7410,7 +7380,7 @@
             "class": "CampaignEventByYear"
         },
         {
-            "Event_Name": "OnART enrollment: random draw for CMD-negative not in recovery",
+            "Event_Name": "OnART: random draw for CMD-negative not in recovery",
             "COMMENT": "Initiate effective ART or non-suppressive ART for everyone with a history of treatment or no history of depression",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
@@ -7452,15 +7422,14 @@
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
-                            "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed"
+                            "InterventionStatus:OnNonSuppressiveART"
                         ]                        
                     }
                 }
             }
         },
         {
-            "Event_Name": "OnART enrollment: random draw for CMD-negative and in recovery",
+            "Event_Name": "OnART: random draw for CMD-negative and in recovery",
             "COMMENT": "Initiate effective ART or non-suppressive ART - for everyone with a history of depression and in recovery (CMD-negative)",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
@@ -7499,15 +7468,14 @@
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
-                            "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed"
+                            "InterventionStatus:OnNonSuppressiveART"
                         ]                        
                     }
                 }
             }
         },
         {
-            "Event_Name": "OnART enrollment: random draw for CMD-positive",
+            "Event_Name": "OnART: random draw for CMD-positive",
             "COMMENT": "Initiate effective ART or non-suppressive ART",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
@@ -7530,8 +7498,7 @@
                         "class": "HIVRandomChoice",
                         "Choice_Names": [
                             "EffectiveART",
-                            "NonSuppressiveART",
-                            "NonSuppressiveARTDepressed"
+                            "NonSuppressiveART"
                         ],
                         ".Choice_Probabilities": [
                             0.68,
@@ -7539,15 +7506,13 @@
                         ],
                         "Choice_Probabilities": [
                             0.833,
-                            0.167,
-                            0
+                            0.167
                         ],
                         "Choice_Probabilities__KP_EffectiveART_CMDpos" :"<== marker",
                         "Disqualifying_Properties": [
                             "InterventionStatus:LostForever",
                             "InterventionStatus:OnEffectiveART",
-                            "InterventionStatus:OnNonSuppressiveART",
-                            "InterventionStatus:OnNonSuppressiveARTDepressed"
+                            "InterventionStatus:OnNonSuppressiveART"
                         ]                        
                     }
                 }
@@ -7592,25 +7557,6 @@
             }
         },
         {
-            "Event_Name": "Change intervention status for those switching to NonSuppressiveART due to depression onset",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": { "class": "NodeSetAll" },
-            "Start_Year": 1980,
-            "Event_Coordinator_Config": {
-                "class": "StandardInterventionDistributionEventCoordinator",
-                "Demographic_Coverage": 1,
-                "Intervention_Config": {
-                    "class": "NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [ "NonSuppressiveARTDepressed" ],
-                    "Actual_IndividualIntervention_Config": {
-                        "class": "PropertyValueChanger",
-                        "Target_Property_Key": "InterventionStatus",
-                        "Target_Property_Value": "OnNonSuppressiveARTDepressed"
-                    }
-                }
-            }
-        },
-        {
             "Event_Name": "OnART: state 2 (delay to dropout) - CMD negative",
             "COMMENT": "Delay dropout for everyone who is not CMD positive",
             "Nodeset_Config": {
@@ -7625,7 +7571,8 @@
                         "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
                         "Delay_Period_Exponential": 3650,
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever"
+                            "InterventionStatus:LostForever",
+                            "CMDStatus:CMD_pos"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",
@@ -7667,7 +7614,10 @@
                         "Delay_Period_Exponential": 3650,
                         "Delay_Period_Exponential__KP_CMD_ARTdropout" :"<== marker",
                         "Disqualifying_Properties": [
-                            "InterventionStatus:LostForever"
+                            "InterventionStatus:LostForever",
+                            "CMDStatus:CMD_neg",
+                            "CMDStatus:CMD_recovered",
+                            "CMDStatus:CMD_treated"
                         ],
                         "Intervention_Name": "On_ART",
                         "Muxer_Name": "ARTDropoutDelay",
@@ -7719,9 +7669,6 @@
                             "InterventionStatus" : "OnNonSuppressiveART"
                         },
                         {
-                            "InterventionStatus" : "OnNonSuppressiveARTDepressed"
-                        },
-                        {
                             "InterventionStatus" : "OnEffectiveART"
                         }
                     ],
@@ -7760,88 +7707,12 @@
                             "InterventionStatus" : "OnNonSuppressiveART"
                         },
                         {
-                            "InterventionStatus" : "OnNonSuppressiveARTDepressed"
-                        },
-                        {
                             "InterventionStatus" : "OnEffectiveART"
                         }
                     ],
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
-            }
-        },
-        {
-            "BEGIN":"DEPRESSION ONSET AND ART",
-            "END":"DEPRESSION ONSET AND ART",
-            "Event_Name": "Reduce ART adherence following depression onset - note the history-depending NonSuppressiveART category",
-            "COMMENT":"When individuals become depressed, move some of them into NonSuppressiveARTDepressed category",
-            "class": "CampaignEventByYear",
-            "Start_Year": 1990,
-            "Start_Year__KP_ARTswitch":"<== marker",
-            "Nodeset_Config": {
-                  "class": "NodeSetAll"
-            },
-            "Event_Coordinator_Config": {
-                "class":"StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config":{
-                    "class":"NodeLevelHealthTriggeredIV",
-                    "Demographic_Coverage":0,
-                    "Demographic_Coverage__KP_ARTSwitch_CMD_Onset_NonSuppressive_ART":"<== marker",
-                    "Trigger_Condition_List": [
-                        "CMD_Incidence2",
-                        "CMD_Incidence2_diagnosis",
-                        "CMD_Relapse2",
-                        "CMD_Relapse2_diagnosis"
-                    ],
-                    "Property_Restrictions": [
-                        "InterventionStatus:OnEffectiveART"
-                    ],
-                    "Actual_IndividualIntervention_Config": { 
-                        "class": "BroadcastEvent",
-                        "Broadcast_Event": "NonSuppressiveARTDepressed",
-                        "Disqualifying_Properties": [
-                              "InterventionStatus:LostForever",
-                              "InterventionStatus:OnNonSuppressiveART",
-                              "InterventionStatus:OnNonSuppressiveARTDepressed"
-                        ]                        
-                    }
-                }
-            }
-        },
-        {
-            "BEGIN":"DEPRESSION RECOVERY AND ART",
-            "END":"DEPRESSION RECOVERY AND ART",
-            "Event_Name": "Improve ART adherence following depression recovery",
-            "COMMENT":"Only depressed individuals who switched to NonSuppressiveART upon depression recovery switch to EffectiveART",
-            "class": "CampaignEventByYear",
-            "Start_Year": 1990,
-            "Start_Year__KP_ARTswitch":"<== marker",
-            "Nodeset_Config": {
-                  "class": "NodeSetAll"
-            },
-            "Event_Coordinator_Config": {
-                "class":"StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config":{
-                    "class":"NodeLevelHealthTriggeredIV",
-                    "Demographic_Coverage":1,
-                    "Trigger_Condition_List": [
-                        "CMD_RecoverNoTreat",
-                        "CMD_RecoverTreat"
-                    ],
-                    "Property_Restrictions": [
-                        "InterventionStatus:OnNonSuppressiveARTDepressed"
-                    ],
-                    "Actual_IndividualIntervention_Config": { 
-                        "class": "BroadcastEvent",
-                        "Broadcast_Event": "EffectiveART",
-                        "Disqualifying_Properties": [
-                              "InterventionStatus:LostForever",
-                              "InterventionStatus:OnEffectiveART",
-                              "InterventionStatus:OnNonSuppressiveART"
-                        ]                        
-                    }
-                }
             }
         },
         {
@@ -7914,10 +7785,7 @@
                 "Demographic_Coverage": 1,
                 "Intervention_Config": {
                     "class": "NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [ 
-                        "NonSuppressiveART", 
-                        "NonSuppressiveARTDepressed" 
-                    ],
+                    "Trigger_Condition_List": [ "NonSuppressiveART" ],
                     "Target_Demographic": "ExplicitGender",
                     "Target_Gender": "Male",
                     "Actual_IndividualIntervention_Config": {
@@ -8036,10 +7904,7 @@
                 "Demographic_Coverage": 1,
                 "Intervention_Config": {
                     "class": "NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": [ 
-                        "NonSuppressiveART", 
-                        "NonSuppressiveARTDepressed" 
-                    ],
+                    "Trigger_Condition_List": [ "NonSuppressiveART" ],
                     "Target_Demographic": "ExplicitGender",
                     "Target_Gender": "Female",
                     "Actual_IndividualIntervention_Config": {

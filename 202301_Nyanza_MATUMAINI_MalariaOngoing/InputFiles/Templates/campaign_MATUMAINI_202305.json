@@ -7782,12 +7782,12 @@
             "Nodeset_Config": {
                   "class": "NodeSetAll"
             },
-            "Demographic_Coverage":0,
-            "Demographic_Coverage__KP_CMD_Onset_NonSuppressive_ART":"<== marker",
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Demographic_Coverage":0,
+                    "Demographic_Coverage__KP_ARTSwitch_CMD_Onset_NonSuppressive_ART":"<== marker",
                     "Trigger_Condition_List": [
                         "CMD_Incidence2",
                         "CMD_Incidence2_diagnosis",
@@ -7820,12 +7820,11 @@
             "Nodeset_Config": {
                   "class": "NodeSetAll"
             },
-            "Demographic_Coverage":1,
-            "Demographic_Coverage__KP_CMD_Recovery_Effective_ART":"<== marker",
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
+                    "Demographic_Coverage":1,
                     "Trigger_Condition_List": [
                         "CMD_RecoverNoTreat",
                         "CMD_RecoverTreat"

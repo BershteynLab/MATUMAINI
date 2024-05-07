@@ -21,4 +21,4 @@
 
 # python optim_script.py
 
-python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir croi_test --suite-name croi_test --table scenarios.csv
+python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir sensitivity_analysis --suite-name sensitivity_analysis --table scenarios.csv
