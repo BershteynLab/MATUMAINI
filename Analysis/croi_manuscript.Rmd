@@ -1565,13 +1565,13 @@ write_csv(numbers.table, "numbers_table_20240531.csv")
 ```
 
 
-```{r}
+```{r, fig.height=16}
 numbers.table %>% 
   ggplot() + 
   geom_point(mapping = aes(x = scenario_name, y = Newly.Infected)) + 
   geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected_95LL, ymax = Newly.Infected_95UL)) + 
-  facet_wrap(vars(Ages, Years)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 # ggplot(data = sim.results.all.agg.numbers) + 
 #   geom_point(mapping = aes(x = scenario_name, y = Newly.Infected, color = Gender)) + 
@@ -2006,5 +2006,201 @@ write_csv(impact.table, "impact_of_art_table_20240531.csv")
 ### 90-90-90 Metrics
 
 ```{r}
+
+```
+
+## Figures
+
+```{r}
+numbers.table <- read_csv("numbers_table_20240531.csv")
+
+differences.table <- read_csv("differences_table_20240531.csv")
+
+impact.table <- read_csv("impact_of_art_table_20240531.csv")
+```
+
+### Numbers table
+
+```{r}
+numbers.table %>% head
+
+numbers.table$Period %>% unique 
+```
+
+```{r, fig.height=8}
+numbers.table %>% 
+  filter(Period == "Entire Past Pandemic") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected_95LL, ymax = Newly.Infected_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  expand_limits(x = 0, y = 0) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+numbers.table %>% 
+  filter(Period == "Universal ART") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected_95LL, ymax = Newly.Infected_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  #ylim(0,2.1e5) + 
+  expand_limits(x = 0, y = 0) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+# ggplot(data = sim.results.all.agg.numbers) + 
+#   geom_point(mapping = aes(x = scenario_name, y = Newly.Infected, color = Gender)) + 
+#   geom_errorbar(aes(x=scenario_name, ymin = Newly.Infected_95LL, ymax = Newly.Infected_95UL)) + 
+#   facet_wrap(~ Gender, ncol=2) + 
+#   scale_color_manual(values = c("red", "blue"))  + 
+#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+# #+ 
+# #  scale_y_continuous(limits = c(5e5, 9e5)) 
+
+```
+
+## Differences Table
+
+```{r, fig.height=8}
+differences.table %>% head
+
+differences.table$Period %>% unique 
+```
+
+### HIV deaths differences
+```{r fig.height=12}
+differences.table %>% 
+  filter(Period == "Universal ART") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV.pct)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+differences.table %>% 
+  filter(Period == "Entire Past Pandemic") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV.pct)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+
+differences.table %>% 
+  filter(Period == "Future Pandemic") %>%   
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV.pct)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+
+differences.table %>% 
+  filter(! Period %in% c("Entire Past Pandemic", "Past+Future Pandemic")) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV.pct)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Years)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+
+```
+
+```{r, fig.height = 8}
+differences.table %>% 
+  filter(! Period %in% c("Entire Past Pandemic", "Past+Future Pandemic")) %>% 
+  filter(scenario_name == "baseline.art") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Years, y = Died_from_HIV.pct, color = scenario_name)) + 
+  geom_errorbar(mapping = aes(x = Years, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
+  facet_grid(rows = vars(Ages)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+differences.table %>% 
+  filter(! Period %in% c("Entire Past Pandemic", "Past+Future Pandemic")) %>% 
+  filter(scenario_name == "decouple.art.hivinc") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Years, y = Died_from_HIV.pct, color = scenario_name)) + 
+  geom_errorbar(mapping = aes(x = Years, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
+  facet_grid(rows = vars(Ages)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+
+differences.table %>% 
+  filter(! Period %in% c("Entire Past Pandemic", "Past+Future Pandemic")) %>% 
+  filter(scenario_name == "decouple.art.hivinc") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Years, y = Died_from_HIV.diff, color = scenario_name)) + 
+  geom_errorbar(mapping = aes(x = Years, ymin = Died_from_HIV.diff_95LL, ymax = Died_from_HIV.diff_95UL)) + 
+  facet_grid(rows = vars(Ages)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+
+### New Infections
+
+```{r, fig.height=8}
+differences.table %>% 
+  filter(Period == "Universal ART") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected.pct)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected.pct_95LL, ymax = Newly.Infected.pct_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+differences.table %>% 
+  filter(Period == "Entire Past Pandemic") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected.pct)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected.pct_95LL, ymax = Newly.Infected.pct_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+differences.table %>% 
+  filter(Period == "Future Pandemic") %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected.pct)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected.pct_95LL, ymax = Newly.Infected.pct_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+
+differences.table %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected.pct)) + 
+  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected.pct_95LL, ymax = Newly.Infected.pct_95UL)) + 
+  facet_grid(cols = vars(Ages), rows = vars(Period), scales = "free") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+```
+
+## Impact of ART
+
+```{r}
+impact.table %>% View
+```
+
+### Impact of ART 
+
+```{r fig.height=10}
+impact.table %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Ages, y = art.impact.ppyoa)) + 
+  geom_errorbar(mapping = aes(x = Ages, ymin = art.impact.ppyoa_95LL, ymax = art.impact.ppyoa_95UL)) + 
+  facet_grid(cols = vars(Metric), rows = vars(Period), scales = "free") + 
+  expand_limits(x = 0, y = 0) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+```
+
+### Percentage impact of ART Per-Person-Year-OnART
+```{r fig.height=10}
+impact.table %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Ages, y = art.impact.ppyoa.pct)) + 
+  geom_errorbar(mapping = aes(x = Ages, ymin = art.impact.ppyoa.pct_95LL, ymax = art.impact.ppyoa.pct_95UL)) + 
+  facet_grid(cols = vars(Metric), rows = vars(Period), scales = "free") + 
+  expand_limits(x = 0, y = 0) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 
 ```

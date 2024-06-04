@@ -212,9 +212,7 @@
         "Report_HIV_ByAgeAndGender_Collect_IP_Data": [
             "CMDStatus"
         ],
-        "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [
-            "SuppressedOnART"
-        ],
+        "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 1,
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
@@ -246,7 +244,7 @@
         "Start_Time": 0,
         "logLevel_InfectionHIV": "ERROR",
         "logLevel_Instrumentation": "ERROR",
-        "logLevel_Memory": "ERROR",
+        "logLevel_Memory": "WARNING",
         "logLevel_OutbreakIndividual": "ERROR",
         "logLevel_ReportUtilities": "ERROR",
         "logLevel_Simulation": "ERROR",
