@@ -18,6 +18,9 @@ library(magrittr)
 library(rsample)
 library(readxl)
 library(devtools)
+library(ggpubr)
+library(patchwork)
+
 devtools::install_github("BershteynLab/EMODAnalyzeR", force = TRUE)
 ```
 
@@ -51,7 +54,6 @@ The "baseline scenario" set of HIV-CMD interactions
 At the moment we are stuck on trying to figure out how to show that depression reducing art adherence has been bad.
 
 # Read in data
-
 
 ## Decouple, ART
 ```{r}
@@ -157,8 +159,6 @@ sim.results.decouple.art.hivinc <- EMODAnalyzeR::read.simulation.results.bigpurp
   max_age_inclusive = 99
 )
 ```
-
-
 
 
 ## Decouple, ART, Delay to testing
@@ -378,6 +378,62 @@ sim.results.baseline.art.not.hivmc <- EMODAnalyzeR::read.simulation.results.bigp
   max_age_inclusive = 99
 )
 ```
+
+## All treatment effects
+
+```{r}
+# Version 5 of model
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_tx___2024_06_05_05_04_34_591762/"
+
+sim.results.decouple.art.tx <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path,
+  scenario_name = 'decouple.art.tx',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  #stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+## All ART adherence effects
+```{r}
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_artswitch_artadh___2024_06_05_05_02_23_390019"
+
+sim.results.decouple.art.artswitch.artadh <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path,
+  scenario_name = 'decouple.art.artswitch.artadh',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  #stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+
+## All effects except for elevated CMD incidence
+
+```{r}
+experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_not_cmdinc___2024_06_05_04_59_42_220845"
+
+sim.results.baseline.art.not.cmdinc <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment_path,
+  scenario_name = 'baseline.art.not.cmdinc',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  #stratify_columns = c("Year", "Gender","IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
 
 ## Elevated CMD Incidence, ART Adherence
 ```{r}
@@ -626,14 +682,12 @@ sim.results.decouple.art.min <- sim.results.decouple.art.min %>%
 ## Join data together
 ```{r}
 sim.results.all <- rbind(sim.results.decouple.art,
-                         sim.results.baseline.art.cmdinc,
+                         sim.results.baseline.art.not.cmdinc,
                          sim.results.decouple.art.hivinc,
+                         sim.results.decouple.art.tx,
+                         sim.results.decouple.art.artswitch.artadh,
                          sim.results.decouple.art.delay,
                          sim.results.decouple.art.artdrop,
-                         sim.results.decouple.art.adh,
-                         sim.results.decouple.art.artswitch,
-                         #sim.results.baseline.art.cmdinc.adh,
-                         sim.results.baseline.art.not.hivmc,
                          sim.results.baseline.art)
 ```
 
@@ -1300,105 +1354,8 @@ aggregate.data <- function(data, scenario.name, start_year, end_year, age_min, a
 ### Function for calculating differences between scenarios
 
 ```{r}
-
-    group_by(scenario_name, sim.ix) %>% 
-    summarize(Newly.Infected = sum(Newly.Infected * pop.scaling.factor), 
-            Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor),
-            .groups = 'keep') %>%
-    ungroup() %>% merge(
-        sim.results.all %>% 
-          filter(scenario_name=="baseline.art") %>% 
-          filter(Year >= 1980, 
-                 Year < 2021,
-                 Age >= 0,
-                 Age < 100)  %>% 
-          filter(IP_Key.CMDStatus == "CMD_pos") %>% 
-            group_by(scenario_name, sim.ix) %>% 
-            summarize( Depression.eps = sum(Population/2* pop.scaling.factor),
-                    .groups = 'keep') %>%
-            ungroup() %>% 
-          select(sim.ix, Depression.eps), 
-        by = c("sim.ix")
-    )
-
-
-data.agg <- sim.results.all %>%
-    filter(Year >= 1980, 
-           Year < 2021,
-           Age >= 0,
-           Age < 100)  %>% 
-    group_by(scenario_name, sim.ix) %>% 
-    summarize(Newly.Infected = sum(Newly.Infected * pop.scaling.factor), 
-            Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor),
-            .groups = 'keep') %>%
-    ungroup() %>% merge(
-        sim.results.all %>% 
-          filter(scenario_name== "baseline.art") %>% 
-          filter(Year >= 1980, 
-                 Year < 2021,
-                 Age >= 0,
-                 Age < 100)  %>% 
-          filter(IP_Key.CMDStatus == "CMD_pos") %>% 
-            group_by(scenario_name, sim.ix) %>% 
-            summarize( Depression.eps = sum(Population/2* pop.scaling.factor),
-                    .groups = 'keep') %>%
-            ungroup() %>% 
-          select(sim.ix, Depression.eps), 
-        by = c("sim.ix")
-    )
-
-  data.agg.2 <- data.agg %>% filter(scenario_name == "decouple.art") %>% 
-    select(sim.ix, 
-         Newly.Infected.Decouple = Newly.Infected,
-         Died_from_HIV.Decouple = Died_from_HIV,
-         Depression.eps.Decouple = Depression.eps
-         ) %>% 
-    merge(data.agg %>% filter(scenario_name == "baseline.art"),
-          by = c("sim.ix")) %>%
-    mutate(
-      Newly.Infected.diff = Newly.Infected - Newly.Infected.Decouple,
-      Newly.Infected.pct = (Newly.Infected - Newly.Infected.Decouple)/Newly.Infected.Decouple,
-      Died_from_HIV.diff = Died_from_HIV - Died_from_HIV.Decouple,
-      Died_from_HIV.pct = (Died_from_HIV - Died_from_HIV.Decouple)/Died_from_HIV.Decouple,
-      Depression.eps.diff = Depression.eps - Depression.eps.Decouple,
-      Depression.eps.pct = (Depression.eps - Depression.eps.Decouple)/Depression.eps.Decouple,
-    ) 
-  
-data.agg.diffs <- data.agg.2 %>%
-  group_by(scenario_name) %>%
-  summarize(Newly.Infected.diff.sd = sd(Newly.Infected.diff),
-            Newly.Infected.diff = mean(Newly.Infected.diff),
-            Newly.Infected.pct.sd = sd(Newly.Infected.pct),
-            Newly.Infected.pct = mean(Newly.Infected.pct),
-            Died_from_HIV.diff.sd = sd(Died_from_HIV.diff),
-            Died_from_HIV.diff = mean(Died_from_HIV.diff),
-            Died_from_HIV.pct.sd = sd(Died_from_HIV.pct),
-            Died_from_HIV.pct = mean(Died_from_HIV.pct),
-            Depression.eps.diff.sd = sd(Depression.eps.diff),
-            Depression.eps.diff = mean(Depression.eps.diff),
-            Depression.eps.pct.sd = sd(Depression.eps.pct),
-            Depression.eps.pct = mean(Depression.eps.pct), .groups = 'keep'
-            )
-
-  bt_resamples <- bootstraps(data.agg.2, times = 500)
-  bt_resamples$mean.infected.diff <- map_dbl(bt_resamples$splits, bt_mean, "Newly.Infected.diff")
-  bt_resamples$mean.infected.pct <- map_dbl(bt_resamples$splits, bt_mean, "Newly.Infected.pct")
-  bt_resamples$mean.deaths.diff <- map_dbl(bt_resamples$splits, bt_mean, "Died_from_HIV.diff")
-  bt_resamples$mean.deaths.pct <- map_dbl(bt_resamples$splits, bt_mean, "Died_from_HIV.pct")
-  bt_resamples$mean.eps.diff <- map_dbl(bt_resamples$splits, bt_mean, "Depression.eps.diff")
-  bt_resamples$mean.eps.pct <- map_dbl(bt_resamples$splits, bt_mean, "Depression.eps.pct")
-  
-  infected.diff_95 <- quantile(bt_resamples$mean.infected.diff, probs = c(.025, .975))
-  infected.pct_95 <- quantile(bt_resamples$mean.infected.pct, probs = c(.025, .975))
-  deaths.diff_95 <- quantile(bt_resamples$mean.deaths.diff, probs = c(.025, .975))
-  deaths.pct_95 <- quantile(bt_resamples$mean.deaths.pct, probs = c(.025, .975))
-  eps.diff_95 <- quantile(bt_resamples$mean.eps.diff, probs = c(.025, .975))
-  eps.pct_95 <- quantile(bt_resamples$mean.eps.pct, probs = c(.025, .975))
-```
-
-
-```{r}
-aggregate.data.differences <- function(data, scenario.name, start_year, end_year, age_min, age_max){
+aggregate.data.differences <- function(data, scenario.name, start_year, end_year, age_min, age_max,
+                                       comparison_scenario = "decouple.art"){
   
   data.agg <- data %>% 
     filter(Year >= start_year, 
@@ -1425,7 +1382,7 @@ aggregate.data.differences <- function(data, scenario.name, start_year, end_year
         by = c("sim.ix")
     )
   
-  data.agg.2 <- data.agg %>% filter(scenario_name == "decouple.art") %>% 
+  data.agg.2 <- data.agg %>% filter(scenario_name == comparison_scenario) %>% 
     select(sim.ix, 
          Newly.Infected.Decouple = Newly.Infected,
          Died_from_HIV.Decouple = Died_from_HIV,
@@ -1520,12 +1477,12 @@ aggregate.data(sim.results.all,
 
 
 ```{r}
-age_min_list = c(0, 15, 25)
-age_max_list = c(100, 25, 100)
+age_min_list = c(15, 25, 15, 50)
+age_max_list = c(25, 100, 100, 100)
 
-start_year_list = c(1985, 1985, 2000, 2015, 2025, 1985)
-end_year_list = c(2025, 2000, 2015, 2025, 2050, 2050)
-label_list = c("Entire Past Pandemic", "Pre-ART", "ART Scaleup", "Universal ART", "Future Pandemic", "Past+Future Pandemic")
+start_year_list = c(1985, 2005, 2015, 2025, 1985, 1985)
+end_year_list = c(2005, 2015, 2025, 2035, 2025, 2035)
+label_list = c("Pre-ART", "ART Scaleup", "Universal ART", "Future", "Past Pandemic", "Past+Future")
 
 scenario_names = sim.results.all$scenario_name %>% unique
 
@@ -1557,11 +1514,11 @@ numbers.table <- numbers.table %>%
     "Newly.Infected", "Newly.Infected_95LL", "Newly.Infected_95UL", "Newly.Infected.sd", 
     "Died_from_HIV", "Died_from_HIV_95LL", "Died_from_HIV_95UL",  "Died_from_HIV.sd", 
     "Depression.eps", "Depression.eps_95LL", "Depression.eps_95UL", "Depression.eps.sd"
-  )
+  )  %>% arrange(Period, Ages, scenario_name)
 
-numbers.table %>% arrange(Period, Ages, scenario_name)
+# write_csv(numbers.table, "numbers_table_20240531.csv")
 
-write_csv(numbers.table, "numbers_table_20240531.csv")
+write_csv(numbers.table, "numbers_table_20240606.csv")
 ```
 
 
@@ -1609,16 +1566,18 @@ aggregate.data.differences(sim.results.all,
 
 
 ```{r}
-age_min_list = c(0, 15, 25)
-age_max_list = c(100, 25, 100)
+age_min_list = c(15, 25, 15, 50)
+age_max_list = c(25, 100, 100, 100)
 
-start_year_list = c(1985, 1985, 2000, 2015, 2025, 1985)
-end_year_list = c(2025, 2000, 2015, 2025, 2050, 2050)
-label_list = c("Entire Past Pandemic", "Pre-ART", "ART Scaleup", "Universal ART", "Future Pandemic", "Past+Future Pandemic")
+start_year_list = c(1985, 2005, 2015, 2025, 1985, 1985)
+end_year_list = c(2005, 2015, 2025, 2035, 2025, 2035)
+label_list = c("Pre-ART", "ART Scaleup", "Universal ART", "Future", "Past Pandemic", "Past+Future")
 
 scenario_names <- sim.results.all$scenario_name %>% unique
 scenario_names <- scenario_names[scenario_names != "decouple.art"]
+scenario_names <- scenario_names[scenario_names != "baseline.art.not.cmdinc"]
 
+# First, calculate differences between all scenarios and decouple.art
 differences.table <- data.table()
 for (i in seq(1:length(age_min_list))){
   for (j in seq(1:length(start_year_list)) ){
@@ -1631,7 +1590,8 @@ for (i in seq(1:length(age_min_list))){
       
       holder <- aggregate.data.differences(sim.results.all,
                                            scenario.name = scenario_names[[k]],
-                                           start_year, end_year, age_min,age_max) %>% 
+                                           start_year, end_year, age_min,age_max,
+                                           comparison_scenario = "decouple.art") %>% 
                mutate(Ages = paste0(age_min, "-", age_max),
                       Years = paste0(start_year,"-",end_year),
                       Period = label_list[[j]])
@@ -1639,6 +1599,31 @@ for (i in seq(1:length(age_min_list))){
       differences.table <- rbind(differences.table, holder)      
       
     }
+  }
+} 
+
+# Next, calculate differences between baseline.art and baseline.art.not.cmdinc
+for (i in seq(1:length(age_min_list))){
+  for (j in seq(1:length(start_year_list)) ){
+
+    age_min = age_min_list[[i]]
+    age_max = age_max_list[[i]]
+    start_year = start_year_list[[j]]
+    end_year = end_year_list[[j]]
+    
+    holder <- aggregate.data.differences(sim.results.all,
+                                         scenario.name = "baseline.art",
+                                         start_year, end_year, age_min,age_max,
+                                         comparison_scenario = "baseline.art.not.cmdinc") %>% 
+             mutate(Ages = paste0(age_min, "-", age_max),
+                    Years = paste0(start_year,"-",end_year),
+                    Period = label_list[[j]])
+    
+    # I know this is confusing but we're labeling by the denominator
+    holder$scenario_name <- "baseline.art.not.cmdinc"
+    
+    differences.table <- rbind(differences.table, holder)      
+      
   }
 } 
 
@@ -1653,9 +1638,10 @@ differences.table <- differences.table %>%
     "Depression.eps.pct", "Depression.eps.pct_95LL", "Depression.eps.pct_95UL",  "Depression.eps.pct.sd"
   ) %>% arrange(Period, Ages, scenario_name)
 
-write_csv(differences.table, "differences_table_20240531.csv")
+# write_csv(differences.table, "differences_table_20240531.csv")
+write_csv(differences.table, "differences_table_20240606.csv")
 
-differences.table %>% View
+#differences.table %>% View
 ```
 
 ```{r}
@@ -1827,9 +1813,86 @@ sim.results.impact <- sim.results.impact %>%
 ### Define function
 
 ```{r}
+data <- sim.results.impact 
+data['column.of.interest'] = data["Newly.Infected"]
+
+  art.impact.data <- data %>% 
+    filter(Year >= 1985, Year < 2005,
+           Age >= 15, Age < 25) %>% 
+    group_by(scenario_name, sim.ix) %>% 
+    summarize(column.of.interest = sum(column.of.interest * pop.scaling.factor), .groups = "keep") %>% 
+    ungroup() %>% 
+    pivot_wider(id_cols = c(sim.ix), names_from = c(scenario_name), values_from = c(column.of.interest)) %>% 
+    merge(
+      data %>% 
+        filter(Year >= 1985, Year < 2005,
+               Age >= 15, Age < 25) %>% 
+        group_by(scenario_name, sim.ix) %>% 
+        summarize(On_ART = sum(On_ART * pop.scaling.factor), .groups = "keep") %>%
+        ungroup() %>% 
+        pivot_wider(id_cols = c(sim.ix), names_from = c(scenario_name), values_from = c(On_ART)) %>% 
+        select(sim.ix = sim.ix, baseline.art.pyoa = baseline.art, decouple.art.pyoa = decouple.art)
+    ) %>%
+    mutate(baseline.art.impact = baseline.noart - baseline.art,
+           decouple.art.impact = decouple.noart - decouple.art,
+           baseline.art.ppyoa = case_when(
+             baseline.art.pyoa > 0 ~ (baseline.noart - baseline.art)/baseline.art.pyoa,
+             baseline.art.pyoa == 0 ~ 0
+           ),
+           decouple.art.ppyoa = case_when(
+             decouple.art.pyoa > 0 ~ (decouple.noart - decouple.art)/decouple.art.pyoa,
+             decouple.art.pyoa == 0 ~ 0
+           )
+     )   %>% 
+    mutate(art.impact = baseline.art.impact - decouple.art.impact,
+           art.impact.ppyoa = baseline.art.ppyoa - decouple.art.ppyoa) %>% 
+    mutate(art.impact.pct = case_when(
+      decouple.art.impact != 0 ~ art.impact/decouple.art.impact,
+                            decouple.art.impact == 0 ~ 0),
+      art.impact.ppyoa.pct = case_when(
+              decouple.art.ppyoa != 0 ~ art.impact.ppyoa/decouple.art.ppyoa,
+              decouple.art.ppyoa == 0 ~ 0)
+      )
+  
+  art.impact.data$art.impact.pct %>% mean(na.rm = TRUE)
+  
+  art.impact.data.agg <- art.impact.data %>% 
+      summarize(
+        baseline.art.impact = mean(baseline.art.impact, na.rm = TRUE),
+                decouple.art.impact = mean(decouple.art.impact, na.rm = TRUE),
+                art.impact = mean(art.impact, na.rm = TRUE),
+                art.impact.pct = mean(art.impact.pct, na.rm = TRUE),
+                baseline.art.ppyoa = mean(baseline.art.ppyoa, na.rm = TRUE), 
+                decouple.art.ppyoa = mean(decouple.art.ppyoa, na.rm = TRUE),
+                art.impact.ppyoa = mean(art.impact.ppyoa, na.rm = TRUE),
+                art.impact.ppyoa.pct = mean(art.impact.ppyoa.pct, na.rm = TRUE),
+                .groups = "keep"
+                ) %>%
+      ungroup()
+  
+  art.impact.data.agg
+  
+  
+    bt_resamples <- bootstraps(art.impact.data, times = 500)
+  bt_resamples$baseline.art.impact <- map_dbl(bt_resamples$splits, bt_mean, "baseline.art.impact")
+  bt_resamples$decouple.art.impact <- map_dbl(bt_resamples$splits, bt_mean, "decouple.art.impact")
+  bt_resamples$art.impact <- map_dbl(bt_resamples$splits, bt_mean, "art.impact")
+  bt_resamples$art.impact.pct <- map_dbl(bt_resamples$splits, bt_mean, "art.impact.pct")
+  bt_resamples$baseline.art.ppyoa <- map_dbl(bt_resamples$splits, bt_mean, "baseline.art.ppyoa")
+  bt_resamples$decouple.art.ppyoa <- map_dbl(bt_resamples$splits, bt_mean, "decouple.art.ppyoa")
+  bt_resamples$art.impact.ppyoa <- map_dbl(bt_resamples$splits, bt_mean, "art.impact.ppyoa")
+  bt_resamples$art.impact.ppyoa.pct <- map_dbl(bt_resamples$splits, bt_mean, "art.impact.ppyoa.pct")
+  
+  mean(bt_resamples$art.impact.ppyoa.pct)
+  mean(art.impact.data.agg$art.impact.ppyoa.pct)
+  
+```
+
+
+```{r}
 bt_mean <- function(splits, colname){
   x <- as.data.frame(analysis(splits))
-  mean(x[[colname]])
+  mean(x[[colname]], na.rm = TRUE)
 }
 
 
@@ -1857,18 +1920,18 @@ measure.art.impact <- function(data, colname, start_year, end_year, age_min, age
     mutate(baseline.art.impact = baseline.noart - baseline.art,
            decouple.art.impact = decouple.noart - decouple.art,
            baseline.art.ppyoa = case_when(
-             baseline.art.pyoa > 0 ~ (baseline.noart - baseline.art)/baseline.art.pyoa,
+             baseline.art.pyoa >  0 ~ (baseline.noart - baseline.art)/baseline.art.pyoa,
              baseline.art.pyoa == 0 ~ 0
            ),
            decouple.art.ppyoa = case_when(
-             decouple.art.pyoa > 0 ~ (decouple.noart - decouple.art)/decouple.art.pyoa,
+             decouple.art.pyoa >  0 ~ (decouple.noart - decouple.art)/decouple.art.pyoa,
              decouple.art.pyoa == 0 ~ 0
            )
      ) %>% 
     mutate(art.impact = baseline.art.impact - decouple.art.impact,
            art.impact.ppyoa = baseline.art.ppyoa - decouple.art.ppyoa) %>% 
     mutate(art.impact.pct = case_when(
-              decouple.art.impact >0 ~ art.impact/decouple.art.impact,
+              decouple.art.impact > 0 ~ art.impact/decouple.art.impact,
               decouple.art.impact == 0 ~ 0),
            art.impact.ppyoa.pct = case_when(
               decouple.art.ppyoa > 0 ~ art.impact.ppyoa/decouple.art.ppyoa,
@@ -1876,22 +1939,22 @@ measure.art.impact <- function(data, colname, start_year, end_year, age_min, age
     )
 
   art.impact.data.agg <- art.impact.data %>% 
-      summarize(baseline.art.impact.sd = sd(baseline.art.impact),
-                baseline.art.impact = mean(baseline.art.impact),
-                decouple.art.impact.sd = sd(decouple.art.impact),
-                decouple.art.impact = mean(decouple.art.impact),
-                art.impact.sd = sd(art.impact),
-                art.impact = mean(art.impact),
-                art.impact.pct.sd = sd(art.impact.pct),
-                art.impact.pct = mean(art.impact.pct),
-                baseline.art.ppyoa.sd = sd(baseline.art.ppyoa),
-                baseline.art.ppyoa = mean(baseline.art.ppyoa), 
-                decouple.art.ppyoa.sd = sd(decouple.art.ppyoa),
-                decouple.art.ppyoa = mean(decouple.art.ppyoa),
-                art.impact.ppyoa.sd = sd(art.impact.ppyoa),
-                art.impact.ppyoa = mean(art.impact.ppyoa),
-                art.impact.ppyoa.pct.sd = sd(art.impact.ppyoa.pct),
-                art.impact.ppyoa.pct = mean(art.impact.ppyoa.pct),
+      summarize(baseline.art.impact.sd = sd(baseline.art.impact, na.rm = TRUE),
+                baseline.art.impact = mean(baseline.art.impact, na.rm = TRUE),
+                decouple.art.impact.sd = sd(decouple.art.impact, na.rm = TRUE),
+                decouple.art.impact = mean(decouple.art.impact, na.rm = TRUE),
+                art.impact.sd = sd(art.impact, na.rm = TRUE),
+                art.impact = mean(art.impact, na.rm = TRUE),
+                art.impact.pct.sd = sd(art.impact.pct, na.rm = TRUE),
+                art.impact.pct = mean(art.impact.pct, na.rm = TRUE),
+                baseline.art.ppyoa.sd = sd(baseline.art.ppyoa, na.rm = TRUE),
+                baseline.art.ppyoa = mean(baseline.art.ppyoa, na.rm = TRUE), 
+                decouple.art.ppyoa.sd = sd(decouple.art.ppyoa, na.rm = TRUE),
+                decouple.art.ppyoa = mean(decouple.art.ppyoa, na.rm = TRUE),
+                art.impact.ppyoa.sd = sd(art.impact.ppyoa, na.rm = TRUE),
+                art.impact.ppyoa = mean(art.impact.ppyoa, na.rm = TRUE),
+                art.impact.ppyoa.pct.sd = sd(art.impact.ppyoa.pct, na.rm = TRUE),
+                art.impact.ppyoa.pct = mean(art.impact.ppyoa.pct, na.rm = TRUE),
                 .groups = "keep"
                 ) %>%
       ungroup()
@@ -1951,22 +2014,19 @@ measure.art.impact <- function(data, colname, start_year, end_year, age_min, age
 ### Calculate impact of ART
 
 ```{r}
-measure.art.impact(sim.results.impact, "Died_from_HIV", 1980, 2015, 0, 15)
+measure.art.impact(sim.results.impact, "Died_from_HIV", 1985, 2000, 15, 25)
 ```
 
 
 ```{r}
-age_min_list = c(0, 15, 25)
-age_max_list = c(100, 25, 100)
+age_min_list = c(15, 25, 15, 50)
+age_max_list = c(25, 100, 100, 100)
 
-start_year_list = c(1985, 1985, 2000, 2015, 2025, 1985)
-end_year_list = c(2025, 2000, 2015, 2025, 2050, 2050)
-label_list = c("Entire Past Pandemic", "Pre-ART", "ART Scaleup", "Universal ART", "Future Pandemic", "Past+Future Pandemic")
+start_year_list = c(1985, 2005, 2015, 2025, 1985, 1985)
+end_year_list = c(2005, 2015, 2025, 2035, 2025, 2035)
+label_list = c("Pre-ART", "ART Scaleup", "Universal ART", "Future", "Past Pandemic", "Past+Future")
 
 metrics = c("Newly.Infected", "Died_from_HIV")
-
-start_years = c()
-end_years = c()
 
 impact.table <- data.table()
 for (i in seq(1:length(age_min_list))){
@@ -1982,7 +2042,7 @@ for (i in seq(1:length(age_min_list))){
     }
   }
 }
-colnames(impact.table)
+#colnames(impact.table)
 
 impact.table <- impact.table %>% 
   select("Period", "Years", "Ages", "Metric",
@@ -1994,14 +2054,15 @@ impact.table <- impact.table %>%
          "baseline.art.impact","baseline.art.impact.sd","baseline.art.impact_95LL", "baseline.art.impact_95UL", "decouple.art.impact","decouple.art.impact.sd",
          "decouple.art.impact_95LL","decouple.art.impact_95UL","art.impact","art.impact.sd","art.impact_95LL", "art.impact_95UL")  %>% 
   arrange(Years, Ages, Metric)
+
+impact.table %>% View
 ```
 
 
 ```{r}
-impact.table %>% View
-
-write_csv(impact.table, "impact_of_art_table_20240531.csv")
+write_csv(impact.table, "impact_of_art_table_20240606.csv")
 ```
+
 
 ### 90-90-90 Metrics
 
@@ -2014,7 +2075,7 @@ write_csv(impact.table, "impact_of_art_table_20240531.csv")
 ```{r}
 numbers.table <- read_csv("numbers_table_20240531.csv")
 
-differences.table <- read_csv("differences_table_20240531.csv")
+differences.table <- read_csv("differences_table_20240606.csv")
 
 impact.table <- read_csv("impact_of_art_table_20240531.csv")
 ```
@@ -2059,128 +2120,752 @@ numbers.table %>%
 
 ```
 
-## Differences Table
+### Differences Figure
+
+There are going to be three panels.
+
+Top panel will have baseline.art differences
+Middle panel will have not.cmdinc, decouple.art.tx, and decouple.art.hivmc
+Bottom panel will split out treatment effects
+
+X axis is time, y axis is whatever metric we want
+Age bracket is 15+, relegate 15-25 and 25+ to the appendix...
 
 ```{r, fig.height=8}
 differences.table %>% head
 
 differences.table$Period %>% unique 
+
+differences.table <- differences.table %>% 
+  mutate(Time =case_match(
+    Period,
+    "Pre-ART" ~ 1,
+    "ART Scaleup" ~ 2,
+    "Universal ART" ~ 3,
+    "Future" ~ 4,
+    "Past Pandemic" ~ 5,
+    "Past+Future" ~ 6
+  )) %>% 
+  mutate(divisor = case_match(
+    Period,
+    "Pre-ART" ~ 15,
+    "ART Scaleup" ~ 10,
+    "Universal ART" ~ 10,
+    "Future" ~ 10,
+    "Past Pandemic" ~ 40,
+    "Past+Future" ~ 50
+  )) %>% 
+  mutate(scenario_ix = case_match(
+    scenario_name,
+    "baseline.art" ~ 1,
+    "decouple.art.hivinc" ~ 2,
+    "baseline.art.not.cmdinc" ~ 3,
+    "decouple.art.tx" ~ 4,
+    "decouple.art.artswitch.artadh" ~ 5,
+    "decouple.art.artdrop"~ 6,
+    "decouple.art.delay" ~ 7
+  ))
+
+colors = c("black","#5C91F5","#E68600","#7D52CD","#089011","#202FD2","#C9140A")
 ```
 
-### HIV deaths differences
-```{r fig.height=12}
-differences.table %>% 
-  filter(Period == "Universal ART") %>% 
+#### HIV deaths differences for all scenarios
+
+
+```{r}
+p.overall.deaths.pct <- differences.table %>% filter(Ages == "15-100", Period == "Past+Future") %>% 
   ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV.pct)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+  geom_col(mapping = aes(x = -scenario_ix + 1, y = 100 * Died_from_HIV.pct, color = factor(scenario_ix)), 
+           size = .5, fill = "white",  show.legend = FALSE, position = "dodge") + 
+  geom_errorbar(mapping = aes(x = -scenario_ix + 1, 
+                              ymin = 100*Died_from_HIV.pct_95LL, ymax = 100*Died_from_HIV.pct_95UL, 
+                              color = factor(scenario_ix)),
+                size = .75, width = .75,  show.legend = FALSE) +
+  labs(x = "", y = "") +  #"HIV Deaths Attributable to\nHIV-Depression Interactions\n(1985-2035)") + 
+  expand_limits(x = 1, y = 0) + 
+  scale_color_manual(breaks = seq(1,7,1), values=colors) +
+  scale_y_continuous(breaks = seq(0,20,4), labels = c("0%", "4%", "8%", "12%", "16%", "20%"), expand = c(0.01,0.01)) + 
+  #scale_y_continuous(breaks = seq(0,20,5), labels = c("0%", "5%", "10%", "15%", "20%")) + 
+  # scale_x_continuous(breaks = seq(1,7,1), labels = c("All Interactions", "Elevated HIV\nIncidence","Elevated Depression\nIncidence",
+  #                                                  "HIV Treatment\nDisruptions","Reduced ART\nAdherence", "Reduced ART\nRetention",
+  #                                                  "Delays to\nART Uptake"
+  #                                                  )) +
+  scale_x_continuous(expand = expansion(mult = c(0.02, -.05))) + 
+  #xlim(-6.5,.5)+
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      plot.margin = unit(c(0,0,0,0), "cm")) + coord_flip()
 
-differences.table %>% 
-  filter(Period == "Entire Past Pandemic") %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV.pct)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-
-
-differences.table %>% 
-  filter(Period == "Future Pandemic") %>%   
-  ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV.pct)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-
-
-differences.table %>% 
-  filter(! Period %in% c("Entire Past Pandemic", "Past+Future Pandemic")) %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV.pct)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Years)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-
-
+p.overall.deaths.pct
 ```
 
-```{r, fig.height = 8}
-differences.table %>% 
-  filter(! Period %in% c("Entire Past Pandemic", "Past+Future Pandemic")) %>% 
-  filter(scenario_name == "baseline.art") %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = Years, y = Died_from_HIV.pct, color = scenario_name)) + 
-  geom_errorbar(mapping = aes(x = Years, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
-  facet_grid(rows = vars(Ages)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 
-differences.table %>% 
-  filter(! Period %in% c("Entire Past Pandemic", "Past+Future Pandemic")) %>% 
-  filter(scenario_name == "decouple.art.hivinc") %>% 
+```{r}
+p.overall.deaths.diff <- differences.table %>% filter(Ages == "15-100", Period == "Past+Future") %>% 
   ggplot() + 
-  geom_point(mapping = aes(x = Years, y = Died_from_HIV.pct, color = scenario_name)) + 
-  geom_errorbar(mapping = aes(x = Years, ymin = Died_from_HIV.pct_95LL, ymax = Died_from_HIV.pct_95UL)) + 
-  facet_grid(rows = vars(Ages)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+  geom_col(mapping = aes(x = -scenario_ix + 1, y = Died_from_HIV.diff, color = factor(scenario_ix)), 
+           size = .5, fill = "white",  show.legend = FALSE, position = "dodge") + 
+  geom_errorbar(mapping = aes(x = -scenario_ix + 1, 
+                              ymin = Died_from_HIV.diff_95LL, ymax = Died_from_HIV.diff_95UL, 
+                              color = factor(scenario_ix)),
+                size = .75, width = .75,  show.legend = FALSE) +
+  labs(x = "", y = "") +  #HIV Deaths Attributable to\nHIV-Depression Interactions\n(1985-2035)") + 
+  expand_limits(x = 1, y = 0) + 
+  scale_color_manual(breaks = seq(1,7,1), values=colors) +
+  #scale_y_continuous(breaks = seq(0,20,4), labels = c("0%", "4%", "8%", "12%", "16%", "20%"), expand = c(0.01,0.01)) + 
+  #scale_y_continuous(breaks = seq(0,20,5), labels = c("0%", "5%", "10%", "15%", "20%")) + 
+  # scale_x_continuous(breaks = seq(1,7,1), labels = c("All Interactions", "Elevated HIV\nIncidence","Elevated Depression\nIncidence",
+  #                                                  "HIV Treatment\nDisruptions","Reduced ART\nAdherence", "Reduced ART\nRetention",
+  #                                                  "Delays to\nART Uptake"
+  #                                                  )) +
+  scale_x_continuous(expand = expansion(mult = c(0.02, -.05))) + 
+  scale_y_continuous(expand = expansion(mult = c(0.01,.05))) + 
+  #xlim(-6.5,.5)+
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_text(hjust = .5),
+      plot.margin = ) + coord_flip()
 
-
-differences.table %>% 
-  filter(! Period %in% c("Entire Past Pandemic", "Past+Future Pandemic")) %>% 
-  filter(scenario_name == "decouple.art.hivinc") %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = Years, y = Died_from_HIV.diff, color = scenario_name)) + 
-  geom_errorbar(mapping = aes(x = Years, ymin = Died_from_HIV.diff_95LL, ymax = Died_from_HIV.diff_95UL)) + 
-  facet_grid(rows = vars(Ages)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+p.overall.deaths.diff
 ```
+
+
+#### HIV deaths differences percentages panel 1
+```{r}
+p.panel1.deaths.pct <- differences.table %>% 
+  filter(scenario_name == "baseline.art",
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = 100*Died_from_HIV.pct),
+                size = 2) + 
+  geom_line(mapping = aes(x = Time, y = 100*Died_from_HIV.pct),
+                size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = 100*Died_from_HIV.pct_95LL, ymax = 100*Died_from_HIV.pct_95UL),
+                size = 1, width = .5) + 
+  expand_limits(x = 1, y = 0) +
+  labs(x = "", y = "") + # "HIV Deaths Attributable to\nHIV-Depression Interactions") + 
+  scale_color_manual("All Interactions", values=c("black")) +
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                     expand = expansion(mult = c(0.01,.01))) + 
+  scale_y_continuous(breaks = seq(0,25,5), labels = c("0%", "5%", "10%", "15%", "20%", "25%"), expand = expansion(mult = c(0.01,.2))) + 
+  theme_bw(base_size=16) +
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel1.deaths.pct
+```
+#### HIV deaths differences percentages panel 2
+```{r}
+p.panel2.deaths.pct <- differences.table %>% 
+  filter(scenario_name %in% c("baseline.art.not.cmdinc", "decouple.art.tx", "decouple.art.hivinc"),
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = 100*Died_from_HIV.pct, color = factor(scenario_ix)),  show.legend = FALSE, size = 2) + 
+  geom_line(mapping = aes(x = Time, y = 100*Died_from_HIV.pct, color = factor(scenario_ix)),  show.legend = FALSE, size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = 100*Died_from_HIV.pct_95LL, ymax = 100*Died_from_HIV.pct_95UL, color = factor(scenario_ix)),
+                size = 1, width = .5,
+                show.legend = FALSE) + 
+  expand_limits(x = 1, y = 0) +
+  scale_color_manual(values=colors[2:4]) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                     expand = expansion(mult = c(0.01,.01))) + 
+  scale_y_continuous(breaks = c(0,3,6,9,12), labels = c("0%", "3%", "6%", "9%", "12%"), expand = expansion(mult = c(0.01,.2))) + 
+  #ylim(0,12) +
+  labs(x = "", y = "") + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel2.deaths.pct
+```
+
+#### HIV deaths differences percentages panel 3
+```{r}
+p.panel3.deaths.pct <- differences.table %>% 
+  filter(scenario_name %in% c("decouple.art.artdrop", "decouple.art.delay", "decouple.art.artswitch.artadh"),
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = 100*Died_from_HIV.pct, color = , color = factor(scenario_ix)), show.legend = FALSE, size = 2) +
+  geom_line(mapping = aes(x = Time, y = 100*Died_from_HIV.pct, color = , color = factor(scenario_ix)), show.legend = FALSE, size = 1) +
+  geom_errorbar(mapping = aes(x = Time, ymin = 100*Died_from_HIV.pct_95LL, ymax = 100*Died_from_HIV.pct_95UL, color = factor(scenario_ix)), 
+                size = 1, width = .5,
+                show.legend = FALSE) + 
+  expand_limits(x = 1, y = 0) +
+  scale_color_manual(values=colors[5:7]) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                     expand = expansion(mult = c(0.01,.01))) + 
+  scale_y_continuous(breaks = seq(0,5,1), labels = c("0%", "1%", "2%", "3%", "4%","5%"), expand = expansion(mult = c(0.01,.05))) + 
+  labs(x = "", y = "") + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel3.deaths.pct
+```
+
+#### Combine in a grid and export
+```{r}
+#ggsave("hiv_deaths_overall_pct.pdf", p.overall.deaths.pct, width = 6, height = 4, units = 'in')
+
+p <- (p.panel1.deaths.pct + p.panel2.deaths.pct + p.panel3.deaths.pct) +  plot_annotation(title = 'Proportion of HIV Deaths Attributable to Effects of Depression', theme = theme(plot.title = element_text(hjust = 0.5, size=24)))
+
+ggsave("hiv_deaths_figure_pct.pdf", p, width = 16, height = 8, units = "in")
+```
+
+
+```{r}
+p <- p.overall.deaths.pct + ggpubr::ggarrange("", "", "")/(p.panel1.deaths.pct + p.panel2.deaths.pct + p.panel3.deaths.pct) +  plot_layout(widths = c(1, 3))
+p
+ggsave("hiv_deaths_figure_pct_v2.pdf", p, width = 20, height = 10, units = "in")
+```
+
+```{r}
+p <- (p.overall.deaths.pct + p.panel1.deaths.pct + p.panel2.deaths.pct + p.panel3.deaths.pct) +  plot_layout(ncol = 4)
+p
+ggsave("hiv_deaths_figure_pct_v3.pdf", p, width = 20, height = 6, units = "in")
+```
+
+
+#### HIV deaths difference panel 1
+```{r}
+p.panel1.deaths.diff <- differences.table %>% 
+  filter(scenario_name == "baseline.art",
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = Died_from_HIV.diff),
+                size = 2) + 
+  geom_line(mapping = aes(x = Time, y = Died_from_HIV.diff),
+                size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = Died_from_HIV.diff_95LL, ymax = Died_from_HIV.diff_95UL),
+                size = 1, width = .5) + 
+  expand_limits(x = 1, y = 0) +
+  labs(x = "", y ="") + #  "HIV Deaths Attributable to\nHIV-Depression Interactions") + 
+  scale_color_manual("All Interactions", values=c("black")) +
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                      expand = expansion(mult = c(0.01,.01))) + 
+  #scale_y_continuous(breaks = seq(0,20,5), labels = c("0%", "5%", "10%", "15%", "20%")) + 
+  scale_y_continuous(n.breaks = 6, expand = expansion(mult = c(0.01,.1)))+
+  theme_bw(base_size=16) +
+  theme(panel.grid.major = element_blank(),  
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel1.deaths.diff
+
+#ggsave("hiv_deaths_panel1.pdf", width = 8, height = 4, units = "in")
+```
+
+
+#### HIV deaths differences panel 2
+```{r}
+p.panel2.deaths.diff <- differences.table %>% 
+  filter(scenario_name %in% c("baseline.art.not.cmdinc", "decouple.art.tx", "decouple.art.hivinc"),
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = Died_from_HIV.diff, color = factor(scenario_ix)),  show.legend = FALSE, size = 2) + 
+  geom_line(mapping = aes(x = Time, y = Died_from_HIV.diff, color = factor(scenario_ix)),  show.legend = FALSE, size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = Died_from_HIV.diff_95LL, ymax = Died_from_HIV.diff_95UL, color = factor(scenario_ix)),
+                size = 1, width = .5,
+                show.legend = FALSE) + 
+  expand_limits(x = 1, y = 0) +
+  scale_color_manual(values=colors[2:4]) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                     expand = expansion(mult = c(0.01,.01))) + 
+  scale_y_continuous(n.breaks = 5, expand = expansion(mult = c(0.01,.05))) + 
+  labs(x = "", y = "") + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel2.deaths.diff
+
+#ggsave("hiv_deaths_panel2.pdf", width = 8, height = 4, units = "in")
+```
+
+#### HIV deaths differences panel 3
+```{r}
+p.panel3.deaths.diff <- differences.table %>% 
+  filter(scenario_name %in% c("decouple.art.artdrop", "decouple.art.delay", "decouple.art.artswitch.artadh"),
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = Died_from_HIV.diff, color = factor(scenario_ix)), show.legend = FALSE, size = 2) +
+  geom_line(mapping = aes(x = Time, y = Died_from_HIV.diff, color = factor(scenario_ix)), show.legend = FALSE, size = 1) +
+  geom_errorbar(mapping = aes(x = Time, ymin = Died_from_HIV.diff_95LL, ymax = Died_from_HIV.diff_95UL, color = factor(scenario_ix)), 
+                size = 1, width = .5,
+                show.legend = FALSE) + 
+  expand_limits(x = 1, y = 0) +
+  scale_color_manual(values=colors[5:7]) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                     expand = expansion(mult = c(0.01,.01))) + 
+  scale_y_continuous(n.breaks = 5, expand = expansion(mult = c(0.01,.05))) + 
+  labs(x = "", y = "") + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel3.deaths.diff
+
+#ggsave("hiv_deaths_panel3.pdf", width = 8, height = 4, units = "in")
+```
+#### Combine in a grid and export
+```{r}
+#ggsave("hiv_deaths_overall_pct.pdf", p.overall.deaths.pct, width = 6, height = 4, units = 'in')
+
+p <- (p.panel1.deaths.diff + p.panel2.deaths.diff + p.panel3.deaths.diff) +  plot_annotation(title = 'HIV Deaths Attributable to Effects of Depression', theme = theme(plot.title = element_text(hjust = 0.5, size=24)))
+
+ggsave("hiv_deaths_figure_diff.pdf", p, width = 16, height = 8, units = "in")
+```
+
+
+```{r}
+p <- p.overall.deaths.diff + ggpubr::ggarrange("", "", "")/(p.panel1.deaths.diff + p.panel2.deaths.diff + p.panel3.deaths.diff) +  plot_layout(widths = c(1, 3))
+p
+ggsave("hiv_deaths_figure_diff_v2.pdf", p, width = 20, height = 10, units = "in")
+```
+
+
 
 
 ### New Infections
 
-```{r, fig.height=8}
-differences.table %>% 
-  filter(Period == "Universal ART") %>% 
+#### Infections differences for all scenarios
+```{r}
+p.overall.infections.pct <- differences.table %>% filter(Ages == "15-100", Period == "Past+Future") %>% 
   ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected.pct)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected.pct_95LL, ymax = Newly.Infected.pct_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+  geom_col(mapping = aes(x = -scenario_ix + 1, y = 100 * Newly.Infected.pct, color = factor(scenario_ix)), 
+           size = .5, fill = "white",  show.legend = FALSE, position = "dodge") + 
+  geom_errorbar(mapping = aes(x = -scenario_ix + 1, 
+                              ymin = 100*Newly.Infected.pct_95LL, ymax = 100*Newly.Infected.pct_95UL, 
+                              color = factor(scenario_ix)),
+                size = .75, width = .75,  show.legend = FALSE) +
+  labs(x = "", y = "") +  #"HIV Deaths Attributable to\nHIV-Depression Interactions\n(1985-2035)") + 
+  expand_limits(x = 1, y = 0) + 
+  scale_color_manual(breaks = seq(1,7,1), values=colors) +
+  scale_y_continuous(breaks = seq(0,20,4), labels = c("0%", "4%", "8%", "12%", "16%", "20%"), expand = c(0.01,0.01)) + 
+  #scale_y_continuous(breaks = seq(0,20,5), labels = c("0%", "5%", "10%", "15%", "20%")) + 
+  # scale_x_continuous(breaks = seq(1,7,1), labels = c("All Interactions", "Elevated HIV\nIncidence","Elevated Depression\nIncidence",
+  #                                                  "HIV Treatment\nDisruptions","Reduced ART\nAdherence", "Reduced ART\nRetention",
+  #                                                  "Delays to\nART Uptake"
+  #                                                  )) +
+  scale_x_continuous(expand = expansion(mult = c(0.02, -.05))) + 
+  #xlim(-6.5,.5)+
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      plot.margin = unit(c(0,0,0,0), "cm")) + coord_flip()
 
-differences.table %>% 
-  filter(Period == "Entire Past Pandemic") %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected.pct)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected.pct_95LL, ymax = Newly.Infected.pct_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-
-differences.table %>% 
-  filter(Period == "Future Pandemic") %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected.pct)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected.pct_95LL, ymax = Newly.Infected.pct_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-
-
-differences.table %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected.pct)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected.pct_95LL, ymax = Newly.Infected.pct_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Period), scales = "free") + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-
+p.overall.infections.pct
 ```
-
-## Impact of ART
 
 ```{r}
-impact.table %>% View
+p.overall.infections.diff <- differences.table %>% filter(Ages == "15-100", Period == "Past+Future") %>% 
+  ggplot() + 
+  geom_col(mapping = aes(x = -scenario_ix + 1, y = Newly.Infected.diff, color = factor(scenario_ix)), 
+           size = .5, fill = "white",  show.legend = FALSE, position = "dodge") + 
+  geom_errorbar(mapping = aes(x = -scenario_ix + 1, 
+                              ymin = Newly.Infected.diff_95LL, ymax = Newly.Infected.diff_95UL, 
+                              color = factor(scenario_ix)),
+                size = .75, width = .75,  show.legend = FALSE) +
+  labs(x = "", y = "") +  #HIV Deaths Attributable to\nHIV-Depression Interactions\n(1985-2035)") + 
+  expand_limits(x = 1, y = 0) + 
+  scale_color_manual(breaks = seq(1,7,1), values=colors) +
+  #scale_y_continuous(breaks = seq(0,20,4), labels = c("0%", "4%", "8%", "12%", "16%", "20%"), expand = c(0.01,0.01)) + 
+  #scale_y_continuous(breaks = seq(0,20,5), labels = c("0%", "5%", "10%", "15%", "20%")) + 
+  # scale_x_continuous(breaks = seq(1,7,1), labels = c("All Interactions", "Elevated HIV\nIncidence","Elevated Depression\nIncidence",
+  #                                                  "HIV Treatment\nDisruptions","Reduced ART\nAdherence", "Reduced ART\nRetention",
+  #                                                  "Delays to\nART Uptake"
+  #                                                  )) +
+  scale_x_continuous(expand = expansion(mult = c(0.02, -.05))) + 
+  scale_y_continuous(expand = expansion(mult = c(0.01,.05))) + 
+  #xlim(-6.5,.5)+
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_text(hjust = .5),
+      plot.margin = ) + coord_flip()
+
+p.overall.infections.diff
 ```
 
-### Impact of ART 
+
+#### New Infections percentages panel 1
+```{r}
+p.panel1.infections.pct <- differences.table %>% 
+  filter(scenario_name == "baseline.art",
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = 100*Newly.Infected.pct),
+                size = 2) + 
+  geom_line(mapping = aes(x = Time, y = 100*Newly.Infected.pct),
+                size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = 100*Newly.Infected.pct_95LL, ymax = 100*Newly.Infected.pct_95UL),
+                size = 1, width = .5) + 
+  expand_limits(x = 1, y = 0) +
+  labs(x = "", y = "") + # "HIV Deaths Attributable to\nHIV-Depression Interactions") + 
+  scale_color_manual("All Interactions", values=c("black")) +
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  scale_y_continuous(breaks = seq(0,40,10), labels = c("0%", "10%", "20%", "30%", "40%"), expand = expansion(mult = c(0.01,.1))) + 
+  theme_bw(base_size=16) +
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel1.infections.pct
+
+
+
+
+#ggsave("hiv_infections_panel1.pdf", width = 8, height = 4, units = "in")
+```
+
+#### New Infections percentages panel 2
+```{r}
+p.panel2.infections.pct <- differences.table %>% 
+  filter(scenario_name %in% c("baseline.art.not.cmdinc", "decouple.art.tx", "decouple.art.hivinc"),
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = 100*Newly.Infected.pct, color = factor(scenario_ix)),  show.legend = FALSE, size = 2) + 
+  geom_line(mapping = aes(x = Time, y = 100*Newly.Infected.pct, color = factor(scenario_ix)),  show.legend = FALSE, size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = 100*Newly.Infected.pct_95LL, ymax = 100*Newly.Infected.pct_95UL, color = factor(scenario_ix)),
+                size = 1, width = .5,
+                show.legend = FALSE) + 
+  expand_limits(x = 1, y = 0) +
+  scale_color_manual(values=colors[2:4]) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  scale_y_continuous(breaks = c(0,5,10,15,20), labels = c("0%", "5%", "10%", "15%", "20%"), expand = expansion(mult = c(0.01,.2))) + 
+  #ylim(0,12) +
+  labs(x = "", y = "") + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel2.infections.pct
+
+#ggsave("hiv_infections_panel2.pdf", width = 8, height = 4, units = "in")
+```
+
+#### New Infections percentages panel 3
+```{r}
+p.panel3.infections.pct <- differences.table %>% 
+  filter(scenario_name %in% c("decouple.art.artdrop", "decouple.art.delay", "decouple.art.artswitch.artadh"),
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = 100*Newly.Infected.pct, color = factor(scenario_ix)), show.legend = FALSE, size = 2) +
+  geom_line(mapping = aes(x = Time, y = 100*Newly.Infected.pct, color = factor(scenario_ix)), show.legend = FALSE, size = 1) +
+  geom_errorbar(mapping = aes(x = Time, ymin = 100*Newly.Infected.pct_95LL, ymax = 100*Newly.Infected.pct_95UL, color = factor(scenario_ix)), 
+                size = 1, width = .5,
+                show.legend = FALSE) + 
+  expand_limits(x = 1, y = 0) +
+  scale_color_manual(values=colors[5:7]) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  scale_y_continuous(breaks = seq(0,20,5), labels = c("0%", "5%", "10%", "15%", "20%"), expand = expansion(mult = c(0.01,.2))) + 
+  labs(x = "", y = "") + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel3.infections.pct
+#ggsave("hiv_infections_panel3.pdf", width = 8, height = 4, units = "in")
+```
+#### Combine in a grid and export
+```{r}
+#ggsave("hiv_deaths_overall_pct.pdf", p.overall.deaths.pct, width = 6, height = 4, units = 'in')
+
+p <- (p.panel1.infections.pct + p.panel2.infections.pct + p.panel3.infections.pct) +  plot_annotation(title = 'Proportion of HIV Infections Attributable to Effects of Depression', theme = theme(plot.title = element_text(hjust = 0.5, size=24)))
+
+ggsave("hiv_infections_figure_pct.pdf", p, width = 16, height = 8, units = "in")
+```
+
+```{r}
+p <- p.overall.infections.pct + ggpubr::ggarrange("", "", "")/(p.panel1.infections.pct + p.panel2.infections.pct + p.panel3.infections.pct) +  plot_layout(widths = c(1, 3))
+p
+ggsave("hiv_infections_figure_pct_v2.pdf", p, width = 20, height = 10, units = "in")
+```
+```{r}
+p <- (p.overall.infections.pct + p.panel1.infections.pct + p.panel2.infections.pct + p.panel3.infections.pct) +  plot_layout(ncol = 4)
+p
+ggsave("hiv_infections_figure_pct_v3.pdf", p, width = 20, height = 6, units = "in")
+```
+
+#### Grid with all panels together
+```{r}
+p1 <- ((p.panel1.deaths.pct + p.panel2.deaths.pct + p.panel3.deaths.pct) +  
+         plot_annotation(title = 'Proportion of HIV Deaths Attributable to Effects of Depression', 
+                         theme = theme(plot.title = element_text(hjust = 0.5, size=24))))
+       
+p2 <- ((p.panel1.infections.pct + p.panel2.infections.pct + p.panel3.infections.pct) +  
+  plot_annotation(title = 'Proportion of HIV Infections Attributable to Effects of Depression', 
+                  theme = theme(plot.title = element_text(hjust = 0.5, size=24))))
+
+p = p1/p2
+
+ggsave("hiv_pct_figure.pdf", p, width = 16, height = 20, units = "in")
+```
+
+#### New Infections difference panel 1
+```{r}
+p.panel1.infs.diff <- differences.table %>% 
+  filter(scenario_name == "baseline.art",
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = Newly.Infected.diff),
+                size = 2) + 
+  geom_line(mapping = aes(x = Time, y = Newly.Infected.diff),
+                size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = Newly.Infected.diff_95LL, ymax = Newly.Infected.diff_95UL),
+                size = 1, width = .5) + 
+  expand_limits(x = 1, y = 0) +
+  labs(x = "", y ="") + #  "HIV Deaths Attributable to\nHIV-Depression Interactions") + 
+  scale_color_manual("All Interactions", values=c("black")) +
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                      expand = expansion(mult = c(0.01,.01))) + 
+  #scale_y_continuous(breaks = seq(0,20,5), labels = c("0%", "5%", "10%", "15%", "20%")) + 
+  scale_y_continuous(n.breaks = 6, expand = expansion(mult = c(0.01,.1)))+
+  theme_bw(base_size=16) +
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel1.infs.diff
+```
+
+
+#### New Infections difference panel 2
+```{r}
+p.panel2.infs.diff <- differences.table %>% 
+  filter(scenario_name %in% c("baseline.art.not.cmdinc", "decouple.art.tx", "decouple.art.hivinc"),
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = Newly.Infected.diff, color = factor(scenario_ix)),  show.legend = FALSE, size = 2) + 
+  geom_line(mapping = aes(x = Time, y = Newly.Infected.diff, color = factor(scenario_ix)),  show.legend = FALSE, size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = Newly.Infected.diff_95LL, ymax = Newly.Infected.diff_95UL, color = factor(scenario_ix)),
+                size = 1, width = .5,
+                show.legend = FALSE) + 
+  expand_limits(x = 1, y = 0) +
+  scale_color_manual(values=colors[2:4]) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                     expand = expansion(mult = c(0.01,.01))) + 
+  scale_y_continuous(n.breaks = 5, expand = expansion(mult = c(0.01,.05))) + 
+  labs(x = "", y = "") + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel2.infs.diff
+```
+
+#### New Infections difference panel 3
+```{r}
+p.panel3.infs.diff <- differences.table %>% 
+  filter(scenario_name %in% c("decouple.art.artdrop", "decouple.art.delay", "decouple.art.artswitch.artadh"),
+         Ages == "15-100",
+         Time < 5) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = Newly.Infected.diff, color = factor(scenario_ix)), show.legend = FALSE, size = 2) +
+  geom_line(mapping = aes(x = Time, y = Newly.Infected.diff, color = factor(scenario_ix)), show.legend = FALSE, size = 1) +
+  geom_errorbar(mapping = aes(x = Time, ymin = Newly.Infected.diff_95LL, ymax = Newly.Infected.diff_95UL, color = factor(scenario_ix)), 
+                size = 1, width = .5,
+                show.legend = FALSE) + 
+  expand_limits(x = 1, y = 0) +
+  scale_color_manual(values=colors[5:7]) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035"),
+                     expand = expansion(mult = c(0.01,.01))) + 
+  scale_y_continuous(n.breaks = 5, expand = expansion(mult = c(0.01,.05))) + 
+  labs(x = "", y = "") + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(color = 'black', angle = 45, vjust = 0.5))
+
+p.panel3.infs.diff
+```
+#### Combine in a grid and export
+```{r}
+p <- (p.panel1.infs.diff + p.panel2.infs.diff + p.panel3.infs.diff) +  plot_annotation(title = 'HIV Infections Attributable to Effects of Depression', theme = theme(plot.title = element_text(hjust = 0.5, size=24)))
+
+ggsave("hiv_infections_figure_diff.pdf", p, width = 16, height = 8, units = "in")
+```
+
+```{r}
+p <- p.overall.infections.diff + ggpubr::ggarrange("", "", "")/(p.panel1.infs.diff + p.panel2.infs.diff + p.panel3.infs.diff) +  plot_layout(widths = c(1, 3))
+p
+ggsave("hiv_infections_figure_diff_v2.pdf", p, width = 20, height = 10, units = "in")
+```
+
+
+### Impact of ART Figures
+
+```{r}
+#impact.table %>% View
+
+impact.table <- read.csv("impact_of_art_table_20240606.csv")
+
+impact.table <- impact.table %>% 
+  mutate(Time =case_match(
+    Period,
+    "Pre-ART" ~ 1,
+    "ART Scaleup" ~ 2,
+    "Universal ART" ~ 3,
+    "Future" ~ 4
+  ))
+
+```
+
+```{r}
+p.impact.deaths <- impact.table %>% 
+  filter(Ages == "15-100",
+         Metric == "Died_from_HIV",
+         Time <5) %>% 
+  group_by(Period, Years, Ages, Metric) %>% slice(1) %>% ungroup( ) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = -art.impact.ppyoa),
+                size = 2) + 
+  geom_line(mapping = aes(x = Time, y = -art.impact.ppyoa),
+                size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = -art.impact.ppyoa_95LL, ymax = -art.impact.ppyoa_95UL),
+                size = 1) + 
+  expand_limits(x = 1, y = 0) +
+  #labs(x = "", y = "Reduction in HIV Deaths Averted \nPer Person-Year on ART") + 
+  labs(x = "", y = "") + 
+  scale_color_manual("All Interactions", values=c("black")) +
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                    labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  #scale_y_continuous(breaks = seq(0,-20,-5), labels = c("0%", "-5%", "-10%", "-15%", "-20%")) + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.text = element_text(color = 'black'))
+
+ggsave("hiv_impact_deaths.pdf", width = 8, height = 4, units = "in")
+```
+
+```{r}
+p.impact.infections <- impact.table %>% 
+  filter(Ages == "15-100",
+         Metric == "Newly.Infected",
+         Time <5) %>% 
+  group_by(Period, Years, Ages, Metric) %>% slice(1) %>% ungroup( ) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = -art.impact.ppyoa),
+                size = 2) + 
+  geom_line(mapping = aes(x = Time, y = -art.impact.ppyoa),
+                size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = -art.impact.ppyoa_95LL, ymax = -art.impact.ppyoa_95UL),
+                size = 1) + 
+  expand_limits(x = 1, y = 0) +
+  #labs(x = "", y = "Reduction in HIV Infections Averted \nPer Person-Year on ART") + 
+  labs(x = "", y = "") + 
+  scale_color_manual("All Interactions", values=c("black")) +
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  #scale_y_continuous(breaks = seq(0,-20,-5), labels = c("0%", "-5%", "-10%", "-15%", "-20%")) + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.text = element_text(color = 'black'))
+
+ggsave("hiv_impact_infections.pdf", width = 8, height = 4, units = "in")
+```
+
+```{r}
+p.impact.deaths.pct <- impact.table %>% 
+  filter(Ages == "15-100",
+         Metric == "Died_from_HIV",
+         Time <5) %>% 
+  group_by(Period, Years, Ages, Metric) %>% slice(1) %>% ungroup( ) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = -100*art.impact.ppyoa.pct),
+                size = 2) + 
+  geom_line(mapping = aes(x = Time, y = -100*art.impact.ppyoa.pct),
+                size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = -100*art.impact.ppyoa.pct_95LL, ymax = -100*art.impact.ppyoa.pct_95UL),
+                size = 1) + 
+  expand_limits(x = 1, y = 0) +
+  #labs(x = "", y = "% Reduction in HIV Deaths Averted \nPer Person-Year on ART") + 
+  labs(x = "", y = "") + 
+  scale_color_manual("All Interactions", values=c("black")) +
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  ylim(0,12) + 
+  scale_y_continuous(breaks = seq(0,12,3), labels = c("0%", "3%", "6%", "9%", "12%"), expand = expansion(mult = c(0.01,.1))) + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.text = element_text(color = 'black'))
+
+ggsave("hiv_impact_deaths_pct.pdf", width = 8, height = 4, units = "in")
+```
+```{r}
+p.impact.infections.pct <- impact.table %>% 
+  filter(Ages == "15-100",
+         Metric == "Newly.Infected",
+         Time <5) %>% 
+  group_by(Period, Years, Ages, Metric) %>% slice(1) %>% ungroup( ) %>% 
+  ggplot() + 
+  geom_point(mapping = aes(x = Time, y = -100*art.impact.ppyoa.pct),
+                size = 2) + 
+  geom_line(mapping = aes(x = Time, y = -100*art.impact.ppyoa.pct),
+                size = 1) + 
+  geom_errorbar(mapping = aes(x = Time, ymin = -100*art.impact.ppyoa.pct_95LL, ymax = -100*art.impact.ppyoa.pct_95UL),
+                size = 1) + 
+  expand_limits(x = 1, y = 0) +
+  #labs(x = "", y = "% Reduction in HIV Infections Averted \nPer Person-Year on ART") + 
+  labs(x = "", y = "") + 
+  scale_color_manual("All Interactions", values=c("black")) +
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  ylim(0,12) + 
+  scale_y_continuous(breaks = seq(0,12,3), labels = c("0%", "3%", "6%", "9%", "12%"), expand = expansion(mult = c(0.01,.1))) + 
+  theme_bw(base_size=16) + 
+  theme(panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(),
+      axis.text = element_text(color = 'black'))
+
+ggsave("hiv_impact_infections_pct.pdf", width = 8, height = 4, units = "in")
+```
+
+#### Graveyard
 
 ```{r fig.height=10}
 impact.table %>% 
@@ -2204,3 +2889,108 @@ impact.table %>%
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 
 ```
+
+
+### Checking on incidence over time
+
+```{r}
+sim.results.all <- rbind(sim.results.decouple.art.hivinc, sim.results.baseline.art)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sim.results.all %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.ix, scenario_name) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sim.results.all <- sim.results.all %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+
+sim.cases <- sim.results.all %>% 
+  dplyr::group_by(Year, Gender, sim.id, scenario_name) %>% 
+  dplyr::summarize(Newly.Infected = sum(Newly.Infected * pop.scaling.factor), .groups = "keep") %>% 
+  ungroup() %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+sim.cases.mean <- sim.cases %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(Newly.Infected = mean(Newly.Infected), .groups = "keep")
+
+p <- ggplot() +
+      geom_line(data= sim.cases.mean %>% filter(Year > 1985),
+              aes(x=Year, y= Newly.Infected, group=scenario_name, color=scenario_name), linewidth=.5) +
+    facet_wrap(~ Gender, ncol=2) +
+    #xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    #ylab("Prevalence") +
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    #scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    #ylab("HIV Prevalence (%)") + 
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple", "pink"))
+
+p
+```
+
+```{r, fig.height=8}
+data <- sim.results.all %>% 
+  mutate(Year_Integer = floor(Year-.5)) %>% 
+  mutate(cmd = case_when(IP_Key.CMDStatus == 'CMD_pos' ~ "Depressed",
+                         IP_Key.CMDStatus != 'CMD_pos' ~ "Not Depressed")) %>% 
+  group_by(Year_Integer, Year, Gender, sim.id, scenario_name, cmd) %>% 
+  summarize(Newly.Infected = sum(Newly.Infected), 
+            Infected = sum(Infected),
+            Population = sum(Population), 
+            .groups = 'keep') %>%  
+  ungroup()
+
+trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+sim.id+scenario_name+cmd, data=data,FUN=sum)
+#Make the denominator as HIV-negative individuals
+trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+sim.id+scenario_name + cmd, data=data, FUN=sum)
+trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
+#remove second instance of duplicate rows
+trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","sim.id","scenario_name","cmd")]),]
+trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
+trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","sim.id","scenario_name", "cmd"))
+trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population-(trajectories_IRoverall$Newly.Infected/2))
+trajectories_IRoverall <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
+
+data.mean <- trajectories_IRoverall %>% group_by(Year, Gender, scenario_name, cmd) %>% 
+  summarize(Incidence = mean(incidence), Incidence.sd = sd(incidence), .groups = 'keep') %>% 
+  ungroup() %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+# Plot  
+p = ggplot() +
+  geom_line(data.mean, mapping = aes(x = Year, y = Incidence, color = cmd), 
+    size = 1.0) + 
+  geom_errorbar(data = data.mean, mapping = aes(x = Year, ymin = Incidence - Incidence.sd, ymax = Incidence + Incidence.sd, color = cmd)) + 
+  
+  # geom_line(data.mean, mapping = aes(x = Year, y = Incidence + Incidence.sd, color = cmd), 
+  #   size = 1.0) + 
+  # geom_line(data.mean, mapping = aes(x = Year, y = Incidence - Incidence.sd, color = cmd), 
+  #   size = 1.0) + 
+  #scale_y_continuous(limits = c(0.05,.22)) + 
+  facet_wrap(scenario_name~ Gender, ncol=2) +
+  xlab("Year")+ylab("") + 
+  ggtitle("Incidence Rate by Depression Status") + 
+  theme_bw(base_size=16) +
+  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+  scale_x_continuous(breaks = seq(1990,2040,10)) +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+p
+```
+
