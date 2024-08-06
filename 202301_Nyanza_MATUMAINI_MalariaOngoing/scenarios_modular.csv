@@ -3,6 +3,7 @@ decouple_art,campaign_MATUMAINI_202305_decouple.json,1,1,"[1.0,0]",3650,"[0.816,
 baseline_art_cmdinc,campaign_MATUMAINI_202305.json,1,1,"[1.0,0]",3650,"[0.816,0.184,0]","[0.816,0.184]","[0.816,0.184]",2200,0,"['OnART1']"
 decouple_art_hivinc,campaign_MATUMAINI_202305_decouple.json,1.676206,1,"[1.0,0]",3650,"[0.816,0.184,0]","[0.816,0.184]","[0.816,0.184]",2200,0,"['OnART1']"
 decouple_art_hivtr,campaign_MATUMAINI_202305_decouple.json,1,1.676206,"[1.0,0]",3650,"[0.816,0.184,0]","[0.816,0.184]","[0.816,0.184]",2200,0,"['OnART1']"
+decouple_art_hivinc_hivtr,campaign_MATUMAINI_202305_decouple.json,1.676206,1.676206,"[1.0,0]",3650,"[0.816,0.184,0]","[0.816,0.184]","[0.816,0.184]",2200,0,"['OnART1']"
 decouple_art_delay,campaign_MATUMAINI_202305_decouple.json,1,1,"[0.7,0.3]",3650,"[0.816,0.184,0]","[0.816,0.184]","[0.816,0.184]",2200,0,"['OnART1']"
 decouple_art_artdrop,campaign_MATUMAINI_202305_decouple.json,1,1,"[1.0,0]",1521,"[0.816,0.184,0]","[0.816,0.184]","[0.816,0.184]",2200,0,"['OnART1']"
 decouple_art_artadh_recov,campaign_MATUMAINI_202305_decouple.json,1,1,"[1.0,0]",3650,"[0.779,0.221,0]","[0.816,0.184]","[0.781,0.219]",2200,0,"['OnART1']"
