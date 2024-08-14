@@ -227,7 +227,9 @@ sim.results.decouple.art.hivinc.hivtr <- EMODAnalyzeR::read.simulation.results.b
 #experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_delay___2024_05_31_15_10_02_993271"
 
 # Version 6 of model
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_delay___2024_07_04_13_07_55_906504"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_delay___2024_07_04_13_07_55_906504"
+# Version 6 of model, updated delay parameter
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_delay___2024_08_08_13_50_29_434904"
 
 sim.results.decouple.art.delay <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -363,7 +365,9 @@ sim.results.decouple.art.artswitch <- EMODAnalyzeR::read.simulation.results.bigp
 #experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305-baseline_art___2024_05_29_10_58_40_605127"
 
 # Version 6 July 2024
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_art___2024_07_04_13_17_52_169973/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_art___2024_07_04_13_17_52_169973/"
+# Version 6, updated delay constant
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_art___2024_08_08_13_47_59_324314"
 
 sim.results.baseline.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -445,7 +449,8 @@ sim.results.baseline.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
 #experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_tx___2024_06_05_05_04_34_591762/"
 
 # Version 6 July 2024
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_tx___2024_07_08_16_12_07_655869"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_tx___2024_07_08_16_12_07_655869"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_tx___2024_08_08_13_57_30_505599"
 
 sim.results.decouple.art.tx <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -487,7 +492,8 @@ sim.results.decouple.art.artswitch.artadh <- EMODAnalyzeR::read.simulation.resul
 # experiment_path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_not_cmdinc___2024_06_05_04_59_42_220845"
 
 # Version 6 July 2024
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_not_cmdinc___2024_07_04_13_25_27_489933/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_not_cmdinc___2024_07_04_13_25_27_489933/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-decouple_art_not_cmdinc___2024_08_08_13_55_09_456687"
 
 sim.results.baseline.art.not.cmdinc <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -541,7 +547,8 @@ sim.results.baseline.art.not.cmdinc <- EMODAnalyzeR::read.simulation.results.big
 # results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/sensitivity_analysis/Baseline-campaign_MATUMAINI_202305-baseline_noart/ReportHIVByAgeAndGender"
 
 # Version 6 July 2024
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_noart___2024_07_04_13_22_57_531426/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_noart___2024_07_04_13_22_57_531426/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_noart___2024_08_08_13_52_45_991419"
 
 sim.results.baseline.noart <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -753,6 +760,182 @@ sim.results.decouple.noart <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 
 
+
+
+## Sensitivity Analysis
+
+### Increased CMD incidence, UL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_cmdinc_UL-sa_cmdinc_UL___2024_08_08_13_59_55_011027"
+
+sim.results.sa.cmdinc.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.cmdinc.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+
+### Increased HIV incidence, LL
+
+```{r}
+# August 2024
+experiment.path = ""
+
+sim.results.sa.hivinc.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.hivinc.LL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+
+### Increased HIV incidence, UL
+
+```{r}
+# August 2024
+experiment.path = ""
+
+sim.results.sa.hivinc.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.hivinc.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+### ART Adherence, LL
+
+```{r}
+# August 2024
+experiment.path = ""
+
+sim.results.sa.artadh.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.artadh.LL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+### ART Adherence, UL
+
+```{r}
+# August 2024
+experiment.path = ""
+
+sim.results.sa.artadh.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.artadh.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+### ART Dropout, LL
+
+```{r}
+# August 2024
+experiment.path = ""
+
+sim.results.sa.artdrop.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.artdrop.LL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+### ART Dropout, UL
+
+```{r}
+# August 2024
+experiment.path = ""
+
+sim.results.sa.artdrop.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.artdrop.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+### Delay to testing, LL
+
+```{r}
+# August 2024
+experiment.path = ""
+
+sim.results.sa.delay.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.delay.LL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+### Delay to testing, UL
+
+```{r}
+# August 2024
+experiment.path = ""
+
+sim.results.sa.delay.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.delay.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
 
 ## Join data together
 ```{r}

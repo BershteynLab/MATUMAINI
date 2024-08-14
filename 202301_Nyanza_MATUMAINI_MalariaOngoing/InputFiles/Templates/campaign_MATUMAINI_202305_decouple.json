@@ -3652,45 +3652,18 @@
             "class": "CampaignEvent"
         },
         {
-            "COMMENT": "Have a NLHTIV setup to get newborns that are set to Yes - this is the 80% defined in demograhics",
-            "Event_Coordinator_Config": {
-                "Intervention_Config": {
-                    "Actual_IndividualIntervention_Config": {
-                        "Broadcast_Event": "ShouldNotHappen",
-                        "Delay_Period_Constant": 1000000,
-                        "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
-                        "Intervention_Name": "Accessibility_Delay",
-                        "New_Property_Value": "",
-                        "class": "HIVDelayedIntervention"
-                    },
-                    "Property_Restrictions": [
-                        "Accessibility:Yes"
-                    ],
-                    "Trigger_Condition_List": [
-                        "Births"
-                    ],
-                    "class": "NodeLevelHealthTriggeredIV"
-                },
-                "class": "StandardInterventionDistributionEventCoordinator"
-            },
+            "COMMENT": "Assume people without the intervention are Accessibility:No - people not set to Yes when born - the other 20%.",
+            "class": "CampaignEventByYear",
+            "Start_Year": 2010,
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2009.9,
-            "class": "CampaignEventByYear"
-        },
-        {
-            "COMMENT": "Assume people without the intervention are Accessibility:No - people not set to Yes when born - the other 20%.",
             "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorTrackingConfig",
+                ".class": "ReferenceTrackingEventCoordinatorHIV",
                 "End_Year": 2099,
-                "Intervention_Config": {
-                    "Broadcast_Event": "ShouldNotHappen",
-                    "Delay_Period_Constant": 1000000,
-                    "Delay_Period_Distribution": "CONSTANT_DISTRIBUTION",
-                    "Intervention_Name": "Accessibility_Delay",
-                    "New_Property_Value": "Accessibility:Yes",
-                    "class": "HIVDelayedIntervention"
-                },
+                "Update_Period": 30.4166667,
+                "Target_Demographic": "Everyone",
                 "Time_Value_Map": {
                     "Times": [
                         2010,
@@ -3703,14 +3676,17 @@
                         1.0
                     ]
                 },
-                "Update_Period": 30.4166667,
-                "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 2010,
-            "class": "CampaignEventByYear"
+                "Tracking_Config": {
+                        "class": "HasIP",
+                        "Is_Equal_To": 1,
+                        "IP_Key_Value": "Accessibility:Yes"
+                },
+                "Intervention_Config": {
+                    "class": "PropertyValueChanger",
+                    "Target_Property_Key" : "Accessibility",
+                    "Target_Property_Value" : "Yes"
+                }
+            }
         },
         {
             "Event_Coordinator_Config": {
@@ -7859,6 +7835,7 @@
                     "Target_Gender": "Male",
                     "Actual_IndividualIntervention_Config": {
                         "class": "ARTMortalityTable",
+                        "New_Property_Value": "ARTStatus:SuppressedOnART",
                         "Intervention_Name": "SuppressedOnART",
                         "Cost_To_Consumer" : 1,
                         "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.04,
@@ -8098,7 +8075,8 @@
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
-                        "class": "ARTDropout"
+                        "class": "ARTDropout",
+                        "New_Property_Value": "ARTStatus:None"
                     },
                     "Trigger_Condition_List": [
                         "OnART3"
