@@ -1,4 +1,8 @@
 Scenario,Campaign,Acquisition_Multiplier__KP_CMD_increase_incidence,Transmission_Multiplier__KP_CMD_increase_transmission,Choice_Probabilities__KP_DelayDiagnosis,Delay_Period_Exponential__KP_CMD_ARTdropout,Choice_Probabilities__KP_EffectiveART_CMDpos,Choice_Probabilities__KP_EffectiveART_CMDneg,Choice_Probabilities__KP_EffectiveART_CMDneg_recov,Start_Year__KP_ARTswitch,Demographic_Coverage__KP_ARTSwitch_CMD_Onset_NonSuppressive_ART,Trigger_Condition_List__KP_ART_trigger_condition
+baseline_art_cmdinc,campaign_MATUMAINI_202305.json,1,1,"[1.0,0]",3650,"[0.816,0.184,0]","[0.816,0.184]","[0.816,0.184]",2200,0,"['OnART1']"
+baseline_art,campaign_MATUMAINI_202305.json,1.676206,1.676206,"[0.517241,0.482759]",1521,"[0.779,0.184,.037]","[0.816,0.184]","[0.781,0.219]",1990,0.221,"['OnART1']"
+baseline_noart,campaign_MATUMAINI_202305.json,1.676206,1.676206,"[0.517241,0.482759]",1521,"[0.779,0.184,.037]","[0.816,0.184]","[0.781,0.219]",1990,0.221,"['NoARTDummy']"
+
 sa_cmdinc_UL,campaign_MATUMAINI_202305_cmdinc_UL.json,1.676206,1.676206,"[0.517241,0.482759]",1521,"[0.779,0.184,.037]","[0.816,0.184]","[0.781,0.219]",1990,0.221,"['OnART1']"
 sa_hivinc_LL,campaign_MATUMAINI_202305.json,1.34096,1.34096,"[0.517241,0.482759]",1521,"[0.779,0.184,.037]","[0.816,0.184]","[0.781,0.219]",1990,0.221,"['OnART1']"
 sa_hivinc_UL,campaign_MATUMAINI_202305.json,2.01145,2.01145,"[0.517241,0.482759]",1521,"[0.779,0.184,.037]","[0.816,0.184]","[0.781,0.219]",1990,0.221,"['OnART1']"

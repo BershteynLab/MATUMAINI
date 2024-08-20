@@ -367,7 +367,8 @@ sim.results.decouple.art.artswitch <- EMODAnalyzeR::read.simulation.results.bigp
 # Version 6 July 2024
 #experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_art___2024_07_04_13_17_52_169973/"
 # Version 6, updated delay constant
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_art___2024_08_08_13_47_59_324314"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_art___2024_08_13_17_46_27_682239"
+
 
 sim.results.baseline.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -548,7 +549,7 @@ sim.results.baseline.art.not.cmdinc <- EMODAnalyzeR::read.simulation.results.big
 
 # Version 6 July 2024
 #experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_noart___2024_07_04_13_22_57_531426/"
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_noart___2024_08_08_13_52_45_991419"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-baseline_noart___2024_08_13_17_48_58_945893"
 
 sim.results.baseline.noart <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -761,181 +762,6 @@ sim.results.decouple.noart <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 
 
-
-## Sensitivity Analysis
-
-### Increased CMD incidence, UL
-
-```{r}
-# August 2024
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_cmdinc_UL-sa_cmdinc_UL___2024_08_08_13_59_55_011027"
-
-sim.results.sa.cmdinc.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.cmdinc.UL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
-
-
-### Increased HIV incidence, LL
-
-```{r}
-# August 2024
-experiment.path = ""
-
-sim.results.sa.hivinc.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.hivinc.LL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
-
-
-### Increased HIV incidence, UL
-
-```{r}
-# August 2024
-experiment.path = ""
-
-sim.results.sa.hivinc.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.hivinc.UL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
-
-### ART Adherence, LL
-
-```{r}
-# August 2024
-experiment.path = ""
-
-sim.results.sa.artadh.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.artadh.LL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
-
-### ART Adherence, UL
-
-```{r}
-# August 2024
-experiment.path = ""
-
-sim.results.sa.artadh.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.artadh.UL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
-
-### ART Dropout, LL
-
-```{r}
-# August 2024
-experiment.path = ""
-
-sim.results.sa.artdrop.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.artdrop.LL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
-
-### ART Dropout, UL
-
-```{r}
-# August 2024
-experiment.path = ""
-
-sim.results.sa.artdrop.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.artdrop.UL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
-
-### Delay to testing, LL
-
-```{r}
-# August 2024
-experiment.path = ""
-
-sim.results.sa.delay.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.delay.LL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
-
-### Delay to testing, UL
-
-```{r}
-# August 2024
-experiment.path = ""
-
-sim.results.sa.delay.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
-  experiment_path = experiment.path,
-  scenario_name = 'sa.delay.UL',
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  #stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
-)
-```
 
 ## Join data together
 ```{r}
@@ -1733,7 +1559,7 @@ Check against numbers table:
 numbers.table %>% filter(scenario_name %in% c("baseline.art", "decouple.art"),
                          Ages == "15-100", Years == "1985-2035")
 
-c(1225794- 1092231, 657604.1 - 584969.2, 12884811 - 11739158)
+c(1240952- 1092231, 666422.5 - 584969.2, 12705881 - 11739158)
 ```
 
 
@@ -1795,40 +1621,9 @@ numbers.table <- numbers.table %>%
 
 # write_csv(numbers.table, "numbers_table_20240606.csv")
 # write_csv(numbers.table, "numbers_table_20240709.csv")
-write_csv(numbers.table, "numbers_table_20240719.csv")
+#write_csv(numbers.table, "numbers_table_20240719.csv")
+write_csv(numbers.table, "numbers_table_20240819.csv")
 ```
-
-
-```{r, fig.height=16}
-numbers.table %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Newly.Infected)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Newly.Infected_95LL, ymax = Newly.Infected_95UL)) + 
-  facet_grid(cols = vars(Ages), rows = vars(Period)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-# ggplot(data = sim.results.all.agg.numbers) + 
-#   geom_point(mapping = aes(x = scenario_name, y = Newly.Infected, color = Gender)) + 
-#   geom_errorbar(aes(x=scenario_name, ymin = Newly.Infected_95LL, ymax = Newly.Infected_95UL)) + 
-#   facet_wrap(~ Gender, ncol=2) + 
-#   scale_color_manual(values = c("red", "blue"))  + 
-#   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-# #+ 
-# #  scale_y_continuous(limits = c(5e5, 9e5)) 
-
-```
-
-```{r}
-numbers.table %>% 
-  ggplot() + 
-  geom_point(mapping = aes(x = scenario_name, y = Died_from_HIV)) + 
-  geom_errorbar(mapping = aes(x = scenario_name, ymin = Died_from_HIV_95LL, ymax = Died_from_HIV_95UL)) + 
-  facet_wrap(vars(Ages, Years)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
-#+ 
-#  scale_y_continuous(limits = c(5e5, 9e5)) 
-```
-
 
 ## Calculate Differences
 
@@ -1910,7 +1705,8 @@ differences.table <- differences.table %>%
 # write_csv(differences.table, "differences_table_20240531.csv")
 #write_csv(differences.table, "differences_table_20240606.csv")
 #write_csv(differences.table, "differences_table_20240709.csv")
-write_csv(differences.table, "differences_table_20240719.csv")
+#write_csv(differences.table, "differences_table_20240719.csv")
+write_csv(differences.table, "differences_table_20240819.csv")
 
 #differences.table %>% View
 ```
@@ -2023,7 +1819,7 @@ impact.results.decouple.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "HasIntervention.SuppressedOnART"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -2040,7 +1836,7 @@ impact.results.decouple.noart <- EMODAnalyzeR::read.simulation.results.bigpurple
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "HasIntervention.SuppressedOnART"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -2057,7 +1853,7 @@ impact.results.baseline.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "HasIntervention.SuppressedOnART"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -2073,7 +1869,7 @@ impact.results.baseline.noart <- EMODAnalyzeR::read.simulation.results.bigpurple
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "HasIntervention.SuppressedOnART"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -2234,11 +2030,9 @@ measure.art.impact <- function(data, colname, start_year, end_year, age_min, age
 ```
 
 ### Calculate impact of ART
-
 ```{r}
 measure.art.impact(sim.results.impact, "Died_from_HIV", 1985, 2000, 15, 25)
 ```
-
 
 ```{r}
 age_min_list = c(15, 25, 15, 50)
@@ -2289,6 +2083,8 @@ impact.table <- impact.table %>%
 #write_csv(impact.table, "impact_of_art_table_20240606.csv")
 
 write_csv(impact.table, "impact_of_art_table_20240709.csv")
+
+impact.table.20240709 <- read_csv("impact_of_art_table_20240719.csv")
 ```
 
 
@@ -2547,20 +2343,23 @@ p.panel3.deaths.pct
 
 p <- (p.panel1.deaths.pct + p.panel2.deaths.pct + p.panel3.deaths.pct) +  plot_annotation(title = 'Proportion of HIV Deaths Attributable to Effects of Depression', theme = theme(plot.title = element_text(hjust = 0.5, size=24)))
 
-ggsave("hiv_deaths_figure_pct.pdf", p, width = 16, height = 8, units = "in")
+#ggsave("hiv_deaths_figure_pct.pdf", p, width = 16, height = 8, units = "in")
+ggsave("hiv_deaths_figure_pct_20240819.pdf", p, width = 16, height = 8, units = "in")
 ```
 
 
 ```{r}
 p <- p.overall.deaths.pct + ggpubr::ggarrange("", "", "")/(p.panel1.deaths.pct + p.panel2.deaths.pct + p.panel3.deaths.pct) +  plot_layout(widths = c(1, 3))
 p
-ggsave("hiv_deaths_figure_pct_v2.pdf", p, width = 20, height = 10, units = "in")
+#ggsave("hiv_deaths_figure_pct_v2.pdf", p, width = 20, height = 10, units = "in")
+ggsave("hiv_deaths_figure_pct_v2_20240819.pdf", p, width = 20, height = 10, units = "in")
 ```
 
 ```{r}
 p <- (p.overall.deaths.pct + p.panel1.deaths.pct + p.panel2.deaths.pct + p.panel3.deaths.pct) +  plot_layout(ncol = 4)
 p
-ggsave("hiv_deaths_figure_pct_v3.pdf", p, width = 20, height = 6, units = "in")
+#ggsave("hiv_deaths_figure_pct_v3.pdf", p, width = 20, height = 6, units = "in")
+ggsave("hiv_deaths_figure_pct_v3_20240819.pdf", p, width = 20, height = 6, units = "in")
 ```
 
 
@@ -2659,14 +2458,16 @@ p.panel3.deaths.diff
 
 p <- (p.panel1.deaths.diff + p.panel2.deaths.diff + p.panel3.deaths.diff) +  plot_annotation(title = 'HIV Deaths Attributable to Effects of Depression', theme = theme(plot.title = element_text(hjust = 0.5, size=24)))
 
-ggsave("hiv_deaths_figure_diff.pdf", p, width = 16, height = 8, units = "in")
+#ggsave("hiv_deaths_figure_diff.pdf", p, width = 16, height = 8, units = "in")
+ggsave("hiv_deaths_figure_diff_202040819.pdf", p, width = 16, height = 8, units = "in")
 ```
 
 
 ```{r}
 p <- p.overall.deaths.diff + ggpubr::ggarrange("", "", "")/(p.panel1.deaths.diff + p.panel2.deaths.diff + p.panel3.deaths.diff) +  plot_layout(widths = c(1, 3))
 p
-ggsave("hiv_deaths_figure_diff_v2.pdf", p, width = 20, height = 10, units = "in")
+#ggsave("hiv_deaths_figure_diff_v2.pdf", p, width = 20, height = 10, units = "in")
+ggsave("hiv_deaths_figure_diff_v2_20240819.pdf", p, width = 20, height = 10, units = "in")
 ```
 
 
@@ -2828,18 +2629,21 @@ p.panel3.infections.pct
 
 p <- (p.panel1.infections.pct + p.panel2.infections.pct + p.panel3.infections.pct) +  plot_annotation(title = 'Proportion of HIV Infections Attributable to Effects of Depression', theme = theme(plot.title = element_text(hjust = 0.5, size=24)))
 
-ggsave("hiv_infections_figure_pct.pdf", p, width = 16, height = 8, units = "in")
+#ggsave("hiv_infections_figure_pct.pdf", p, width = 16, height = 8, units = "in")
+ggsave("hiv_infections_figure_pct_20240819.pdf", p, width = 16, height = 8, units = "in")
 ```
 
 ```{r}
 p <- p.overall.infections.pct + ggpubr::ggarrange("", "", "")/(p.panel1.infections.pct + p.panel2.infections.pct + p.panel3.infections.pct) +  plot_layout(widths = c(1, 3))
 p
-ggsave("hiv_infections_figure_pct_v2.pdf", p, width = 20, height = 10, units = "in")
+#ggsave("hiv_infections_figure_pct_v2.pdf", p, width = 20, height = 10, units = "in")
+ggsave("hiv_infections_figure_pct_v2_20240819.pdf", p, width = 20, height = 10, units = "in")
 ```
 ```{r}
 p <- (p.overall.infections.pct + p.panel1.infections.pct + p.panel2.infections.pct + p.panel3.infections.pct) +  plot_layout(ncol = 4)
 p
-ggsave("hiv_infections_figure_pct_v3.pdf", p, width = 20, height = 6, units = "in")
+#ggsave("hiv_infections_figure_pct_v3.pdf", p, width = 20, height = 6, units = "in")
+ggsave("hiv_infections_figure_pct_v3_20240819.pdf", p, width = 20, height = 6, units = "in")
 ```
 
 ### Grid with all panels together
@@ -2854,7 +2658,8 @@ p2 <- ((p.panel1.infections.pct + p.panel2.infections.pct + p.panel3.infections.
 
 p = p1/p2
 p
-ggsave("hiv_pct_figure.pdf", p, width = 16, height = 20, units = "in")
+#ggsave("hiv_pct_figure.pdf", p, width = 16, height = 20, units = "in")
+ggsave("hiv_pct_figure_20240819.pdf", p, width = 16, height = 20, units = "in")
 ```
 
 ### New Infections difference panel 1
@@ -2945,13 +2750,15 @@ p.panel3.infs.diff
 ```{r}
 p <- (p.panel1.infs.diff + p.panel2.infs.diff + p.panel3.infs.diff) +  plot_annotation(title = 'HIV Infections Attributable to Effects of Depression', theme = theme(plot.title = element_text(hjust = 0.5, size=24)))
 
-ggsave("hiv_infections_figure_diff.pdf", p, width = 16, height = 8, units = "in")
+#ggsave("hiv_infections_figure_diff.pdf", p, width = 16, height = 8, units = "in")
+ggsave("hiv_infections_figure_diff_20240819.pdf", p, width = 16, height = 8, units = "in")
 ```
 
 ```{r}
 p <- p.overall.infections.diff + ggpubr::ggarrange("", "", "")/(p.panel1.infs.diff + p.panel2.infs.diff + p.panel3.infs.diff) +  plot_layout(widths = c(1, 3))
 p
-ggsave("hiv_infections_figure_diff_v2.pdf", p, width = 20, height = 10, units = "in")
+#ggsave("hiv_infections_figure_diff_v2.pdf", p, width = 20, height = 10, units = "in")
+ggsave("hiv_infections_figure_diff_v2_20240819.pdf", p, width = 20, height = 10, units = "in")
 ```
 
 
@@ -3000,7 +2807,8 @@ p.impact.deaths <- impact.table %>%
 
 p.impact.deaths
 
-ggsave("hiv_impact_deaths.pdf", width = 8, height = 4, units = "in")
+#ggsave("hiv_impact_deaths.pdf", width = 8, height = 4, units = "in")
+ggsave("hiv_impact_deaths_20240819.pdf", width = 8, height = 4, units = "in")
 ```
 
 ```{r}
@@ -3032,7 +2840,9 @@ p.impact.infections <- impact.table %>%
 
 p.impact.infections
 
-ggsave("hiv_impact_infections.pdf", width = 8, height = 4, units = "in")
+#ggsave("hiv_impact_infections.pdf", width = 8, height = 4, units = "in")
+ggsave("hiv_impact_infections_20240819.pdf", width = 8, height = 4, units = "in")
+
 ```
 
 ```{r}
@@ -3063,7 +2873,8 @@ p.impact.deaths.pct <- impact.table %>%
 
 p.impact.deaths.pct
 
-ggsave("hiv_impact_deaths_pct.pdf", width = 8, height = 4, units = "in")
+#ggsave("hiv_impact_deaths_pct.pdf", width = 8, height = 4, units = "in")
+ggsave("hiv_impact_deaths_pct_20240819.pdf", width = 8, height = 4, units = "in")
 
 ```
 
@@ -3095,7 +2906,8 @@ p.impact.infections.pct <- impact.table %>%
 
 p.impact.infections.pct
 
-ggsave("hiv_impact_infections_pct.pdf", width = 8, height = 4, units = "in")
+#ggsave("hiv_impact_infections_pct.pdf", width = 8, height = 4, units = "in")
+ggsave("hiv_impact_infections_pct_20240819.pdf", width = 8, height = 4, units = "in")
 ```
 
 ## Figure 2 - Time Series
@@ -3145,7 +2957,7 @@ p <- ggplot() +
 
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Figures_manuscript/Figure_2_HIV_prev_time.pdf", width = 10, height = 5, units = "in")
+#ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Figures_manuscript/Figure_2_HIV_prev_time.pdf", width = 10, height = 5, units = "in")
 ```
 ### HIV Infections
 ```{r}
@@ -3306,15 +3118,309 @@ ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Figu
 
 
 
-## Results table
+## Sensitivity Analysis
+
+### Importing data
+
+#### Increased CMD incidence, LL
 
 ```{r}
+sim.results.sa.cmdinc.LL <- sim.results.baseline.art.not.cmdinc
 
-differences.table %>% 
-  filter(scenario_name == "baseline.art") %>% 
-  pivot()
+sim.results.sa.cmdinc.LL$scenario_name <-  "sa.cmdinc.LL"
+```
 
-colnames(differences.table)[-1:-4]
 
+#### Increased CMD incidence, UL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_cmdinc_UL-sa_cmdinc_UL___2024_08_14_19_56_52_052418"
+
+sim.results.sa.cmdinc.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.cmdinc.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+
+#### Increased HIV incidence, LL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_hivinc_LL___2024_08_14_19_59_22_393749"
+
+sim.results.sa.hivinc.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.hivinc.LL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+#### Increased HIV incidence, UL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_hivinc_UL___2024_08_14_20_01_27_108439"
+
+sim.results.sa.hivinc.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.hivinc.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+#### ART Adherence, LL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_artadh_LL___2024_08_14_20_03_52_900803"
+
+sim.results.sa.artadh.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.artadh.LL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+#### ART Adherence, UL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_artadh_UL___2024_08_14_20_06_01_641842"
+
+sim.results.sa.artadh.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.artadh.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+#### ART Dropout, LL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_artdrop_LL___2024_08_14_20_08_04_821122"
+
+sim.results.sa.artdrop.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.artdrop.LL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+#### ART Dropout, UL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_artdrop_UL___2024_08_14_20_10_14_203861"
+
+sim.results.sa.artdrop.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.artdrop.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+#### Delay to testing, LL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_delay_LL___2024_08_14_20_12_19_011832"
+
+sim.results.sa.delay.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.delay.LL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+#### Delay to testing, UL
+
+```{r}
+# August 2024
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_delay_UL___2024_08_14_20_14_47_027346"
+
+sim.results.sa.delay.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.delay.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+#### Join data together and rescale
+
+```{r}
+sa.results.all <- rbind(
+  sim.results.baseline.art,
+  sim.results.sa.cmdinc.LL,
+  sim.results.sa.cmdinc.UL,
+  sim.results.sa.hivinc.LL,
+  sim.results.sa.hivinc.UL,
+  sim.results.sa.artadh.LL,
+  sim.results.sa.artadh.UL,
+  sim.results.sa.artdrop.LL,
+  sim.results.sa.artdrop.UL,
+  sim.results.sa.delay.LL,
+  sim.results.sa.delay.UL
+)
+
+CENSUS_YEAR = 2009
+KEN_CENSUS_POP = 5352385
+
+sim.results.pop.scaling <- sa.results.all %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.ix, scenario_name) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
+
+sa.results.all <- sa.results.all %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+```
+
+### Calculate metrics
+
+We are going to make tornado plots, which show the difference between baseline and each of these sensitivity analysis scenarios.
+
+We are going to do this for a bunch of different time periods and a bunch of different age groups, for the sake of being thorough.
+
+```{r}
+age_min_list = c(15, 25, 15, 50)
+age_max_list = c(25, 50, 100, 100)
+
+start_year_list = c(1985, 2005, 2015, 2025, 1985, 1985)
+end_year_list = c(2005, 2015, 2025, 2035, 2025, 2035)
+label_list = c("Pre-ART", "ART Scaleup", "Universal ART", "Future", "Past Pandemic", "Past+Future")
+
+scenario_names <- sa.results.all$scenario_name %>% unique
+scenario_names <- scenario_names[scenario_names != "baseline.art"]
+
+sa.differences.table <- data.table()
+
+for (i in seq(1:length(age_min_list))){
+  for (j in seq(1:length(start_year_list)) ){
+    for (k in seq(1:length(scenario_names))) {
+
+      age_min = age_min_list[[i]]
+      age_max = age_max_list[[i]]
+      start_year = start_year_list[[j]]
+      end_year = end_year_list[[j]]
+      
+      holder <- aggregate.data.differences(sa.results.all,
+                                           scenario.name = scenario_names[[k]],
+                                           start_year, end_year, age_min,age_max,
+                                           comparison_scenario = "baseline.art") %>% 
+               mutate(Ages = paste0(age_min, "-", age_max),
+                      Years = paste0(start_year,"-",end_year),
+                      Period = label_list[[j]])
+      
+      sa.differences.table <- rbind(sa.differences.table, holder)      
+      
+    }
+  }
+} 
+
+```
+
+
+```{r}
+sa.differences.table <- sa.differences.table %>% 
+  select(
+    "Ages", "Period", "Years", "scenario_name",
+    "Newly.Infected.diff", "Newly.Infected.diff_95LL", "Newly.Infected.diff_95UL", "Newly.Infected.diff.sd", 
+    "Newly.Infected.pct", "Newly.Infected.pct_95LL", "Newly.Infected.pct_95UL", "Newly.Infected.pct.sd" ,
+    "Died_from_HIV.diff", "Died_from_HIV.diff_95LL", "Died_from_HIV.diff_95UL" , "Died_from_HIV.diff.sd",
+    "Died_from_HIV.pct", "Died_from_HIV.pct_95LL" ,  "Died_from_HIV.pct_95UL", "Died_from_HIV.pct.sd",
+    "Depression.eps.diff", "Depression.eps.diff_95LL", "Depression.eps.diff_95UL", "Depression.eps.diff.sd",
+    "Depression.eps.pct", "Depression.eps.pct_95LL", "Depression.eps.pct_95UL",  "Depression.eps.pct.sd"
+  ) %>% arrange(Period, Ages, scenario_name)
+```
+
+
+```{r}
+sa.differences.table <- sa.differences.table %>% 
+   mutate(ix =case_match(
+    scenario_name,
+    "sa.hivinc.LL" ~ 1,
+    "sa.hivinc.UL" ~ 1,
+    "baseline.art.not.cmdinc" ~ 2,
+    "sa.cmdinc.UL" ~ 2,
+    "sa.artdrop.LL" ~ 3,
+    "sa.artdrop.UL" ~ 3,
+    "sa.delay.LL" ~ 4,
+    "sa.delay.UL" ~ 4,
+    "sa.artadh.LL" ~ 5,
+    "sa.artadh.UL" ~ 5
+  ),
+  limitsign = case_match(
+    scenario_name,
+    "sa.hivinc.LL" ~ 0,
+    "sa.hivinc.UL" ~ 1,
+    "baseline.art.not.cmdinc" ~ 0,
+    "sa.cmdinc.UL" ~ 1,
+    "sa.artdrop.LL" ~ 0,
+    "sa.artdrop.UL" ~ 1,
+    "sa.delay.LL" ~ 0,
+    "sa.delay.UL" ~ 1,
+    "sa.artadh.LL" ~ 0,
+    "sa.artadh.UL" ~ 1
+  )
+  )
+
+#sa.differences.table %>% write_csv("sensitivity_analysis_table_20240819.csv")
+
+sa.differences.table %>% filter(Period == "Past Pandemic", Ages == "15-100" ) %>% 
+  ggplot() + 
+  geom_rect(mapping = aes(xmin = ix, xmax = ix + 1, ymin = 0, ymax = Newly.Infected.pct))
+              
 ```
 
