@@ -7835,7 +7835,6 @@
                     "Target_Gender": "Male",
                     "Actual_IndividualIntervention_Config": {
                         "class": "ARTMortalityTable",
-                        "New_Property_Value": "ARTStatus:SuppressedOnART",
                         "Intervention_Name": "SuppressedOnART",
                         "Cost_To_Consumer" : 1,
                         "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.04,
@@ -8075,8 +8074,7 @@
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
-                        "class": "ARTDropout",
-                        "New_Property_Value": "ARTStatus:None"
+                        "class": "ARTDropout"
                     },
                     "Trigger_Condition_List": [
                         "OnART3"
