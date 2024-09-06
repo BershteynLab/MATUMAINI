@@ -34,9 +34,13 @@
                         0.03983294,
                         0.96016706
                     ],
-                    "Choice_Probabilities":[
+                    ".Choice_Probabilities":[
                         0.041181847,
                         0.958818153
+                    ],
+                    "Choice_Probabilities":[
+                        0.0430865,
+                        0.9569135
                     ]
                 }
             }
@@ -110,9 +114,13 @@
                         0.090599835,
                         0.909400165
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.085254655,
                         0.914745345
+                    ],
+                    "Choice_Probabilities": [
+                        0.0932564,
+                        0.9067436
                     ]
                 }
             }
@@ -186,9 +194,13 @@
                         0.126613616,
                         0.873386384
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.107078673,
                         0.892921327
+                    ],
+                    "Choice_Probabilities": [
+                        0.121123,
+                        0.878877
                     ]
                 }
             }
@@ -262,9 +274,13 @@
                         0.113026757,
                         0.886973243
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.094472684,
                         0.905527316
+                    ],
+                    "Choice_Probabilities": [
+                        0.10523,
+                        0.89477
                     ]
                 }
             }
@@ -338,9 +354,13 @@
                         0.152287681,
                         0.847712319
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.135236484,
                         0.864763516
+                    ],
+                    "Choice_Probabilities": [
+                        0.14585,
+                        0.85415
                     ]
                 }
             }
@@ -414,9 +434,13 @@
                         0.194711355,
                         0.805288645
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.173990783,
                         0.826009217
+                    ],
+                    "Choice_Probabilities": [
+                        0.179246,
+                        0.820754
                     ]
                 }
             }
@@ -490,9 +514,13 @@
                         0.336677874,
                         0.663322126
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.286659848,
                         0.713340152
+                    ],
+                    "Choice_Probabilities": [
+                        0.311245,
+                        0.688755
                     ]
                 }
             }
@@ -566,9 +594,13 @@
                         0.083751296,
                         0.916248704
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.080120896,
                         0.919879104
+                    ],
+                    "Choice_Probabilities": [
+                        0.0884435,
+                        0.9115565
                     ]
                 }
             }
@@ -642,9 +674,13 @@
                         0.106959399,
                         0.893040601
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.090284422,
                         0.909715578
+                    ],
+                    "Choice_Probabilities": [
+                        0.104338,
+                        0.895662
                     ]
                 }
             }
@@ -718,9 +754,13 @@
                         0.081907163,
                         0.918092837
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.067002082,
                         0.932997918
+                    ],
+                    "Choice_Probabilities": [
+                        0.0770589,
+                        0.9229411
                     ]
                 }
             }
@@ -794,9 +834,13 @@
                         0.16515158,
                         0.83484842
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.148408644,
                         0.851591356
+                    ],
+                    "Choice_Probabilities": [
+                        0.176704,
+                        0.823296
                     ]
                 }
             }
@@ -870,9 +914,13 @@
                         0.190208608,
                         0.809791392
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.167841055,
                         0.832158945
+                    ],
+                    "Choice_Probabilities": [
+                        0.191733,
+                        0.808267
                     ]
                 }
             }
@@ -946,9 +994,13 @@
                         0.113932164,
                         0.886067836
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.101971971,
                         0.898028029
+                    ],
+                    "Choice_Probabilities": [
+                        0.103257,
+                        0.896743
                     ]
                 }
             }
@@ -1022,9 +1074,13 @@
                         0.072560867,
                         0.927439133
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.069280839,
                         0.930719161
+                    ],
+                    "Choice_Probabilities": [
+                        0.0693344,
+                        0.9306656
                     ]
                 }
             }
@@ -1259,9 +1315,13 @@
                         0.03983294,
                         0.96016706
                     ],
-                    "Choice_Probabilities":[
+                    ".Choice_Probabilities":[
                         0.041181847,
                         0.958818153
+                    ],
+                    "Choice_Probabilities":[
+                        0.0430865,
+                        0.9569135
                     ]
                 }
             }
@@ -1335,9 +1395,13 @@
                         0.090599835,
                         0.909400165
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.085254655,
                         0.914745345
+                    ],
+                    "Choice_Probabilities": [
+                        0.0932564,
+                        0.9067436
                     ]
                 }
             }
@@ -1411,9 +1475,13 @@
                         0.126613616,
                         0.873386384
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.107078673,
                         0.892921327
+                    ],
+                    "Choice_Probabilities": [
+                        0.121123,
+                        0.878877
                     ]
                 }
             }
@@ -1487,9 +1555,13 @@
                         0.113026757,
                         0.886973243
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.094472684,
                         0.905527316
+                    ],
+                    "Choice_Probabilities": [
+                        0.10523,
+                        0.89477
                     ]
                 }
             }
@@ -1563,9 +1635,13 @@
                         0.152287681,
                         0.847712319
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.135236484,
                         0.864763516
+                    ],
+                    "Choice_Probabilities": [
+                        0.14585,
+                        0.85415
                     ]
                 }
             }
@@ -1639,9 +1715,13 @@
                         0.194711355,
                         0.805288645
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.173990783,
                         0.826009217
+                    ],
+                    "Choice_Probabilities": [
+                        0.179246,
+                        0.820754
                     ]
                 }
             }
@@ -1715,9 +1795,13 @@
                         0.336677874,
                         0.663322126
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.286659848,
                         0.713340152
+                    ],
+                    "Choice_Probabilities": [
+                        0.311245,
+                        0.688755
                     ]
                 }
             }
@@ -1791,9 +1875,13 @@
                         0.083751296,
                         0.916248704
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.080120896,
                         0.919879104
+                    ],
+                    "Choice_Probabilities": [
+                        0.0884435,
+                        0.9115565
                     ]
                 }
             }
@@ -1867,9 +1955,13 @@
                         0.106959399,
                         0.893040601
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.090284422,
                         0.909715578
+                    ],
+                    "Choice_Probabilities": [
+                        0.104338,
+                        0.895662
                     ]
                 }
             }
@@ -1943,9 +2035,13 @@
                         0.081907163,
                         0.918092837
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.067002082,
                         0.932997918
+                    ],
+                    "Choice_Probabilities": [
+                        0.0770589,
+                        0.9229411
                     ]
                 }
             }
@@ -2019,9 +2115,13 @@
                         0.16515158,
                         0.83484842
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.148408644,
                         0.851591356
+                    ],
+                    "Choice_Probabilities": [
+                        0.176704,
+                        0.823296
                     ]
                 }
             }
@@ -2095,9 +2195,13 @@
                         0.190208608,
                         0.809791392
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.167841055,
                         0.832158945
+                    ],
+                    "Choice_Probabilities": [
+                        0.191733,
+                        0.808267
                     ]
                 }
             }
@@ -2171,9 +2275,13 @@
                         0.113932164,
                         0.886067836
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.101971971,
                         0.898028029
+                    ],
+                    "Choice_Probabilities": [
+                        0.103257,
+                        0.896743
                     ]
                 }
             }
@@ -2247,9 +2355,13 @@
                         0.072560867,
                         0.927439133
                     ],
-                    "Choice_Probabilities": [
+                    ".Choice_Probabilities": [
                         0.069280839,
                         0.930719161
+                    ],
+                    "Choice_Probabilities": [
+                        0.0693344,
+                        0.9306656
                     ]
                 }
             }
