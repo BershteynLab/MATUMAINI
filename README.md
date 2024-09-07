@@ -10,6 +10,7 @@
 
 ## Project Outline
 
+* [ ] Next generation of depression treatment implementation
 * [x] Implement [model of CMD](https://docs.google.com/presentation/d/1LaGunWwd2bJYsFmCAZPay9UfXygRY47RvCdVJKmSLjA/edit?usp=sharing) within EMOD
     * [x] Add CMD Individual Property (IP) to EMOD which tracks individual CMD status
         * [x] Add CMD IP to the Demography File: `CMDStatus`
@@ -58,6 +59,8 @@
 
 ## Major Updates
 
+* 2024-09-07 - Generated results for first manuscript on `croi` branch
+* 2024-03-03 - Presented results from `croi` branch at CROI 2024
 * 2023-10-31 - Presented results from `nimh` branch at Global Mental Health Research without Borders Conference
     * Need to revisit treatment and diagnosis scenarios: 
         * link to depression care -> screening -> diagnosis -> treatment response
