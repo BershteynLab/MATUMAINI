@@ -126,7 +126,7 @@ def build_and_run_simulations(samples, scenario_template_sets, scenario_param_di
             #                                            available_campaigns=available_campaigns)
 
             # name the scenario (experiment) by combining the template set name and provided Scenario name
-            sn = scenario_params.pop('Scenario', 'DefaultScenario')
+            sn = scenario_params['Scenario']
             campaign_string = os.path.splitext(campaign_template_name)[0] if campaign_template_name else DEFAULT_CAMPAIGN
             if sn is None:
                 scenario_name = '-'.join([template_set_name, campaign_string])
@@ -156,7 +156,7 @@ def build_and_run_simulations(samples, scenario_template_sets, scenario_param_di
                 current = {}
                 current.update(sample)
                 current.update(scenario_params)
-                current.update({'Config_Name': scenario_name, REP_TAG: current[REP_TAG]})
+                current.update({'Scenario': scenario_name, 'Config_Name': scenario_name, REP_TAG: current[REP_TAG]})
 
                 # including parameterization id number (TPI) and run number as tags
                 if 'TAGS' not in current:
@@ -323,7 +323,8 @@ def parse_args():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--calib-dir', dest='calibration_dir', type=str, default=None,
-                        help='Directory of calibration to resample (Required for resampling method \'roulette\')).')
+                        help='Directory of calibration to resample (Required for resampling method \'roulette\')).', required = False)
+
     parser.add_argument('-c', '--calib-script', dest='calibration_script', type=str, required=True,
                         help='Script used to run the calibration (Required).')
     parser.add_argument('-m', '--resample-method', dest='resample_method', type=str, required=True,

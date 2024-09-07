@@ -6,8 +6,8 @@
 
 #SBATCH --cpus-per-task=1
 
-#SBATCH --time=48:00:00
-#SBATCH --partition=cpu_short
+#SBATCH --time=05-00:00:00
+#SBATCH --partition=cpu_medium
 #SBATCH --mem=8GB
 
 #SBATCH --job-name=CROI_EMOD
@@ -21,4 +21,4 @@
 
 # python optim_script.py
 
-python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir croi --suite-name croi --table scenarios.csv
+python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir sensitivity_analysis_v2 --suite-name sensitivity_analysis_v2 --table scenarios.csv
