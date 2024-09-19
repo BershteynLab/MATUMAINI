@@ -2104,7 +2104,7 @@ p
 ```{r}
 #impact.table %>% View
 
-impact.table <- read.csv("impact_of_art_table_20240820.csv") #read.csv("impact_of_art_table_20240719.csv")
+impact.table <- read.csv("impact_of_art_table_20240827.csv")
 
 impact.table <- impact.table %>% 
   mutate(Time =case_match(
@@ -2828,6 +2828,11 @@ differences.table %>% filter(Years == "1985-2035", Ages == "15-100")
 
 ### Make Figures
 
+```{r}
+sa.differences.table <- read_csv("sensitivity_analysis_table_20240906.csv")
+```
+
+
 #### Sensitivity Analysis - New Infections
 ```{r}
 
@@ -2843,8 +2848,9 @@ p.sa.infections <- ggplot() +
                           xmin = center.infs, 
                           xmax = Newly.Infected.pct), fill = "#ED2200") + 
   geom_vline(xintercept = center.infs, linetype = "dashed", color = "black") +
-  #scale_x_continuous(breaks = c(15, 17.5, 20, 22.5, 25)/100, 
-  #                   limits = c(.15, .25), labels = scales::percent_format(accuracy = 1)) + 
+#  scale_x_continuous(labels = scales::percent_format(accuracy = 3)) + 
+  scale_x_continuous(breaks = c(8,10,12,14,16)/100,
+                    limits = c(.08, .17), labels = scales::percent_format(accuracy = 1)) +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
         axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
