@@ -1227,6 +1227,39 @@
             }
         },
         {
+            "Event_Name": "Annual CMD Treatment for those on ART",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Time_Value_Map": {
+                    "Times": [2020,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRanges",
+                "Target_Age_Min": 18,
+                "Target_Age_Max": 99.999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "NoARTDummy",
+                        "CMD_Treat_staging"
+                    ],
+                    "Choice_Probabilities":[
+                        1.0,
+                        0
+                    ]
+                }
+            }
+        },
+        {
             "BEGIN":"CMD Relapse without treatment",
             "COMMENT":"People in CMDStatus:CMD_recovered get moved back to CMD_pos",
             "Event_Name": "CMD relapse without treatment - Males 18-24, HIV-",
@@ -3463,6 +3496,34 @@
                         "COMMENT":"Using 9 month recovery time",
                         "Broadcast_Event":"CMD_NoTreat_Recovery"
                     }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD treatment - go from staging to receiving treatment with certain probability",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
+                    "Choice_Names":[
+                        "CMD_Treat",
+                        "CMD_NoTreat"
+                    ],
+                    "Choice_Probabilities": [
+                        0,
+                        1
+                    ],
+                    "Choice_Probabilities__KP_CMDtreatment": "<-- MARKER",
+                    "Trigger_Condition_List": [
+                        "CMD_Treat_staging",
+                        "CMD_Treat_diagnosis"
+                    ]
                 }
             }
         },
