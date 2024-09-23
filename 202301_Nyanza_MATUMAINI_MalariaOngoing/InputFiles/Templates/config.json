@@ -86,6 +86,7 @@
             "CMD_Treat",
             "CMD_Treat_diagnosis",
             "CMD_Treat_staging",
+            "CMD_Treat_staging_delay",
             "CMD_NoTreat_Recovery",
             "CMD_Treat_Recovery",
             "CMD_RecoverNoTreat",
@@ -215,7 +216,10 @@
         ],
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 1,
-        "Report_HIV_ByAgeAndGender_Event_Counter_List": [],
+        "Report_HIV_ByAgeAndGender_Event_Counter_List": [
+            "CMD_Treat_staging",
+            "CMD_Treat"
+        ],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
         "Report_HIV_ByAgeAndGender_Start_Year": 1980,
         "Report_HIV_ByAgeAndGender_Stop_Year": 2050,

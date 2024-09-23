@@ -1235,7 +1235,10 @@
             "Start_Year": 2020,
             "Event_Coordinator_Config": {
                 "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions":["CMDStatus:CMD_neg"],
+                "Property_Restrictions_Within_Node":[
+                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnEffectiveART"},
+                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                ],
                 "Time_Value_Map": {
                     "Times": [2020,2200],
                     "Values":[1.0,1.0]
@@ -1250,12 +1253,39 @@
                     "class":"HIVRandomChoice",
                     "Choice_Names": [
                         "NoARTDummy",
-                        "CMD_Treat_staging"
+                        "CMD_Treat_staging_delay"
                     ],
                     "Choice_Probabilities":[
                         0,
                         1.0
                     ]
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD incidence",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnEffectiveART"},
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
+                    ],
+                    "Trigger_Condition_List": ["CMD_Treat_staging_delay"],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVDelayedIntervention",
+                        "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
+                        "Delay_Period_Min": 1,
+                        "Delay_Period_Max": 365,
+                        "Broadcast_Event":"CMD_Treat_staging"
+                    }
                 }
             }
         },
