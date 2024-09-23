@@ -3478,19 +3478,23 @@
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
                     "Property_Restrictions":["CMDStatus:CMD_pos"],
-                    "Choice_Names":[
-                        "CMD_Treat",
-                        "CMD_NoTreat"
-                    ],
-                    "Choice_Probabilities": [
-                        0,
-                        1
-                    ],
-                    "Choice_Probabilities__KP_CMDtreatment": "<-- MARKER",
                     "Trigger_Condition_List": [
                         "CMD_Treat_staging",
                         "CMD_Treat_diagnosis"
-                    ]
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names":[
+                            "CMD_Treat",
+                            "CMD_NoTreat"
+                        ],
+                        "Choice_Probabilities": [
+                            0.65,
+                            0.35
+                        ],
+                        "Choice_Probabilities__KP_CMDtreatment": "<-- MARKER"
+                    }
+
                 }
             }
         },
