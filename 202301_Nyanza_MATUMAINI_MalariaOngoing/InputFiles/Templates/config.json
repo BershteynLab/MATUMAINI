@@ -85,6 +85,7 @@
             "CMD_NoTreat",
             "CMD_Treat",
             "CMD_Treat_diagnosis",
+            "CMD_Treat_staging",
             "CMD_NoTreat_Recovery",
             "CMD_Treat_Recovery",
             "CMD_RecoverNoTreat",

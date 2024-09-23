@@ -16,6 +16,8 @@
 **/*.pdf
 **/*.out
 
+Analysis/*.csv
+
 202301_Nyanza_Baseline_MalariaOngoing_ARTMort
 202301_Nyanza_Baseline_MalariaOngoing_ARTMort/**
 

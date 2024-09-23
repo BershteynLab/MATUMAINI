@@ -59,6 +59,10 @@
 
 ## Major Updates
 
+* 2024-09-22 - Creating three new campaign files in preparation for CROI 2025. Each new campaign file 
+    * campaign ... _uni - Universal depression treatment
+    * campaign ... _neutral - Status-neutral depression treatment for anyone in routine HIV testing loop
+    * campaign ... _art - All individuals on ART eligible for treatment once per year
 * 2024-09-07 - Generated results for first manuscript on `croi` branch
 * 2024-03-03 - Presented results from `croi` branch at CROI 2024
 * 2023-10-31 - Presented results from `nimh` branch at Global Mental Health Research without Borders Conference
