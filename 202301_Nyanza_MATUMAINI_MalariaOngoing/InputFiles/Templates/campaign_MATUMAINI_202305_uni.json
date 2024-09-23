@@ -1135,7 +1135,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat_staging",
+                                    "CMD_Treat",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1202,8 +1202,8 @@
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
-                                    0.0,
-                                    1.0
+                                    1.0,
+                                    0.0
                                 ],
                                 "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
                             },

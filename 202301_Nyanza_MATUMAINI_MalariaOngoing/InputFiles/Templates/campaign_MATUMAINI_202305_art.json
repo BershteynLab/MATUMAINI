@@ -1232,7 +1232,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 1960.5,
+            "Start_Year": 2020,
             "Event_Coordinator_Config": {
                 "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
@@ -1253,8 +1253,8 @@
                         "CMD_Treat_staging"
                     ],
                     "Choice_Probabilities":[
-                        1.0,
-                        0
+                        0,
+                        1.0
                     ]
                 }
             }
@@ -3516,8 +3516,8 @@
                         "CMD_NoTreat"
                     ],
                     "Choice_Probabilities": [
-                        0,
-                        1
+                        0.65,
+                        0.35
                     ],
                     "Choice_Probabilities__KP_CMDtreatment": "<-- MARKER",
                     "Trigger_Condition_List": [

@@ -6225,8 +6225,8 @@
                             "CMD_Treat_staging"
                         ],
                         "Choice_Probabilities": [
-                            1.0,
-                            0.0
+                            0.0,
+                            1.0
                         ],
                         "Choice_Probabilities__KP_StatusNeutralCMDTreat": "<-- MARKER"
                     }
