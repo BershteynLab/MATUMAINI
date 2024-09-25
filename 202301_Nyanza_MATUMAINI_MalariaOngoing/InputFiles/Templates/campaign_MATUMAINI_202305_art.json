@@ -1238,7 +1238,8 @@
                 "Property_Restrictions_Within_Node":[
                     {"CMDStatus":"CMD_pos","InterventionStatus":"OnEffectiveART"},
                     {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
-                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                ],
+                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
+                ],
                 "Time_Value_Map": {
                     "Times": [2020,2200],
                     "Values":[1.0,1.0]
