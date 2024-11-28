@@ -503,7 +503,7 @@ p <- ggplot() +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
     scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
     #ylab("HIV Prevalence (%)") + 
-    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) +
+    #scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) +
     geom_point(data = obs.prev.sheet.base %>%
                  filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
                mapping = aes(x = Year, y = Prevalence) , color = 'black', size = 3, shape = 15) + 
@@ -514,7 +514,35 @@ p <- ggplot() +
 p 
 
 ```
-## Number on ART over time
+
+```{r} 
+
+
+p <- ggplot() +
+    geom_line(data = croi.prev.data %>% filter(Year > 1985, scenario_name == "baseline.art"), 
+              aes(x = Year, y = Prevalence, group = sim.id), linewidth = .1, color = 'gray', show.legend = FALSE) + 
+    geom_line(data= croi.prev.data.mean %>% filter(Year > 1985, scenario_name == "baseline.art"),
+            aes(x=Year, y=Prevalence, group=scenario_name, color = Gender), linewidth=2, show.legend = FALSE) +
+    facet_wrap(~ Gender, ncol=2) +
+    #xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    #ylab("Prevalence") +
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) + 
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25))
+
+p
+
+ggsave("kenya_prevalence.pdf", p, width = 8, height =4, units= 'in')
+```
+
+
+## Number on ART over times
 
 ```{r}
 ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/Data/calibration_ingest_form_Nyanza.xlsm"
@@ -1418,7 +1446,7 @@ impact.table.20240719 <- read_csv("impact_of_art_table_20240719.csv")
 # Figures
 
 ```{r}
-#numbers.table <- read_csv("numbers_table_20240531.csv")
+numbers.table <- read_csv("numbers_table_20240906.csv")
 
 differences.table <- read_csv("differences_table_20240709.csv")
 
@@ -1604,6 +1632,7 @@ p.panel1.deaths.pct <- differences.table %>%
 
 p.panel1.deaths.pct
 ```
+
 ### HIV deaths differences percentages panel 2
 ```{r}
 p.panel2.deaths.pct <- differences.table %>% 
@@ -2262,6 +2291,100 @@ ggsave("hiv_impact_infections_pct_20240827.pdf", plot = p.impact.infections.pct,
        width = 8, height = 4, units = "in")
 
 ```
+
+## Impact of depression by age
+
+```{r}
+differences.table %>% colnames
+
+# Show stacked bar chart broken down by age group
+ggplot() + 
+geom_col(
+  data = differences.table %>% filter(Ages == "15-25", scenario_name == "baseline.art", Time < 5),
+  mapping = aes(x = Time, y = 100 * Died_from_HIV.diff), 
+       width = .5, color = 'red' , show.legend = FALSE, position = "dodge") + 
+geom_col(
+  data = differences.table %>% filter(Ages == "25-100", scenario_name == "baseline.art", Time < 5),
+  mapping = aes(x = Time, y = 100 * Died_from_HIV.diff), 
+       width = .5, color = 'blue', show.legend = FALSE, position = "dodge") 
+
+```
+
+```{r}
+p1 = differences.table %>% 
+  filter(scenario_name == "baseline.art", Time < 5, Ages %in% c("15-25", "25-100")) %>% 
+  ggplot() + 
+  geom_bar(mapping = aes(fill = Ages, x = Time, y = Newly.Infected.diff),
+           position = 'fill', stat = "identity") + 
+  scale_fill_manual("Ages", values=c("blue", "red"), labels = c("15-25", "25+")) + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1),
+                     ) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", 
+                                "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  labs(x = "", y = "% New Infections Attributable to Depression") + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = 'black'))
+
+p2 = differences.table %>% 
+  filter(scenario_name == "baseline.art", Time < 5, Ages %in% c("15-25", "25-100")) %>% 
+  ggplot() + 
+  geom_bar(mapping = aes(fill = Ages, x = Time, y = Newly.Infected.diff),
+           position = 'stack', stat = "identity") + 
+  scale_fill_manual("Ages", values=c("blue", "red"), labels = c("15-25", "25+")) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", 
+                                "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  scale_y_continuous(breaks = seq(0,50000,10000), labels = c("0", "10,000", "20,000", "30,000", "40,000", "50,000")) +
+  labs(x = "", y = "New Infections Attributable to Depression") + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = 'black'))
+
+
+p3 <- differences.table %>% 
+  filter(scenario_name == "baseline.art", Time < 5, Ages %in% c("15-25", "25-100")) %>% 
+  ggplot() + 
+  geom_bar(mapping = aes(fill = Ages, x = Time, y = Died_from_HIV.diff),
+           position = 'fill', stat = "identity") + 
+  scale_fill_manual("Ages", values=c("blue", "red"), labels = c("15-25", "25+")) + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1),
+                     ) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", 
+                                "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  labs(x = "", y = "% HIV Deaths Attributable to Depression") + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = 'black'))
+
+p4 <- differences.table %>% 
+  filter(scenario_name == "baseline.art", Time < 5, Ages %in% c("15-25", "25-100")) %>% 
+  ggplot() + 
+  geom_bar(mapping = aes(fill = Ages, x = Time, y = Died_from_HIV.diff),
+           position = 'stack', stat = "identity")+ 
+  scale_fill_manual("Ages", values=c("blue", "red"), labels = c("15-25", "25+")) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", 
+                                "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  scale_y_continuous(breaks = seq(0,20000,5000), labels = c("0", "5000", "10,000", "15,000", "20,000")) +
+  labs(x = "", y = "HIV Deaths Attributable to Depression") + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = 'black'))
+
+ggsave(filename = "fig.depression_impact_by_age_over_time.pdf",
+      plot = (p1 + p2)/(p3 + p4) + plot_layout(guides = "collect") ,
+      width = 12, height = 8, units = 'in')
+
+
+```
+
 
 ## Figure 2 - Time Series
 
