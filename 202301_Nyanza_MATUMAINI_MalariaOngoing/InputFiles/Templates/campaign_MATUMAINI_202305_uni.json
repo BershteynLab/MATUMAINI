@@ -1135,7 +1135,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [

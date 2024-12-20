@@ -1068,7 +1068,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence",
+            "Event_Name":"CMD Treatment Staging",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1135,7 +1135,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1198,7 +1198,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1244,7 +1244,7 @@
                     "Times": [2020,2200],
                     "Values":[1.0,1.0]
                 },
-                "Timesteps_Between_Repetitions": 12,
+                "Timesteps_Between_Repetitions": 6,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRanges",
                 "Target_Age_Min": 18,
@@ -1264,7 +1264,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence",
+            "Event_Name":"CMD Treatment staging",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1274,17 +1274,12 @@
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
                     "class":"NodeLevelHealthTriggeredIV",
-                    "Property_Restrictions_Within_Node":[
-                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnEffectiveART"},
-                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
-                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
-                    ],
                     "Trigger_Condition_List": ["CMD_Treat_staging_delay"],
                     "Actual_IndividualIntervention_Config": {
                         "class": "HIVDelayedIntervention",
                         "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
                         "Delay_Period_Min": 1,
-                        "Delay_Period_Max": 365,
+                        "Delay_Period_Max": 182.5,
                         "Broadcast_Event":"CMD_Treat_staging"
                     }
                 }
@@ -3478,7 +3473,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [

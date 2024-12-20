@@ -1135,7 +1135,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1198,7 +1198,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1262,7 +1262,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence",
+            "Event_Name":"CMD Treatment Staging",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -3476,7 +3476,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [

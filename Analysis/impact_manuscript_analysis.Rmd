@@ -44,25 +44,20 @@ sim.results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Genderf", "Age", "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
 ```
 
-
-## "Initial"
-
-This is the one that I tried that seemed incorrect
-
-The way that Status Neutral depression care was distributed was 
+## ART distribution
 
 ```{r}
-experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral-neutral___2024_09_23_17_38_27_681705"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2024_12_19_14_55_54_577717"
 
-sim.results.neutral.initial <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sim.results.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
-  scenario_name = "neutral",
+  scenario_name = "art",
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -73,17 +68,14 @@ sim.results.neutral.initial <- EMODAnalyzeR::read.simulation.results.bigpurple(
 ```
 
 
-## "Final"
+## Status neutral CMD treatment upon HIV test
 
-This is the one that ended up in the abstract. 
-
-The way that Status Neutral depression care was distributed was 
 ```{r}
-experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral-neutral___2024_09_25_15_55_29_591219"
+experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_testing-testing___2024_12_18_17_37_10_681523"
 
-sim.results.neutral.final <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sim.results.neutral.testing <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
-  scenario_name = "final",
+  scenario_name = "neutral.testing",
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -93,32 +85,55 @@ sim.results.neutral.final <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 ```
 
-## 
+
+## CMD treatment annually for all in HCTTesting Loop
 
 ```{r}
-sim.results.all <- rbind(sim.results.neutral.initial, sim.results.neutral.final, sim.results.baseline)
+experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2024_12_19_14_52_41_589804"
+
+sim.results.neutral.annual <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = "neutral.annual",
+    summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+## Join together
+
+```{r}
+sim.results.neutral <- rbind(
+  sim.results.neutral.testing, 
+  sim.results.neutral.annual, 
+  sim.results.baseline, 
+  sim.results.art,
+  sim.results.uni)
 
 CENSUS_YEAR = 2009
 KEN_CENSUS_POP = 5352385
 
-sim.results.pop.scaling <- sim.results.all %>%
+sim.results.pop.scaling <- sim.results.neutral %>%
       filter(Year == CENSUS_YEAR) %>%
       group_by(sim.ix, scenario_name) %>%
       summarize(total.pop = sum(Population), .groups = 'keep') %>%
       mutate(pop.scaling.factor = KEN_CENSUS_POP/total.pop)
 
-sim.results.all <- sim.results.all %>%
+sim.results.neutral <- sim.results.neutral %>%
   inner_join(
     sim.results.pop.scaling,
     by = c("sim.ix", "scenario_name")
   )
 ```
 
-## Analyze.
+## Analyze
 
 ### CMD_Treat over time
 ```{r}
-cmdtreat.count <- sim.results.all %>% 
+cmdtreat.count <- sim.results.neutral %>% 
   filter(Year >= 2020) %>% 
   group_by(Year, Gender, scenario_name, sim.ix) %>% 
   summarize(CMD_Treat = sum(CMD_Treat), .groups = 'drop_last') %>% 
@@ -131,11 +146,43 @@ cmdtreat.count %>%
   geom_line(mapping = aes(x = Year, y = CMD_Treat, color = scenario_name)) + 
   facet_grid(cols = vars(Gender))
             
+sim.results.art %>% 
+  #mutate(Year = ceiling(Year)) %>% 
+  filter(Year >= 2020) %>% 
+  group_by(Year, Gender, scenario_name, sim.ix) %>% 
+  summarize(CMD_Treat = sum(CMD_Treat),
+            CMD_Treat_staging = sum(CMD_Treat_staging), .groups = 'drop_last') %>% 
+  group_by(Year, Gender, scenario_name) %>%  
+  summarize(CMD_Treat = mean(CMD_Treat),
+            CMD_Treat_staging = mean(CMD_Treat_staging), .groups = 'drop_last') %>% 
+  mutate(ratio = CMD_Treat/CMD_Treat_staging) %>% arrange(Gender, Year) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = ratio, color = scenario_name)) + 
+  facet_grid(cols = vars(Gender))
 
 ```
+### Ratio of people staged for CMD treatment vs those who receive it
+
+```{r}
+cmdtreat.count <- sim.results.neutral %>% 
+  #mutate(Year = ceiling(Year)) %>%
+  filter(Year >= 2020) %>% 
+  group_by(Year, Gender, scenario_name, sim.ix) %>% 
+  summarize(CMD_Treat = sum(CMD_Treat), CMD_Treat_staging = sum(CMD_Treat_staging), .groups = 'drop_last') %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(CMD_Treat = mean(CMD_Treat), CMD_Treat_staging = mean(CMD_Treat_staging), .groups = 'drop_last') %>% 
+  mutate(ratio = case_when(CMD_Treat_staging > 0 ~ CMD_Treat/CMD_Treat_staging, CMD_Treat_staging == 0 ~ 0))
+
+cmdtreat.count %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = ratio, color = scenario_name)) + 
+  facet_grid(cols = vars(Gender))
+```
+
+
 ## How many people are living with HIV, CMD in 2025?
 ```{r}
-sim.results.all %>% 
+sim.results.neutral %>% 
   filter(Year == 2025, Age >= 15) %>% 
   group_by(Gender, scenario_name, sim.ix) %>% 
   summarize(Infected = sum(Infected * pop.scaling.factor)) %>% 
@@ -147,7 +194,7 @@ sim.results.all %>%
 ```
 
 ```{r}
-sim.results.all %>% 
+sim.results.neutral %>% 
   filter(Year == 2025, Age >= 15) %>% 
   filter(IP_Key.CMDStatus == "CMD_pos") %>% 
   group_by(Gender, scenario_name, sim.ix) %>% 
@@ -160,7 +207,7 @@ sim.results.all %>%
 ```
 
 ```{r}
-sim.results.all %>% 
+sim.results.neutral %>% 
   filter(Year == 2025, Age >= 15) %>% 
   filter(IP_Key.CMDStatus == "CMD_pos") %>% 
   group_by(Gender, scenario_name, sim.ix) %>% 
@@ -300,20 +347,23 @@ p1 <- all.stats.plot %>%
   ggplot() +
   geom_bar(mapping = aes(x = metric, y = mean*100, fill = factor(scenario_name)),
            position=position_dodge2(reverse = TRUE, padding = 0), stat = "identity",
-           show.legend = FALSE) + 
-  geom_errorbar(mapping = aes(x = metric, ymin = lb*100, ymax = ub*100),
+           show.legend = TRUE) + 
+  geom_errorbar(mapping = aes(x = metric, ymin = lb*100, ymax = ub*100, color = factor(scenario_name)),
                 position=position_dodge2(reverse = TRUE, padding = .25), stat = "identity",
-                size = 1, color = "black",
-                show.legend = FALSE) + 
+                size = 1,# color = "black",
+                show.legend = TRUE) + 
   #geom_label(mapping = aes(x = metric, y = value*100, label = metric)) + 
   #geom_text(mapping = aes(x = 1, y = 4.1, label = "HIV Deaths Averted")) + 
   #geom_text(mapping = aes(x = 2, y = 7, label = "HIV Infections Averted")) + 
   scale_y_continuous(
     "% Averted",
-    breaks = seq(0,10,2), 
-    labels = c("0%", "2%", "4%", "6%", "8%","10%"), 
+    breaks = seq(0,1,.2), 
+    labels = c("0%", ".2%", ".4%", ".6%", ".8%",".10%"), 
     expand = expansion(mult = c(0.00,.2))) +
   scale_fill_manual("", values = c("#00671F", "#FF6600", "#0004E7"),
+                    breaks = c("baseline", "final", "neutral"), 
+                    labels = c("baseline", "final   ", "neutral")) + 
+  scale_color_manual("", values = c("black", "black", "black"),
                     breaks = c("baseline", "final", "neutral"), 
                     labels = c("baseline", "final   ", "neutral")) + 
   scale_x_discrete( 
@@ -335,4 +385,94 @@ p1
 #   guides(fill=guide_legend("Depression Treatment Distribution"))
 ```
 
+```{r}
+all.stats.plot
+```
 
+```{r}
+p2 <- all.stats %>% 
+  mutate(scenario_id = case_match(scenario_name, "baseline" ~ "", "final" ~ "final", "neutral" ~ "Status Neutral", "art" ~ "ART")) %>% 
+  ggplot() +  
+  geom_line(all.stats %>% filter(scenario_name != "neutral"),
+            mapping = aes(x = CMD_Treat, y = Died_from_HIV_averted)) + 
+  geom_point(mapping = aes(x = CMD_Treat, y = Died_from_HIV_averted, color = scenario_name), show.legend = FALSE,
+             size = 3) + 
+  geom_errorbar(all.stats %>% filter(scenario_name != "baseline"),
+                mapping = aes(x = CMD_Treat, ymin = Died_from_HIV_averted.lb, ymax = Died_from_HIV_averted.ub)) + 
+  # geom_errorbar(all.stats %>% filter(scenario_name != "baseline"),
+  #               mapping = aes(xmin = CMD_Treat.lb, xmax = CMD_Treat.ub,  y = Died_from_HIV_averted)) + 
+  #geom_text(mapping = aes(x = CMD_Treat, y = Died_from_HIV_averted, label = scenario_id),
+  #          position = position_dodge(width = 1),  vjust =  -0.75) + 
+  #ggtitle("HIV Outcome Improvements\nvs. Depression Treatments Administered") + 
+  # scale_color_manual("", values = c("black", "#00671F", "#FF6600", "#0004E7"),
+  #                 breaks = c("baseline", "uni", "neutral", "art"), 
+  #                 labels = c("", "Universal", "Status Neutral   ", "ART")) +
+  # scale_y_continuous(
+  #   "HIV Infections Averted",
+  #   breaks = seq(0,4000,1000), labels = seq(0,4000, 1000), expand = expansion(mult = c(0.01,.1))) +   scale_x_continuous(
+  #   "Depression Treatments Administered", breaks = seq(0,4000000, 1000000), labels = c(0, "1M", "2M", "3M", "4M" ),
+  #   expand = expansion(mult = c(0.01, .2))
+  # ) + 
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"))
+
+
+p3 <- all.stats %>% 
+  mutate(scenario_id = case_match(scenario_name, "baseline" ~ "", "final" ~ "final", "neutral" ~ "Status Neutral", "art" ~ "ART")) %>% 
+  ggplot() +  
+  geom_line(all.stats %>% filter(scenario_name != "neutral"),
+            mapping = aes(x = CMD_Treat, y = Newly.Infected_averted)) + 
+  geom_point(mapping = aes(x = CMD_Treat, y = Newly.Infected_averted, color = scenario_name), show.legend = FALSE,
+             size = 3) + 
+  geom_errorbar(all.stats %>% filter(scenario_name != "baseline"),
+                mapping = aes(x = CMD_Treat, ymin = Newly.Infected_averted.lb, ymax = Newly.Infected_averted.ub)) + 
+  # geom_text(mapping = aes(x = CMD_Treat, y = Newly.Infected_averted, label = scenario_id),
+  #           position = position_dodge(width = 1),  vjust = -0.75) + 
+  scale_color_manual("", values = c("black", "#00671F", "#FF6600", "#0004E7"),
+                  breaks = c("baseline", "uni", "neutral", "art"), 
+                  labels = c("", "Universal", "Status Neutral   ", "ART")) +
+  # scale_y_continuous(
+  #   "HIV Deaths Averted",
+  #   breaks = seq(0,10000,2000), labels = seq(0,10000, 2000), expand = expansion(mult = c(0.01,.1))) + 
+  # scale_x_continuous(
+  #   "Depression Treatments Administered", breaks = seq(0,4000000, 1000000), labels = c(0, "1M", "2M", "3M", "4M" ),
+  #   expand = expansion(mult = c(0.01, .2))
+  # ) + 
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans")
+        )
+
+p2/p3
+```
+
+# Metrics
+
+## HIV prevalence over time
+
+## HIV new infections over time
+
+### HIV new infections averted
+
+## HIV deaths over time
+
+### HIV deaths averted
+
+## Depression prevalence over time
+
+## Depression episodes over time
+
+### Depression episodes averted
+
+## HIV-related DALYs
+
+### HIV-related DALYs averted
+
+## Depression-related DALYs
+
+### Depression-related DALYs averted
