@@ -1068,7 +1068,7 @@
             }
         },
         {
-            "Event_Name":"CMD Treatment Staging",
+            "Event_Name":"CMD Incidence",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1255,6 +1255,10 @@
                     "class":"HIVRandomChoice",
                     "Choice_Names": [
                         "NoARTDummy",
+                        "CMD_Treat_staging"
+                    ],
+                    ".Choice_Names": [
+                        "NoARTDummy",
                         "CMD_Treat_staging_delay"
                     ],
                     "Choice_Probabilities":[
@@ -1265,7 +1269,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence",
+            "Event_Name":"CMD Treatment Staging",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"

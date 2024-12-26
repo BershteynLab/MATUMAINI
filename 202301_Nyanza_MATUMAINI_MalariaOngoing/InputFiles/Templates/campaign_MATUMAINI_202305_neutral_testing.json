@@ -1068,7 +1068,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence",
+            "Event_Name":"CMD Incidence",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
