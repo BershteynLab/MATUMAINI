@@ -24,20 +24,29 @@ library(patchwork)
 devtools::install_github("BershteynLab/EMODAnalyzeR", force = TRUE)
 ```
 
+```{r}
+# Confidence interval functions
+lower_ci <- function(mean, se, n, conf_level = 0.95){
+  lower_ci <- mean - qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(lower_ci)
+}
+upper_ci <- function(mean, se, n, conf_level = 0.95){
+  upper_ci <- mean + qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(upper_ci)
+}
+```
+
+
 # Checking results
 
-There was a strange error with distribution in the status neutral HIV scenario, 
-conducted in October of 2024 in preparation for the now-rejected CROI 2025 abstract.
-
-Somehow, status neutral depression care wasn't being distributed at the expected scale.
-
-Let's first compare and contract the two ways that distribution occurred:
+* 2025-01-27 - As of today, checking the EMOD results will refer to the shorter "summary" simulations that were completed in order to analyze which age groups were receiving depression treatment, without being so unwieldy (ie, stratifying by single-year ages) that it fills up memory and I can't actually work. I can also use this to figure out the right base population scale factors.
 
 ## Baseline
 
 ```{r}
 #experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305-baseline___2024_09_23_12_05_01_062691"
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305-baseline___2024_09_23_17_43_09_994878"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305-baseline___2024_09_23_17_43_09_994878"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305-summary_baseline___2025_01_27_16_35_54_645520"
 
 sim.results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -45,7 +54,8 @@ sim.results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "HasHIV",
+                       "CMD_Treat_staging", "CMD_Treat"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -54,7 +64,8 @@ sim.results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
 ## Universal treatment data
 ```{r}
 #experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CRaOI2025/Baseline-campaign_MATUMAINI_202305_uni-uni___2024_09_23_12_26_37_798115"
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_uni-uni___2024_09_23_17_35_53_515585"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_uni-uni___2024_09_23_17_35_53_515585"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_uni-summary_uni___2025_01_16_10_08_42_557839"
 
 sim.results.uni <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -62,17 +73,19 @@ sim.results.uni <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
+  stratify_columns = c("Year", "Gender", "Age", "HasHIV",
+                       "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
 ```
 
-## ART distribution
+## CMD for all on ART
 
 ```{r}
 #experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2024_12_19_14_55_54_577717"
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2024_12_24_17_38_15_018856/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2024_12_24_17_38_15_018856/"
+experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-summary_art___2025_01_16_10_06_17_419582"
 
 sim.results.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -80,7 +93,26 @@ sim.results.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
+  stratify_columns = c("Year", "Gender", "Age", "HasHIV",
+                       "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+## Unsuppressed On ART (CETA) distribution
+
+```{r}
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art_ceta-summary_art_ceta___2025_01_16_10_01_21_321482"
+
+sim.results.art.ceta <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = "art.ceta",
+    summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "HasHIV", 
+                       "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -88,11 +120,11 @@ sim.results.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 
 ## Status neutral CMD treatment upon HIV test
-
+Deprecated for now; doesn't seem to do much
 ```{r}
 #experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_testing-testing___2024_12_18_17_37_10_681523"
-experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_testing-testing___2024_12_20_15_52_54_176586"
-
+# experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_testing-testing___2024_12_20_15_52_54_176586"
+experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_testing-summary_testing___2025_01_28_14_43_29_538096"
 
 sim.results.neutral.testing <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -100,19 +132,21 @@ sim.results.neutral.testing <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
+  stratify_columns = c("Year", "Gender", "Age", "HasHIV",
+                       "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
 ```
 
 
-## CMD treatment annually for all in HCTTesting Loop
+## Annual Status Neutral CMD treatment 
+For all in the HCT Testing Loop
 
 ```{r}
 #experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2024_12_19_14_52_41_589804"
-experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2024_12_25_12_53_07_907145/"
-
+#experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2024_12_25_12_53_07_907145/"
+experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art_neutral-summary_art_neutral___2025_01_16_09_58_22_080008"
 
 sim.results.neutral.annual <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -120,7 +154,8 @@ sim.results.neutral.annual <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
+  stratify_columns = c("Year", "Gender", "Age", "HasHIV", 
+                       "IP_Key.CMDStatus", "CMD_Treat_staging", "CMD_Treat"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -130,17 +165,18 @@ sim.results.neutral.annual <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 ```{r}
 sim.results.treatment <- rbind(
-  sim.results.neutral.testing, 
+  #sim.results.neutral.testing, 
   sim.results.neutral.annual, 
   sim.results.baseline, 
   sim.results.art,
+  sim.results.art.ceta,
   sim.results.uni)
 
 CENSUS_YEAR = 2009
 KEN_CENSUS_POP = 5352385
 
-CENSUS_YEAR = 2020
-6878762
+# CENSUS_YEAR = 2020
+# 6878762
 
 sim.results.pop.scaling <- sim.results.treatment %>%
       filter(Year == CENSUS_YEAR) %>%
@@ -161,6 +197,247 @@ sim.results.treatment <- sim.results.treatment %>%
     by = c("sim.ix", "scenario_name")
   )
 ```
+
+
+### Who is receiving CMD treatment?
+
+Break down treatment delivery by age and sex and HIV status
+
+```{r}
+cmd.treat.by.age <- sim.results.treatment %>% 
+  mutate(Year = floor(Year)) %>%
+  filter(Year >=2020, Age >= 15, IP_Key.CMDStatus == "CMD_pos") %>% 
+  group_by(scenario_name, sim.ix, Year, Age, HasHIV) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor),
+            CMD_Treat_staging = sum(CMD_Treat_staging * pop_scaling_factor), .groups = 'drop_last') %>% 
+  group_by(scenario_name, Year, Age, HasHIV) %>% 
+  summarize(Population = mean(Population),
+            CMD_Treat_Staging = mean(CMD_Treat_staging))
+
+# Percent pop coverage of treatment by age and HIV status and gender
+cmd.treat.by.age %>%
+  mutate(cov = CMD_Treat_Staging/Population,
+         CMD_Treatments = CMD_Treat_Staging) %>% 
+  pivot_wider(id_cols = c(Year, Age, HasHIV),
+              values_from = c(cov, CMD_Treatments),
+              names_from = c(scenario_name, ))  %>% 
+  arrange(Age, Year, HasHIV) %>% View
+
+
+```
+
+How many people are depressed/not depressed by age bracket?
+```{r}
+plhiv.dep.2020 <-  sim.results.treatment %>% 
+  filter(Year == 2020, Age >= 15) %>% 
+  group_by(scenario_name, Age, IP_Key.CMDStatus, sim.ix) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor),
+            Infected = sum(Infected * pop_scaling_factor),
+            .groups = 'drop_last') %>% 
+  mutate(PLWHIV = Population - Infected) %>% 
+  group_by(scenario_name, Age, IP_Key.CMDStatus) %>% 
+  summarize(Population = mean(Population),
+            PLWHIV = mean(PLWHIV),
+            PLHIV = mean(Infected), .groups = 'drop_last') 
+
+sim.results.treatment %>% 
+  filter(Year == 2025, Age >= 15) %>% 
+  group_by(scenario_name, Age, HasHIV, IP_Key.CMDStatus, sim.ix) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor),
+            Infected = sum(Infected * pop_scaling_factor),
+            .groups = 'drop_last') %>% 
+  mutate(PLWHIV = Population - Infected) %>% 
+    group_by(scenario_name, Age, HasHIV, IP_Key.CMDStatus) %>%
+  summarize(Population = mean(Population),
+            .groups = 'drop_last') %>% 
+  pivot_wider(
+    id_cols = c(scenario_name, Age, HasHIV), 
+    values_from = Population,
+    names_from = IP_Key.CMDStatus
+  ) %>% 
+  mutate(
+    Population = CMD_neg + CMD_pos + CMD_recovered + CMD_treated,
+    CMD_neg = CMD_neg + CMD_recovered + CMD_treated
+  ) %>% 
+  mutate(CMDprev = CMD_pos/Population) %>% View
+
+```
+
+
+Compare: where are infections actually happening?
+
+```{r}
+sim.results.treatment %>% 
+  filter(Year == 2005) %>% 
+  group_by(scenario_name, Age, IP_Key.CMDStatus, sim.ix) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor), 
+            Infected = sum(Infected * pop_scaling_factor),
+            Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+            .groups = 'drop_last') %>% 
+  group_by(scenario_name, Age, IP_Key.CMDStatus) %>% 
+  summarize(
+    Population = mean(Population),
+    Infected = mean(Infected), 
+    Newly.Infected = mean(Newly.Infected), .groups = 'drop_last') %>%
+  pivot_wider(
+    id_cols = c(scenario_name, Age),
+    names_from = c(IP_Key.CMDStatus),
+    values_from = c(Population, Infected, Newly.Infected)
+  ) %>% 
+  mutate(Population_CMD_neg = Population_CMD_neg + Population_CMD_recovered + Population_CMD_treated,
+         Infected_CMD_neg = Infected_CMD_neg + Infected_CMD_recovered + Infected_CMD_treated,
+         Newly.Infected_CMD_neg = Newly.Infected_CMD_neg + Newly.Infected_CMD_recovered + Newly.Infected_CMD_treated) %>% 
+  select(scenario_name, Age,
+         Population_CMD_neg, Population_CMD_pos,
+         Infected_CMD_neg, Infected_CMD_pos,
+         Newly.Infected_CMD_neg, Newly.Infected_CMD_pos) %>% 
+  mutate(PLWHIV_CMD_neg = Population_CMD_neg - Infected_CMD_neg,
+         PLWHIV_CMD_pos = Population_CMD_pos - Infected_CMD_pos) %>% 
+  mutate(Incidence_CMD_neg = Newly.Infected_CMD_neg/PLWHIV_CMD_neg,
+         Incidence_CMD_pos = Newly.Infected_CMD_pos/PLWHIV_CMD_pos) %>% 
+  arrange(Age, scenario_name) %>% View
+
+```
+
+Incidence by CMD status over time:
+```{r}
+sim.results.treatment %>% 
+  filter(Year >= 2005, Age == 25) %>% 
+  group_by(Year, scenario_name, IP_Key.CMDStatus, sim.ix) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor), 
+            Infected = sum(Infected * pop_scaling_factor),
+            Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+            .groups = 'drop_last') %>% 
+  group_by(Year, scenario_name, IP_Key.CMDStatus) %>% 
+  summarize(
+    Population = mean(Population),
+    Infected = mean(Infected), 
+    Newly.Infected = mean(Newly.Infected), .groups = 'drop_last') %>% 
+  pivot_wider(
+    id_cols = c(Year, scenario_name),
+    values_from = c(Population, Infected, Newly.Infected),
+    names_from = IP_Key.CMDStatus
+  ) %>% 
+  mutate(Population_neg = Population_CMD_neg + Population_CMD_recovered + Population_CMD_treated,
+         Infected_neg = Infected_CMD_neg + Infected_CMD_recovered + Infected_CMD_treated,
+         Newly.Infected_neg = Newly.Infected_CMD_neg + Newly.Infected_CMD_recovered + Newly.Infected_CMD_treated) %>% 
+  select(scenario_name, 
+         Population_neg, Population_CMD_pos,
+         Infected_neg, Infected_CMD_pos,
+         Newly.Infected_neg, Newly.Infected_CMD_pos) %>% 
+  mutate(PLWHIV_neg = Population_neg - Infected_neg,
+         PLWHIV_pos = Population_CMD_pos - Infected_CMD_pos) %>% 
+  mutate(Incidence_neg = Newly.Infected_neg/PLWHIV_neg,
+         Incidence_pos = Newly.Infected_CMD_pos/PLWHIV_pos) %>% 
+  mutate(rr = Incidence_pos/Incidence_neg) %>% View
+
+```
+
+Who is re
+
+```{r}
+sim.results.treatment %>% 
+  filter(Year == 2005, Age == 25) %>% 
+  group_by(scenario_name, IP_Key.CMDStatus, sim.ix) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor), 
+            Infected = sum(Infected * pop_scaling_factor),
+            Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+            .groups = 'drop_last') %>% 
+  group_by(scenario_name, IP_Key.CMDStatus) %>% 
+  summarize(
+    Population = mean(Population),
+    Infected = mean(Infected), 
+    Newly.Infected = mean(Newly.Infected), .groups = 'drop_last') %>% 
+  pivot_wider(
+    id_cols = scenario_name,
+    values_from = c(Population, Infected, Newly.Infected),
+    names_from = IP_Key.CMDStatus
+  ) %>% 
+  mutate(Population_neg = Population_CMD_neg + Population_CMD_recovered + Population_CMD_treated,
+         Infected_neg = Infected_CMD_neg + Infected_CMD_recovered + Infected_CMD_treated,
+         Newly.Infected_neg = Newly.Infected_CMD_neg + Newly.Infected_CMD_recovered + Newly.Infected_CMD_treated) %>% 
+  select(scenario_name, 
+         Population_neg, Population_CMD_pos,
+         Infected_neg, Infected_CMD_pos,
+         Newly.Infected_neg, Newly.Infected_CMD_pos) %>% 
+  mutate(PLWHIV_neg = Population_neg - Infected_neg,
+         PLWHIV_pos = Population_CMD_pos - Infected_CMD_pos) %>% 
+  mutate(Incidence_neg = Newly.Infected_neg/PLWHIV_neg,
+         Incidence_pos = Newly.Infected_CMD_pos/PLWHIV_pos)
+```
+
+
+
+```{r}
+sim.results.all$pop_scaling_factor <- sim.results.all$pop.scaling.factor 
+
+sim.results.all %>% 
+  filter(Year == 2005, Age == 25) %>% 
+  group_by(scenario_name, IP_Key.CMDStatus, sim.ix) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor), 
+            Infected = sum(Infected * pop_scaling_factor),
+            Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+            .groups = 'drop_last') %>% 
+  group_by(scenario_name, IP_Key.CMDStatus) %>% 
+  summarize(
+    Population = mean(Population),
+    Infected = mean(Infected), 
+    Newly.Infected = mean(Newly.Infected), .groups = 'drop_last') %>% 
+  pivot_wider(
+    id_cols = scenario_name,
+    values_from = c(Population, Infected, Newly.Infected),
+    names_from = IP_Key.CMDStatus
+  ) %>% 
+  mutate(Population_neg = Population_CMD_neg + Population_CMD_recovered + Population_CMD_treated,
+         Infected_neg = Infected_CMD_neg + Infected_CMD_recovered + Infected_CMD_treated,
+         Newly.Infected_neg = Newly.Infected_CMD_neg + Newly.Infected_CMD_recovered + Newly.Infected_CMD_treated) %>% 
+  select(scenario_name, 
+         Population_neg, Population_CMD_pos,
+         Infected_neg, Infected_CMD_pos,
+         Newly.Infected_neg, Newly.Infected_CMD_pos) %>% 
+  mutate(PLWHIV_neg = Population_neg - Infected_neg,
+         PLWHIV_pos = Population_CMD_pos - Infected_CMD_pos) %>% 
+  mutate(Incidence_neg = Newly.Infected_neg/PLWHIV_neg,
+         Incidence_pos = Newly.Infected_CMD_pos/PLWHIV_pos,
+         Incidence_neg_pop = Newly.Infected_neg/Population_neg,
+         Incidence_pos_pop = Newly.Infected_CMD_pos/Population_CMD_pos)
+```
+
+```{r}
+sim.results.all %>% 
+  filter(scenario_name == 'baseline.art', Age == 50, Year > 2005) %>% 
+  group_by(Year, IP_Key.CMDStatus, sim.ix) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor), 
+            Infected = sum(Infected * pop_scaling_factor),
+            Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+            .groups = 'drop_last') %>% 
+  group_by(Year, IP_Key.CMDStatus) %>% 
+  summarize(
+    Population = mean(Population),
+    Infected = mean(Infected), 
+    Newly.Infected = mean(Newly.Infected), .groups = 'drop_last') %>% 
+  pivot_wider(
+    id_cols = Year,
+    values_from = c(Population, Infected, Newly.Infected),
+    names_from = IP_Key.CMDStatus
+  ) %>% 
+  mutate(Population_neg = Population_CMD_neg + Population_CMD_recovered + Population_CMD_treated,
+         Infected_neg = Infected_CMD_neg + Infected_CMD_recovered + Infected_CMD_treated,
+         Newly.Infected_neg = Newly.Infected_CMD_neg + Newly.Infected_CMD_recovered + Newly.Infected_CMD_treated) %>% 
+  select(Year, 
+         Population_neg, Population_CMD_pos,
+         Infected_neg, Infected_CMD_pos,
+         Newly.Infected_neg, Newly.Infected_CMD_pos) %>% 
+  mutate(PLWHIV_neg = Population_neg - Infected_neg,
+         PLWHIV_pos = Population_CMD_pos - Infected_CMD_pos) %>% 
+  mutate(Incidence_neg = Newly.Infected_neg/PLWHIV_neg,
+         Incidence_pos = Newly.Infected_CMD_pos/PLWHIV_pos,
+         Incidence_neg_pop = Newly.Infected_neg/Population_neg,
+         Incidence_pos_pop = Newly.Infected_CMD_pos/Population_CMD_pos) %>% 
+  mutate(rr = Incidence_pos/Incidence_neg,
+         rr_pop = Incidence_pos_pop/Incidence_neg_pop)
+```
+
 
 # Results for DALY calculations
 
@@ -202,8 +479,10 @@ daly.results.uni <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 ### ART Annual CMD Treatment
 
+
 ```{r}
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2024_12_26_18_21_11_286438/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2024_12_26_18_21_11_286438/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2025_01_14_15_36_49_614944/"
 
 daly.results.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -220,6 +499,7 @@ daly.results.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 
 ### Status Neutral Annual CMD Treatment
+
 ```{r}
 experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2024_12_26_18_15_58_639286/"
 
@@ -237,13 +517,31 @@ daly.results.neutral.annual <- EMODAnalyzeR::read.simulation.results.bigpurple(
 ```
 
 ### Status Neutral CMD upon HIV test
+Deprecating this scenario for now, it seems to affect fewer people and is not very impactful. Annual treatment enrollment is more optimistic and emphasizes that it really is less effective.
 
 ```{r}
-experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_testing-testing___2024_12_26_18_18_41_867421/"
+# experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral_testing-testing___2024_12_26_18_18_41_867421/"
+# 
+# daly.results.neutral.testing <- EMODAnalyzeR::read.simulation.results.bigpurple(
+#   experiment_path = experiment.path,
+#   scenario_name = "neutral.testing",
+#     summarize_columns = c("Population","Infected", "On_ART",
+#                         "Died", "Died_from_HIV",
+#                         "Newly.Infected","Diagnosed"),
+#   stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus",  "HasHIV",
+#                        "CMD_Treat_staging", "CMD_Treat", "CMD_Incidence2", "CMD_Relapse2"),
+#   min_age_inclusive = 0,
+#   max_age_inclusive = 99
+# )
+```
 
-daly.results.neutral.testing <- EMODAnalyzeR::read.simulation.results.bigpurple(
+### ART-CETA - treatment for unsuppressed PLHIV on ART
+```{r}
+experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta___2025_01_14_00_46_13_096598/"
+
+daly.results.art.ceta <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
-  scenario_name = "neutral.testing",
+  scenario_name = "art.ceta",
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -253,6 +551,25 @@ daly.results.neutral.testing <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 ```
+
+### ART-Neutral - combine these together, just for comparison's sake
+
+```{r}
+experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art_neutral-art_neutral___2025_01_14_00_43_19_000664/"
+
+daly.results.art.neutral <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = "art.neutral",
+    summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus",  "HasHIV",
+                       "CMD_Treat_staging", "CMD_Treat", "CMD_Incidence2", "CMD_Relapse2"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
 
 ### Join Together
 
@@ -269,7 +586,9 @@ daly.results.treatment <- rbind(
   daly.results.uni,
   daly.results.art,
   daly.results.neutral.annual, 
-  daly.results.neutral.testing
+  daly.results.art.ceta,
+  daly.results.art.neutral
+  #daly.results.neutral.testing
 )
 
 #CENSUS_YEAR = 2009
@@ -297,7 +616,7 @@ daly.results.treatment <- daly.results.treatment %>%
 
 ### CMD_Treat over time
 ```{r}
-cmdtreat.count <- sim.results.treatment %>% 
+cmdtreat.count <- daly.results.treatment %>% 
   #mutate(Year = ceiling(Year)) %>% 
   filter(Year >= 2020) %>% 
   group_by(Year, Gender, scenario_name, sim.ix) %>% 
@@ -325,6 +644,7 @@ cmdtreat.count %>%
 #   facet_grid(cols = vars(Gender))
 
 ```
+
 ### Ratio of people staged for CMD treatment vs those who receive it
 
 ```{r}
@@ -660,6 +980,43 @@ cmd.treat.by.age %>%
 ```
 
 
+```{r}
+cmd.treat.by.age <- daly.results.treatment %>% 
+  filter(Year >=2025) %>% 
+  mutate(Year = floor(Year)) %>% 
+  mutate(Age_bin = cut(Age, Age.bins, right = FALSE)) %>% 
+  group_by(scenario_name, sim.ix, Year, Age_bin, HasHIV) %>% 
+  summarize(Population = sum(Population * pop_scaling_factor),
+            Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+            CMD_Treat_staging = sum(CMD_Treat_staging * pop_scaling_factor), .groups = 'drop_last') %>% 
+  group_by(scenario_name, Year, Age_bin, HasHIV) %>% 
+  summarize(Population = mean(Population),
+            Newly.Infected = mean(Newly.Infected),
+            CMD_Treat_Staging = mean(CMD_Treat_staging))
+
+cmd.treat.by.age %>% 
+  mutate(cov = CMD_Treat_Staging/Population,
+         inc = Newly.Infected/Population) %>% 
+  pivot_wider(id_cols = c(Year, Age_bin, HasHIV),
+              values_from = c(cov, inc),
+              names_from = c(scenario_name))  %>% 
+  arrange(Age_bin, HasHIV, Year) %>% View
+
+cmd.treat.by.age %>% 
+  mutate(cov = CMD_Treat_Staging) %>% 
+  pivot_wider(id_cols = c(Year, Age_bin, HasHIV),
+              values_from = c(cov),
+              names_from = c(scenario_name))  %>% 
+  arrange(Age_bin, HasHIV, Year) %>% View
+```
+
+Compare the above metrics against incidence by age
+
+```{r}
+
+```
+
+
 # Metrics
 
 ## What's going on in 2025?
@@ -693,6 +1050,24 @@ plhiv.2025 <- daly.results.treatment %>%
 
 plhiv.2025
 ```
+
+### On ART
+
+```{r}
+onart.2025 <- daly.results.treatment %>% 
+  filter(Year == 2025, Age >= 15) %>% 
+  group_by(Gender, scenario_name, sim.ix) %>% 
+  summarize(On_ART = sum(On_ART * pop_scaling_factor), .groups = 'keep') %>% 
+  group_by(Gender,scenario_name) %>% 
+  summarize(On_ART = mean(On_ART), .groups = "keep") %>%
+  pivot_wider(id_cols = c("scenario_name"), values_from = c("On_ART"), names_from = c("Gender"),
+              names_prefix = "On_ART_") %>% 
+  select(scenario_name, On_ART_Male = On_ART_0, On_ART_Female = On_ART_1) %>% 
+  mutate(On_ART = On_ART_Male + On_ART_Female)
+
+onart.2025
+```
+
 
 ### People living with depression
 
@@ -807,7 +1182,8 @@ p <- ggplot() +
 p
 ```
 
-## HIV new infections over time
+
+## Calculate HIV infections and deaths averted
 
 ```{r}
 hiv.averted.data <- daly.results.treatment %>% 
@@ -819,7 +1195,12 @@ hiv.averted.data <- daly.results.treatment %>%
   summarize(Died_from_HIV = mean(Died_from_HIV),
             Newly.Infected = mean(Newly.Infected), .groups = 'drop_last') %>%
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+```
 
+
+## HIV new infections over time
+
+```{r}
 p <- ggplot() +
     geom_line(data= hiv.averted.data %>% filter(Year > 1985),
               aes(x=Year, y=Newly.Infected, group=scenario_name, color=scenario_name), linewidth=.5) +
@@ -895,6 +1276,38 @@ p <- ggplot() +
 p
 ```
 
+## ON ART over time
+
+```{r}
+onart.time.data <- daly.results.treatment %>% 
+  filter(Age >= 15) %>% 
+  group_by(Year, Gender, scenario_name, sim.ix) %>% 
+  summarize(On_ART = sum(On_ART * pop_scaling_factor), .groups = 'drop_last') %>% 
+  group_by(Year, Gender,scenario_name) %>% 
+  summarize(On_ART = mean(On_ART), .groups = 'drop_last') %>%
+  mutate(Gender = case_when(Gender == 0 ~ "Male", Gender == 1 ~ "Female"))
+
+p <- ggplot() +
+    geom_line(data= onart.time.data %>% filter(Year > 1985),
+              aes(x = Year, y = On_ART, group=scenario_name, color=scenario_name), linewidth=.5) +
+    facet_wrap(~ Gender, ncol=2, scales = "free_y") +
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    #scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
+    #ylab("HIV Prevalence (%)") +
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple", "pink"))
+
+p
+```
+
+```{r}
+onart.time.data
+```
+
 
 ## HIV infections and deaths averted
 
@@ -925,7 +1338,7 @@ hiv.averted.data.agg %>%
 ### Generate CIs for infections and deaths averted
 
 ```{r}
-hiv.averted.stats <- sim.results.treatment %>% 
+hiv.averted.stats <- daly.results.treatment %>% 
   filter(Age >=15, Year >= 2025) %>%
   group_by(scenario_name, sim.ix) %>% 
   summarize(Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
@@ -955,30 +1368,7 @@ hiv.averted.stats <- hiv.averted.stats %>%
     Depression.episodes.averted.pct = Depression.episodes.averted/Depression.episodes.baseline
   )
 
-bt_mean <- function(splits, colname){
-  x <- as.data.frame(analysis(splits))
-  mean(x[[colname]])
-}
 
-h <- bootstraps(Depression.DALYs.averted %>% filter(scenario_name == 'art'), times = 500)
-map_dbl(h$splits, bt_mean,  "Depression.DALYs.averted")
-
-calculate.CI.by.metric = function(data, scenario.name, metric, n = 500){
-  bt_resamples <- bootstraps(data %>% filter(scenario_name == scenario.name), times = n)
-  
-  bt_resamples$mean.metric <- map_dbl(bt_resamples$splits, bt_mean, metric)
-  metric_95 <- quantile(bt_resamples$mean.metric, probs = c(0.025, 0.975))
-  
-  return(
-      data.frame(
-      scenario_name = scenario.name, 
-      metric = metric,
-      metric.mean = mean(bt_resamples$mean.metric),
-      metric.lb = metric_95[[1]], 
-      metric.ub = metric_95[[2]]
-    )
-  )
-}
 
 metric.names = c(
   "Died_from_HIV.averted",
@@ -1010,16 +1400,24 @@ HIV.Depression.Averted.Data <- metrics
 
 ```
 
+```{r}
+hiv.averted.stats %>% View
+```
+
+
+```{r}
+HIV.Depression.Averted.Data
+```
 
 
 ## Depression prevalence over time
 
 ```{r}
-cmd.prev.time.data <- sim.results.treatment %>% 
+cmd.prev.time.data <- daly.results.treatment %>% 
   mutate(Year = ceiling(Year)) %>% 
   filter(Age >= 15) %>% 
   group_by(Year, Gender, scenario_name, IP_Key.CMDStatus, sim.ix) %>% 
-  summarize(Population = sum(Population* pop.scaling.factor), .groups = 'drop_last') %>% 
+  summarize(Population = sum(Population* pop_scaling_factor), .groups = 'drop_last') %>% 
   pivot_wider(
     id_cols = c(Year, Gender, scenario_name, sim.ix) , 
     values_from = c(Population), 
@@ -1075,9 +1473,6 @@ p <- ggplot() +
 p
 ```
 
-### Depression    
-
-## Depression episodes averted
 
 ## HIV-related DALYs
 
@@ -1239,7 +1634,66 @@ HIV.DALYs.averted <- HIV.DALYs.averted %>%
 HIV.DALYs.averted
 ```
 
-Calculate CIs
+### Calculate CIs
+
+I am going to do this with three methods:
+1. Good old fashioned Lower/Upper_CI calculations using SE
+2. Bootstrapping
+3. Something with median and percentiles
+
+#### lower/upper CI
+
+```{r}
+HIV.DALYs.averted %>% 
+  group_by(scenario_name) %>% 
+  summarize(se = sd(HIV.DALY.averted), HIV.DALY.averted = mean(HIV.DALY.averted),
+            .groups = 'drop_last') %>% 
+  mutate(
+    HIV.DALY.averted.lb = lower_ci(HIV.DALY.averted, se, 250, conf_level = 0.95),
+    HIV.DALY.averted.ub = upper_ci(HIV.DALY.averted, se, 250, conf_level = 0.95)
+      )
+```
+
+
+#### Bootstrapping
+```{r}
+bt_resamples <- bootstraps(HIV.DALYs.averted %>% filter(scenario_name == "art"), times = 250)
+  
+bt_resamples$mean.metric <- map_dbl(bt_resamples$splits, bt_mean, "HIV.DALY.averted")
+
+bt_resamples$mean.metric %>% summary
+  
+```
+
+```{r}
+# Number of bootstrap samples
+B <- 250
+
+# Bootstrap resampling and mean calculation using map_dbl
+bootstrap_means <- map_dbl(1:B, ~mean(sample(HIV.DALYs.averted[HIV.DALYs.averted$scenario_name == 'art',]$HIV.DALY.averted, replace = TRUE)))
+
+# Calculate 95% confidence interval
+ci <- quantile(bootstrap_means, probs = c(0.025, 0.975))
+
+# Results
+cat("Bootstrap Mean:", mean(bootstrap_means), "\n", "95% Confidence Interval:", ci, "\n")
+```
+
+```{r}
+# Number of bootstrap samples
+B <- 250
+
+# Bootstrap resampling and mean calculation using map_dbl
+bootstrap_means <- map_dbl(1:B, ~mean(sample(HIV.DALYs.averted[HIV.DALYs.averted$scenario_name == 'art.ceta',]$HIV.DALY.averted, replace = TRUE)))
+
+# Calculate 95% confidence interval
+ci <- quantile(bootstrap_means, probs = c(0.025, 0.975))
+
+# Results
+cat("Bootstrap Mean:", mean(bootstrap_means), "\n", "95% Confidence Interval:", ci, "\n")
+```
+
+
 
 ```{r}
 HIV.DALYs.averted.CI <- data.table()
@@ -1344,11 +1798,11 @@ Depression.DALYs.averted.CI
 Also calculate error bars on this because why not
 
 ```{r}
-cmdtreat.count <- sim.results.treatment %>% 
+cmdtreat.count <- daly.results.treatment %>% 
   mutate(Year = ceiling(Year)) %>% 
   filter(Year >= 2025) %>% 
   group_by(Year, scenario_name, sim.ix) %>% 
-  summarize(CMD_Treat = sum(CMD_Treat_staging*pop.scaling.factor), .groups = 'drop_last')
+  summarize(CMD_Treat = sum(CMD_Treat_staging*pop_scaling_factor), .groups = 'drop_last')
 
 cmdtreat.count
 
@@ -1365,8 +1819,6 @@ for (i in scenario_names){
 }
 
 CMD.Treatment.CI
-
-
 ```
 
 ## ICER calculation
@@ -1374,19 +1826,19 @@ CMD.Treatment.CI
 Dollars per DALY averted
 
 ```{r}
-cmdtreat.count <- sim.results.treatment %>% 
-  mutate(Year = ceiling(Year)) %>% 
-  filter(Year >= 2020) %>% 
-  group_by(scenario_name, sim.ix) %>% 
-  summarize(CMD_Treat = sum(CMD_Treat_staging*pop.scaling.factor), .groups = 'drop_last')
+# cmdtreat.count <- daly.results.treatment %>% 
+#   mutate(Year = ceiling(Year)) %>% 
+#   filter(Year >= 2020) %>% 
+#   group_by(scenario_name, sim.ix) %>% 
+#   summarize(CMD_Treat = sum(CMD_Treat_staging*pop_scaling_factor), .groups = 'drop_last')
 
 # Join together DALYs and Treatments administered
 ICER.calculation <- merge(
   HIV.DALYs.averted,
-  sim.results.treatment %>% 
+  daly.results.treatment %>% 
     filter(Year >= 2025) %>%
     group_by(sim.ix, scenario_name) %>% 
-    summarize(CMD_Treatment = sum(CMD_Treat_staging*pop.scaling.factor*14), .groups = 'drop_last'),
+    summarize(CMD_Treatment = sum(CMD_Treat_staging*pop_scaling_factor*14), .groups = 'drop_last'),
   by = c("sim.ix", "scenario_name")
 ) %>% 
   mutate(ICER = case_when(
@@ -1416,57 +1868,55 @@ ICER.calculation.CI
 ```
 
 ```{r}
-ICER.calculation
+ICER.calculation %>% filter(scenario_name == "neutral.annual")%>% .$HIV.DALY.averted %>% summary
 
-
-## ART 
-bt_resamples <- bootstraps(ICER.calculation %>% filter(scenario_name == "art"), 
-                           times = 250)
-
-bt_resamples$HIV.DALY.averted <- map_dbl(bt_resamples$splits, bt_mean, "HIV.DALY.averted")
-bt_resamples$CMD_Treatment <- map_dbl(bt_resamples$splits, bt_mean, "CMD_Treatment")
-bt_resamples <- bt_resamples %>% mutate(ICER = CMD_Treatment/HIV.DALY.averted)
-
-c(mean(bt_resamples$ICER),
-  mean(bt_resamples$ICER) - 1.96*sd(bt_resamples$ICER),
-  mean(bt_resamples$ICER) + 1.96*sd(bt_resamples$ICER)
-)
-
-## Uni
-
-bt_resamples <- bootstraps(ICER.calculation %>% filter(scenario_name == "uni"), 
-                           times = 250)
-
-bt_resamples$HIV.DALY.averted <- map_dbl(bt_resamples$splits, bt_mean, "HIV.DALY.averted")
-bt_resamples$CMD_Treatment <- map_dbl(bt_resamples$splits, bt_mean, "CMD_Treatment")
-bt_resamples <- bt_resamples %>% mutate(ICER = CMD_Treatment/HIV.DALY.averted)
-
-c(mean(bt_resamples$ICER),
-  mean(bt_resamples$ICER) - 1.96*sd(bt_resamples$ICER),
-  mean(bt_resamples$ICER) + 1.96*sd(bt_resamples$ICER)
-)
-
-## Status Neutral
-
-bt_resamples <- bootstraps(ICER.calculation %>% filter(scenario_name == "neutral.testing"), 
-                           times = 250)
-
-bt_resamples$HIV.DALY.averted <- map_dbl(bt_resamples$splits, bt_mean, "HIV.DALY.averted")
-bt_resamples$CMD_Treatment <- map_dbl(bt_resamples$splits, bt_mean, "CMD_Treatment")
-bt_resamples <- bt_resamples %>% mutate(ICER = CMD_Treatment/HIV.DALY.averted)
-
-c(mean(bt_resamples$ICER),
-  mean(bt_resamples$ICER) - 1.96*sd(bt_resamples$ICER),
-  mean(bt_resamples$ICER) + 1.96*sd(bt_resamples$ICER)
-)
 ```
+
+```{r}
+h <- calculate.CI.by.metric(
+    data = ICER.calculation,
+    scenario.name = "neutral.annual",
+    metric = "HIV.DALY.averted"
+  )
+
+h
+
+ICER.calculation %>% filter(scenario_name == "neutral.annual") %>% .$ICER %>% summary
+
+ICER.calculation %>% filter(scenario_name == "neutral.annual") %>% .$HIV.DALY.averted %>% summary
+
+
+```
+
+
+
 
 ## ART costs per scenario
 
 Are we actually saving any money on ART in any of the scenarios?
-One of the things that's perverse about this metric
+One of the things that's perverse about this metric is how if fewer PLHIV are alive there are fewer people on ART
+
+Count person years on ART
 
 ```{r}
+pyoart.data <- daly.results.treatment %>% 
+  mutate(Year = floor(Year)) %>%
+  group_by(Year, scenario_name, sim.ix) %>% 
+  summarize(On_ART = sum(On_ART * pop_scaling_factor)/2, .groups = 'drop_last') %>% 
+  group_by(Year, scenario_name) %>% 
+  summarize(On_ART = mean(On_ART), .groups = 'drop_last')
+
+pyoart.data %>% 
+  merge(
+    pyoart.data %>%
+      filter(scenario_name == "baseline") %>% 
+      rename(On_ART_baseline = On_ART) %>% dplyr::select(Year, On_ART_baseline),
+    by = c("Year")
+  ) %>% 
+  mutate(On_ART.averted = On_ART - On_ART_baseline) %>%
+  #filter(Year == 2025) %>% 
+  group_by(scenario_name) %>% 
+  summarize(On_ART.averted = sum(On_ART.averted))
 
 ```
 
@@ -1475,11 +1925,11 @@ One of the things that's perverse about this metric
 ## Save your work
 
 ```{r}
-rbind(HIV.DALYs.averted.CI, Depression.DALYs.averted.CI[1:10,], CMD.Treatment.CI) %>% View
+rbind(HIV.DALYs.averted.CI, Depression.DALYs.averted.CI, CMD.Treatment.CI) %>% View
 
 impact.DALYs.averted <- rbind(
   HIV.DALYs.averted.CI, 
-  Depression.DALYs.averted.CI[1:10,], 
+  Depression.DALYs.averted.CI, 
   CMD.Treatment.CI)
 
 write_csv(
@@ -1509,31 +1959,41 @@ plot.averted <- HIV.Depression.Averted.Data %>%
   filter(metric %in% c("Died_from_HIV.averted.pct", 
                        "Newly.Infected.averted.pct",
                        "Depression.episodes.averted.pct")) %>% 
-  mutate(
-    scenario_ix = case_match(
-      scenario_name, 
-      "baseline" ~ 0, 
-      "uni" ~ 1, 
-      "neutral.annual" ~ 2,
-      "art" ~ 3)) %>% 
+  # mutate(
+  #   mutate(scenario_ix = case_match(scenario_name, ) %>% 
+  #     
+  #   )
+  # )
   ggplot() +
-  geom_bar(mapping = aes(x = metric, y = metric.mean*100, fill = factor(scenario_name)),
-           position=position_dodge2(reverse = TRUE, padding = 0), 
+  # geom_bar(mapping = aes(x = metric, y = metric.mean*100, fill = factor(scenario_name)),
+  #          position=position_dodge2(reverse = TRUE, padding = 0), 
+  #          stat = "identity",
+  #          show.legend = TRUE) + 
+  # geom_errorbar(mapping = aes(x = metric, 
+  #                             ymin = metric.lb*99.5, ymax = metric.ub*100),
+  #               position=position_dodge2(reverse = TRUE, padding = .25), 
+  #               stat = "identity",
+  #               size = 1, color = "black",
+  #               show.legend = FALSE) + 
+  
+  geom_bar(mapping = aes(x = metric, y = metric.mean * 100, fill = factor(scenario_name)),
+           position = position_dodge2(reverse = TRUE, padding = 0), 
            stat = "identity",
            show.legend = TRUE) + 
   geom_errorbar(mapping = aes(x = metric, 
-                              ymin = metric.lb*99.5, ymax = metric.ub*100,
-                              fill = factor(scenario_name)),
-                position=position_dodge2(reverse = TRUE, padding = .25), 
+                              ymin = metric.lb * 99.5, ymax = metric.ub * 100,
+                              group = factor(scenario_name)),
+                position = position_dodge2(reverse = TRUE, padding = .25), 
                 stat = "identity",
                 size = 1, color = "black",
                 show.legend = FALSE) + 
+
   scale_y_continuous(breaks = seq(0,20,5), 
                      labels = c("0%", "5%", "10%", "15%", "20%"), 
                      expand = expansion(mult = c(0.00,.1))) +
-  scale_fill_manual("", values = c("#00671F", "#FF6600", "#0004E7"),
-                    breaks = c("uni", "neutral.annual", "art"), 
-                    labels = c("Universal", "Status Neutral   ", "ART")) + 
+  scale_fill_manual("", values = c("#00671F", "#FF6600", "#0004E7", "red", "purple"),
+                    breaks = c("uni", "neutral.annual", "art", "art.ceta", "art.neutral"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
   scale_x_discrete(
     breaks=c("Depression.episodes.averted.pct",
              "Died_from_HIV.averted.pct", 
@@ -1551,42 +2011,44 @@ plot.averted <- HIV.Depression.Averted.Data %>%
 plot.averted
 
 ```
-
-### Version 2: CMD Treatment upon HIV testing
-
+Compare the above against number of treatments administered:
 ```{r}
-plot.averted.alt <- HIV.Depression.Averted.Data %>% 
+
+impact.DALYs.averted  %>% 
   filter(
-    (scenario_name != "neutral.annual") & 
+    (scenario_name != "neutral.testing") & 
     (scenario_name != "baseline")) %>% 
-  filter(metric %in% c("Died_from_HIV.averted.pct", 
-                       "Newly.Infected.averted.pct",
-                       "Depression.episodes.averted.pct")) %>% 
-  mutate(
-    scenario_ix = case_match(
-      scenario_name, 
-      "baseline" ~ 0, 
-      "uni" ~ 1, 
-      "neutral.testing" ~ 2,
-      "art" ~ 3)) %>% 
+  filter(metric %in% c("CMD_Treat")) %>% 
   ggplot() +
-  geom_bar(mapping = aes(x = metric, y = metric.mean*100, fill = factor(scenario_name)),
-           position=position_dodge2(reverse = TRUE, padding = 0), 
+  # geom_bar(mapping = aes(x = metric, y = metric.mean*100, fill = factor(scenario_name)),
+  #          position=position_dodge2(reverse = TRUE, padding = 0), 
+  #          stat = "identity",
+  #          show.legend = TRUE) + 
+  # geom_errorbar(mapping = aes(x = metric, 
+  #                             ymin = metric.lb*99.5, ymax = metric.ub*100),
+  #               position=position_dodge2(reverse = TRUE, padding = .25), 
+  #               stat = "identity",
+  #               size = 1, color = "black",
+  #               show.legend = FALSE) + 
+  
+  geom_bar(mapping = aes(x = metric, y = metric.mean * 100, fill = factor(scenario_name)),
+           position = position_dodge2(reverse = TRUE, padding = 0), 
            stat = "identity",
-           show.legend = FALSE) + 
+           show.legend = TRUE) + 
   geom_errorbar(mapping = aes(x = metric, 
-                              ymin = metric.lb*99.5, ymax = metric.ub*100,
-                              fill = factor(scenario_name)),
-                position=position_dodge2(reverse = TRUE, padding = .25), 
+                              ymin = metric.lb * 99.5, ymax = metric.ub * 100,
+                              group = factor(scenario_name)),
+                position = position_dodge2(reverse = TRUE, padding = .25), 
                 stat = "identity",
                 size = 1, color = "black",
                 show.legend = FALSE) + 
+
   scale_y_continuous(breaks = seq(0,20,5), 
                      labels = c("0%", "5%", "10%", "15%", "20%"), 
                      expand = expansion(mult = c(0.00,.1))) +
-  scale_fill_manual("", values = c("#00671F", "#FF6600", "#0004E7"),
-                    breaks = c("uni", "neutral", "art"), 
-                    labels = c("Universal", "Status Neutral   ", "ART")) + 
+  scale_fill_manual("", values = c("#00671F", "#FF6600", "#0004E7", "red", "purple"),
+                    breaks = c("uni", "neutral.annual", "art", "art.ceta", "art.neutral"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
   scale_x_discrete(
     breaks=c("Depression.episodes.averted.pct",
              "Died_from_HIV.averted.pct", 
@@ -1600,9 +2062,8 @@ plot.averted.alt <- HIV.Depression.Averted.Data %>%
         axis.title.y = element_blank(),
         #axis.text.x = element_blank(),
         legend.position = "top")
-
-plot.averted.alt
 ```
+
 
 ## ICER curves
 
@@ -1611,11 +2072,13 @@ plot.averted.alt
 impact.pivot <- impact.DALYs.averted %>% 
   filter(scenario_name != "neutral.testing") %>% 
   filter(metric %in% c("HIV.DALY.averted", "Depression.DALY.averted", "CMD_Treat")) %>%
-  mutate(scenario_id = case_match(
-    scenario_name, 
-    "baseline" ~ "", "uni" ~ "Universal", 
-    "neutral.annual" ~ "Status Neutral", 
-    "art" ~ "ART")) %>% 
+  # mutate(scenario_id = case_match(
+  #   scenario_name, 
+  #   "baseline" ~ "", "uni" ~ "Universal", 
+  #   "neutral.annual" ~ "HIV Testing", 
+  #   "art" ~ "ART",
+  #   "art.ceta" ~ "CETA",
+  #   "art.neutral" ~ "ART & HIV Testing")) %>% 
   pivot_wider(
     id_cols = scenario_name,
     names_from = metric,
@@ -1632,7 +2095,7 @@ plot.HIV.ICER <-  ggplot() +
     ) +
   geom_line(
     data = impact.pivot %>% 
-      filter(scenario_name %in% c("baseline", "art", "uni")),
+      filter(scenario_name %in% c("baseline", "art.ceta", "art", "uni")),
     mapping = aes(x = metric.mean_CMD_Treat*14/1e6, 
                   y = metric.mean_HIV.DALY.averted)) + 
   geom_point(
@@ -1642,9 +2105,9 @@ plot.HIV.ICER <-  ggplot() +
       y = metric.mean_HIV.DALY.averted,
       color = scenario_name), 
     show.legend = TRUE, size = 3) + 
-  scale_color_manual("", values = c("black", "#00671F", "#FF6600", "#0004E7"),
-                breaks = c("baseline", "uni", "neutral.annual", "art"), 
-                labels = c("Baseline", "Universal", "Status Neutral   ", "ART")) +
+  scale_color_manual("", values = c("black", "#00671F", "#FF6600", "#0004E7", "red", "purple"),
+                    breaks = c("baseline",  "uni", "neutral.annual", "art", "art.ceta", "art.neutral"), 
+                    labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
   scale_x_continuous("Incremental Costs (Million USD)") + 
   scale_y_continuous("Incremental HIV-Related DALYs") + 
   theme_minimal() + theme_bw() +
@@ -1668,7 +2131,7 @@ plot.DEP.ICER <-  ggplot() +
     width = .5
     ) +
   geom_line(
-    data = impact.pivot,
+    data = impact.pivot %>% filter(scenario_name %in% c("baseline", "art.ceta", "uni")),
     mapping = aes(y = metric.mean_Depression.DALY.averted,
                   x = metric.mean_CMD_Treat*14/1e6)) +
   geom_point(
@@ -1678,9 +2141,9 @@ plot.DEP.ICER <-  ggplot() +
       y = metric.mean_Depression.DALY.averted,
       color = scenario_name), 
     show.legend = TRUE, size = 3) + 
-  scale_color_manual("", values = c("black", "#00671F", "#FF6600", "#0004E7"),
-                breaks = c("baseline", "uni", "neutral.annual", "art"), 
-                labels = c("Baseline", "Universal", "Status Neutral   ", "ART")) +
+  scale_color_manual("", values = c("black", "#00671F", "#FF6600", "#0004E7", "red", "purple"),
+                    breaks = c("baseline",  "uni", "neutral.annual", "art", "art.ceta", "art.neutral"), 
+                    labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
   scale_x_continuous("Incremental Costs (Million USD)") + 
   scale_y_continuous("Incremental Depression-Related DALYs") + 
   theme_minimal() + theme_bw() +
@@ -1704,7 +2167,7 @@ plot.HIV.DEP.ICER <- ggplot() +
     width = .5
     ) +
   geom_line(
-    data = impact.pivot,
+    data = impact.pivot %>% filter(scenario_name %in% c("baseline", "art.ceta", "uni")),
     mapping = aes(
       x = metric.mean_CMD_Treat*14/1e6,
       y = metric.mean_Depression.DALY.averted + metric.mean_HIV.DALY.averted)) +
@@ -1715,9 +2178,9 @@ plot.HIV.DEP.ICER <- ggplot() +
       y = metric.mean_Depression.DALY.averted + metric.mean_HIV.DALY.averted,
       color = scenario_name), 
     show.legend = TRUE, size = 3) + 
-  scale_color_manual("", values = c("black", "#00671F", "#FF6600", "#0004E7"),
-                breaks = c("baseline", "uni", "neutral.annual", "art"), 
-                labels = c("Baseline", "Universal", "Status Neutral   ", "ART")) +
+  scale_color_manual("", values = c("black", "#00671F", "#FF6600", "#0004E7", "red", "purple"),
+                    breaks = c("baseline",  "uni", "neutral.annual", "art", "art.ceta", "art.neutral"), 
+                    labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
   scale_x_continuous("Incremental Costs (Million USD)") + 
   scale_y_continuous("Incremental Depression-Related DALYs") + 
   theme_minimal() + theme_bw() +

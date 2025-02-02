@@ -35,7 +35,7 @@ sim.results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
 ```
 ## Universal treatment data
 ```{r}
-#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_uni-uni___2024_09_23_12_26_37_798115"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CRaOI2025/Baseline-campaign_MATUMAINI_202305_uni-uni___2024_09_23_12_26_37_798115"
 experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_uni-uni___2024_09_23_17_35_53_515585"
 sim.results.uni <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -51,8 +51,8 @@ sim.results.uni <- EMODAnalyzeR::read.simulation.results.bigpurple(
 ## Status Neutral Treatment data
 ```{r}
 #experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral-neutral___2024_09_23_12_27_43_983388"
-#experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral-neutral___2024_09_23_17_38_27_681705"
-experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral-neutral___2024_09_25_15_55_29_591219"
+experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral-neutral___2024_09_23_17_38_27_681705"
+#experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_neutral-neutral___2024_09_25_15_55_29_591219"
 
 sim.results.neutral <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -69,6 +69,7 @@ sim.results.neutral <- EMODAnalyzeR::read.simulation.results.bigpurple(
 ```{r}
 #experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2024_09_23_17_06_00_394696"
 experiment.path <- "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_art-art___2024_09_23_17_40_34_719992"
+
 sim.results.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name = "art",
@@ -86,6 +87,7 @@ sim.results.art <- EMODAnalyzeR::read.simulation.results.bigpurple(
 sim.results.all <- rbind(sim.results.baseline,
                          sim.results.uni,
                          sim.results.neutral,
+                         sim.results.neutral.final,
                          sim.results.art)
 
 CENSUS_YEAR = 2009
@@ -113,6 +115,7 @@ plhiv.data <- sim.results.all %>%
   summarize(PLHIV = sum(Infected*pop.scaling.factor), .groups = 'keep') %>%
   ungroup() %>%
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
 plhiv.data.mean <- plhiv.data %>%
   group_by(Year, Gender, scenario_name) %>%
   summarize(PLHIV = mean(PLHIV), .groups = "keep")
@@ -162,6 +165,7 @@ cases.data <- sim.results.all %>%
   dplyr::summarize(Newly.Infected = sum(Newly.Infected * pop.scaling.factor), .groups = "keep") %>%
   ungroup() %>%
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
 cases.data.mean <- cases.data %>%
   group_by(Year, Gender, scenario_name) %>%
   summarize(Newly.Infected = mean(Newly.Infected), .groups = "keep")
@@ -212,9 +216,11 @@ hivmort.data <- sim.results.all %>%
   dplyr::summarize(HIV.mort = sum(Died_from_HIV * pop.scaling.factor), .groups = "keep") %>%
   ungroup() %>%
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
 hivmort.data.mean <- hivmort.data %>%
   group_by(Year, Gender, scenario_name) %>%
   summarize(HIV.mort = mean(HIV.mort), .groups = "keep")
+
 p <- ggplot() +
       geom_line(data= hivmort.data.mean %>% filter(Year > 1985),
               aes(x=Year, y= HIV.mort, group=scenario_name, color=scenario_name), linewidth=.5) +
@@ -265,9 +271,11 @@ cmdpos.pop.data <- sim.results.all %>%
   # group_by(Year, Gender,scenario_name) %>%
   # summarize(Population = mean(Population), .groups = "keep") %>%
   ungroup()
+
 cmdpos.pop.data.mean <- cmdpos.pop.data %>%
   group_by(Year, Gender, scenario_name) %>%
   summarize(Population = mean(Population), .groups = "keep") %>% ungroup()
+
 p <- ggplot() +
       geom_line(data= cmdpos.pop.data.mean %>% filter(Year > 1985),
               aes(x=Year, y= Population, group=scenario_name, color=scenario_name), linewidth=.5) +
@@ -306,6 +314,7 @@ p1 <- ggplot() +
     #scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
     #ylab("HIV Prevalence (%)") +
     scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple", "pink"))
+
 p1
 ```
 
@@ -331,6 +340,7 @@ cmd.data <- sim.results.all %>% filter(Age > 18) %>%
          CMD_prev_Infected = case_when(Infected_total == 0 ~ 0,
                                     Infected_total > 0 ~ Infected_CMD_pos/Infected_total)) %>%
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
 cmd.data.mean <- cmd.data %>%
   group_by(Year, Gender, scenario_name) %>%
   summarize(Overall = mean(CMD_prev_overall), Overall_sd = sd(CMD_prev_overall),
@@ -362,13 +372,34 @@ p = ggplot() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
 p
 ```
+
+## CMD Treatment over time
+
+```{r}
+cmdtreat.count <- sim.results.all %>% 
+  filter(Year >= 2020) %>% 
+  group_by(Year, Gender, scenario_name, sim.ix) %>% 
+  summarize(CMD_Treat = sum(CMD_Treat), .groups = 'drop_last') %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(CMD_Treat = mean(CMD_Treat), .groups = 'drop_last')
+
+
+cmdtreat.count %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = CMD_Treat, color = scenario_name)) + 
+  facet_grid(cols = vars(Gender))
+```
+
+
 # Analysis - Metrics for the article
 
 
 ## How many people are living with HIV, CMD in 2025?
 ```{r}
+sim.results.all %>% 
   filter(Year == 2025, Age >= 15) %>% 
   group_by(Gender, scenario_name, sim.ix) %>% 
   summarize(Infected = sum(Infected * pop.scaling.factor)) %>% 
@@ -376,7 +407,9 @@ p
   summarize(Infected = mean(Infected)) %>%
   pivot_wider(id_cols = c("scenario_name"), values_from = c("Infected"), names_from = c("Gender"),
               names_prefix = "Infected_") %>% 
-  mutate(Infected = Infected_0 + Infected_1)
+  select(scenario_name, Infected_Male = Infected_0, Infected_Female = Infected_1) %>% 
+  mutate(Infected = Infected_Male + Infected_Female)
+
 ```
 
 ```{r}
@@ -393,6 +426,7 @@ sim.results.all %>%
 ```
 
 ```{r}
+# CMD positive, numbers living with and without HIV
 sim.results.all %>% 
   filter(Year == 2025, Age >= 15) %>% 
   filter(IP_Key.CMDStatus == "CMD_pos") %>% 
@@ -417,6 +451,8 @@ cmd.treat.count <- sim.results.all %>%
   summarize(CMD_Treat = mean(CMD_Treat), 
             CMD_Treat_staging = mean(CMD_Treat_staging)) %>% 
   mutate(ratio = CMD_Treat/CMD_Treat_staging)
+
+cmd.treat.count
 ```
 
 
@@ -525,7 +561,7 @@ bt_mean <- function(splits, colname){
   mean(x[[colname]])
 }
 
-# Deaths and INfections
+# Deaths and Infections
 bt_resamples <- bootstraps(hiv.averted.data.scatter %>% filter(scenario_name == "art"), times = 500)
 
 bt_resamples$mean.infected <- map_dbl(bt_resamples$splits, bt_mean, "Newly.Infected_averted")
@@ -707,7 +743,7 @@ p1
 # + 
 #   guides(fill=guide_legend("Depression Treatment Distribution"))
 
-ggsave("croi2025_abstract_figure_v3_panel1.pdf", p1, width = 6, height = 6, units = "in")
+#ggsave("croi2025_abstract_figure_v3_panel1.pdf", p1, width = 6, height = 6, units = "in")
 
 ```
 
@@ -784,13 +820,13 @@ p3 <- all.stats %>%
 
 p2/p3
 
-ggsave("croi2025_abstract_figure_v3_panel2.pdf", p2/p3, width = 6, height = 6, units = "in")
+#ggsave("croi2025_abstract_figure_v3_panel2.pdf", p2/p3, width = 6, height = 6, units = "in")
 ```
 
 ```{r}
 p.final <- ggarrange(p1, (p2/p3), legend="top")
 p.final
 
-ggsave("croi2025_abstract_figure_v2.pdf", p.final, width = 12, height = 6, units = "in")
+#ggsave("croi2025_abstract_figure_v2.pdf", p.final, width = 12, height = 6, units = "in")
 ```
 
