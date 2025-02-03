@@ -3467,6 +3467,38 @@
             }
         },
         {
+            "Event_Name":"CMD treatment - go from staging to receiving treatment with certain probability",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2200,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
+                    "Trigger_Condition_List": [
+                        "CMD_Treat_staging",
+                        "CMD_Treat_diagnosis"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names":[
+                            "CMD_Treat",
+                            "CMD_NoTreat"
+                        ],
+                        "Choice_Probabilities": [
+                            0.62,
+                            0.38
+                        ],
+                        "Choice_Probabilities__KP_CMDtreatment": "<-- MARKER"
+                    }
+
+                }
+            }
+        },
+        {
             "Event_Name":"CMD delay to recovery with treatment",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {

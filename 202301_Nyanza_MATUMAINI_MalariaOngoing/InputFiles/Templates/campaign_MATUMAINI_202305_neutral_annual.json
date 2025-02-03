@@ -1204,8 +1204,7 @@
                                 "Choice_Probabilities": [
                                     0.0,
                                     1.0
-                                ],
-                                "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
+                                ]
                             },
                             {
                                 "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
@@ -1254,17 +1253,14 @@
                 "Intervention_Config": {
                     "class":"HIVRandomChoice",
                     "Choice_Names": [
-                        "NoARTDummy",
-                        "CMD_Treat_staging"
-                    ],
-                    ".Choice_Names": [
-                        "NoARTDummy",
-                        "CMD_Treat_staging_delay"
+                        "CMD_Treat_staging",
+                        "NoARTDummy"
                     ],
                     "Choice_Probabilities":[
-                        0,
-                        1.0
-                    ]
+                        1.0,
+                        0
+                    ],
+                    "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
                 }
             }
         },
