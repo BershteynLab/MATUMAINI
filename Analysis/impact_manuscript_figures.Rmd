@@ -483,9 +483,9 @@ hiv.averted.stats <- sim.results.treatment %>%
     CMD_pos = sum(CMD_pos),
     HIV.DALY = sum(HIV.DALY.discounted),
     Depression.DALY = sum(Depression.DALY),
-    Total.DALY = sum(HIV.DALY + Depression.DALY),
     .groups = 'drop_last') %>% 
-  ungroup()
+  ungroup() %>% 
+  mutate(Total.DALY = HIV.DALY + Depression.DALY)
 
 hiv.averted.stats.baseline <- sim.results.treatment %>% 
   filter(Year >= 2025, scenario_name == 'baseline') %>%
@@ -498,9 +498,9 @@ hiv.averted.stats.baseline <- sim.results.treatment %>%
     CMD_pos.baseline = sum(CMD_pos),
     HIV.DALY.baseline = sum(HIV.DALY.discounted),
     Depression.DALY.baseline = sum(Depression.DALY),
-    Total.DALY.baseline = sum(HIV.DALY + Depression.DALY),
     .groups = 'drop_last') %>% 
-  ungroup()
+  ungroup() %>% 
+  mutate(Total.DALY.baseline = HIV.DALY.baseline + Depression.DALY.baseline)
 
 hiv.averted.stats <- hiv.averted.stats %>% 
   merge(
@@ -567,13 +567,70 @@ for (i in metric.names){
 HIV.Depression.Averted.Data <- metrics
 ```
 
+## Calculate ICERs
+
+### Cost parameters
+
+```{r}
+cost.onart = 319
+cost.treatment = 14
+
+```
+
+
+What is the incremental cost of ART?
+```{r}
+cost.art.marginal <- metrics.2025.3035 %>% filter(metric == 'On_ART') %>% 
+  mutate(On_ART.baseline = metrics.2025.3035 %>% filter(metric == 'On_ART', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+  mutate(On_ART.marginal = metric.mean - On_ART.baseline) %>% 
+  mutate(On_ART.cost = On_ART.marginal * cost.onart) %>% 
+  select(scenario_name, On_ART.cost)
+
+cost.art.marginal
+```
+
+
+```{r}
+HIV.Depression.Averted.Data %>% filter(metric == "HIV.DALY.averted") %>% 
+  merge(
+    metrics.2025.3035 %>% filter(metric == 'CMD_Treat_staging') %>% 
+      select(scenario_name, treatments.mean = metric.mean),
+    by = c('scenario_name')
+  ) %>% 
+  merge(
+    cost.art.marginal, by = c("scenario_name")
+  ) %>% 
+  mutate(cost.mean = cost.treatment*treatments.mean) %>% 
+  mutate(cost.total = cost.mean + On_ART.cost) %>% 
+  mutate(ICER.HIV.mean = cost.total/metric.mean,
+         ICER.HIV.lb = cost.total/metric.lb,
+         ICER.HIV.ub = cost.total/metric.ub)
+
+HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.averted") %>% 
+  merge(
+    metrics.2025.3035 %>% filter(metric == 'CMD_Treat_staging') %>% 
+      select(scenario_name, treatments.mean = metric.mean),
+    by = c('scenario_name')
+  ) %>% 
+  merge(
+    cost.art.marginal, by = c("scenario_name")
+  ) %>% 
+  mutate(cost.mean = cost.treatment*treatments.mean) %>% 
+  mutate(cost.total = cost.mean + On_ART.cost) %>% 
+  mutate(ICER.total.mean = cost.total/metric.mean,
+         ICER.total.lb = cost.total/metric.lb,
+         ICER.total.ub = cost.total/metric.ub)
+
+```
+
+
 ## Save
 
 ```{r}
 HIV.Depression.Averted.Data %>% write_csv("Impact_Manuscript_Figures/HIV_Depression_Averted_Data.csv")
 
 rbind(metrics.2025, metrics.2025.3035) %>% write_csv("Impact_Manuscript_Figures/HIV_Depression_Data.csv")
-```
+``` 
 
 # Figures
 
@@ -712,6 +769,8 @@ HIV.Depression.Averted.Data.temp <- HIV.Depression.Averted.Data %>%
 HIV.Depression.Averted.Data.temp$scenario_ix = factor(HIV.Depression.Averted.Data.temp$scenario_ix, levels = c(4,3,2,1))
 
 HIV.Depression.Averted.Data.temp <- HIV.Depression.Averted.Data.temp[order(HIV.Depression.Averted.Data.temp$metric, HIV.Depression.Averted.Data.temp$scenario_ix), ]
+
+color.scheme = c("#EB2B42", "#2139D3", "#3DB34C", "#B326D3")
 ```
 
 
@@ -733,9 +792,9 @@ plot.averted.panel1 <- HIV.Depression.Averted.Data.temp %>% filter(metric == "Ne
   scale_y_continuous(breaks = seq(0,4,1), 
                      labels = c("0%", "1%", "2%", "3%", "4%"), 
                      expand = expansion(mult = c(0.00,.1))) +
-  scale_fill_manual("", values = c("#0004E7", "purple", "#2EC129", "#FF6600",  "red", "purple"),
-                    breaks = c("1", "2", "3", "4", "art.neutral"), 
-                    labels = c("Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
+  scale_fill_manual("", values = color.scheme,
+                    breaks = c("1", "2", "3", "4"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_discrete(
     breaks=c("Depression.episodes.averted.pct",
              "Died_from_HIV.averted.pct", 
@@ -769,9 +828,9 @@ plot.averted.panel2 <- HIV.Depression.Averted.Data.temp %>% filter(metric == "Di
   scale_y_continuous(breaks = seq(0,2,.5),
                      labels = c("0%", "0.5%", "1.0%", "1.5%", "2.0%"),
   expand = expansion(mult = c(0.00,.1))) +
-  scale_fill_manual("", values = c("#0004E7", "purple", "#2EC129", "#FF6600",  "red", "purple"),
-                    breaks = c("1", "2", "3", "4", "art.neutral"), 
-                    labels = c("Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
+  scale_fill_manual("", values = color.scheme,
+                    breaks = c("1", "2", "3", "4"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_discrete(
     breaks=c("Depression.episodes.averted.pct",
              "Died_from_HIV.averted.pct", 
@@ -805,9 +864,9 @@ plot.averted.panel3 <- HIV.Depression.Averted.Data.temp %>% filter(metric == "De
   scale_y_continuous(breaks = seq(0,20,5), 
                      labels = c("0%", "5%", "10%", "15%", "20%"), 
                      expand = expansion(mult = c(0.00,.1))) +
-  scale_fill_manual("", values = c("#0004E7", "purple", "#2EC129", "#FF6600",  "red", "purple"),
-                    breaks = c("1", "2", "3", "4", "art.neutral"), 
-                    labels = c("Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
+  scale_fill_manual("", values = color.scheme,
+                    breaks = c("1", "2", "3", "4"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_discrete(
     breaks=c("Depression.episodes.averted.pct",
              "Died_from_HIV.averted.pct", 
@@ -828,7 +887,7 @@ plot.averted.panel1 + plot.averted.panel2 + plot.averted.panel3
 ```
 
 ```{r}
-HIV.Depression.Averted.Data.temp %>% #filter(metric == "Depression.episodes.averted.pct") %>% 
+plot.averted.all <- HIV.Depression.Averted.Data.temp %>% #filter(metric == "Depression.episodes.averted.pct") %>% 
   ggplot() +
   geom_bar(mapping = aes(x = metric, y = metric.mean * 100, fill = as.factor(scenario_ix)),
            position = position_dodge2(reverse = TRUE, padding = 0), 
@@ -842,12 +901,12 @@ HIV.Depression.Averted.Data.temp %>% #filter(metric == "Depression.episodes.aver
                 size = 1, color = "black",
                 show.legend = FALSE) + 
 
-  scale_y_continuous(breaks = seq(0,20,5), 
-                     labels = c("0%", "5%", "10%", "15%", "20%"), 
-                     expand = expansion(mult = c(0.00,.1))) +
-  scale_fill_manual("", values = c("#0004E7", "purple", "#2EC129", "#FF6600",  "red", "purple"),
-                    breaks = c("1", "2", "3", "4", "art.neutral"), 
-                    labels = c("Universal", "HIV Testing   ", "ART", "CETA", "ART & HIV Testing")) + 
+  scale_y_continuous(breaks = seq(0,6,2), 
+                     labels = c("0%", "2%", "4%", "6%"), 
+                     expand = expansion(mult = c(0.00,.2))) +
+  scale_fill_manual("", values = color.scheme,
+                    breaks = c("1", "2", "3", "4"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_discrete(
     breaks=c("Depression.episodes.averted.pct",
              "Died_from_HIV.averted.pct", 
@@ -861,8 +920,31 @@ HIV.Depression.Averted.Data.temp %>% #filter(metric == "Depression.episodes.aver
         axis.title.y = element_blank(),
         #axis.text.x = element_blank(),
         legend.position = "top")
+
+plot.averted.all
+
+```
+
+```{r}
+ggsave("Impact_Manuscript_Figures/Figure_2_Averted_Plot.pdf", width = 8, height = 4, units = 'in')
 ```
 
 
 ## Figure 3: 
 
+This figure will be two ICER curves.
+
+The first panel is total DALYs averted per dollar, second panel is HIV-related DALYs averted per dollar
+
+### Load data
+```{r}
+
+```
+
+### Panel 1
+
+### Panel 2
+
+## Figure 4:
+
+This figure is the CEAC curve
