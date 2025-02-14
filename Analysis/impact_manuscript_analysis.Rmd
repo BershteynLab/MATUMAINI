@@ -36,6 +36,8 @@ upper_ci <- function(mean, se, n, conf_level = 0.95){
 }
 ```
 
+# 
+
 
 # Checking results
 
@@ -451,9 +453,9 @@ daly.results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   scenario_name = "baseline",
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus", "HasHIV",
+                        "Newly.Infected","Diagnosed",
                        "CMD_Treat_staging", "CMD_Treat", "CMD_Incidence2", "CMD_Relapse2"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -463,7 +465,7 @@ daly.results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 ```{r}
 experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/CROI2025/Baseline-campaign_MATUMAINI_202305_uni-uni___2024_12_26_18_23_40_050060/"
-
+experiment.path = ""
 daly.results.uni <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name = "uni",
