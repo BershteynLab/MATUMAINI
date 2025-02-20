@@ -1098,7 +1098,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property - without treatment before 2020",
+            "Event_Name":"CMD incidence, changing property - without treatment before 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1163,7 +1163,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property - with treatment including after 2020",
+            "Event_Name":"CMD incidence, changing property - with treatment including after 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1231,7 +1231,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2020,
+            "Start_Year": 2025,
             "Event_Coordinator_Config": {
                 "class": "ReferenceTrackingEventCoordinatorHIV",
                 "Property_Restrictions_Within_Node":[
@@ -1239,7 +1239,7 @@
                     {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
                 ],
                 "Time_Value_Map": {
-                    "Times": [2020,2200],
+                    "Times": [2025,2200],
                     "Values":[1.0,1.0]
                 },
                 "Timesteps_Between_Repetitions": 6,
