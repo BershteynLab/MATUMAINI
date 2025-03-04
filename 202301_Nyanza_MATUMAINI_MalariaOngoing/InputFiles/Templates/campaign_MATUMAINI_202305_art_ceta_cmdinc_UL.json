@@ -34,10 +34,6 @@
                         0.03983294,
                         0.96016706
                     ],
-                    ".Choice_Probabilities":[
-                        0.041181847,
-                        0.958818153
-                    ],
                     "Choice_Probabilities":[
                         0.0430865,
                         0.9569135
@@ -113,10 +109,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.090599835,
                         0.909400165
-                    ],
-                    ".Choice_Probabilities": [
-                        0.085254655,
-                        0.914745345
                     ],
                     "Choice_Probabilities": [
                         0.0932564,
@@ -194,10 +186,6 @@
                         0.126613616,
                         0.873386384
                     ],
-                    ".Choice_Probabilities": [
-                        0.107078673,
-                        0.892921327
-                    ],
                     "Choice_Probabilities": [
                         0.121123,
                         0.878877
@@ -273,10 +261,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.113026757,
                         0.886973243
-                    ],
-                    ".Choice_Probabilities": [
-                        0.094472684,
-                        0.905527316
                     ],
                     "Choice_Probabilities": [
                         0.10523,
@@ -354,10 +338,6 @@
                         0.152287681,
                         0.847712319
                     ],
-                    ".Choice_Probabilities": [
-                        0.135236484,
-                        0.864763516
-                    ],
                     "Choice_Probabilities": [
                         0.14585,
                         0.85415
@@ -433,10 +413,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.194711355,
                         0.805288645
-                    ],
-                    ".Choice_Probabilities": [
-                        0.173990783,
-                        0.826009217
                     ],
                     "Choice_Probabilities": [
                         0.179246,
@@ -514,10 +490,6 @@
                         0.336677874,
                         0.663322126
                     ],
-                    ".Choice_Probabilities": [
-                        0.286659848,
-                        0.713340152
-                    ],
                     "Choice_Probabilities": [
                         0.311245,
                         0.688755
@@ -593,10 +565,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.083751296,
                         0.916248704
-                    ],
-                    ".Choice_Probabilities": [
-                        0.080120896,
-                        0.919879104
                     ],
                     "Choice_Probabilities": [
                         0.0884435,
@@ -674,10 +642,6 @@
                         0.106959399,
                         0.893040601
                     ],
-                    ".Choice_Probabilities": [
-                        0.090284422,
-                        0.909715578
-                    ],
                     "Choice_Probabilities": [
                         0.104338,
                         0.895662
@@ -753,10 +717,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.081907163,
                         0.918092837
-                    ],
-                    ".Choice_Probabilities": [
-                        0.067002082,
-                        0.932997918
                     ],
                     "Choice_Probabilities": [
                         0.0770589,
@@ -834,10 +794,6 @@
                         0.16515158,
                         0.83484842
                     ],
-                    ".Choice_Probabilities": [
-                        0.148408644,
-                        0.851591356
-                    ],
                     "Choice_Probabilities": [
                         0.176704,
                         0.823296
@@ -913,10 +869,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.190208608,
                         0.809791392
-                    ],
-                    ".Choice_Probabilities": [
-                        0.167841055,
-                        0.832158945
                     ],
                     "Choice_Probabilities": [
                         0.191733,
@@ -994,10 +946,6 @@
                         0.113932164,
                         0.886067836
                     ],
-                    ".Choice_Probabilities": [
-                        0.101971971,
-                        0.898028029
-                    ],
                     "Choice_Probabilities": [
                         0.103257,
                         0.896743
@@ -1073,10 +1021,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.072560867,
                         0.927439133
-                    ],
-                    ".Choice_Probabilities": [
-                        0.069280839,
-                        0.930719161
                     ],
                     "Choice_Probabilities": [
                         0.0693344,
@@ -1154,7 +1098,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property - without treatment before 2020",
+            "Event_Name":"CMD incidence, changing property - without treatment before 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1172,7 +1116,7 @@
                             "CMDStatus": "CMD_recovered"
                         }
                     ],
-                    "Duration":21748,
+                    "Duration":23543,
                     "Trigger_Condition_List": [
                         "CMD_Incidence2",
                         "CMD_Incidence2_diagnosis"
@@ -1191,7 +1135,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1219,12 +1163,12 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property - with treatment including after 2020",
+            "Event_Name":"CMD incidence, changing property - with treatment including after 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2020,
+            "Start_Year": 2025,
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -1254,14 +1198,13 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
                                     0.0,
                                     1.0
-                                ],
-                                "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
+                                ]
                             },
                             {
                                 "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
@@ -1278,6 +1221,65 @@
                                 ]
                             }
                         ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Annual CMD Treatment for those who have not reached ART suppression yet",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2025,
+            "Event_Coordinator_Config": {
+                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "Property_Restrictions_Within_Node":[
+                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
+                ],
+                "Time_Value_Map": {
+                    "Times": [2025,2200],
+                    "Values":[1.0,1.0]
+                },
+                "Timesteps_Between_Repetitions": 6,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRanges",
+                "Target_Age_Min": 18,
+                "Target_Age_Max": 99.999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVRandomChoice",
+                    "Choice_Names": [
+                        "CMD_Treat_staging",
+                        "NoARTDummy"
+                    ],
+                    "Choice_Probabilities":[
+                        1.0,
+                        0
+                    ],
+                    "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD Treatment staging",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Trigger_Condition_List": ["CMD_Treat_staging_delay"],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVDelayedIntervention",
+                        "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
+                        "Delay_Period_Min": 1,
+                        "Delay_Period_Max": 182.5,
+                        "Broadcast_Event":"CMD_Treat_staging"
                     }
                 }
             }
@@ -1314,10 +1316,6 @@
                     ".Choice_Probabilities.SIS":[
                         0.03983294,
                         0.96016706
-                    ],
-                    ".Choice_Probabilities":[
-                        0.041181847,
-                        0.958818153
                     ],
                     "Choice_Probabilities":[
                         0.0430865,
@@ -1395,10 +1393,6 @@
                         0.090599835,
                         0.909400165
                     ],
-                    ".Choice_Probabilities": [
-                        0.085254655,
-                        0.914745345
-                    ],
                     "Choice_Probabilities": [
                         0.0932564,
                         0.9067436
@@ -1474,10 +1468,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.126613616,
                         0.873386384
-                    ],
-                    ".Choice_Probabilities": [
-                        0.107078673,
-                        0.892921327
                     ],
                     "Choice_Probabilities": [
                         0.121123,
@@ -1555,10 +1545,6 @@
                         0.113026757,
                         0.886973243
                     ],
-                    ".Choice_Probabilities": [
-                        0.094472684,
-                        0.905527316
-                    ],
                     "Choice_Probabilities": [
                         0.10523,
                         0.89477
@@ -1634,10 +1620,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.152287681,
                         0.847712319
-                    ],
-                    ".Choice_Probabilities": [
-                        0.135236484,
-                        0.864763516
                     ],
                     "Choice_Probabilities": [
                         0.14585,
@@ -1715,10 +1697,6 @@
                         0.194711355,
                         0.805288645
                     ],
-                    ".Choice_Probabilities": [
-                        0.173990783,
-                        0.826009217
-                    ],
                     "Choice_Probabilities": [
                         0.179246,
                         0.820754
@@ -1794,10 +1772,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.336677874,
                         0.663322126
-                    ],
-                    ".Choice_Probabilities": [
-                        0.286659848,
-                        0.713340152
                     ],
                     "Choice_Probabilities": [
                         0.311245,
@@ -1875,10 +1849,6 @@
                         0.083751296,
                         0.916248704
                     ],
-                    ".Choice_Probabilities": [
-                        0.080120896,
-                        0.919879104
-                    ],
                     "Choice_Probabilities": [
                         0.0884435,
                         0.9115565
@@ -1954,10 +1924,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.106959399,
                         0.893040601
-                    ],
-                    ".Choice_Probabilities": [
-                        0.090284422,
-                        0.909715578
                     ],
                     "Choice_Probabilities": [
                         0.104338,
@@ -2035,10 +2001,6 @@
                         0.081907163,
                         0.918092837
                     ],
-                    ".Choice_Probabilities": [
-                        0.067002082,
-                        0.932997918
-                    ],
                     "Choice_Probabilities": [
                         0.0770589,
                         0.9229411
@@ -2114,10 +2076,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.16515158,
                         0.83484842
-                    ],
-                    ".Choice_Probabilities": [
-                        0.148408644,
-                        0.851591356
                     ],
                     "Choice_Probabilities": [
                         0.176704,
@@ -2195,10 +2153,6 @@
                         0.190208608,
                         0.809791392
                     ],
-                    ".Choice_Probabilities": [
-                        0.167841055,
-                        0.832158945
-                    ],
                     "Choice_Probabilities": [
                         0.191733,
                         0.808267
@@ -2275,10 +2229,6 @@
                         0.113932164,
                         0.886067836
                     ],
-                    ".Choice_Probabilities": [
-                        0.101971971,
-                        0.898028029
-                    ],
                     "Choice_Probabilities": [
                         0.103257,
                         0.896743
@@ -2354,10 +2304,6 @@
                     ".Choice_Probabilities.SIS": [
                         0.072560867,
                         0.927439133
-                    ],
-                    ".Choice_Probabilities": [
-                        0.069280839,
-                        0.930719161
                     ],
                     "Choice_Probabilities": [
                         0.0693344,
@@ -3502,7 +3448,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2020,
+            "Start_Year": 2025,
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -3526,7 +3472,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Treat_staging",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -3575,6 +3521,38 @@
                         "COMMENT":"Using 9 month recovery time",
                         "Broadcast_Event":"CMD_NoTreat_Recovery"
                     }
+                }
+            }
+        },
+        {
+            "Event_Name":"CMD treatment - go from staging to receiving treatment with certain probability",
+            "class":"CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1960.5,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config":{
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions":["CMDStatus:CMD_pos"],
+                    "Trigger_Condition_List": [
+                        "CMD_Treat_staging",
+                        "CMD_Treat_diagnosis"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names":[
+                            "CMD_Treat",
+                            "CMD_NoTreat"
+                        ],
+                        "Choice_Probabilities": [
+                            0.65,
+                            0.35
+                        ],
+                        "Choice_Probabilities__KP_CMDtreatment": "<-- MARKER"
+                    }
+
                 }
             }
         },
