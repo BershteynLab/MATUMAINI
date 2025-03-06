@@ -85,6 +85,10 @@
             "CMD_NoTreat",
             "CMD_Treat",
             "CMD_Treat_diagnosis",
+            "CMD_Diagnostic_TruePositive",
+            "CMD_Diagnostic_FalseNegative",
+            "CMD_Diagnostic_TrueNegative",
+            "CMD_Diagnostic_FalsePositive",
             "CMD_Treat_staging",
             "CMD_Treat_staging_delay",
             "CMD_NoTreat_Recovery",
@@ -217,7 +221,10 @@
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 1,
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [
-            "CMD_Treat_staging",
+            "CMD_Diagnostic_TruePositive",
+            "CMD_Diagnostic_FalseNegative",
+            "CMD_Diagnostic_TrueNegative",
+            "CMD_Diagnostic_FalsePositive",
             "CMD_Treat",
             "CMD_Incidence2",
             "CMD_Relapse2"
