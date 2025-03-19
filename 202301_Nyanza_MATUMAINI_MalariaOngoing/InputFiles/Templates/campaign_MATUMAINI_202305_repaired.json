@@ -11,13 +11,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -49,13 +46,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -87,13 +81,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -125,13 +116,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -163,13 +151,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -201,13 +186,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -239,13 +221,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -277,13 +256,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -315,13 +291,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -353,13 +326,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -391,13 +361,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -429,13 +396,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -467,13 +431,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -505,13 +466,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -543,13 +501,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -581,13 +536,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -619,13 +571,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -657,13 +606,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -695,13 +641,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -733,13 +676,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -771,13 +711,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -809,13 +746,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -847,13 +781,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -885,13 +816,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -923,13 +851,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -961,13 +886,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -999,13 +921,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1037,13 +956,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_neg"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1236,13 +1152,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1274,13 +1187,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1312,13 +1222,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1350,13 +1257,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1388,13 +1292,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1426,13 +1327,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1464,13 +1362,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1502,13 +1397,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1540,13 +1432,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1578,13 +1467,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1616,13 +1502,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1654,13 +1537,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1692,13 +1572,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1730,13 +1607,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1768,13 +1642,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1806,13 +1677,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1844,13 +1712,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1882,13 +1747,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1920,13 +1782,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1958,13 +1817,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -1996,13 +1852,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2034,13 +1887,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2072,13 +1922,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2110,13 +1957,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2148,13 +1992,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2186,13 +2027,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2224,13 +2062,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2263,13 +2098,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_recovered"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2304,13 +2136,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2342,13 +2171,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2380,13 +2206,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2418,13 +2241,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2456,13 +2276,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2494,13 +2311,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2532,13 +2346,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2570,13 +2381,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2608,13 +2416,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2646,13 +2451,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2684,13 +2486,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2722,13 +2521,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2760,13 +2556,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2798,13 +2591,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2836,13 +2626,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2874,13 +2661,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2912,13 +2696,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2950,13 +2731,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -2988,13 +2766,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3026,13 +2801,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3064,13 +2836,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3102,13 +2871,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3140,13 +2906,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3178,13 +2941,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3216,13 +2976,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3254,13 +3011,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3292,13 +3046,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Negative",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
@@ -3330,13 +3081,10 @@
             },
             "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Property_Restrictions":["CMDStatus:CMD_treated"],
                 "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
