@@ -1234,15 +1234,8 @@
             },
             "Start_Year": 2025,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions_Within_Node":[
-                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
-                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
-                ],
-                "Time_Value_Map": {
-                    "Times": [2025,2200],
-                    "Values":[1.0,1.0]
-                },
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
                 "Timesteps_Between_Repetitions": 6,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRanges",
@@ -1250,16 +1243,48 @@
                 "Target_Age_Max": 99.999,
                 "Target_Gender": "Male",
                 "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Diagnostic_TruePositive",
-                        "CMD_Diagnostic_FalseNegative"
+                    "class":"HIVDelayedIntervention",
+                    "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
+                    "Delay_Period_Min": 1,
+                    "Delay_Period_Max": 365,
+                    "Broadcast_Event":"CMD_Treat_staging_delay"
+                }
+            }
+        },
+        {
+            "Event_Name": "Annual CMD Screening for those on ART with unsuppressed Viral Load, depressed individuals",
+            "COMMENT": "CMD_Diagnostic_TruePositive then receive depression screening, triggers CMD_Treat_Staging",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2025,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
                     ],
-                    "Choice_Probabilities":[
-                        1.0,
-                        0
+                    "Target_Demographic": "ExplicitAgeRanges",
+                    "Target_Age_Min": 18,
+                    "Target_Age_Max": 99.999,
+                    "Trigger_Condition_List": [
+                        "CMD_Treat_staging_delay"
                     ],
-                    "Choice_Probabilities__KP_TreatmentTable_Sensitivity" : "<== marker"
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Diagnostic_TruePositive",
+                            "CMD_Diagnostic_FalseNegative"
+                        ],
+                        "Choice_Probabilities":[
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_TreatmentTable_Sensitivity" : "<== marker"
+                    }
                 }
             }
         },
@@ -1272,36 +1297,31 @@
             },
             "Start_Year": 2025,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions_Within_Node":[
-                    {"CMDStatus":"CMD_neg","InterventionStatus":"OnNonSuppressiveARTDepressed"},
-                    {"CMDStatus":"CMD_neg","InterventionStatus":"OnNonSuppressiveART"},
-                    {"CMDStatus":"CMD_recovered","InterventionStatus":"OnNonSuppressiveARTDepressed"},
-                    {"CMDStatus":"CMD_recovered","InterventionStatus":"OnNonSuppressiveART"},
-                    {"CMDStatus":"CMD_treated","InterventionStatus":"OnNonSuppressiveARTDepressed"},
-                    {"CMDStatus":"CMD_treated","InterventionStatus":"OnNonSuppressiveART"}
-                ],
-                "Time_Value_Map": {
-                    "Times": [2025,2200],
-                    "Values":[1.0,1.0]
-                },
-                "Timesteps_Between_Repetitions": 6,
-                "Number_Repetitions": -1,
-                "Target_Demographic": "ExplicitAgeRanges",
-                "Target_Age_Min": 18,
-                "Target_Age_Max": 99.999,
-                "Target_Gender": "Male",
+                "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Diagnostic_TrueNegative",
-                        "CMD_Diagnostic_FalsePositive"
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
                     ],
-                    "Choice_Probabilities":[
-                        1.0,
-                        0
+                    "Target_Demographic": "ExplicitAgeRanges",
+                    "Target_Age_Min": 18,
+                    "Target_Age_Max": 99.999,
+                    "Trigger_Condition_List": [
+                        "CMD_Treat_staging_delay"
                     ],
-                    "Choice_Probabilities__KP_TreatmentTable_Specificity" : "<== marker"
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Diagnostic_TrueNegative",
+                            "CMD_Diagnostic_FalsePositive"
+                        ],
+                        "Choice_Probabilities":[
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_TreatmentTable_Specificity" : "<== marker"
+                    }
                 }
             }
         },
