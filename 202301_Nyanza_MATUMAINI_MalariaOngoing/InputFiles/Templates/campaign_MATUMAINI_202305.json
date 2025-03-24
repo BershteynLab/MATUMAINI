@@ -1068,7 +1068,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence",
+            "Event_Name":"CMD Incidence",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1135,7 +1135,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Screening",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1198,7 +1198,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Screening",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -3385,12 +3385,12 @@
         },
         {
             "END":"CMD relapse with treatment",
-            "Event_Name":"CMD relapse, changing property - with treatment after 2020",
+            "Event_Name":"CMD relapse, changing property - with treatment after 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2020,
+            "Start_Year": 2025,
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -3414,7 +3414,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat",
+                                    "CMD_Screening",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -3479,7 +3479,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Property_Restrictions":["CMDStatus:CMD_pos"],
                     "Trigger_Condition_List": [
-                        "CMD_Treat_staging",
+                        "CMD_Diagnostic_TruePositive",
                         "CMD_Treat_diagnosis"
                     ],
                     "Actual_IndividualIntervention_Config": {

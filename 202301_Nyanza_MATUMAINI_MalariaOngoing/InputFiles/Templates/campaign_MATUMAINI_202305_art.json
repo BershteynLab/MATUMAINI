@@ -1135,7 +1135,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat_staging",
+                                    "CMD_Screening",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1198,7 +1198,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat_staging",
+                                    "CMD_Screening",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -1226,61 +1226,111 @@
             }
         },
         {
-            "Event_Name": "Annual CMD Treatment for those on ART",
+            "Event_Name": "Schedule Annual CMD Screening for PLHIV on ART",
+            "COMMENT": "CMD_Diagnostic_TruePositive then receive depression screening, triggers CMD_Treat_Staging",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
             "Start_Year": 2025,
             "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions_Within_Node":[
-                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnEffectiveART"},
-                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
-                    {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}                
-                ],
-                "Time_Value_Map": {
-                    "Times": [2025,2200],
-                    "Values":[1.0,1.0]
-                },
-                "Timesteps_Between_Repetitions": 6,
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRanges",
                 "Target_Age_Min": 18,
                 "Target_Age_Max": 99.999,
                 "Target_Gender": "Male",
                 "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Treat_staging",
-                        "NoARTDummy"
-                    ],
-                    "Choice_Probabilities":[
-                        1.0,
-                        0
-                    ],
-                    "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
+                    "class":"HIVDelayedIntervention",
+                    "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
+                    "Delay_Period_Min": 1,
+                    "Delay_Period_Max": 365,
+                    "Broadcast_Event":"CMD_Screening_delay"
                 }
             }
         },
         {
-            "Event_Name":"CMD Treatment staging",
-            "class":"CampaignEventByYear",
+            "Event_Name": "Annual CMD Screening for PLHIV on ART, depressed individuals",
+            "COMMENT": "CMD_Diagnostic_TruePositive then receive depression screening, triggers CMD_Treat_Staging",
+            "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2020,
+            "Start_Year": 2025,
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
-                "Intervention_Config":{
+                "Intervention_Config": {
                     "class":"NodeLevelHealthTriggeredIV",
-                    "Trigger_Condition_List": ["CMD_Treat_staging_delay"],
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"},
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnEffectiveART"}
+                    ],
+                    "Target_Demographic": "ExplicitAgeRanges",
+                    "Target_Age_Min": 18,
+                    "Target_Age_Max": 99.999,
+                    "Trigger_Condition_List": [
+                        "CMD_Screening_delay",
+                        "CMD_Screening"
+                    ],
                     "Actual_IndividualIntervention_Config": {
-                        "class": "HIVDelayedIntervention",
-                        "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
-                        "Delay_Period_Min": 1,
-                        "Delay_Period_Max": 182.5,
-                        "Broadcast_Event":"CMD_Treat_staging"
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Diagnostic_TruePositive",
+                            "CMD_Diagnostic_FalseNegative"
+                        ],
+                        "Choice_Probabilities":[
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_TreatmentTable_Sensitivity" : "<== marker"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Annual CMD Screening for those on ART with unsuppressed Viral Load, CMD Negative individuals",
+            "COMMENT":"CMD_Diagnostic_FalsePositive means someone receives depression treatment who is not depressed; this should be counted in costing but have no effect",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2025,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_neg","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_neg","InterventionStatus":"OnNonSuppressiveART"},
+                        {"CMDStatus":"CMD_neg","InterventionStatus":"OnEffectiveART"},
+                        {"CMDStatus":"CMD_recovered","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_recovered","InterventionStatus":"OnNonSuppressiveART"},
+                        {"CMDStatus":"CMD_recovered","InterventionStatus":"OnEffectiveART"},
+                        {"CMDStatus":"CMD_treated","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_treated","InterventionStatus":"OnNonSuppressiveART"},
+                        {"CMDStatus":"CMD_treated","InterventionStatus":"OnEffectiveART"}
+                    ],
+                    "Target_Demographic": "ExplicitAgeRanges",
+                    "Target_Age_Min": 18,
+                    "Target_Age_Max": 99.999,
+                    "Trigger_Condition_List": [
+                        "CMD_Screening_delay",
+                        "CMD_Screening"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Diagnostic_TrueNegative",
+                            "CMD_Diagnostic_FalsePositive"
+                        ],
+                        "Choice_Probabilities":[
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_TreatmentTable_Specificity" : "<== marker"
                     }
                 }
             }
@@ -3444,12 +3494,12 @@
         },
         {
             "END":"CMD relapse with treatment",
-            "Event_Name":"CMD relapse, changing property - with treatment after 2020",
+            "Event_Name":"CMD relapse, changing property - with treatment after 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2020,
+            "Start_Year": 2025,
             "Event_Coordinator_Config": {
                 "class":"StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
@@ -3473,7 +3523,7 @@
                                 "Intervention_Name":"CMD treatment choice",
                                 "class":"HIVRandomChoice",
                                 "Choice_Names": [
-                                    "CMD_Treat_staging",
+                                    "CMD_Screening",
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
@@ -3538,7 +3588,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Property_Restrictions":["CMDStatus:CMD_pos"],
                     "Trigger_Condition_List": [
-                        "CMD_Treat_staging",
+                        "CMD_Diagnostic_TruePositive",
                         "CMD_Treat_diagnosis"
                     ],
                     "Actual_IndividualIntervention_Config": {
@@ -3548,8 +3598,8 @@
                             "CMD_NoTreat"
                         ],
                         "Choice_Probabilities": [
-                            0.65,
-                            0.35
+                            0.62,
+                            0.38
                         ],
                         "Choice_Probabilities__KP_CMDtreatment": "<-- MARKER"
                     }
@@ -3751,7 +3801,6 @@
             },
             "Event_Coordinator_Config": {
                 "class": "ReferenceTrackingEventCoordinatorTrackingConfig",
-                ".class": "ReferenceTrackingEventCoordinatorHIV",
                 "End_Year": 2099,
                 "Update_Period": 30.4166667,
                 "Target_Demographic": "Everyone",

@@ -89,8 +89,8 @@
             "CMD_Diagnostic_FalseNegative",
             "CMD_Diagnostic_TrueNegative",
             "CMD_Diagnostic_FalsePositive",
-            "CMD_Treat_staging",
-            "CMD_Treat_staging_delay",
+            "CMD_Screening",
+            "CMD_Screening_delay",
             "CMD_NoTreat_Recovery",
             "CMD_Treat_Recovery",
             "CMD_RecoverNoTreat",
@@ -230,14 +230,13 @@
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 1,
 
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [
-            "CMD_Treat_staging_delay",
+            "CMD_Screening",
+            "CMD_Screening_delay",
             "CMD_Diagnostic_TruePositive",
             "CMD_Diagnostic_FalseNegative",
             "CMD_Diagnostic_TrueNegative",
             "CMD_Diagnostic_FalsePositive",
-            "CMD_Treat",
-            "CMD_Incidence2",
-            "CMD_Relapse2"
+            "CMD_Treat"
         ],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
         "Report_HIV_ByAgeAndGender_Start_Year": 2020,
