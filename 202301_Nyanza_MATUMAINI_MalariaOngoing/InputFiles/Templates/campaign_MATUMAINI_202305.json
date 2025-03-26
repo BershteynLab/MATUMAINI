@@ -3418,8 +3418,8 @@
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
-                                    1.0,
-                                    0.0
+                                    0.0,
+                                    1.0
                                 ],
                                 "Choice_Probabilities__KP_treatment_after_relapse":"<== marker"
                             },
