@@ -90,11 +90,16 @@ scenarios.list = data.frame(
     "ceta"
   ),
   file.path = c(
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305-baseline___2025_02_09_10_17_34_073143",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni___2025_02_02_16_05_18_568334",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2025_02_01_20_12_50_699336",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art___2025_02_01_20_18_16_484638",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta___2025_02_01_20_15_44_165500"
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_baseline_notreat-baseline___2025_03_24_11_29_25_780089",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_screening___2025_03_24_11_32_51_750132",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-neutral_screening___2025_03_24_11_36_11_900470",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_screening___2025_03_24_11_39_29_857386",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta_screening___2025_03_24_11_42_27_875073"
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305-baseline___2025_02_09_10_17_34_073143",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni___2025_02_02_16_05_18_568334",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2025_02_01_20_12_50_699336",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art___2025_02_01_20_18_16_484638",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta___2025_02_01_20_15_44_165500"
   )
 ) %>% 
   mutate(scenario_ix = row_number())
@@ -103,7 +108,7 @@ scenarios.list = data.frame(
 
 ## Load scenario
 ```{r}
-scenario.ix = 5
+scenario.ix = 1
 scenarios.list %>% filter(scenario_ix == scenario.ix)
 ```
 
@@ -120,7 +125,10 @@ sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
     summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed",
-                       "CMD_Treat_staging", "CMD_Treat", "CMD_Incidence2", "CMD_Relapse2"),
+                        "CMD_Screening","CMD_Screening_delay","CMD_Treat",
+                        "CMD_Incidence2", "CMD_Relapse2",
+                        "CMD_Diagnostic_TruePositive","CMD_Diagnostic_FalseNegative","CMD_Diagnostic_TrueNegative","CMD_Diagnostic_FalsePositive"
+                        ),
   stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
   min_age_inclusive = 0,
   max_age_inclusive = 99

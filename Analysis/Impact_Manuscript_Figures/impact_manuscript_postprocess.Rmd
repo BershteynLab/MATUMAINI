@@ -1,0 +1,277 @@
+---
+title: "impact_manuscript_figures_postprocess"
+output: html_document
+date: "2025-03-28"
+---
+
+## Define some constants
+```{r}
+ART.cost <- 319
+CMD.screen.cost <- 3.35 
+CMD.treat.cost <- 20.32
+
+discount_percent = 0.03
+discount_start_year = 2025
+infected_weight = 0.274
+art_weight = 0.078
+```
+
+## Lists of scenarios and file paths
+```{r}
+scenarios.list = data.frame(
+  scenario_name = c(
+    "baseline",
+    "uni",
+    "neutral",
+    "art",
+    "ceta"
+  ),
+  file.path = c(
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_baseline_notreat-baseline___2025_03_26_22_49_52_833450",
+    '/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_screening___2025_03_26_22_53_16_764633',
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-neutral_screening___2025_03_26_22_56_26_381970",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_screening___2025_03_26_22_59_37_083847",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta_screening___2025_03_26_23_02_40_000382"
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_screening___2025_03_24_11_32_51_750132",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-neutral_screening___2025_03_24_11_36_11_900470",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_screening___2025_03_24_11_39_29_857386",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta_screening___2025_03_24_11_42_27_875073"
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305-baseline___2025_02_09_10_17_34_073143",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni___2025_02_02_16_05_18_568334",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2025_02_01_20_12_50_699336",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art___2025_02_01_20_18_16_484638",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta___2025_02_01_20_15_44_165500"
+  )
+) %>% 
+  mutate(scenario_ix = row_number())
+
+```
+
+```{r}
+for (scenario.ix in c(4:5)){
+
+  ## Load data
+  experiment.path = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$file.path
+  scenario.name = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$scenario_name
+  
+  sim.results <- NULL
+  
+  sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
+    experiment_path = experiment.path,
+    scenario_name = scenario.name,
+      summarize_columns = c("Population","Infected", "On_ART",
+                          "Died", "Died_from_HIV",
+                          "Newly.Infected","Diagnosed",
+                          "CMD_Screening","CMD_Screening_delay","CMD_Treat",
+                          "CMD_Incidence2", "CMD_Relapse2",
+                          "CMD_Diagnostic_TruePositive","CMD_Diagnostic_FalseNegative","CMD_Diagnostic_TrueNegative","CMD_Diagnostic_FalsePositive"
+                          ),
+    stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+    min_age_inclusive = 0,
+    max_age_inclusive = 99
+  )
+  
+  CENSUS_YEAR = 2020.5
+  KEN_CENSUS_POP = 6953951
+  
+  sim.results.pop.scaling <- sim.results %>%
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.ix, scenario_name) %>%
+      summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+      mutate(pop_scaling_factor = KEN_CENSUS_POP/total.pop)
+  
+  sim.results <- sim.results %>%
+    inner_join(
+      sim.results.pop.scaling,
+      by = c("sim.ix", "scenario_name")
+    )
+  
+  
+  ## Time series metrics
+  
+  time.series.metrics <- sim.results %>% 
+    filter(Year >= 2025.5, Age >= 15) %>% 
+    mutate(Year = ceiling(Year) - 1) %>% 
+    group_by(Year, sim.ix, scenario_name) %>% 
+    summarize(Population = sum(Population*pop_scaling_factor)/2,
+              PLHIV = sum(Infected * pop_scaling_factor)/2,
+              Diagnosed = sum(Diagnosed * pop_scaling_factor)/2,
+              On_ART = sum(On_ART * pop_scaling_factor)/2,
+              Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+              Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
+              Depression.episodes = sum( (CMD_Incidence2 + CMD_Relapse2) * pop_scaling_factor),
+              CMD_Screening = sum(CMD_Screening * pop_scaling_factor),
+              CMD_Screening_delay = sum(CMD_Screening_delay * pop_scaling_factor),
+              CMD_Diagnostic_TruePositive = sum(CMD_Diagnostic_TruePositive * pop_scaling_factor),
+              CMD_Diagnostic_FalseNegative = sum(CMD_Diagnostic_FalseNegative * pop_scaling_factor),
+              CMD_Diagnostic_TrueNegative = sum(CMD_Diagnostic_TrueNegative * pop_scaling_factor),
+              CMD_Diagnostic_FalsePositive = sum(CMD_Diagnostic_FalsePositive * pop_scaling_factor),
+              CMD_Treat = sum(CMD_Treat * pop_scaling_factor), 
+              .groups = 'drop_last'
+    ) %>% 
+    mutate(CMD_TotalTests = CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalseNegative + CMD_Diagnostic_FalsePositive + CMD_Diagnostic_TrueNegative) %>%
+    ungroup() %>% 
+    merge(
+      sim.results %>% 
+        filter(Year >= 2025.5, IP_Key.CMDStatus == 'CMD_pos') %>% 
+        mutate(Year = ceiling(Year) - 1) %>% 
+        group_by(Year, sim.ix, scenario_name) %>% 
+        summarize(CMD_pos = sum(Population*pop_scaling_factor)/2, .groups = 'drop_last') %>% 
+        ungroup(),
+      by = c("Year", "sim.ix", "scenario_name")
+    )
+  
+  
+  ## HIV related dalys
+  
+  data_by_age_year <- sim.results %>%
+    filter(Year >= 2025.5) %>% 
+    dplyr::group_by(Year, Age, sim.ix, scenario_name) %>%
+    dplyr::summarise(
+      Died_from_HIV = sum(Died_from_HIV),
+       Infected = sum(Infected),
+       On_ART = sum(On_ART),
+       pop_scaling_factor = mean(pop_scaling_factor),
+       .groups = "drop_last"
+     )
+  
+  data_by_age_year$Year_Integer <- floor((data_by_age_year$Year-0.5))
+  
+  m2 <- data_by_age_year %>%
+          dplyr::group_by(Year_Integer, Age, sim.ix, scenario_name) %>%
+          dplyr::summarise(
+            Died_from_HIV = sum(Died_from_HIV),
+            Infected = mean(Infected),
+            On_ART = mean(On_ART),
+            pop_scaling_factor = mean(pop_scaling_factor),
+            .groups = "drop_last"
+           )
+  
+  m2 <- m2 %>%
+          mutate(On_ART_calib = On_ART*pop_scaling_factor,
+          Infected_calib = Infected*pop_scaling_factor,
+          Died_from_HIV_calib = Died_from_HIV*pop_scaling_factor,
+          Infected_off_ART_calib = (Infected - On_ART)*pop_scaling_factor)
+  
+  life_expectancy = 80
+  m2$Age <- ifelse(m2$Age >life_expectancy, life_expectancy, m2$Age)
+  
+  m3 <- m2 %>%
+        dplyr::group_by(Year_Integer, Age, scenario_name, sim.ix) %>%
+        dplyr::select(Year_Integer, Age, scenario_name, sim.ix, 
+                      Died_from_HIV_calib, Infected_off_ART_calib, On_ART_calib) %>%
+        dplyr::summarise_all(list(median=median))
+  
+  disability.tibble <- m3 %>%
+    dplyr::group_by(Year_Integer, scenario_name, sim.ix) %>%
+    dplyr::summarize(
+      infected_untreated = sum(Infected_off_ART_calib_median),
+      on_art = sum(On_ART_calib_median)
+      ) %>%
+    dplyr::rename(year = Year_Integer)
+  
+  m4 <- m3 %>% mutate(year_applied = Year_Integer - (Age - (life_expectancy + 1)))
+  
+  daly.tibble <- merge(
+    tibble(scenario_name_ = scenario.name),
+    tibble(
+      year = seq(min(m4$Year_Integer), max(m4$Year_Integer))
+    ),
+    all = TRUE
+  ) %>% 
+    merge(  tibble(sim.ix = seq(1,10)), all=TRUE)
+  
+  daly_expanded <- tibble(
+      year = seq(min(m4$Year_Integer), max(m4$Year_Integer))
+    ) %>% 
+    crossing(
+      sim.ix = unique(m4$sim.ix),
+      scenario_name = unique(m4$scenario_name)
+    )
+  
+  yll <- daly_expanded %>%
+    left_join(m4, by = c("sim.ix", "scenario_name")) %>%
+    filter(Year_Integer <= year, year_applied > year) %>%
+    group_by(year, sim.ix, scenario_name) %>%
+    summarize(
+      yll = sum(Died_from_HIV_calib_median, na.rm = TRUE),
+      .groups = "drop"
+    )
+  
+  daly = left_join(
+    yll, 
+    disability.tibble, 
+    by=c("year", "sim.ix", "scenario_name")
+    ) %>%
+   replace(is.na(.), 0)
+  
+  daly <- daly %>% mutate(daly = infected_untreated*infected_weight + on_art*art_weight + yll)
+  daly <- daly %>% mutate(discount_factor = (1 - discount_percent)^(year - discount_start_year) )
+  daly[daly$year < discount_start_year,'discount_factor'] <- 1.0
+  daly <- daly %>% mutate(daly_future_discounted = daly*discount_factor )
+  
+  HIV.DALYs <- daly %>% select(Year = year, 
+                  sim.ix,
+                  HIV.DALY = daly,
+                  HIV.DALY.discounted = daly_future_discounted)
+  
+  ## Depression dalys
+  
+  Depression.DALYs <- sim.results %>% 
+    filter(Year >= 2025.5, IP_Key.CMDStatus == "CMD_pos") %>% 
+    mutate(Year_Integer = floor(Year-0.5)) %>% 
+    group_by(Year_Integer, sim.ix, scenario_name) %>% 
+    summarize(Depressed = sum(Population * pop_scaling_factor), .groups = 'drop_last') %>% 
+    ungroup()
+  
+  Depression.DALYs <- Depression.DALYs %>% 
+    mutate(discount_factor = (1 - 0.03)^(pmax(Year_Integer - 2025, 0)) ) %>% 
+    mutate(Depression.YLD = Depressed/2) %>% 
+    mutate(
+      Depression.DALY = 0.396*Depression.YLD/2,
+      Depression.DALY.discounted = 0.396*Depression.YLD*discount_factor/2
+      )
+  
+  Depression.DALYs <- Depression.DALYs %>% 
+    select(Year = Year_Integer, sim.ix, Depression.DALY, Depression.DALY.discounted)
+  
+  ## Costs
+  
+  Cost.Data <- time.series.metrics %>% 
+    mutate(discount_factor = (1 - 0.03)^(pmax(Year - 2025, 0)) ) %>% 
+    mutate(
+      PYOnART = On_ART,
+      PYOnART.discounted = On_ART * discount_factor,
+      CMD_TotalTests.discounted = CMD_TotalTests * discount_factor,
+      CMD_TotalTreatment = CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalsePositive,
+      CMD_TotalTreatment.discounted = (CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalsePositive) * discount_factor
+     ) %>% 
+    group_by(Year, sim.ix) %>% 
+    summarize(
+      OnART.cost = sum(PYOnART * ART.cost),
+      OnART.cost.discounted = sum(PYOnART.discounted * ART.cost),
+      CMD_TotalTests.cost = sum(CMD_TotalTests * CMD.screen.cost),
+      CMD_TotalTests.cost.discounted = sum(CMD_TotalTests.discounted * CMD.screen.cost), 
+      CMD_TotalTreatment.cost = sum(CMD_TotalTreatment * CMD.treat.cost),
+      CMD_TotalTreatment.cost.discounted = sum(CMD_TotalTreatment.discounted * CMD.treat.cost),
+      CMD_Total.cost = sum(CMD_TotalTests * CMD.screen.cost + CMD_TotalTreatment * CMD.treat.cost),
+      CMD_Total.cost.discounted = sum(CMD_TotalTests.discounted * CMD.screen.cost + CMD_TotalTreatment.discounted * CMD.treat.cost),
+      .groups = 'drop_last'
+    )
+  
+  ## Join together and save
+  
+  sim.results.metrics <- time.series.metrics %>% 
+    merge(HIV.DALYs,
+          by = c("Year", 'sim.ix')) %>% 
+    merge(Depression.DALYs,
+          by = c("Year", 'sim.ix')) %>% 
+    merge(Cost.Data, 
+          by = c("Year", "sim.ix"))
+  
+   write_csv(sim.results.metrics, 
+            paste0("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/sim_results_metrics_",scenario.name,".csv"))
+
+ }
+```
+

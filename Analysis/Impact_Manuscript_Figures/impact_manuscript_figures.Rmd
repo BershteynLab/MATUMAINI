@@ -1,0 +1,1501 @@
+---
+title: "impact_manuscript_figures.Rmd"
+output: html_document
+date: "2025-02-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Introduction
+
+The purpose of this document is to build on the analysis that was done previously in 
+
+* impact_manuscript_analysis.Rmd
+* IAS_2025_Abstract_Impact.Rmd
+
+in order to produce camera-ready metrics and figures for the upcoming manuscript 
+on the impact and cost-effectiveness of depression treatment
+
+## Load Libraries
+
+```{r Load Libraries, echo = FALSE}
+library(tidyverse)
+library(data.table)
+library(magrittr)
+library(rsample)
+library(readxl)
+library(devtools)
+library(ggpubr)
+library(patchwork)
+
+devtools::install_github("BershteynLab/EMODAnalyzeR", force = TRUE)
+```
+
+## Define some functions
+
+### Confidence intervals
+```{r}
+# Confidence interval functions
+lower_ci <- function(mean, se, n, conf_level = 0.95){
+  lower_ci <- mean - qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(lower_ci)
+}
+upper_ci <- function(mean, se, n, conf_level = 0.95){
+  upper_ci <- mean + qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(upper_ci)
+}
+```
+
+### Bootstrapping
+```{r}
+bt_mean <- function(splits, colname){
+  x <- as.data.frame(analysis(splits))
+  mean(x[[colname]])
+}
+
+calculate.CI.by.metric = function(data, scenario.name, metric, n = 500){
+  bt_resamples <- bootstraps(data %>% filter(scenario_name == scenario.name), times = n)
+  
+  bt_resamples$mean.metric <- map_dbl(bt_resamples$splits, bt_mean, metric)
+  metric_95 <- quantile(bt_resamples$mean.metric, probs = c(0.025, 0.975))
+  
+  return(
+      data.frame(
+      scenario_name = scenario.name, 
+      metric = metric,
+      metric.mean = mean(bt_resamples$mean.metric),
+      metric.lb = metric_95[[1]], 
+      metric.ub = metric_95[[2]]
+    )
+  )
+}
+```
+
+## Define some constants
+```{r}
+ART.cost <- 319
+CMD.screen.cost <- 3.35 
+CMD.treat.cost <- 20.32
+
+discount_percent = 0.03
+discount_start_year = 2025
+infected_weight = 0.274
+art_weight = 0.078
+
+```
+
+
+## Define Style
+```{r}
+#color.scheme = c("#EB2B42", "#2139D3", "#3DB34C", "#B326D3")
+color.scheme = c("#E3980C", "#478F3C", "#2C14CC", "#B326D3")
+```
+
+
+# Read data
+
+Going to do this a little differently from before - I am going to loop over a 
+dictionary of scenarios and accompanying file paths, and save the related data into a folder
+
+## Lists of scenarios and file paths
+```{r}
+scenarios.list = data.frame(
+  scenario_name = c(
+    "baseline",
+    "uni",
+    "neutral"
+    # "art",
+    # "ceta"
+  ),
+  file.path = c(
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_baseline_notreat-baseline___2025_03_26_22_49_52_833450",
+    '/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_screening___2025_03_26_22_53_16_764633',
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-neutral_screening___2025_03_26_22_56_26_381970"
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_screening___2025_03_24_11_32_51_750132",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-neutral_screening___2025_03_24_11_36_11_900470",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_screening___2025_03_24_11_39_29_857386",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta_screening___2025_03_24_11_42_27_875073"
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305-baseline___2025_02_09_10_17_34_073143",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni___2025_02_02_16_05_18_568334",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_annual-annual___2025_02_01_20_12_50_699336",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art___2025_02_01_20_18_16_484638",
+    # "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-art_ceta___2025_02_01_20_15_44_165500"
+  )
+) %>% 
+  mutate(scenario_ix = row_number())
+
+```
+
+## Load scenario
+```{r}
+scenario.ix = 1
+scenarios.list %>% filter(scenario_ix == scenario.ix)
+```
+
+
+```{r}
+experiment.path = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$file.path
+scenario.name = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$scenario_name
+
+sim.results <- NULL
+
+sim.results <- EMODAnalyzeR::read.simulation.results.  experiment_path = experiment.path,
+  scenario_name = scenario.name,
+    summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed",
+                        "CMD_Screening","CMD_Screening_delay","CMD_Treat",
+                        "CMD_Incidence2", "CMD_Relapse2",
+                        "CMD_Diagnostic_TruePositive","CMD_Diagnostic_FalseNegative","CMD_Diagnostic_TrueNegative","CMD_Diagnostic_FalsePositive"
+                        ),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+CENSUS_YEAR = 2020.5
+KEN_CENSUS_POP = 6953951
+
+sim.results.pop.scaling <- sim.results %>%
+    filter(Year == CENSUS_YEAR) %>%
+    group_by(sim.ix, scenario_name) %>%
+    summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+    mutate(pop_scaling_factor = KEN_CENSUS_POP/total.pop)
+
+sim.results <- sim.results %>%
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+```
+
+## Extract Metrics
+
+List of metrics:
+
+For scenarios Baseline, Uni, Neutral/Annual, ART, CETA:
+
+* Population over Time
+* HIV prevalence over time
+* HIV new infections over time
+* HIV mortality over time
+* Depression episodes over time
+* CMD prevalence over time
+* CMD treatments over time
+* CEAC curve
+
+For all scenarios
+
+* HIV infections averted (compare to baseline)
+* HIV deaths averted
+* Person-years on ART averted
+* Depression episodes averted
+* Depression treatments
+* HIV-related DALYs averted
+* Depression-related DALYs averted
+* Total DALYs averted
+* ICER
+
+### Time series metrics
+
+```{r}
+time.series.metrics <- sim.results %>% 
+  filter(Year >= 2025.5, Age >= 15) %>% 
+  mutate(Year = ceiling(Year) - 1) %>% 
+  group_by(Year, sim.ix, scenario_name) %>% 
+  summarize(Population = sum(Population*pop_scaling_factor)/2,
+            PLHIV = sum(Infected * pop_scaling_factor)/2,
+            Diagnosed = sum(Diagnosed * pop_scaling_factor)/2,
+            On_ART = sum(On_ART * pop_scaling_factor)/2,
+            Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+            Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
+            Depression.episodes = sum( (CMD_Incidence2 + CMD_Relapse2) * pop_scaling_factor),
+            CMD_Screening = sum(CMD_Screening * pop_scaling_factor),
+            CMD_Screening_delay = sum(CMD_Screening_delay * pop_scaling_factor),
+            CMD_Diagnostic_TruePositive = sum(CMD_Diagnostic_TruePositive * pop_scaling_factor),
+            CMD_Diagnostic_FalseNegative = sum(CMD_Diagnostic_FalseNegative * pop_scaling_factor),
+            CMD_Diagnostic_TrueNegative = sum(CMD_Diagnostic_TrueNegative * pop_scaling_factor),
+            CMD_Diagnostic_FalsePositive = sum(CMD_Diagnostic_FalsePositive * pop_scaling_factor),
+            CMD_Treat = sum(CMD_Treat * pop_scaling_factor), 
+            .groups = 'drop_last'
+  ) %>% 
+  mutate(CMD_TotalTests = CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalseNegative + CMD_Diagnostic_FalsePositive + CMD_Diagnostic_TrueNegative) %>%
+  ungroup() %>% 
+  merge(
+    sim.results %>% 
+      filter(Year >= 2025.5, IP_Key.CMDStatus == 'CMD_pos') %>% 
+      mutate(Year = ceiling(Year) - 1) %>% 
+      group_by(Year, sim.ix, scenario_name) %>% 
+      summarize(CMD_pos = sum(Population*pop_scaling_factor)/2, .groups = 'drop_last') %>% 
+      ungroup(),
+    by = c("Year", "sim.ix", "scenario_name")
+  )
+
+```
+
+
+### DALY calculation
+
+#### HIV DALYs
+
+```{r}
+data_by_age_year <- sim.results %>%
+  filter(Year >= 2025.5) %>% 
+  dplyr::group_by(Year, Age, sim.ix, scenario_name) %>%
+  dplyr::summarise(
+    Died_from_HIV = sum(Died_from_HIV),
+     Infected = sum(Infected),
+     On_ART = sum(On_ART),
+     pop_scaling_factor = mean(pop_scaling_factor),
+     .groups = "drop_last"
+   )
+
+data_by_age_year$Year_Integer <- floor((data_by_age_year$Year-0.5))
+
+m2 <- data_by_age_year %>%
+        dplyr::group_by(Year_Integer, Age, sim.ix, scenario_name) %>%
+        dplyr::summarise(
+          Died_from_HIV = sum(Died_from_HIV),
+          Infected = mean(Infected),
+          On_ART = mean(On_ART),
+          pop_scaling_factor = mean(pop_scaling_factor),
+          .groups = "drop_last"
+         )
+
+m2 <- m2 %>%
+        mutate(On_ART_calib = On_ART*pop_scaling_factor,
+        Infected_calib = Infected*pop_scaling_factor,
+        Died_from_HIV_calib = Died_from_HIV*pop_scaling_factor,
+        Infected_off_ART_calib = (Infected - On_ART)*pop_scaling_factor)
+
+life_expectancy = 80
+m2$Age <- ifelse(m2$Age >life_expectancy, life_expectancy, m2$Age)
+
+m3 <- m2 %>%
+      dplyr::group_by(Year_Integer, Age, scenario_name, sim.ix) %>%
+      dplyr::select(Year_Integer, Age, scenario_name, sim.ix, 
+                    Died_from_HIV_calib, Infected_off_ART_calib, On_ART_calib) %>%
+      dplyr::summarise_all(list(median=median))
+
+disability.tibble <- m3 %>%
+  dplyr::group_by(Year_Integer, scenario_name, sim.ix) %>%
+  dplyr::summarize(
+    infected_untreated = sum(Infected_off_ART_calib_median),
+    on_art = sum(On_ART_calib_median)
+    ) %>%
+  dplyr::rename(year = Year_Integer)
+
+m4 <- m3 %>% mutate(year_applied = Year_Integer - (Age - (life_expectancy + 1)))
+
+daly.tibble <- merge(
+  tibble(scenario_name_ = scenario.name),
+  tibble(
+    year = seq(min(m4$Year_Integer), max(m4$Year_Integer))
+  ),
+  all = TRUE
+) %>% 
+  merge(  tibble(sim.ix = seq(1,10)), all=TRUE)
+
+daly_expanded <- tibble(
+    year = seq(min(m4$Year_Integer), max(m4$Year_Integer))
+  ) %>% 
+  crossing(
+    sim.ix = unique(m4$sim.ix),
+    scenario_name = unique(m4$scenario_name)
+  )
+
+yll <- daly_expanded %>%
+  left_join(m4, by = c("sim.ix", "scenario_name")) %>%
+  filter(Year_Integer <= year, year_applied > year) %>%
+  group_by(year, sim.ix, scenario_name) %>%
+  summarize(
+    yll = sum(Died_from_HIV_calib_median, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+daly = left_join(
+  yll, 
+  disability.tibble, 
+  by=c("year", "sim.ix", "scenario_name")
+  ) %>%
+ replace(is.na(.), 0)
+
+daly <- daly %>% mutate(daly = infected_untreated*infected_weight + on_art*art_weight + yll)
+daly <- daly %>% mutate(discount_factor = (1 - discount_percent)^(year - discount_start_year) )
+daly[daly$year < discount_start_year,'discount_factor'] <- 1.0
+daly <- daly %>% mutate(daly_future_discounted = daly*discount_factor )
+
+HIV.DALYs <- daly %>% select(Year = year, 
+                sim.ix,
+                HIV.DALY = daly,
+                HIV.DALY.discounted = daly_future_discounted)
+
+```
+
+
+#### Depression-related DALYs
+
+```{r}
+Depression.DALYs <- sim.results %>% 
+  filter(Year >= 2025.5, IP_Key.CMDStatus == "CMD_pos") %>% 
+  mutate(Year_Integer = floor(Year-0.5)) %>% 
+  group_by(Year_Integer, sim.ix, scenario_name) %>% 
+  summarize(Depressed = sum(Population * pop_scaling_factor), .groups = 'drop_last') %>% 
+  ungroup()
+
+Depression.DALYs <- Depression.DALYs %>% 
+  mutate(discount_factor = (1 - 0.03)^(pmax(Year_Integer - 2025, 0)) ) %>% 
+  mutate(Depression.YLD = Depressed/2) %>% 
+  mutate(
+    Depression.DALY = 0.396*Depression.YLD/2,
+    Depression.DALY.discounted = 0.396*Depression.YLD*discount_factor/2
+    )
+
+Depression.DALYs <- Depression.DALYs %>% 
+  select(Year = Year_Integer, sim.ix, Depression.DALY, Depression.DALY.discounted)
+```
+
+### Costs
+
+Sum over person-years lived on ART, with and without discounting
+Sum over total screenings, with and without discounting
+Sum over total treatments, with and without discounting
+
+```{r}
+Cost.Data <- time.series.metrics %>% 
+  mutate(discount_factor = (1 - 0.03)^(pmax(Year - 2025, 0)) ) %>% 
+  mutate(
+    PYOnART = On_ART,
+    PYOnART.discounted = On_ART * discount_factor,
+    CMD_TotalTests.discounted = CMD_TotalTests * discount_factor,
+    CMD_TotalTreatment = CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalsePositive,
+    CMD_TotalTreatment.discounted = (CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalsePositive) * discount_factor
+   ) %>% 
+  group_by(Year, sim.ix) %>% 
+  summarize(
+    OnART.cost = sum(PYOnART * ART.cost),
+    OnART.cost.discounted = sum(PYOnART.discounted * ART.cost),
+    CMD_TotalTests.cost = sum(CMD_TotalTests * CMD.screen.cost),
+    CMD_TotalTests.cost.discounted = sum(CMD_TotalTests.discounted * CMD.screen.cost), 
+    CMD_TotalTreatment.cost = sum(CMD_TotalTreatment * CMD.treat.cost),
+    CMD_TotalTreatment.cost.discounted = sum(CMD_TotalTreatment.discounted * CMD.treat.cost),
+    CMD_Total.cost = sum(CMD_TotalTests * CMD.screen.cost + CMD_TotalTreatment * CMD.treat.cost),
+    CMD_Total.cost.discounted = sum(CMD_TotalTests.discounted * CMD.screen.cost + CMD_TotalTreatment.discounted * CMD.treat.cost),
+    .groups = 'drop_last'
+  )
+```
+
+
+### Join together and save
+
+```{r}
+sim.results.metrics <- time.series.metrics %>% 
+  merge(HIV.DALYs,
+        by = c("Year", 'sim.ix')) %>% 
+  merge(Depression.DALYs,
+        by = c("Year", 'sim.ix')) %>% 
+  merge(Cost.Data, 
+        by = c("Year", "sim.ix"))
+
+ write_csv(sim.results.metrics, 
+          paste0("sim_results_metrics_",scenario.name,".csv"))
+```
+
+
+# Metrics
+
+## Load data
+
+```{r, echo = FALSE}
+sim.results.metrics.table <- rbind(
+  read_csv("sim_results_metrics_baseline.csv"),
+  read_csv("sim_results_metrics_uni.csv"),
+  read_csv("sim_results_metrics_neutral.csv"),
+  read_csv("sim_results_metrics_art.csv"),
+  read_csv("sim_results_metrics_ceta.csv")
+  # read_csv("Impact_Manuscript_Figures/Time_Series_data_for_figures/sim_results_metrics_neutral.csv"),
+  # read_csv("Impact_Manuscript_Figures/Time_Series_data_for_figures/sim_results_metrics_art.csv"),
+  # read_csv("Impact_Manuscript_Figures/Time_Series_data_for_figures/sim_results_metrics_ceta.csv")
+  )
+
+```
+
+## Calculate metrics
+
+In the year 2025
+
+1. Population
+2. PLHIV
+3. Number of people on ART
+4. People with depression
+
+```{r}
+metric.names = c(
+  "Population",
+  "PLHIV",
+  "On_ART",
+  "CMD_pos"
+)
+
+scenario.names = sim.results.metrics.table$scenario_name %>% unique 
+
+metrics.2025 = data.frame()
+
+for (i in metric.names){
+  for (j in scenario.names) {
+    
+    #print(c(i,j))
+    h <- calculate.CI.by.metric(
+      data = sim.results.metrics.table %>% filter(Year == 2025),
+      scenario.name = j,
+      metric = i)
+    
+    metrics.2025 = rbind(metrics.2025, h)
+  }
+}
+
+metrics.2025
+```
+
+Between the years 2025-2035
+
+1. New HIV infections
+2. HIV related deaths
+3. Depression episodes
+4. Depression treatments administered
+5. HIV-related DALYs
+6. HIV-related DALYs, discounted
+7. Depression-related DALYs
+8. Depression-related DALYs, discounted
+9. Total DALYs
+10. Total DALYs, discounted
+10. Total depression screenings
+11. Total depression treatments
+12. Depression screening costs
+13. Depression screening costs, discounted
+14. Depression treatment costs
+15. Depression treatment costs, discounted
+16. Total depression costs
+17. Total depression costs, discounted
+18. On ART costs
+19. On ART costs, discounted
+20. Total costs
+21. Total costs, discounted
+
+```{r}
+data.2025.2035 <- sim.results.metrics.table %>% 
+  group_by(scenario_name, sim.ix)  %>% 
+  summarise(Newly.Infected = sum(Newly.Infected),
+            Died_from_HIV = sum(Died_from_HIV),
+            On_ART = sum(On_ART),
+            Depression.episodes = sum(Depression.episodes),
+            HIV.DALY = sum(HIV.DALY),
+            HIV.DALY.discounted = sum(HIV.DALY.discounted),
+            Depression.DALY = sum(Depression.DALY),
+            Depression.DALY.discounted = sum(Depression.DALY.discounted),
+            Total.DALY = sum(Depression.DALY + HIV.DALY), 
+            Total.DALY.discounted = sum(Depression.DALY.discounted + HIV.DALY.discounted), 
+            CMD_TotalTests = sum(CMD_TotalTests),
+            CMD_TotalTreatment = sum(CMD_TotalTreatment.cost/CMD.treat.cost),
+            CMD_TotalTests.cost = sum(CMD_TotalTests.cost),
+            CMD_TotalTests.cost.discounted = sum(CMD_TotalTests.cost.discounted),
+            CMD_TotalTreatment.cost = sum(CMD_TotalTreatment.cost), 
+            CMD_TotalTreatment.cost.discounted = sum(CMD_TotalTreatment.cost.discounted),
+            CMD_Total.cost = sum(CMD_Total.cost),
+            CMD_Total.cost.discounted = sum(CMD_Total.cost.discounted),
+            OnART.cost = sum(OnART.cost),
+            OnART.cost.discounted = sum(OnART.cost.discounted),
+            Total.cost = sum(CMD_Total.cost + OnART.cost),
+            Total.cost.discounted = sum(CMD_Total.cost.discounted + OnART.cost.discounted),
+         ) %>% ungroup()
+
+metric.names = c(
+  "Newly.Infected",
+  "Died_from_HIV",
+  "On_ART",
+  "Depression.episodes",
+  "HIV.DALY",
+  "HIV.DALY.discounted",
+  "Depression.DALY",
+  "Depression.DALY.discounted",
+  "Total.DALY",
+  "Total.DALY.discounted",
+  "CMD_TotalTests", 
+  "CMD_TotalTreatment",
+  "CMD_TotalTests.cost",
+  "CMD_TotalTests.cost.discounted",
+  "CMD_TotalTreatment.cost",
+  "CMD_TotalTreatment.cost.discounted",
+  "CMD_Total.cost",
+  "CMD_Total.cost.discounted",
+  "OnART.cost",
+  "OnART.cost.discounted",
+  "Total.cost",
+  "Total.cost.discounted"  
+)
+
+scenario.names = sim.results.metrics.table$scenario_name %>% unique 
+
+metrics.2025.3035 = data.frame()
+
+for (i in metric.names){
+  for (j in scenario.names) {
+    
+    print(c(i,j))
+    h <- calculate.CI.by.metric(
+      data = data.2025.2035,
+      scenario.name = j,
+      metric = i)
+    
+    metrics.2025.3035 = rbind(metrics.2025.3035, h)
+  }
+}
+
+metrics.2025.3035
+```
+
+## Calculate Impact
+
+Between the years 2025-2035
+
+* Number of new HIV acquisitions
+* Number of HIV-related deaths
+* Person-years on ART
+* Number of depression episodes
+* HIV-related DALYs, discounted and not
+* Depression-related DALYs, discounted and not
+* Total DALYs, discounted and not
+
+```{r}
+hiv.averted.stats <- sim.results.metrics.table %>% 
+  filter(Year >= 2025) %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected),
+    Died_from_HIV = sum(Died_from_HIV),
+    On_ART = sum(On_ART),
+    Depression.episodes = sum(Depression.episodes),
+    CMD_pos = sum(CMD_pos),
+    HIV.DALY = sum(HIV.DALY),
+    HIV.DALY.discounted = sum(HIV.DALY.discounted),
+    Depression.DALY = sum(Depression.DALY),
+    Depression.DALY.discounted = sum(Depression.DALY.discounted),
+    Total.DALY = sum(Depression.DALY + HIV.DALY),
+    Total.DALY.discounted = sum(Depression.DALY.discounted + HIV.DALY.discounted),
+    .groups = 'drop_last') %>% 
+  ungroup() %>% 
+  mutate(Total.DALY = HIV.DALY + Depression.DALY)
+
+hiv.averted.stats.baseline <- sim.results.metrics.table %>% 
+  filter(Year >= 2025, scenario_name == 'baseline') %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected.baseline = sum(Newly.Infected),
+    Died_from_HIV.baseline = sum(Died_from_HIV),
+    On_ART.baseline = sum(On_ART),
+    Depression.episodes.baseline = sum(Depression.episodes),
+    CMD_pos.baseline = sum(CMD_pos),
+    HIV.DALY.baseline = sum(HIV.DALY),
+    HIV.DALY.discounted.baseline = sum(HIV.DALY.discounted),
+    Depression.DALY.baseline = sum(Depression.DALY),
+    Depression.DALY.discounted.baseline = sum(Depression.DALY.discounted),
+    Total.DALY.baseline = sum(Depression.DALY + HIV.DALY),
+    Total.DALY.discounted.baseline = sum(Depression.DALY.discounted + HIV.DALY.discounted),
+    .groups = 'drop_last') %>% 
+  ungroup() %>% 
+  mutate(Total.DALY.baseline = HIV.DALY.baseline + Depression.DALY.baseline)
+
+hiv.averted.stats <- hiv.averted.stats %>% 
+  merge(
+    hiv.averted.stats.baseline[-1], 
+    by = c("sim.ix")
+  ) %>% 
+  mutate(
+    Died_from_HIV.averted = Died_from_HIV.baseline - Died_from_HIV,
+    Newly.Infected.averted = Newly.Infected.baseline - Newly.Infected,
+    On_ART.averted = On_ART.baseline - On_ART,
+    Depression.episodes.averted = Depression.episodes.baseline - Depression.episodes,
+    CMD_pos.averted = CMD_pos.baseline - CMD_pos,
+    HIV.DALY.averted = HIV.DALY.baseline - HIV.DALY,
+    HIV.DALY.discounted.averted = HIV.DALY.discounted.baseline - HIV.DALY.discounted,
+    Depression.DALY.averted = Depression.DALY.baseline - Depression.DALY,
+    Depression.DALY.discounted.averted = Depression.DALY.discounted.baseline - Depression.DALY.discounted,
+    Total.DALY.averted = Total.DALY.baseline - Total.DALY,
+    Total.DALY.discounted.averted = Total.DALY.discounted.baseline - Total.DALY.discounted
+    ) %>% 
+  mutate(
+    Died_from_HIV.averted.pct = Died_from_HIV.averted/Died_from_HIV.baseline,
+    Newly.Infected.averted.pct = Newly.Infected.averted/Newly.Infected.baseline,
+    On_ART.averted.pct = On_ART.averted/On_ART.baseline,
+    Depression.episodes.averted.pct = Depression.episodes.averted/Depression.episodes.baseline,
+    CMD_pos.averted.pct = CMD_pos.averted/CMD_pos.baseline,
+    HIV.DALY.averted.pct = HIV.DALY.averted/HIV.DALY.baseline,
+    HIV.DALY.discounted.averted.pct = HIV.DALY.discounted.averted/HIV.DALY.discounted.baseline,
+    Depression.DALY.averted.pct = Depression.DALY.averted/Depression.DALY.baseline,
+    Depression.DALY.discounted.averted.pct = Depression.DALY.discounted.averted/Depression.DALY.discounted.baseline,
+    Total.DALY.averted.pct = Total.DALY.averted/Total.DALY.baseline,
+    Total.DALY.discounted.averted.pct = Total.DALY.discounted.averted/Total.DALY.discounted.baseline
+  )
+
+metric.names = c(
+  "Died_from_HIV.averted",
+  "Died_from_HIV.averted.pct",
+  "Newly.Infected.averted",
+  "Newly.Infected.averted.pct",
+  "On_ART.averted",
+  "On_ART.averted.pct",
+  "Depression.episodes.averted",
+  "Depression.episodes.averted.pct",
+  "CMD_pos.averted",
+  "CMD_pos.averted.pct",
+  "HIV.DALY.averted",
+  "HIV.DALY.averted.pct",
+  "HIV.DALY.discounted.averted",
+  "HIV.DALY.discounted.averted.pct",
+  "Depression.DALY.averted", 
+  "Depression.DALY.averted.pct",
+  "Depression.DALY.discounted.averted", 
+  "Depression.DALY.discounted.averted.pct",
+  "Total.DALY.averted",
+  "Total.DALY.averted.pct",
+  "Total.DALY.discounted.averted",
+  "Total.DALY.discounted.averted.pct"
+)
+
+scenario_names = hiv.averted.stats$scenario_name %>% unique 
+
+metrics = data.frame()
+
+for (i in metric.names){
+  for (j in scenario_names) {
+    
+    print(c(i,j))
+    h <- calculate.CI.by.metric(
+      data = hiv.averted.stats, 
+      scenario.name = j,
+      metric = i)
+    
+    metrics = rbind(metrics, h)
+  }
+}
+
+HIV.Depression.Averted.Data <- metrics
+```
+
+#### Recalculate variance in incremental DALYs averted
+
+For some reason, these are very very very small, so I will try to use lower_ci and upper_ci to recalculate
+
+```{r}
+lower_ci <- function(mean, se, n, conf_level = 0.95){
+  lower_ci <- mean - qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(lower_ci)
+}
+upper_ci <- function(mean, se, n, conf_level = 0.95){
+  upper_ci <- mean + qt(1 - ((1 - conf_level) / 2), n - 1) * se
+  return(upper_ci)
+}
+
+
+hiv.averted.stats %>%
+  group_by(scenario_name) %>% 
+  summarize(sd.total.DALY = sd(Total.DALY.discounted.averted),
+            mean.total.DALY = mean(Total.DALY.discounted.averted), 
+            sd.hiv.DALY = sd(HIV.DALY.discounted.averted),
+            mean.hiv.DALY = mean(HIV.DALY.discounted.averted)) %>% 
+  ungroup() %>% 
+  mutate(total.DALY.lb = lower_ci(mean.total.DALY, sd.total.DALY, 250, .95),
+         total.DALY.ub = upper_ci(mean.total.DALY, sd.total.DALY, 250, .95),
+         total.HIV.lb = lower_ci(mean.hiv.DALY, sd.hiv.DALY, 250, .95),
+         total.HIV.ub = upper_ci(mean.hiv.DALY, sd.hiv.DALY, 250, .95))
+```
+
+## Calculate ICERs
+
+### Calculate incremental costs
+
+#### No discount 
+```{r}
+cost.incremental <- merge(
+    metrics.2025.3035 %>% 
+      filter(metric == 'OnART.cost') %>% 
+      mutate(OnART.cost.baseline = metrics.2025.3035 %>% filter(metric == 'OnART.cost', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.marginal = metric.mean - OnART.cost.baseline ) %>% 
+      select(scenario_name, OnART.cost.marginal),
+    metrics.2025.3035 %>% 
+      filter(metric == 'CMD_Total.cost') %>% 
+      mutate(CMD_Total.cost.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_Total.cost', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_Total.cost.marginal = metric.mean - CMD_Total.cost.baseline) %>% 
+      select(scenario_name, CMD_Total.cost.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.3035 %>% 
+      filter(metric == 'CMD_TotalTests.cost') %>% 
+      mutate(CMD_TotalTests.cost.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_TotalTests.cost', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTests.cost.marginal = metric.mean - CMD_TotalTests.cost.baseline) %>% 
+      select(scenario_name, CMD_TotalTests.cost.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.3035 %>% 
+      filter(metric == 'CMD_TotalTreatment.cost') %>% 
+      mutate(CMD_TotalTreatment.cost.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_TotalTreatment.cost', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTreatment.cost.marginal = metric.mean - CMD_TotalTreatment.cost.baseline) %>% 
+      select(scenario_name, CMD_TotalTreatment.cost.marginal),
+    by = c("scenario_name")
+  )
+```
+
+#### Discount
+
+```{r}
+
+cost.discounted.incremental <- merge(
+    metrics.2025.3035 %>% 
+      filter(metric == 'OnART.cost.discounted') %>% 
+      mutate(OnART.cost.discounted.baseline = metrics.2025.3035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.discounted.marginal = metric.mean - OnART.cost.discounted.baseline ) %>% 
+      select(scenario_name, OnART.cost.discounted.marginal),
+    metrics.2025.3035 %>% 
+      filter(metric == 'CMD_Total.cost.discounted') %>% 
+      mutate(CMD_Total.cost.discounted.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_Total.cost.discounted.marginal = metric.mean - CMD_Total.cost.discounted.baseline) %>% 
+      select(scenario_name, CMD_Total.cost.discounted.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.3035 %>% 
+      filter(metric == 'CMD_TotalTests.cost.discounted') %>% 
+      mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_TotalTests.cost.discounted', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTests.cost.discounted.marginal = metric.mean - CMD_TotalTests.cost.discounted.baseline) %>% 
+      select(scenario_name, CMD_TotalTests.cost.discounted.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.3035 %>% 
+      filter(metric == 'CMD_TotalTreatment.cost.discounted') %>% 
+      mutate(CMD_TotalTreatment.cost.discounted.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTreatment.cost.discounted.marginal = metric.mean - CMD_TotalTreatment.cost.discounted.baseline) %>% 
+      select(scenario_name, CMD_TotalTreatment.cost.discounted.marginal),
+    by = c("scenario_name")
+  )
+
+
+cost.discounted.incremental
+```
+
+
+### Total ICERs
+
+```{r}
+ICER.discounted.total.table <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted.averted") %>% 
+  merge(
+    cost.discounted.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted.total") %>% 
+  select(scenario_name, metric, 
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+
+ICER.discounted.total.table
+```
+
+
+### HIV-related ICERs
+```{r}
+ICER.HIV.table <- HIV.Depression.Averted.Data %>% filter(metric == "HIV.DALY.discounted.averted") %>% 
+  merge(
+    cost.discounted.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal) %>% 
+  mutate(ICER.HIV.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.HIV.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.HIV.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted.HIV") %>% 
+  select(scenario_name, metric, 
+         metric.mean = ICER.HIV.mean, metric.lb = ICER.HIV.lb, metric.ub = ICER.HIV.ub)
+
+
+ICER.HIV.table
+```
+
+
+## Save
+
+```{r}
+
+HIV.Depression.Averted.Data %>% write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/HIV_Depression_Averted_Data_20250329.csv")
+
+rbind(metrics.2025, metrics.2025.3035) %>% write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/HIV_Depression_Data_20250329.csv")
+
+rbind(ICER.discounted.total.table, ICER.HIV.table) %>% write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/ICER_Data_20250329.csv")
+``` 
+
+```{r}
+ICER.table.formatted <- rbind(ICER.discounted.total.table, ICER.HIV.table) %>% pivot_wider(
+  id_cols = scenario_name,
+  names_from = metric, 
+  values_from = c(metric.mean, metric.lb, metric.ub)
+) %>% 
+  select(scenario_name, Total.ICER.mean = metric.mean_ICER.discounted.total, 
+         Total.ICER.lb = metric.lb_ICER.discounted.total, Total.ICER.ub = metric.ub_ICER.discounted.total,
+         HIV.ICER.mean =  metric.mean_ICER.discounted.HIV,
+         HIV.ICER.lb = metric.lb_ICER.discounted.HIV, 
+         HIV.ICER.ub = metric.ub_ICER.discounted.HIV) 
+
+write_csv(ICER.table.formatted, "ICER_Table_formatted.csv")
+```
+
+
+### Data for CEACs
+
+```{r}
+ceac.data <- merge(
+  data.2025.2035 %>%
+    select(scenario_name, sim.ix, Total.cost, Total.cost.discounted),
+  hiv.averted.stats %>% 
+    select(scenario_name, sim.ix, Total.DALY.averted, HIV.DALY.averted, Total.DALY.discounted.averted, HIV.DALY.discounted.averted),
+  by = c("scenario_name", "sim.ix")
+)
+
+ceac.data %>% write_csv("ceac_data.csv")
+```
+
+
+# Figures
+
+## Figure 2: Impact/Averted
+
+### Load data
+
+```{r}
+#HIV.Depression.Averted.Data <- read_csv("Impact_Manuscript_Figures/HIV_Depression_Averted_Data.csv")
+
+HIV.Depression.Averted.Data <- read_csv("HIV_Depression_Averted_Data_20250329.csv")
+```
+
+### Generate figure
+
+This figure is going to have three separate panels
+1. Impact on HIV acquisitions
+2. Impact on HIV deaths
+3. Impact on depression
+
+Anna may decide she wants additional panels for DALYs, but that's completely separate
+
+```{r}
+HIV.Depression.Averted.Data.temp <- HIV.Depression.Averted.Data %>% 
+  filter(scenario_name %in% c("art","uni", "neutral", "ceta")) %>% 
+  filter(metric %in% c("Depression.episodes.averted.pct",
+                       "Newly.Infected.averted.pct",
+                       "Died_from_HIV.averted.pct")) %>% 
+    mutate(scenario_ix = case_match(scenario_name, 
+                                    "uni" ~ 1,
+                                    "neutral" ~ 2,
+                                    "art" ~ 3,
+                                    "ceta" ~ 4
+                                    ),
+           metric = factor(metric, levels = c("Depression.episodes.averted.pct",
+                                            "Newly.Infected.averted.pct",
+                                            "Died_from_HIV.averted.pct"))
+         )
+HIV.Depression.Averted.Data.temp$scenario_ix = factor(HIV.Depression.Averted.Data.temp$scenario_ix, levels = c(4,3,2,1))
+
+HIV.Depression.Averted.Data.temp <- HIV.Depression.Averted.Data.temp[order(HIV.Depression.Averted.Data.temp$metric, HIV.Depression.Averted.Data.temp$scenario_ix), ]
+```
+
+
+```{r}
+plot.averted.all <- HIV.Depression.Averted.Data.temp %>% #filter(metric == "Depression.episodes.averted.pct") %>% 
+  ggplot() +
+  geom_bar(mapping = aes(x = metric, y = metric.mean * 100, fill = as.factor(scenario_ix)),
+           position = position_dodge2(reverse = TRUE, padding = 0), 
+           stat = "identity",
+           show.legend = FALSE) + 
+  geom_errorbar(mapping = aes(x = metric, 
+                              ymin = metric.lb * 99.5, ymax = metric.ub * 100,
+                              group = as.factor(scenario_ix)),
+                position = position_dodge2(reverse = TRUE, padding = .25), 
+                stat = "identity",
+                size = 1, color = "black",
+                show.legend = FALSE) + 
+
+  scale_y_continuous(breaks = seq(0,3,1), 
+                     labels = c("0%", "1%", "2%", "3%"), 
+                     expand = expansion(mult = c(0.00,.2))) +
+  scale_fill_manual("", values = color.scheme,
+                    breaks = c("1", "2", "3", "4"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA")) + 
+  scale_x_discrete(
+    breaks=c("Depression.episodes.averted.pct",
+             "Died_from_HIV.averted.pct", 
+             "Newly.Infected.averted.pct"),
+    labels=c("Depression Episodes\nAverted",
+             "HIV Deaths\nAverted", 
+             "HIV Infections\nAverted")) + 
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        #axis.text.x = element_blank(),
+        legend.position = "top",
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 16),
+        axis.ticks.x.length = unit(0, 'in'))
+
+plot.averted.all
+
+```
+
+```{r}
+ggsave("Figure_2_Averted_Plot_20250331.pdf", plot.averted.all, width = 9, height = 4, units = 'in')
+```
+
+### Depression screening and treatment
+
+```{r}
+HIV.Depression.Data  <- read_csv("HIV_Depression_Data_20250329.csv")
+
+HIV.Depression.Data.temp <- HIV.Depression.Data %>% 
+  filter(scenario_name %in% c("art","uni", "neutral", "ceta")) %>% 
+    mutate(scenario_ix = case_match(scenario_name, 
+                                    "uni" ~ 1,
+                                    "neutral" ~ 2,
+                                    "art" ~ 3,
+                                    "ceta" ~ 4
+                                    )
+  )
+HIV.Depression.Data.temp$scenario_ix = factor(HIV.Depression.Data.temp$scenario_ix, levels = c(4,3,2,1))
+
+plot.screening.treatment <- HIV.Depression.Data.temp %>% 
+  filter(metric %in% c("CMD_TotalTreatment", "CMD_TotalTests")) %>% 
+  ggplot() +
+  geom_bar(mapping = aes(x = metric, y = metric.mean, fill = as.factor(scenario_ix)),
+           position = position_dodge2(reverse = TRUE, padding = 0), 
+           stat = "identity",
+           show.legend = FALSE) + 
+  geom_errorbar(mapping = aes(x = metric, 
+                              ymin = metric.lb, ymax = metric.ub,
+                              group = as.factor(scenario_ix)),
+                position = position_dodge2(reverse = TRUE, padding = .25), 
+                stat = "identity",
+                size = 1, color = "black",
+                show.legend = FALSE) + 
+  scale_y_continuous(breaks = seq(0,5e7, 1e7),
+                     labels = c("0", "10M", "20M", "30M", "40M", "50M"),
+                     expand = expansion(mult = c(0.00,.2))) +
+  scale_fill_manual("", values = color.scheme,
+                    breaks = c("1", "2", "3", "4"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA")) + 
+  scale_x_discrete(
+    breaks=c("Depression.episodes.averted.pct",
+             "Died_from_HIV.averted.pct", 
+             "Newly.Infected.averted.pct"),
+    labels=c("Depression Episodes\nAverted",
+             "HIV Deaths\nAverted", 
+             "HIV Infections\nAverted")) + 
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        #axis.text.x = element_blank(),
+        legend.position = "top",
+        axis.text.y = element_text(size = 16),
+        axis.ticks.x.length = unit(0, 'in'))
+
+plot.screening.treatment
+```
+
+```{r}
+ggsave("Figure_2_Screening_Treatment_Plot_20250331.pdf", plot.screening.treatment, width = 6, height = 4, units = 'in')
+```
+
+### Depression treatment only
+
+```{r}
+HIV.Depression.Data  <- read_csv("HIV_Depression_Data_20250329.csv")
+
+HIV.Depression.Data.temp <- HIV.Depression.Data %>% 
+  filter(scenario_name %in% c("art","uni", "neutral", "ceta")) %>% 
+    mutate(scenario_ix = case_match(scenario_name, 
+                                    "uni" ~ 1,
+                                    "neutral" ~ 2,
+                                    "art" ~ 3,
+                                    "ceta" ~ 4
+                                    )
+  )
+HIV.Depression.Data.temp$scenario_ix = factor(HIV.Depression.Data.temp$scenario_ix, levels = c(4,3,2,1))
+
+plot.treatment <- HIV.Depression.Data.temp %>% 
+  filter(metric %in% c("CMD_TotalTreatment")) %>% 
+  ggplot() +
+  geom_bar(mapping = aes(x = metric, y = metric.mean, fill = as.factor(scenario_ix)),
+           position = position_dodge2(reverse = TRUE, padding = 0), 
+           stat = "identity",
+           show.legend = FALSE) + 
+  geom_errorbar(mapping = aes(x = metric, 
+                              ymin = metric.lb, ymax = metric.ub,
+                              group = as.factor(scenario_ix)),
+                position = position_dodge2(reverse = TRUE, padding = .25), 
+                stat = "identity",
+                size = 1, color = "black",
+                show.legend = FALSE) + 
+  scale_y_continuous(breaks = seq(0,1e7, 2e6),
+                     labels = c("0", "2M", "4M", "6M", "8M", "10M"),
+                     expand = expansion(mult = c(0.00,.2))) +
+  scale_fill_manual("", values = color.scheme,
+                    breaks = c("1", "2", "3", "4"), 
+                    labels = c("Universal", "HIV Testing   ", "ART", "CETA")) + 
+  scale_x_discrete(
+    breaks=c("Depression.episodes.averted.pct",
+             "Died_from_HIV.averted.pct", 
+             "Newly.Infected.averted.pct"),
+    labels=c("Depression Episodes\nAverted",
+             "HIV Deaths\nAverted", 
+             "HIV Infections\nAverted")) + 
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        #axis.text.x = element_blank(),
+        legend.position = "top",
+        axis.text.y = element_text(size = 16),
+        axis.ticks.x.length = unit(0, 'in'))
+
+plot.treatment
+```
+
+```{r}
+ggsave("Figure_2_Treatment_Plot_20250331.pdf", plot.treatment, width = 3, height = 4, units = 'in')
+```
+
+## Figure 3: Efficiency Curves
+
+This figure will be two ICER curves.
+
+The first panel is total DALYs averted per dollar, second panel is HIV-related DALYs averted per dollar
+
+### Load data
+```{r}
+# ICERs are here
+ICER.table <- read_csv("ICER_Data.csv")
+# This table has the DALYs averted
+HIV.Depression.Averted.Data <- read_csv("HIV_Depression_Averted_Data.csv")
+# This table has the costs
+metrics.aggregated <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/HIV_Depression_Data_20250329.csv")
+#metrics.aggregated <- rbind(metrics.2025, metrics.2025.3035) 
+```
+
+Transform data
+```{r}
+impact.DALYs.averted <- rbind(
+  HIV.Depression.Averted.Data %>% filter(metric %in% c("HIV.DALY.discounted.averted", "Depression.DALY.discounted.averted", "Total.DALY.discounted.averted")),
+  metrics.aggregated %>% filter(metric %in% c("OnART.cost.discounted", "CMD_Total.cost.discounted", "Total.cost.discounted"))
+  )
+
+impact.pivot <- impact.DALYs.averted %>% 
+  filter(scenario_name %in% c("baseline", "art", "uni", "ceta", "neutral") ) %>% 
+  pivot_wider(
+    id_cols = scenario_name,
+    names_from = metric,
+    values_from = c("metric.mean", "metric.lb", "metric.ub")
+  )
+
+impact.pivot <- impact.pivot %>% 
+  mutate(
+    OnART.cost.baseline = metrics.aggregated %>% 
+      filter(metric == "OnART.cost.discounted", scenario_name == 'baseline') %>% 
+      .$metric.mean    
+  ) %>% 
+  mutate(
+    OnART.cost.marginal = metric.mean_OnART.cost.discounted - OnART.cost.baseline
+  ) %>% 
+  mutate(
+    metric.mean.total.cost = metric.mean_CMD_Total.cost.discounted + OnART.cost.marginal,
+    metric.lb.total.cost = metric.lb_CMD_Total.cost.discounted + OnART.cost.marginal,
+    metric.ub.total.cost = metric.ub_CMD_Total.cost.discounted + OnART.cost.marginal
+  )
+```
+
+
+### Panel 1
+```{r}
+plot.Total.ICER <-  ggplot() + 
+  geom_errorbar(
+    data = impact.pivot %>% filter(scenario_name != 'baseline'),
+    mapping = aes(x = (metric.mean.total.cost)/1e6,
+                  ymin = metric.lb_Total.DALY.discounted.averted, 
+                  ymax = metric.ub_Total.DALY.discounted.averted,
+                  y = metric.mean_Total.DALY.discounted.averted,
+                  xmin = metric.lb.total.cost/1e6,
+                  xmax = metric.ub.total.cost/1e6),
+    width = 2
+    ) +
+  geom_line(
+    data = impact.pivot %>% 
+      filter(scenario_name %in% c("baseline", "art", "uni")),
+    mapping = aes(x = (metric.mean.total.cost)/1e6, 
+                  y = metric.mean_Total.DALY.discounted.averted)) + 
+  geom_point(
+    data = impact.pivot,
+    mapping = aes(
+      x =  (metric.mean.total.cost)/1e6,
+      y = metric.mean_Total.DALY.discounted.averted,
+      color = scenario_name), 
+    show.legend = FALSE, size = 4) + 
+  scale_color_manual("", values = c("black",color.scheme),
+                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
+  scale_x_continuous("Incremental Cost (Million USD)", expand = expansion(mult = c(0.01,.15))) +
+  scale_y_continuous("Incremental DALYs",
+                     breaks = seq(0,250000,50000),
+                     labels = c("0", "50,000", "100,000", "150,000", "200,000", "250,000"),
+                     expand = expansion(mult = c(0.01,.1))) +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+
+plot.Total.ICER 
+```
+
+### Panel 2
+```{r}
+plot.HIV.ICER <-  ggplot() + 
+  geom_errorbar(
+    data = impact.pivot %>% filter(scenario_name != 'baseline'),
+    mapping = aes(x = (metric.mean.total.cost)/1e6,
+                  ymin = metric.lb_HIV.DALY.discounted.averted, 
+                  ymax = metric.ub_HIV.DALY.discounted.averted,
+                  y = metric.mean_HIV.DALY.discounted.averted,
+                  xmin = metric.lb.total.cost,
+                  xmax = metric.ub.total.cost),
+    width = 2
+    ) +
+  geom_line(
+    data = impact.pivot %>% 
+      filter(scenario_name %in% c("baseline", "ceta", "art", "uni")),
+    mapping = aes(x = (metric.mean.total.cost)/1e6, 
+                  y = metric.mean_HIV.DALY.discounted.averted)) + 
+  geom_point(
+    data = impact.pivot,
+    mapping = aes(
+      x =  (metric.mean.total.cost)/1e6,
+      y = metric.mean_HIV.DALY.discounted.averted,
+      color = scenario_name), 
+    show.legend = FALSE, size = 4) + 
+  scale_color_manual("", values = c("black",color.scheme),
+                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
+  scale_x_continuous("Incremental Cost (Million USD)", expand = expansion(mult = c(0.01,.1))) +
+  scale_y_continuous("Incremental HIV-Related DALYs",
+                     breaks = seq(0,7500,2500),
+                     labels = c("0", "2500", "5000", "7500"),
+                     expand = expansion(mult = c(0.01,.1))) +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 12),
+        axis.title= element_text(size = 16))
+
+plot.HIV.ICER 
+```
+### Save
+```{r}
+ggsave("Figure_3_Panel1_TotalDALYs_v1_20250331.pdf", plot.Total.ICER, width = 5, height = 4, units = 'in')
+
+ggsave("Figure_3_Panel2_HIVDALYs_v1_20250331.pdf", plot.HIV.ICER, width = 5, height = 4, units = 'in')
+
+```
+
+### Panel 1, version 2
+
+include scatter plots
+
+```{r}
+ceac.data <- read_csv("ceac_data.csv")
+```
+
+```{r}
+plot.Total.ICER.v2 <-  ggplot() + 
+  geom_point(
+    data = ceac.data, 
+    mapping = aes(x = Total.cost.discounted.marginal/1e6,y = Total.DALY.discounted.averted, color = scenario_name), 
+    size = .1, alpha = .25,
+    show.legend = FALSE
+  ) + 
+  geom_line(
+    data = impact.pivot %>% 
+      filter(scenario_name %in% c("baseline", "art", "uni")),
+    mapping = aes(x = (metric.mean.total.cost)/1e6, 
+                  y = metric.mean_Total.DALY.discounted.averted)) + 
+  geom_point(
+    data = impact.pivot,
+    mapping = aes(
+      x =  (metric.mean.total.cost)/1e6,
+      y = metric.mean_Total.DALY.discounted.averted,
+      color = scenario_name), 
+    show.legend = FALSE, size = 4) + 
+  scale_color_manual("", values = c("black",color.scheme),
+                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
+  scale_x_continuous("Incremental Cost (Million USD)", expand = expansion(mult = c(0.01,.15))) +
+  scale_y_continuous("Incremental DALYs",
+                     breaks = seq(0,250000,50000),
+                     labels = c("0", "50,000", "100,000", "150,000", "200,000", "250,000"),
+                     expand = expansion(mult = c(0.01,.1))) +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+
+plot.Total.ICER.v2
+
+```
+```{r}
+plot.HIV.ICER.v2 <-  ggplot() + 
+  geom_point(
+    data = ceac.data, 
+    mapping = aes(x = Total.cost.discounted.marginal/1e6,y = HIV.DALY.discounted.averted, color = scenario_name), 
+    size = .1, alpha = .25,
+    show.legend = FALSE
+  ) + 
+  geom_line(
+    data = impact.pivot %>% 
+      filter(scenario_name %in% c("baseline", "ceta", "art", "uni")),
+    mapping = aes(x = (metric.mean.total.cost)/1e6, 
+                  y = metric.mean_HIV.DALY.discounted.averted)) + 
+  geom_point(
+    data = impact.pivot,
+    mapping = aes(
+      x =  (metric.mean.total.cost)/1e6,
+      y = metric.mean_HIV.DALY.discounted.averted,
+      color = scenario_name), 
+    show.legend = FALSE, size = 4) + 
+  scale_color_manual("", values = c("black",color.scheme),
+                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
+  scale_x_continuous("Incremental Cost (Million USD)", expand = expansion(mult = c(0.01,.1))) +
+  scale_y_continuous("Incremental HIV-Related DALYs",
+                     breaks = seq(-5000,15000,5000),
+                     labels = c("-5000", "0", "5000", "10,000", "15,000"),
+                     limits = c(-5000, 15000),
+                     expand = expansion(mult = c(0.01,.1))) +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 12),
+        axis.title= element_text(size = 16))
+
+plot.HIV.ICER.v2
+```
+
+
+### Save
+```{r}
+ggsave("Figure_3_Panel1_TotalDALYs_v2_20250331.pdf", plot.Total.ICER.v2, width = 5, height = 4, units = 'in')
+
+ggsave("Figure_3_Panel2_HIVDALYs_v2_20250331.pdf", plot.HIV.ICER.v2, width = 5, height = 4, units = 'in')
+
+```
+
+
+## Figure 4 - CEAC curve
+
+### Load data
+
+```{r}
+#read_csv("HIV_Depression_Data_2025032.csv")
+
+ceac.data <- read_csv("ceac_data.csv")
+```
+
+
+### Visualize scatter plots
+
+First step is: make a scatter plot of impact vs cost
+
+```{r}
+# ceac.data <- merge(
+#   # Cost data
+#   merge(
+#     data.2025.2035 %>%
+#       select(scenario_name, sim.ix, Total.cost, Total.cost.discounted),
+#     data.2025.2035 %>%
+#       filter(scenario_name == 'baseline') %>% 
+#       select(sim.ix, Total.cost.baseline = Total.cost, Total.cost.discounted.baseline = Total.cost.discounted),
+#     by = c("sim.ix")
+#   ) %>% 
+#     mutate(Total.cost.marginal = Total.cost - Total.cost.baseline, 
+#            Total.cost.discounted.marginal = Total.cost.discounted - Total.cost.discounted.baseline),
+#   # impact data
+#   hiv.averted.stats %>% 
+#     select(scenario_name, sim.ix, Total.DALY.averted, HIV.DALY.averted, Total.DALY.discounted.averted, HIV.DALY.discounted.averted),
+#   by = c("scenario_name", "sim.ix")
+# )
+
+```
+
+```{r}
+  ggplot() + 
+  geom_point(
+    data = ceac.data, 
+    mapping = aes(x = Total.DALY.discounted.averted, y = Total.cost.discounted.marginal,  color = scenario_name)
+  )
+```
+
+
+```{r}
+ceac.data %>% 
+  ggplot() + 
+  geom_point(
+    mapping = aes(x = HIV.DALY.discounted.averted, y = Total.cost.discounted.marginal,  color = scenario_name)
+  )
+```
+
+```{r}
+ceac.data %>% 
+  ggplot() + 
+  geom_point(
+    mapping = aes(x = HIV.DALY.discounted.averted, y = Total.cost.discounted.marginal,  color = scenario_name)
+  )
+```
+
+### Total Impact
+
+```{r}
+ceac.table.discounted = data.table()
+
+for (lambda in seq(0, 3000, 15)){
+  h <- ceac.data %>% 
+    mutate(ceac = (lambda * Total.DALY.discounted.averted - Total.cost.discounted.marginal)>0) %>% 
+    group_by(scenario_name) %>% 
+    summarize(ceac = mean(ceac) ) %>% 
+    ungroup() %>% 
+    mutate(lambda = lambda)
+  
+  ceac.table.discounted = rbind(ceac.table.discounted, h)
+}
+```
+
+```{r}
+plot.ceac.total <- ceac.table.discounted %>% 
+  filter(scenario_name != "baseline") %>% 
+  ggplot() + 
+  geom_line(
+    mapping = aes(x = lambda, y = ceac, color = scenario_name),
+    linewidth = 2,
+    show.legend =  FALSE
+  ) + 
+  scale_x_continuous(name = "Incremental Cost-Effectiveness Ratio\n($US/DALY)",
+                     expand = expansion(mult = c(0.02,.05))) + 
+  scale_y_continuous(name = "Probability Intervention is \n Cost-Effective Relative to Baseline",
+                     expand = expansion(mult = c(0.01,.02))) + 
+  scale_color_manual(values = c("uni" = color.scheme[[1]], "neutral" = color.scheme[[2]],
+                                "art" = color.scheme[[3]], "ceta" = color.scheme[[4]])) + 
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 12),
+        axis.title= element_text(size = 16),
+        plot.margin = margin(t = 10, r = 0, b = 0, l = 0))
+
+plot.ceac.total
+```
+
+### HIV related impact
+
+```{r}
+ceac.table.hiv.discounted = data.table()
+
+for (lambda in seq(0, 200000, 1000)){
+  h <- ceac.data %>% 
+    mutate(ceac = (lambda * HIV.DALY.discounted.averted - Total.cost.discounted.marginal)>0) %>% 
+    group_by(scenario_name) %>% 
+    summarize(ceac = mean(ceac) ) %>% 
+    ungroup() %>% 
+    mutate(lambda = lambda)
+  
+  ceac.table.hiv.discounted = rbind(ceac.table.hiv.discounted, h)
+}
+```
+
+```{r}
+plot.ceac.hiv <- ceac.table.hiv.discounted  %>% 
+  filter(scenario_name != "baseline") %>% 
+  ggplot() + 
+  geom_line(
+    mapping = aes(x = lambda, y = ceac, color = scenario_name),
+    linewidth = 2,
+    show.legend =  FALSE
+  ) + 
+  scale_x_continuous(name = "Incremental Cost-Effectiveness Ratio\n($US/DALY)",
+                     expand = expansion(mult = c(0.02,.05))) + 
+  scale_y_continuous(name = "Probability Intervention is \n Cost-Effective Relative to Baseline",
+                     expand = expansion(mult = c(0.01,.02))) + 
+  scale_color_manual(values = c("uni" = color.scheme[[1]], "neutral" = color.scheme[[2]],
+                                "art" = color.scheme[[3]], "ceta" = color.scheme[[4]])) + 
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 12),
+        axis.title= element_text(size = 16),
+        plot.margin = margin(t = 10, r = 0, b = 0, l = 0))
+
+plot.ceac.hiv
+```
+
+### Save
+
+```{r}
+ggsave("Figure_4_panel_1_20250331.pdf", plot.ceac.total, height = 4, width = 5, units = 'in')
+
+ggsave("Figure_4_panel_2_20250331.pdf", plot.ceac.hiv, height = 4, width = 5, units = 'in')
+
+```
+
+
