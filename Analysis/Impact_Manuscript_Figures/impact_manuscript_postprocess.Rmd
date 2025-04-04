@@ -4,6 +4,22 @@ output: html_document
 date: "2025-03-28"
 ---
 
+## Libraries
+
+```{r}
+library(tidyverse)
+library(data.table)
+library(magrittr)
+library(rsample)
+library(readxl)
+library(devtools)
+library(ggpubr)
+library(patchwork)
+
+devtools::install_github("BershteynLab/EMODAnalyzeR", force = TRUE)
+```
+
+
 ## Define some constants
 ```{r}
 ART.cost <- 319
@@ -45,10 +61,44 @@ scenarios.list = data.frame(
 ) %>% 
   mutate(scenario_ix = row_number())
 
+
+scenarios.list = data.frame(
+  scenario_name = c(
+    "uni_sa_treateff_LL", "uni_sa_treateff_UL",
+    "uni_sa_cmddetect_UL", "uni_sa_cmddetect_LL", 
+    "uni_sa_hivinc_LL", "uni_sa_hivinc_UL", 
+    "uni_sa_artadh_LL", "uni_sa_artadh_UL",  "uni_sa_artdrop_LL", "uni_sa_artdrop_UL","uni_sa_delay_LL" , "uni_sa_delay_UL",
+    "uni_sa_cmdinc_LL", "uni_sa_cmdinc_UL", 
+    "uni_sa_cmdrelapse_LL", "uni_sa_cmdrelapse_UL", 
+    "uni_sa_treateff_best", "uni_sa_treateff_worst"
+  ),
+  file.path = c(
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_LL___2025_03_31_21_43_57_922855",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_UL___2025_03_31_21_47_44_805615/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmddetect_LL___2025_03_31_22_01_00_841464/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmddetect_UL___2025_03_31_21_57_43_002404/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_hivinc_LL___2025_03_31_22_04_18_283976/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_hivinc_UL___2025_03_31_22_08_01_787591/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_artadh_LL___2025_03_31_22_11_18_054590/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_artadh_UL___2025_03_31_22_14_36_211585/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_artdrop_LL___2025_03_31_22_17_49_971902/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_artdrop_UL___2025_03_31_22_21_00_848762/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_delay_LL___2025_03_31_22_24_12_685275/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_delay_UL___2025_04_02_19_33_34_937076/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdinc_LL-uni_sa_cmdinc_LL___2025_04_02_19_37_14_809399/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdinc_UL-uni_sa_cmdinc_UL___2025_04_02_19_40_52_596299/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdrelapse_LL-uni_sa_cmdrelapse_LL___2025_04_02_19_44_14_015805/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdrelapse_UL-uni_sa_cmdrelapse_UL___2025_04_02_19_47_32_931789/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_best___2025_03_31_21_51_11_678099/", 
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_worst___2025_03_31_21_54_28_228863/"
+  )
+) %>% 
+  mutate(scenario_ix = row_number())
+
 ```
 
 ```{r}
-for (scenario.ix in c(4:5)){
+for (scenario.ix in c(15:18)){
 
   ## Load data
   experiment.path = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$file.path
@@ -270,8 +320,37 @@ for (scenario.ix in c(4:5)){
           by = c("Year", "sim.ix"))
   
    write_csv(sim.results.metrics, 
-            paste0("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/sim_results_metrics_",scenario.name,".csv"))
+            paste0("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/sim_results_metrics_",scenario.name,".csv"))
 
  }
+```
+
+
+Count: person-years depressed, from old raw outputs
+```{r}
+Depression.DALYs <- sim.results.old %>% 
+  filter(Year >= 2025.5, IP_Key.CMDStatus == "CMD_pos") %>% 
+  mutate(Year_Integer = floor(Year-0.5)) %>% 
+  group_by(Year_Integer, sim.ix, scenario_name) %>% 
+  summarize(Depressed = sum(Population * pop_scaling_factor), .groups = 'drop_last') %>% 
+  ungroup()
+
+Depression.DALYs %>% 
+  group_by(sim.ix) %>% summarize(Depressed = sum(Depressed)) %>% 
+  ungroup() %>% summarize(Depressed = mean(Depressed))
+```
+
+Count: person-years depressed, from new raw outputs
+```{r}
+Depression.DALYs <- sim.results.new %>% 
+  filter(Year >= 2025.5, IP_Key.CMDStatus == "CMD_pos") %>% 
+  mutate(Year_Integer = floor(Year-0.5)) %>% 
+  group_by(Year_Integer, sim.ix, scenario_name) %>% 
+  summarize(Depressed = sum(Population * pop_scaling_factor), .groups = 'drop_last') %>% 
+  ungroup()
+
+Depression.DALYs %>% 
+  group_by(sim.ix) %>% summarize(Depressed = sum(Depressed)) %>% 
+  ungroup() %>% summarize(Depressed = mean(Depressed))
 ```
 
