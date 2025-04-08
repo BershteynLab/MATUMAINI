@@ -86,7 +86,7 @@ scenarios.list = data.frame(
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_delay_LL___2025_03_31_22_24_12_685275/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_delay_UL___2025_04_02_19_33_34_937076/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdinc_LL-uni_sa_cmdinc_LL___2025_04_02_19_37_14_809399/",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdinc_UL-uni_sa_cmdinc_UL___2025_04_02_19_40_52_596299/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdinc_UL-uni_sa_cmdinc_UL___2025_04_04_16_41_08_982788/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdrelapse_LL-uni_sa_cmdrelapse_LL___2025_04_02_19_44_14_015805/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdrelapse_UL-uni_sa_cmdrelapse_UL___2025_04_02_19_47_32_931789/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_best___2025_03_31_21_51_11_678099/", 
@@ -98,7 +98,7 @@ scenarios.list = data.frame(
 ```
 
 ```{r}
-for (scenario.ix in c(15:18)){
+for (scenario.ix in c(14)){
 
   ## Load data
   experiment.path = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$file.path
@@ -354,3 +354,19 @@ Depression.DALYs %>%
   ungroup() %>% summarize(Depressed = mean(Depressed))
 ```
 
+Count: People living with both depression and HIV
+
+```{r}
+dat <- sim.results %>% 
+  filter(Year == 2025, IP_Key.CMDStatus == "CMD_pos") %>% 
+  group_by(sim.ix, scenario_name) %>% 
+  summarize(Infected = sum(Infected * pop_scaling_factor)) %>% 
+  ungroup()
+
+h <- calculate.CI.by.metric(
+      data = dat,
+      scenario.name = 'baseline',
+      metric = 'Infected')
+
+h
+```

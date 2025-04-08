@@ -422,6 +422,28 @@ sim.results.metrics.table <- rbind(
   # read_csv("Impact_Manuscript_Figures/Time_Series_data_for_figures/sim_results_metrics_ceta.csv")
   )
 
+# For sensitivity analysis
+sim.results.metrics.table <- rbind(
+  read_csv("sim_results_metrics_baseline.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_treateff_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_treateff_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_treateff_worst.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_treateff_best.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmddetect_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmddetect_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_hivinc_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_hivinc_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_artadh_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_artadh_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_artdrop_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_artdrop_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_delay_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_delay_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdinc_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdinc_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdrelapse_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdrelapse_UL.csv")
+  )
 
 ```
 
@@ -686,7 +708,8 @@ for (i in metric.names){
 
 HIV.Depression.Averted.Data <- metrics
 
-write_csv(HIV.Depression.Averted.Data, "HIV_Depression_Averted_Data_20250401.csv")
+#write_csv(HIV.Depression.Averted.Data, "HIV_Depression_Averted_Data_20250401.csv")
+write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis.csv")
 ```
 
 #### Recalculate variance in incremental DALYs averted
@@ -825,6 +848,7 @@ ICER.discounted.total.table
 
 
 ### HIV-related ICERs
+
 ```{r}
 ICER.HIV.table <- HIV.Depression.Averted.Data %>% filter(metric == "HIV.DALY.discounted.averted") %>% 
   merge(
@@ -847,6 +871,27 @@ ICER.HIV.table <- HIV.Depression.Averted.Data %>% filter(metric == "HIV.DALY.dis
 ICER.HIV.table
 ```
 
+```{r}
+ICER.HIV.no.disc.table <- HIV.Depression.Averted.Data %>% filter(metric == "HIV.DALY.averted") %>% 
+  merge(
+    cost.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.marginal + CMD_Total.cost.marginal) %>% 
+  mutate(ICER.HIV.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.HIV.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.HIV.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.HIV") %>% 
+  select(scenario_name, metric, 
+         metric.mean = ICER.HIV.mean, metric.lb = ICER.HIV.lb, metric.ub = ICER.HIV.ub)
+
+
+ICER.HIV.no.disc.table
+```
 
 ## Save
 
@@ -856,8 +901,13 @@ HIV.Depression.Averted.Data %>% write_csv("/gpfs/data/bershteynlab/EMOD/citrod01
 
 rbind(metrics.2025, metrics.2025.3035) %>% write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/HIV_Depression_Data_20250329.csv")
 
+# rbind(metrics.2025, metrics.2025.3035) %>% write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/HIV_Depression_Sensitivity_Analysis_Data.csv")
+
 rbind(ICER.discounted.total.table, ICER.HIV.table) %>%
   write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/ICER_Data_20250329.csv")
+
+#rbind(ICER.discounted.total.table, ICER.HIV.table) %>%
+# write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/ICER_Data_Sensitivity_Analysis.csv")
 ``` 
 
 ```{r}
@@ -1552,7 +1602,7 @@ ceac.data %>%
 ```{r}
 ceac.table.discounted = data.table()
 
-for (lambda in seq(0, 3000, 15)){
+for (lambda in seq(0, 3000, 1)){
   h <- ceac.data %>% 
     mutate(ceac = (lambda * Total.DALY.discounted.averted - Total.cost.discounted.marginal)>0) %>% 
     group_by(scenario_name) %>% 
@@ -1598,7 +1648,8 @@ plot.ceac.total
 ```{r}
 ceac.table.hiv.discounted = data.table()
 
-for (lambda in seq(0, 200000, 1000)){
+#for (lambda in seq(0, 200000, 1000)){
+for (lambda in seq(10000,15000, 100)){
   h <- ceac.data %>% 
     mutate(ceac = (lambda * HIV.DALY.discounted.averted - Total.cost.discounted.marginal)>0) %>% 
     group_by(scenario_name) %>% 
@@ -1608,6 +1659,8 @@ for (lambda in seq(0, 200000, 1000)){
   
   ceac.table.hiv.discounted = rbind(ceac.table.hiv.discounted, h)
 }
+
+ceac.table.hiv.discounted %>% pivot_wider(id_cols = lambda, values_from = ceac, names_from = scenario_name) %>% View
 ```
 
 ```{r}
@@ -1654,6 +1707,244 @@ ggsave("Figure_4_panel_2_20250331.pdf", plot.ceac.hiv, height = 4, width = 5, un
 ## Figure 5 - Sensitivity Analysis
 
 ### Load data
+
+#### Averted
+```{r}
+
+HIV_Depression_Averted_Data <- read_csv("HIV_Depression_Averted_Data_20250401.csv")
+
+HIV_Depression_Averted_Data %>% 
+  filter(scenario_name == 'uni',
+         metric %in% c("Total.DALY.averted", "HIV.DALY.averted",
+                       "Total.DALY.averted.pct", "HIV.DALY.averted.pct"))
+```
+
+```{r}
+sa.averted.data <- read_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis.csv")
+
+sa.averted.data <- sa.averted.data %>% 
+  filter(scenario_name != 'baseline') %>% 
+#  filter(metric %in% c("HIV.DALY.averted", "HIV.DALY.averted.pct", "Total.DALY.averted", "Total.DALY.averted.pct")) %>% 
+  mutate(ix =case_match(
+    scenario_name,
+    "uni_sa_cmddetect_LL" ~ 1,
+    "uni_sa_cmddetect_UL" ~ 1,
+    "uni_sa_treateff_LL" ~ 2,
+    "uni_sa_treateff_UL" ~ 2,
+    "uni_sa_cmdrelapse_LL" ~ 3,
+    "uni_sa_cmdrelapse_UL" ~ 3,
+    "uni_sa_hivinc_LL" ~ 4,
+    "uni_sa_hivinc_UL" ~ 4,
+    "uni_sa_artadh_LL" ~ 5,
+    "uni_sa_artadh_UL" ~ 5,
+    "uni_sa_artdrop_LL" ~ 6,
+    "uni_sa_artdrop_UL" ~ 6,
+    "uni_sa_delay_LL" ~ 7,
+    "uni_sa_delay_UL" ~ 7,
+    "uni_sa_cmdinc_LL" ~ 8,
+    "uni_sa_cmdinc_UL" ~ 8,
+    "uni_sa_treateff_worst" ~ 9,
+    "uni_sa_treateff_best" ~ 9,
+  ),
+  limitsign = case_match(
+    scenario_name,
+    "uni_sa_treateff_LL" ~ 0,
+    "uni_sa_treateff_UL" ~ 1,
+    "uni_sa_cmddetect_LL" ~ 0,
+    "uni_sa_cmddetect_UL" ~ 1,
+    "uni_sa_hivinc_LL" ~ 0,
+    "uni_sa_hivinc_UL" ~ 1,
+    "uni_sa_artadh_LL" ~ 0,
+    "uni_sa_artadh_UL" ~ 1,
+    "uni_sa_artdrop_LL" ~ 0,
+    "uni_sa_artdrop_UL" ~ 1,
+    "uni_sa_delay_LL" ~ 0,
+    "uni_sa_delay_UL" ~ 1,
+    "uni_sa_cmdinc_LL" ~ 0,
+    "uni_sa_cmdinc_UL" ~ 1,
+    "uni_sa_cmdrelapse_LL" ~ 1,
+    "uni_sa_cmdrelapse_UL" ~ 0,
+    "uni_sa_treateff_worst" ~ 0,
+    "uni_sa_treateff_best" ~ 1
+  )) %>% arrange(metric,ix)
+```
+
+#### ICERS
+```{r}
+ICER.table <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/ICER_Data_20250329.csv")
+ICER.table.sa <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/ICER_Data_Sensitivity_Analysis.csv")
+
+
+ICER.table.sa <- ICER.table.sa  %>% 
+  filter(scenario_name != 'baseline') %>% 
+#  filter(metric %in% c("HIV.DALY.averted", "HIV.DALY.averted.pct", "Total.DALY.averted", "Total.DALY.averted.pct")) %>% 
+  mutate(ix =case_match(
+    scenario_name,
+    "uni_sa_cmddetect_LL" ~ 1,
+    "uni_sa_cmddetect_UL" ~ 1,
+    "uni_sa_treateff_LL" ~ 2,
+    "uni_sa_treateff_UL" ~ 2,
+    "uni_sa_cmdrelapse_LL" ~ 3,
+    "uni_sa_cmdrelapse_UL" ~ 3,
+    "uni_sa_hivinc_LL" ~ 4,
+    "uni_sa_hivinc_UL" ~ 4,
+    "uni_sa_artadh_LL" ~ 5,
+    "uni_sa_artadh_UL" ~ 5,
+    "uni_sa_artdrop_LL" ~ 6,
+    "uni_sa_artdrop_UL" ~ 6,
+    "uni_sa_delay_LL" ~ 7,
+    "uni_sa_delay_UL" ~ 7,
+    "uni_sa_cmdinc_LL" ~ 8,
+    "uni_sa_cmdinc_UL" ~ 8,
+    "uni_sa_treateff_worst" ~ 9,
+    "uni_sa_treateff_best" ~ 9,
+  ),
+  limitsign = case_match(
+    scenario_name,
+    "uni_sa_treateff_LL" ~ 0,
+    "uni_sa_treateff_UL" ~ 1,
+    "uni_sa_cmddetect_LL" ~ 0,
+    "uni_sa_cmddetect_UL" ~ 1,
+    "uni_sa_hivinc_LL" ~ 0,
+    "uni_sa_hivinc_UL" ~ 1,
+    "uni_sa_artadh_LL" ~ 0,
+    "uni_sa_artadh_UL" ~ 1,
+    "uni_sa_artdrop_LL" ~ 0,
+    "uni_sa_artdrop_UL" ~ 1,
+    "uni_sa_delay_LL" ~ 0,
+    "uni_sa_delay_UL" ~ 1,
+    "uni_sa_cmdinc_LL" ~ 0,
+    "uni_sa_cmdinc_UL" ~ 1,
+    "uni_sa_cmdrelapse_LL" ~ 1,
+    "uni_sa_cmdrelapse_UL" ~ 0,
+    "uni_sa_treateff_worst" ~ 0,
+    "uni_sa_treateff_best" ~ 1
+  )) %>% arrange(metric,ix)
+```
+
+
+### First panel - Total DALYs averted
+
+```{r}
+center.total.dalys = HIV_Depression_Averted_Data %>% 
+  filter(scenario_name == 'uni', metric == "Total.DALY.discounted.averted") %>% 
+         # metric %in% c("Total.DALY.discounted.averted", "HIV.DALY.discounted.averted",
+         #               "Total.DALY.discounted.averted.pct", "HIV.DALY.discounted.averted.pct")) %>%
+  .$metric.mean
+
+p.sa.total.dalys <- ggplot() + 
+  geom_rect(data = sa.averted.data %>% filter(limitsign == 0, metric == "Total.DALY.discounted.averted",
+         ix < 9),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.total.dalys),
+            fill = "#00468B") + 
+  geom_rect(data = sa.averted.data %>% filter(limitsign == 1, metric == "Total.DALY.discounted.averted",
+         ix < 9),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.total.dalys , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.total.dalys, linetype = "dashed", color = "black") +
+  scale_x_continuous(breaks = seq(150000,300000,50000),
+                     labels = c("150,000",  "200,000","250,000", "300,000"),
+                     expand = expansion(mult = c(0.1,.075))
+                     )+ 
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+                axis.text = element_text(size = 14))
+
+p.sa.total.dalys
+```
+### Second panel - HIV DALYs averted 
+```{r}
+center.hiv.dalys = HIV_Depression_Averted_Data %>% 
+  filter(scenario_name == 'uni', metric == "HIV.DALY.discounted.averted") %>% 
+         # metric %in% c("Total.DALY.discounted.averted", "HIV.DALY.discounted.averted",
+         #               "Total.DALY.discounted.averted.pct", "HIV.DALY.discounted.averted.pct")) %>%
+  .$metric.mean
+
+p.sa.hiv.dalys <- ggplot() + 
+  geom_rect(data = sa.averted.data %>% filter(limitsign == 0, metric == "HIV.DALY.discounted.averted",
+         ix < 9),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.hiv.dalys),
+            fill = "#00468B") + 
+  geom_rect(data = sa.averted.data %>% filter(limitsign == 1, metric == "HIV.DALY.discounted.averted",
+         ix < 9),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.hiv.dalys , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.hiv.dalys, linetype = "dashed", color = "black") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4))
+
+p.sa.hiv.dalys
+```
+### Third panel - ICER
+
+```{r}
+center.icer = ICER.table %>% 
+  filter(scenario_name == 'uni', metric == "ICER.discounted.total") %>% 
+  .$metric.mean
+
+p.sa.icer <- ggplot() + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 0, metric == "ICER.discounted.total",
+         ix < 9),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer),
+            fill = "#00468B") + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 1, metric == "ICER.discounted.total",
+         ix < 9),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer, linetype = "dashed", color = "black") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+        axis.text = element_text(size = 14))
+
+p.sa.icer
+```
+
+
+### Fourth panel - HIV ICER
+
+```{r}
+center.icer.hiv = ICER.table %>% 
+  filter(scenario_name == 'uni', metric == "ICER.discounted.HIV") %>% 
+  .$metric.mean
+
+p.sa.icer.hiv <- ggplot() + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 0, metric == "ICER.discounted.HIV",
+         ix < 8),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer.hiv),
+            fill = "#00468B") + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 1, metric == "ICER.discounted.HIV",
+         ix < 8),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer.hiv , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer.hiv, linetype = "dashed", color = "black") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4))
+
+p.sa.icer.hiv
+```
+### Save
+```{r}
+p.sa <- p.sa.total.dalys +  p.sa.icer
+ggsave(filename = "Figure_5_Sensitivity_Analysis.pdf", plot =p.sa, height = 4, width = 8, units = 'in')
+
+```
+
 
 ## SI Figure 4 - Time Series
 
