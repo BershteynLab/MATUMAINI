@@ -43,3 +43,10 @@ Analysis/.Rhistory
 Analysis/Analysis.RData
 
 **/*.out
+
+Analysis/Figures_GlobalMentalHealth/**
+Analysis/Figures_manuscript/**
+Analysis/Impact_Manuscript_Figures/**.csv
+Analysis/**.csv
+Analysis/zambia_analysis.Rmd
+Analysis/Impact_Manuscript_Figures/scrap_work.Rmd
