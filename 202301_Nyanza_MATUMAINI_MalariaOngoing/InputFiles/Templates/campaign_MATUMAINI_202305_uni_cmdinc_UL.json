@@ -895,7 +895,7 @@
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
-                "Target_Age_Min": 44,
+                "Target_Age_Min": 45,
                 "Target_Age_Max": 49.99999,
                 "Target_Gender": "Female",
                 "Intervention_Config": {
@@ -1110,7 +1110,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Property_Restrictions_Within_Node": [
                         {
-                            "CMDStatus": "CMD_neg" 
+                            "CMDStatus": "CMD_neg"
                         },
                         {
                             "CMDStatus": "CMD_recovered"
@@ -2390,45 +2390,6 @@
                     "Choice_Probabilities": [
                         0.214363417,
                         0.785636583
-                    ]
-                }
-            }
-        },
-        {
-            "END":"CMD relapse without treatment",
-            "Event_Name": "CMD relapse without treatment - Females 60-99, HIV+",
-            "class": "CampaignEventByYear",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1960.5,
-            "Event_Coordinator_Config": {
-                "class": "ReferenceTrackingEventCoordinatorHIV",
-                "Property_Restrictions":["CMDStatus:CMD_recovered"],
-                "Target_Disease_State":"HIV_Positive",
-                "Time_Value_Map": {
-                    "Times": [1960,2200],
-                    "Values":[1.0,1.0]
-                },
-                "Timesteps_Between_Repetitions": 12,
-                "Number_Repetitions": -1,
-                "Target_Demographic": "ExplicitAgeRangesAndGender",
-                "Target_Age_Min": 60,
-                "Target_Age_Max": 99.99999,
-                "Target_Gender": "Female",
-                "Intervention_Config": {
-                    "class":"HIVRandomChoice",
-                    "Choice_Names": [
-                        "CMD_Incidence1",
-                        "CMD_NoIncidence"
-                    ],
-                    ".Choice_Probabilities.SIS": [
-                        0.15335298,
-                        0.84664702
-                    ],
-                    "Choice_Probabilities": [
-                        0.140893,
-                        0.859107
                     ]
                 }
             }

@@ -73,8 +73,8 @@
                         0.917915461
                     ],
                     "Choice_Probabilities": [
-                        0.0867621,
-                        0.9132379
+                        0.125133,
+                        0.874867
                     ]
                 }
             }
@@ -149,8 +149,8 @@
                         0.805784168
                     ],
                     "Choice_Probabilities": [
-                        0.189299,
-                        0.810701
+                        0.262573113,
+                        0.737426887
                     ]
                 }
             }
@@ -225,8 +225,8 @@
                         0.720604784
                     ],
                     "Choice_Probabilities": [
-                        0.247914,
-                        0.752086
+                        0.334170039,
+                        0.665829961
                     ]
                 }
             }
@@ -301,8 +301,8 @@
                         0.753322028
                     ],
                     "Choice_Probabilities": [
-                        0.215467,
-                        0.784533
+                        0.295186508,
+                        0.704813492
                     ]
                 }
             }
@@ -377,8 +377,8 @@
                         0.656758033
                     ],
                     "Choice_Probabilities": [
-                        0.299053,
-                        0.700947
+                        0.422856438,
+                        0.577143562
                     ]
                 }
             }
@@ -453,8 +453,8 @@
                         0.545049357
                     ],
                     "Choice_Probabilities": [
-                        0.369688,
-                        0.630312
+                        0.548096017,
+                        0.451903983
                     ]
                 }
             }
@@ -529,8 +529,8 @@
                         0.103328855
                     ],
                     "Choice_Probabilities": [
-                        0.629559,
-                        0.370441
+                        0.866217743,
+                        0.133782257
                     ]
                 }
             }
@@ -605,8 +605,8 @@
                         0.821434752
                     ],
                     "Choice_Probabilities": [
-                        0.179167,
-                        0.820833
+                        0.245769733,
+                        0.754230267
                     ]
                 }
             }
@@ -681,8 +681,8 @@
                         0.7677016
                     ],
                     "Choice_Probabilities": [
-                        0.212837,
-                        0.787163
+                        0.280177517,
+                        0.719822483
                     ]
                 }
             }
@@ -757,8 +757,8 @@
                         0.825620201
                     ],
                     "Choice_Probabilities": [
-                        0.156945,
-                        0.843055
+                        0.207381987,
+                        0.792618013
                     ]
                 }
             }
@@ -833,8 +833,8 @@
                         0.623728965
                     ],
                     "Choice_Probabilities": [
-                        0.3578927,
-                        0.6421073
+                        0.461466927,
+                        0.538533073
                     ]
                 }
             }
@@ -909,8 +909,8 @@
                         0.557292894
                     ],
                     "Choice_Probabilities": [
-                        0.3906945,
-                        0.6093055
+                        0.528024317,
+                        0.471975683
                     ]
                 }
             }
@@ -985,8 +985,8 @@
                         0.751164137
                     ],
                     "Choice_Probabilities": [
-                        0.211823,
-                        0.788177
+                        0.320725059,
+                        0.679274941
                     ]
                 }
             }
@@ -1061,8 +1061,8 @@
                         0.84664702
                     ],
                     "Choice_Probabilities": [
-                        0.140893,
-                        0.859107
+                        0.214363417,
+                        0.785636583
                     ]
                 }
             }
@@ -1098,7 +1098,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property - without treatment before 2020",
+            "Event_Name":"CMD incidence, changing property - without treatment before 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1110,7 +1110,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Property_Restrictions_Within_Node": [
                         {
-                            "CMDStatus": "CMD_neg" 
+                            "CMDStatus": "CMD_neg"
                         },
                         {
                             "CMDStatus": "CMD_recovered"
@@ -1163,7 +1163,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property - with treatment including after 2020",
+            "Event_Name":"CMD incidence, changing property - with treatment including after 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1204,8 +1204,7 @@
                                 "Choice_Probabilities": [
                                     0.0,
                                     1.0
-                                ],
-                                "Choice_Probabilities__KP_TreatmentTable" : "<== marker"
+                                ]
                             },
                             {
                                 "Intervention_Name":"CMD change CoitalActRiskFactors by multiplicative factor",
@@ -1222,6 +1221,111 @@
                                 ]
                             }
                         ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Schedule Annual CMD Screening for PLHIV on ART with unsuppressed Viral Load",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2025,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRanges",
+                "Target_Age_Min": 18,
+                "Target_Age_Max": 99.999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVDelayedIntervention",
+                    "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
+                    "Delay_Period_Min": 1,
+                    "Delay_Period_Max": 365,
+                    "Broadcast_Event":"CMD_Screening_delay"
+                }
+            }
+        },
+        {
+            "Event_Name": "Annual CMD Screening for those on ART with unsuppressed Viral Load, depressed individuals",
+            "COMMENT": "CMD_Diagnostic_TruePositive then receive depression screening, triggers CMD_Screening",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2025,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_pos","InterventionStatus":"OnNonSuppressiveART"}
+                    ],
+                    "Target_Demographic": "ExplicitAgeRanges",
+                    "Target_Age_Min": 18,
+                    "Target_Age_Max": 99.999,
+                    "Trigger_Condition_List": [
+                        "CMD_Screening_delay",
+                        "CMD_Screening"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Diagnostic_TruePositive",
+                            "CMD_Diagnostic_FalseNegative"
+                        ],
+                        "Choice_Probabilities":[
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_TreatmentTable_Sensitivity" : "<== marker"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Annual CMD Screening for those on ART with unsuppressed Viral Load, CMD Negative individuals",
+            "COMMENT":"CMD_Diagnostic_FalsePositive means someone receives depression treatment who is not depressed; this should be counted in costing but have no effect",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2025,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_neg","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_neg","InterventionStatus":"OnNonSuppressiveART"},
+                        {"CMDStatus":"CMD_recovered","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_recovered","InterventionStatus":"OnNonSuppressiveART"},
+                        {"CMDStatus":"CMD_treated","InterventionStatus":"OnNonSuppressiveARTDepressed"},
+                        {"CMDStatus":"CMD_treated","InterventionStatus":"OnNonSuppressiveART"}            
+                    ],
+                    "Target_Demographic": "ExplicitAgeRanges",
+                    "Target_Age_Min": 18,
+                    "Target_Age_Max": 99.999,
+                    "Trigger_Condition_List": [
+                        "CMD_Screening_delay",
+                        "CMD_Screening"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Diagnostic_TrueNegative",
+                            "CMD_Diagnostic_FalsePositive"
+                        ],
+                        "Choice_Probabilities":[
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_TreatmentTable_Specificity" : "<== marker"
                     }
                 }
             }
@@ -1298,8 +1402,8 @@
                         0.917915461
                     ],
                     "Choice_Probabilities": [
-                        0.0867621,
-                        0.9132379
+                        0.125133,
+                        0.874867
                     ]
                 }
             }
@@ -1374,8 +1478,8 @@
                         0.805784168
                     ],
                     "Choice_Probabilities": [
-                        0.189299,
-                        0.810701
+                        0.262573113,
+                        0.737426887
                     ]
                 }
             }
@@ -1450,8 +1554,8 @@
                         0.720604784
                     ],
                     "Choice_Probabilities": [
-                        0.247914,
-                        0.752086
+                        0.334170039,
+                        0.665829961
                     ]
                 }
             }
@@ -1526,8 +1630,8 @@
                         0.753322028
                     ],
                     "Choice_Probabilities": [
-                        0.215467,
-                        0.784533
+                        0.295186508,
+                        0.704813492
                     ]
                 }
             }
@@ -1602,8 +1706,8 @@
                         0.656758033
                     ],
                     "Choice_Probabilities": [
-                        0.299053,
-                        0.700947
+                        0.422856438,
+                        0.577143562
                     ]
                 }
             }
@@ -1678,8 +1782,8 @@
                         0.545049357
                     ],
                     "Choice_Probabilities": [
-                        0.369688,
-                        0.630312
+                        0.548096017,
+                        0.451903983
                     ]
                 }
             }
@@ -1754,8 +1858,8 @@
                         0.103328855
                     ],
                     "Choice_Probabilities": [
-                        0.629559,
-                        0.370441
+                        0.866217743,
+                        0.133782257
                     ]
                 }
             }
@@ -1830,8 +1934,8 @@
                         0.821434752
                     ],
                     "Choice_Probabilities": [
-                        0.179167,
-                        0.820833
+                        0.245769733,
+                        0.754230267
                     ]
                 }
             }
@@ -1906,8 +2010,8 @@
                         0.7677016
                     ],
                     "Choice_Probabilities": [
-                        0.212837,
-                        0.787163
+                        0.280177517,
+                        0.719822483
                     ]
                 }
             }
@@ -1982,8 +2086,8 @@
                         0.825620201
                     ],
                     "Choice_Probabilities": [
-                        0.156945,
-                        0.843055
+                        0.207381987,
+                        0.792618013
                     ]
                 }
             }
@@ -2058,8 +2162,8 @@
                         0.623728965
                     ],
                     "Choice_Probabilities": [
-                        0.3578927,
-                        0.6421073
+                        0.461466927,
+                        0.538533073
                     ]
                 }
             }
@@ -2134,8 +2238,8 @@
                         0.557292894
                     ],
                     "Choice_Probabilities": [
-                        0.3906945,
-                        0.6093055
+                        0.528024317,
+                        0.471975683
                     ]
                 }
             }
@@ -2210,8 +2314,8 @@
                         0.751164137
                     ],
                     "Choice_Probabilities": [
-                        0.211823,
-                        0.788177
+                        0.320725059,
+                        0.679274941
                     ]
                 }
             }
@@ -2287,13 +2391,12 @@
                         0.84664702
                     ],
                     "Choice_Probabilities": [
-                        0.140893,
-                        0.859107
+                        0.214363417,
+                        0.785636583
                     ]
                 }
             }
         },
-
         {
             "BEGIN":"CMD relapse after treatment",
             "COMMENT":"People in CMDStatus:CMD_treated get moved back to CMD_pos",
@@ -2366,8 +2469,8 @@
                         0.950809859
                     ],
                     "Choice_Probabilities": [
-                        0.0529357,
-                        0.9470643
+                        0.125133,
+                        0.874867
                     ]
                 }
             }
@@ -2442,8 +2545,8 @@
                         0.883613841
                     ],
                     "Choice_Probabilities": [
-                        0.118172,
-                        0.881828
+                        0.262573113,
+                        0.737426887
                     ]
                 }
             }
@@ -2518,8 +2621,8 @@
                         0.832569077
                     ],
                     "Choice_Probabilities": [
-                        0.156953,
-                        0.843047
+                        0.334170039,
+                        0.665829961
                     ]
                 }
             }
@@ -2594,8 +2697,8 @@
                         0.852175276
                     ],
                     "Choice_Probabilities": [
-                        0.135342,
-                        0.864658
+                        0.295186508,
+                        0.704813492
                     ]
                 }
             }
@@ -2670,8 +2773,8 @@
                         0.794308147
                     ],
                     "Choice_Probabilities": [
-                        0.191789,
-                        0.808211
+                        0.422856438,
+                        0.577143562
                     ]
                 }
             }
@@ -2746,8 +2849,8 @@
                         0.727365388
                     ],
                     "Choice_Probabilities": [
-                        0.24163,
-                        0.75837
+                        0.548096017,
+                        0.451903983
                     ]
                 }
             }
@@ -2822,8 +2925,8 @@
                         0.462659096
                     ],
                     "Choice_Probabilities": [
-                        0.417836,
-                        0.582164
+                        0.866217743,
+                        0.133782257
                     ]
                 }
             }
@@ -2898,8 +3001,8 @@
                         0.892992641
                     ],
                     "Choice_Probabilities": [
-                        0.111584,
-                        0.888416
+                        0.0884435,
+                        0.9115565
                     ]
                 }
             }
@@ -2974,8 +3077,8 @@
                         0.860792407
                     ],
                     "Choice_Probabilities": [
-                        0.133606,
-                        0.866394
+                        0.280177517,
+                        0.719822483
                     ]
                 }
             }
@@ -3050,8 +3153,8 @@
                         0.790822
                     ],
                     "Choice_Probabilities": [
-                        0.0972487,
-                        0.9027513
+                        0.207381987,
+                        0.792618013
                     ]
                 }
             }
@@ -3126,8 +3229,8 @@
                         0.774515084
                     ],
                     "Choice_Probabilities": [
-                        0.214425,
-                        0.785575
+                        0.461466927,
+                        0.538533073
                     ]
                 }
             }
@@ -3202,8 +3305,8 @@
                         0.734702474
                     ],
                     "Choice_Probabilities": [
-                        0.236548,
-                        0.763452
+                        0.528024317,
+                        0.471975683
                     ]
                 }
             }
@@ -3278,8 +3381,8 @@
                         0.850882134
                     ],
                     "Choice_Probabilities": [
-                        0.132937,
-                        0.867063
+                        0.320725059,
+                        0.679274941
                     ]
                 }
             }
@@ -3354,8 +3457,8 @@
                         0.908101393
                     ],
                     "Choice_Probabilities": [
-                        0.0869868,
-                        0.9130132
+                        0.214363417,
+                        0.785636583
                     ]
                 }
             }
@@ -3418,8 +3521,8 @@
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
-                                    0.0,
-                                    1.0
+                                    1.0,
+                                    0.0
                                 ],
                                 "Choice_Probabilities__KP_treatment_after_relapse":"<== marker"
                             },
@@ -3472,7 +3575,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2200,
+            "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{

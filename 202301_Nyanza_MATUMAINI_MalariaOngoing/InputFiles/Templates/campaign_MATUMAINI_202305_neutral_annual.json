@@ -878,7 +878,7 @@
             }
         },
         {
-            "Event_Name": "CMD background - Females 44-49, HIV+",
+            "Event_Name": "CMD background - Females 45-49, HIV+",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -895,7 +895,7 @@
                 "Timesteps_Between_Repetitions": 12,
                 "Number_Repetitions": -1,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
-                "Target_Age_Min": 44,
+                "Target_Age_Min": 45,
                 "Target_Age_Max": 49.99999,
                 "Target_Gender": "Female",
                 "Intervention_Config": {
@@ -1110,7 +1110,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Property_Restrictions_Within_Node": [
                         {
-                            "CMDStatus": "CMD_neg" 
+                            "CMDStatus": "CMD_neg"
                         },
                         {
                             "CMDStatus": "CMD_recovered"
@@ -2393,7 +2393,6 @@
                 }
             }
         },
-
         {
             "BEGIN":"CMD relapse after treatment",
             "COMMENT":"People in CMDStatus:CMD_treated get moved back to CMD_pos",

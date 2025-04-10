@@ -46,7 +46,9 @@ Analysis/Analysis.RData
 
 Analysis/Figures_GlobalMentalHealth/**
 Analysis/Figures_manuscript/**
-Analysis/Impact_Manuscript_Figures/**.csv
+Analysis/Impact_Manuscript_Figures/*.csv
 Analysis/**.csv
 Analysis/zambia_analysis.Rmd
 Analysis/Impact_Manuscript_Figures/scrap_work.Rmd
+Analysis/Impact_Manuscript_Figures/Time_Series_data_for_figures/**
+Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/**
