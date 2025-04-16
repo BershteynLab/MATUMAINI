@@ -7,11 +7,15 @@
 * HIV
     * positive diagnosis can increase risk of CMD through feelings of hopelessness, isolation, stigmatization, shame
     * successful treatment of HIV can reduce risk of CMD 
+* How do the interactions between HIV and CMD contribute to the health burdens of both conditions?
+    * Person-years spent depressed
+    * HIV acquisitions
+    * HIV-related mortality
+    * Impact of ART, given reduced efficacy of ART among people with depression
 
 ## Project Outline
 
-* [ ] Next generation of depression treatment implementation
-* [x] Implement [model of CMD](https://docs.google.com/presentation/d/1LaGunWwd2bJYsFmCAZPay9UfXygRY47RvCdVJKmSLjA/edit?usp=sharing) within EMOD
+* [x] Implement CMD dynamical model within EMOD
     * [x] Add CMD Individual Property (IP) to EMOD which tracks individual CMD status
         * [x] Add CMD IP to the Demography File: `CMDStatus`
         * [x] Add CMD IP to the config file - report on IP
@@ -53,12 +57,12 @@
     * [ ] PrEP
     * [ ] Condom use
     * [ ] VMMC
-* [ ] Future work: Depression model demographics and dynamics
+    * [ ] Next generation of depression treatment implementation
     * [ ] Add CMD-related excess mortality
-* [ ] Re-calibrate full model with CMD
 
 ## Major Updates
 
+* 2025-04-16 - Saved repository to accompany manuscript submission
 * 2024-09-07 - Generated results for first manuscript on `croi` branch
 * 2024-03-03 - Presented results from `croi` branch at CROI 2024
 * 2023-10-31 - Presented results from `nimh` branch at Global Mental Health Research without Borders Conference
