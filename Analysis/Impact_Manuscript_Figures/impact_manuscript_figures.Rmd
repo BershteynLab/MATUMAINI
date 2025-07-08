@@ -56,6 +56,9 @@ bt_mean <- function(splits, colname){
   mean(x[[colname]])
 }
 
+
+
+
 calculate.CI.by.metric = function(data, scenario.name, metric, n = 500){
   bt_resamples <- bootstraps(data %>% filter(scenario_name == scenario.name), times = n)
   
@@ -425,12 +428,13 @@ sim.results.metrics.table <- rbind(
 # For sensitivity analysis
 sim.results.metrics.table <- rbind(
   read_csv("sim_results_metrics_baseline.csv"),
+  # UNI
   read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_treateff_LL.csv"),
   read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_treateff_UL.csv"),
-  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_treateff_worst.csv"),
-  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_treateff_best.csv"),
-  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmddetect_LL.csv"),
-  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmddetect_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdsens_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdsens_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdspec_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdspec_UL.csv"),
   read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_hivinc_LL.csv"),
   read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_hivinc_UL.csv"),
   read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_artadh_LL.csv"),
@@ -442,7 +446,64 @@ sim.results.metrics.table <- rbind(
   read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdinc_LL.csv"),
   read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdinc_UL.csv"),
   read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdrelapse_LL.csv"),
-  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdrelapse_UL.csv")
+  read_csv("SensitivityAnalysis/sim_results_metrics_uni_sa_cmdrelapse_UL.csv"),
+  # CETA
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_treateff_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_treateff_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_cmdsens_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_cmdsens_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_cmdspec_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_cmdspec_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_hivinc_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_hivinc_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_artadh_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_artadh_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_artdrop_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_artdrop_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_delay_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_delay_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_cmdinc_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_cmdinc_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_cmdrelapse_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_ceta_sa_cmdrelapse_UL.csv"),
+  # ART
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_treateff_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_treateff_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_cmdsens_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_cmdsens_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_cmdspec_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_cmdspec_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_hivinc_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_hivinc_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_artadh_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_artadh_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_artdrop_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_artdrop_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_delay_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_delay_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_cmdinc_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_cmdinc_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_cmdrelapse_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_art_sa_cmdrelapse_UL.csv"),
+  # Neutral
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_treateff_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_treateff_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_cmdsens_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_cmdsens_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_cmdspec_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_cmdspec_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_hivinc_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_hivinc_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_artadh_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_artadh_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_artdrop_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_artdrop_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_delay_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_delay_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_cmdinc_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_cmdinc_UL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_cmdrelapse_LL.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_neutral_sa_cmdrelapse_UL.csv")
   )
 
 ```
@@ -563,22 +624,25 @@ metric.names = c(
 
 scenario.names = sim.results.metrics.table$scenario_name %>% unique 
 
-metrics.2025.3035 = data.frame()
+metrics.2025.2035 = data.frame()
 
 for (i in metric.names){
   for (j in scenario.names) {
     
     print(c(i,j))
     h <- calculate.CI.by.metric(
-      data = data.2025.2035,
+      data = metrics.2025.2035,
       scenario.name = j,
       metric = i)
     
-    metrics.2025.3035 = rbind(metrics.2025.3035, h)
+    metrics.2025.2035 = rbind(metrics.2025.2035, h)
   }
 }
 
-metrics.2025.3035
+metrics.2025.2035
+
+
+#write_csv(metrics.2025.3035, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250512_basic_metrics.csv")
 ```
 
 ## Calculate Impact
@@ -709,7 +773,9 @@ for (i in metric.names){
 HIV.Depression.Averted.Data <- metrics
 
 #write_csv(HIV.Depression.Averted.Data, "HIV_Depression_Averted_Data_20250401.csv")
-write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis.csv")
+#write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250509.csv")
+write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250512.csv")
+
 ```
 
 #### Recalculate variance in incremental DALYs averted
@@ -747,32 +813,32 @@ hiv.averted.stats %>%
 #### No discount 
 ```{r}
 cost.incremental <- merge(
-    metrics.2025.3035 %>% 
+    metrics.2025.2035 %>% 
       filter(metric == 'OnART.cost') %>% 
-      mutate(OnART.cost.baseline = metrics.2025.3035 %>% filter(metric == 'OnART.cost', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost', scenario_name == 'baseline') %>% .$metric.mean) %>% 
       mutate(OnART.cost.marginal = metric.mean - OnART.cost.baseline ) %>% 
       select(scenario_name, OnART.cost.marginal),
-    metrics.2025.3035 %>% 
+    metrics.2025.2035 %>% 
       filter(metric == 'CMD_Total.cost') %>% 
-      mutate(CMD_Total.cost.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_Total.cost', scenario_name == 'baseline') %>%
+      mutate(CMD_Total.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost', scenario_name == 'baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_Total.cost.marginal = metric.mean - CMD_Total.cost.baseline) %>% 
       select(scenario_name, CMD_Total.cost.marginal),
     by = c("scenario_name")
   ) %>% 
   merge(
-    metrics.2025.3035 %>% 
+    metrics.2025.2035 %>% 
       filter(metric == 'CMD_TotalTests.cost') %>% 
-      mutate(CMD_TotalTests.cost.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_TotalTests.cost', scenario_name == 'baseline') %>%
+      mutate(CMD_TotalTests.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost', scenario_name == 'baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_TotalTests.cost.marginal = metric.mean - CMD_TotalTests.cost.baseline) %>% 
       select(scenario_name, CMD_TotalTests.cost.marginal),
     by = c("scenario_name")
   ) %>% 
   merge(
-    metrics.2025.3035 %>% 
+    metrics.2025.2035 %>% 
       filter(metric == 'CMD_TotalTreatment.cost') %>% 
-      mutate(CMD_TotalTreatment.cost.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_TotalTreatment.cost', scenario_name == 'baseline') %>%
+      mutate(CMD_TotalTreatment.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost', scenario_name == 'baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_TotalTreatment.cost.marginal = metric.mean - CMD_TotalTreatment.cost.baseline) %>% 
       select(scenario_name, CMD_TotalTreatment.cost.marginal),
@@ -783,40 +849,38 @@ cost.incremental <- merge(
 #### Discount
 
 ```{r}
-
 cost.discounted.incremental <- merge(
-    metrics.2025.3035 %>% 
+    metrics.2025.2035 %>% 
       filter(metric == 'OnART.cost.discounted') %>% 
-      mutate(OnART.cost.discounted.baseline = metrics.2025.3035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'baseline') %>% .$metric.mean) %>% 
       mutate(OnART.cost.discounted.marginal = metric.mean - OnART.cost.discounted.baseline ) %>% 
       select(scenario_name, OnART.cost.discounted.marginal),
-    metrics.2025.3035 %>% 
+    metrics.2025.2035 %>% 
       filter(metric == 'CMD_Total.cost.discounted') %>% 
-      mutate(CMD_Total.cost.discounted.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'baseline') %>%
+      mutate(CMD_Total.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_Total.cost.discounted.marginal = metric.mean - CMD_Total.cost.discounted.baseline) %>% 
       select(scenario_name, CMD_Total.cost.discounted.marginal),
     by = c("scenario_name")
   ) %>% 
   merge(
-    metrics.2025.3035 %>% 
+    metrics.2025.2035 %>% 
       filter(metric == 'CMD_TotalTests.cost.discounted') %>% 
-      mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_TotalTests.cost.discounted', scenario_name == 'baseline') %>%
+      mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted', scenario_name == 'baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_TotalTests.cost.discounted.marginal = metric.mean - CMD_TotalTests.cost.discounted.baseline) %>% 
       select(scenario_name, CMD_TotalTests.cost.discounted.marginal),
     by = c("scenario_name")
   ) %>% 
   merge(
-    metrics.2025.3035 %>% 
+    metrics.2025.2035 %>% 
       filter(metric == 'CMD_TotalTreatment.cost.discounted') %>% 
-      mutate(CMD_TotalTreatment.cost.discounted.baseline = metrics.2025.3035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted', scenario_name == 'baseline') %>%
+      mutate(CMD_TotalTreatment.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted', scenario_name == 'baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_TotalTreatment.cost.discounted.marginal = metric.mean - CMD_TotalTreatment.cost.discounted.baseline) %>% 
       select(scenario_name, CMD_TotalTreatment.cost.discounted.marginal),
     by = c("scenario_name")
   )
-
 
 cost.discounted.incremental
 ```
@@ -839,11 +903,62 @@ ICER.discounted.total.table <- HIV.Depression.Averted.Data %>% filter(metric == 
                                    metric.mean == 0 ~  0)
          ) %>%
   mutate(metric = "ICER.discounted.total") %>% 
-  select(scenario_name, metric, 
+  select(scenario_name, metric,
          metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
 
 
 ICER.discounted.total.table
+
+# write_csv(ICER.discounted.total.table, "SensitivityAnalysis/ICER_Data_sa_20250512_with_costs.csv")
+```
+
+### ICER with cost adjustments
+
+```{r}
+ICER.discounted.total.table.cost.adjusted <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted.averted") %>% 
+  merge(
+    cost.discounted.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total.UL = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal*1.2,
+         cost.total.LL = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal*0.8) %>% 
+  mutate(ICER.total.UL.mean = case_when(metric.mean != 0 ~ cost.total.UL/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.LL.mean = case_when(metric.mean != 0 ~ cost.total.LL/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ) %>%
+  mutate(metric = "ICER.discounted.total") %>% 
+  select(scenario_name, metric,  ICER.total.LL.mean, ICER.total.UL.mean)
+
+
+ICER.discounted.total.table.cost.adjusted
+```
+
+
+### ICER without Discounting
+```{r}
+metrics.2025.2035 <- read.csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/HIV_Depression_Data_20250329.csv")
+HIV.Depression.Averted.Data <- read_csv("HIV_Depression_Averted_Data_20250401.csv")
+
+ICER.total.table <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.averted") %>% 
+  merge(
+    cost.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.marginal + CMD_Total.cost.marginal) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.total") %>% 
+  select(scenario_name, metric, 
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+
+ICER.total.table
 ```
 
 
@@ -903,10 +1018,13 @@ rbind(metrics.2025, metrics.2025.3035) %>% write_csv("/gpfs/data/bershteynlab/EM
 
 # rbind(metrics.2025, metrics.2025.3035) %>% write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/HIV_Depression_Sensitivity_Analysis_Data.csv")
 
-rbind(ICER.discounted.total.table, ICER.HIV.table) %>%
-  write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/ICER_Data_20250329.csv")
+# rbind(ICER.discounted.total.table, ICER.HIV.table) %>%
+#   write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/ICER_Data_20250329.csv")
 
-#rbind(ICER.discounted.total.table, ICER.HIV.table) %>%
+rbind(ICER.discounted.total.table, ICER.HIV.table) %>%
+  write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/ICER_Data_sa_20250512.csv")
+
+# rbind(ICER.discounted.total.table, ICER.HIV.table) %>%
 # write_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/ICER_Data_Sensitivity_Analysis.csv")
 ``` 
 
@@ -1710,7 +1828,6 @@ ggsave("Figure_4_panel_2_20250331.pdf", plot.ceac.hiv, height = 4, width = 5, un
 
 #### Averted
 ```{r}
-
 HIV_Depression_Averted_Data <- read_csv("HIV_Depression_Averted_Data_20250401.csv")
 
 HIV_Depression_Averted_Data %>% 
@@ -1720,15 +1837,17 @@ HIV_Depression_Averted_Data %>%
 ```
 
 ```{r}
-sa.averted.data <- read_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis.csv")
+sa.averted.data <- read_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250512.csv")
 
 sa.averted.data <- sa.averted.data %>% 
   filter(scenario_name != 'baseline') %>% 
 #  filter(metric %in% c("HIV.DALY.averted", "HIV.DALY.averted.pct", "Total.DALY.averted", "Total.DALY.averted.pct")) %>% 
   mutate(ix =case_match(
     scenario_name,
-    "uni_sa_cmddetect_LL" ~ 1,
-    "uni_sa_cmddetect_UL" ~ 1,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 0,
+    "uni_sa_cmdspec_LL" ~ 1,
+    "uni_sa_cmdspec_UL" ~ 1,
     "uni_sa_treateff_LL" ~ 2,
     "uni_sa_treateff_UL" ~ 2,
     "uni_sa_cmdrelapse_LL" ~ 3,
@@ -1743,15 +1862,69 @@ sa.averted.data <- sa.averted.data %>%
     "uni_sa_delay_UL" ~ 7,
     "uni_sa_cmdinc_LL" ~ 8,
     "uni_sa_cmdinc_UL" ~ 8,
-    "uni_sa_treateff_worst" ~ 9,
-    "uni_sa_treateff_best" ~ 9,
+    "ceta_sa_cmdsens_LL" ~ 0,
+    "ceta_sa_cmdsens_UL" ~ 0,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 1,
+    "ceta_sa_treateff_LL" ~ 2,
+    "ceta_sa_treateff_UL" ~ 2,
+    "ceta_sa_cmdrelapse_LL" ~ 3,
+    "ceta_sa_cmdrelapse_UL" ~ 3,
+    "ceta_sa_hivinc_LL" ~ 4,
+    "ceta_sa_hivinc_UL" ~ 4,
+    "ceta_sa_artadh_LL" ~ 5,
+    "ceta_sa_artadh_UL" ~ 5,
+    "ceta_sa_artdrop_LL" ~ 6,
+    "ceta_sa_artdrop_UL" ~ 6,
+    "ceta_sa_delay_LL" ~ 7,
+    "ceta_sa_delay_UL" ~ 7,
+    "ceta_sa_cmdinc_LL" ~ 8,
+    "ceta_sa_cmdinc_UL" ~ 8,
+    "art_sa_cmdsens_LL" ~ 0,
+    "art_sa_cmdsens_UL" ~ 0,
+    "art_sa_cmdspec_LL" ~ 1,
+    "art_sa_cmdspec_UL" ~ 1,
+    "art_sa_treateff_LL" ~ 2,
+    "art_sa_treateff_UL" ~ 2,
+    "art_sa_cmdrelapse_LL" ~ 3,
+    "art_sa_cmdrelapse_UL" ~ 3,
+    "art_sa_hivinc_LL" ~ 4,
+    "art_sa_hivinc_UL" ~ 4,
+    "art_sa_artadh_LL" ~ 5,
+    "art_sa_artadh_UL" ~ 5,
+    "art_sa_artdrop_LL" ~ 6,
+    "art_sa_artdrop_UL" ~ 6,
+    "art_sa_delay_LL" ~ 7,
+    "art_sa_delay_UL" ~ 7,
+    "art_sa_cmdinc_LL" ~ 8,
+    "art_sa_cmdinc_UL" ~ 8,
+    "neutral_sa_cmdsens_LL" ~ 0,
+    "neutral_sa_cmdsens_UL" ~ 0,
+    "neutral_sa_cmdspec_LL" ~ 1,
+    "neutral_sa_cmdspec_UL" ~ 1,
+    "neutral_sa_treateff_LL" ~ 2,
+    "neutral_sa_treateff_UL" ~ 2,
+    "neutral_sa_cmdrelapse_LL" ~ 3,
+    "neutral_sa_cmdrelapse_UL" ~ 3,
+    "neutral_sa_hivinc_LL" ~ 4,
+    "neutral_sa_hivinc_UL" ~ 4,
+    "neutral_sa_neutraladh_LL" ~ 5,
+    "neutral_sa_neutraladh_UL" ~ 5,
+    "neutral_sa_neutraldrop_LL" ~ 6,
+    "neutral_sa_neutraldrop_UL" ~ 6,
+    "neutral_sa_delay_LL" ~ 7,
+    "neutral_sa_delay_UL" ~ 7,
+    "neutral_sa_cmdinc_LL" ~ 8,
+    "neutral_sa_cmdinc_UL" ~ 8
   ),
   limitsign = case_match(
     scenario_name,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 1,
+    "uni_sa_cmdspec_LL" ~ 1,
+    "uni_sa_cmdspec_UL" ~ 0,
     "uni_sa_treateff_LL" ~ 0,
     "uni_sa_treateff_UL" ~ 1,
-    "uni_sa_cmddetect_LL" ~ 0,
-    "uni_sa_cmddetect_UL" ~ 1,
     "uni_sa_hivinc_LL" ~ 0,
     "uni_sa_hivinc_UL" ~ 1,
     "uni_sa_artadh_LL" ~ 0,
@@ -1764,47 +1937,229 @@ sa.averted.data <- sa.averted.data %>%
     "uni_sa_cmdinc_UL" ~ 1,
     "uni_sa_cmdrelapse_LL" ~ 1,
     "uni_sa_cmdrelapse_UL" ~ 0,
-    "uni_sa_treateff_worst" ~ 0,
-    "uni_sa_treateff_best" ~ 1
+    "ceta_sa_cmdsens_LL" ~ 0,
+    "ceta_sa_cmdsens_UL" ~ 1,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 0,
+    "ceta_sa_treateff_LL" ~ 0,
+    "ceta_sa_treateff_UL" ~ 1,
+    "ceta_sa_hivinc_LL" ~ 0,
+    "ceta_sa_hivinc_UL" ~ 1,
+    "ceta_sa_artadh_LL" ~ 0,
+    "ceta_sa_artadh_UL" ~ 1,
+    "ceta_sa_artdrop_LL" ~ 0,
+    "ceta_sa_artdrop_UL" ~ 1,
+    "ceta_sa_delay_LL" ~ 0,
+    "ceta_sa_delay_UL" ~ 1,
+    "ceta_sa_cmdinc_LL" ~ 0,
+    "ceta_sa_cmdinc_UL" ~ 1,
+    "ceta_sa_cmdrelapse_LL" ~ 1,
+    "ceta_sa_cmdrelapse_UL" ~ 0,
+    "art_sa_cmdsens_LL" ~ 0,
+    "art_sa_cmdsens_UL" ~ 1,
+    "art_sa_cmdspec_LL" ~ 1,
+    "art_sa_cmdspec_UL" ~ 0,
+    "art_sa_treateff_LL" ~ 0,
+    "art_sa_treateff_UL" ~ 1,
+    "art_sa_hivinc_LL" ~ 0,
+    "art_sa_hivinc_UL" ~ 1,
+    "art_sa_artadh_LL" ~ 0,
+    "art_sa_artadh_UL" ~ 1,
+    "art_sa_artdrop_LL" ~ 0,
+    "art_sa_artdrop_UL" ~ 1,
+    "art_sa_delay_LL" ~ 0,
+    "art_sa_delay_UL" ~ 1,
+    "art_sa_cmdinc_LL" ~ 0,
+    "art_sa_cmdinc_UL" ~ 1,
+    "art_sa_cmdrelapse_LL" ~ 1,
+    "art_sa_cmdrelapse_UL" ~ 0,
+    "neutral_sa_cmdsens_LL" ~ 0,
+    "neutral_sa_cmdsens_UL" ~ 1,
+    "neutral_sa_cmdspec_LL" ~ 1,
+    "neutral_sa_cmdspec_UL" ~ 0,
+    "neutral_sa_treateff_LL" ~ 0,
+    "neutral_sa_treateff_UL" ~ 1,
+    "neutral_sa_hivinc_LL" ~ 0,
+    "neutral_sa_hivinc_UL" ~ 1,
+    "neutral_sa_neutraladh_LL" ~ 0,
+    "neutral_sa_neutraladh_UL" ~ 1,
+    "neutral_sa_neutraldrop_LL" ~ 0,
+    "neutral_sa_neutraldrop_UL" ~ 1,
+    "neutral_sa_delay_LL" ~ 0,
+    "neutral_sa_delay_UL" ~ 1,
+    "neutral_sa_cmdinc_LL" ~ 0,
+    "neutral_sa_cmdinc_UL" ~ 1,
+    "neutral_sa_cmdrelapse_LL" ~ 1,
+    "neutral_sa_cmdrelapse_UL" ~ 0
+  ),
+  scenario_group = case_match(
+    scenario_name,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 0,
+    "uni_sa_cmdspec_LL" ~ 0,
+    "uni_sa_cmdspec_UL" ~ 0,
+    "uni_sa_treateff_LL" ~ 0,
+    "uni_sa_treateff_UL" ~ 0,
+    "uni_sa_hivinc_LL" ~ 0,
+    "uni_sa_hivinc_UL" ~ 0,
+    "uni_sa_artadh_LL" ~ 0,
+    "uni_sa_artadh_UL" ~ 0,
+    "uni_sa_artdrop_LL" ~ 0,
+    "uni_sa_artdrop_UL" ~ 0,
+    "uni_sa_delay_LL" ~ 0,
+    "uni_sa_delay_UL" ~ 0,
+    "uni_sa_cmdinc_LL" ~ 0,
+    "uni_sa_cmdinc_UL" ~ 0,
+    "uni_sa_cmdrelapse_LL" ~ 0,
+    "uni_sa_cmdrelapse_UL" ~ 0,
+    "ceta_sa_cmdsens_LL" ~ 1,
+    "ceta_sa_cmdsens_UL" ~ 1,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 1,
+    "ceta_sa_treateff_LL" ~ 1,
+    "ceta_sa_treateff_UL" ~ 1,
+    "ceta_sa_hivinc_LL" ~ 1,
+    "ceta_sa_hivinc_UL" ~ 1,
+    "ceta_sa_artadh_LL" ~ 1,
+    "ceta_sa_artadh_UL" ~ 1,
+    "ceta_sa_artdrop_LL" ~ 1,
+    "ceta_sa_artdrop_UL" ~ 1,
+    "ceta_sa_delay_LL" ~ 1,
+    "ceta_sa_delay_UL" ~ 1,
+    "ceta_sa_cmdinc_LL" ~ 1,
+    "ceta_sa_cmdinc_UL" ~ 1,
+    "ceta_sa_cmdrelapse_LL" ~ 1,
+    "ceta_sa_cmdrelapse_UL" ~ 1,
+    "art_sa_cmdsens_LL" ~ 2,
+    "art_sa_cmdsens_UL" ~ 2,
+    "art_sa_cmdspec_LL" ~ 2,
+    "art_sa_cmdspec_UL" ~ 2,
+    "art_sa_treateff_LL" ~ 2,
+    "art_sa_treateff_UL" ~ 2,
+    "art_sa_hivinc_LL" ~ 2,
+    "art_sa_hivinc_UL" ~ 2,
+    "art_sa_artadh_LL" ~ 2,
+    "art_sa_artadh_UL" ~ 2,
+    "art_sa_artdrop_LL" ~ 2,
+    "art_sa_artdrop_UL" ~ 2,
+    "art_sa_delay_LL" ~ 2,
+    "art_sa_delay_UL" ~ 2,
+    "art_sa_cmdinc_LL" ~ 2,
+    "art_sa_cmdinc_UL" ~ 2,
+    "art_sa_cmdrelapse_LL" ~ 2,
+    "art_sa_cmdrelapse_UL" ~ 2,
+    "neutral_sa_cmdsens_LL" ~ 3,
+    "neutral_sa_cmdsens_UL" ~ 3,
+    "neutral_sa_cmdspec_LL" ~ 3,
+    "neutral_sa_cmdspec_UL" ~ 3,
+    "neutral_sa_treateff_LL" ~ 3,
+    "neutral_sa_treateff_UL" ~ 3,
+    "neutral_sa_hivinc_LL" ~ 3,
+    "neutral_sa_hivinc_UL" ~ 3,
+    "neutral_sa_neutraladh_LL" ~ 3,
+    "neutral_sa_neutraladh_UL" ~ 3,
+    "neutral_sa_neutraldrop_LL" ~ 3,
+    "neutral_sa_neutraldrop_UL" ~ 3,
+    "neutral_sa_delay_LL" ~ 3,
+    "neutral_sa_delay_UL" ~ 3,
+    "neutral_sa_cmdinc_LL" ~ 3,
+    "neutral_sa_cmdinc_UL" ~ 3,
+    "neutral_sa_cmdrelapse_LL" ~ 3,
+    "neutral_sa_cmdrelapse_UL" ~ 3
   )) %>% arrange(metric,ix)
 ```
 
 #### ICERS
 ```{r}
 ICER.table <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/ICER_Data_20250329.csv")
-ICER.table.sa <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/ICER_Data_Sensitivity_Analysis.csv")
-
+ICER.table.sa <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/ICER_Data_sa_20250512.csv")
 
 ICER.table.sa <- ICER.table.sa  %>% 
   filter(scenario_name != 'baseline') %>% 
 #  filter(metric %in% c("HIV.DALY.averted", "HIV.DALY.averted.pct", "Total.DALY.averted", "Total.DALY.averted.pct")) %>% 
   mutate(ix =case_match(
     scenario_name,
-    "uni_sa_cmddetect_LL" ~ 1,
-    "uni_sa_cmddetect_UL" ~ 1,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 0,
+    "uni_sa_cmdspec_LL" ~ 1,
+    "uni_sa_cmdspec_UL" ~ 1,
     "uni_sa_treateff_LL" ~ 2,
     "uni_sa_treateff_UL" ~ 2,
     "uni_sa_cmdrelapse_LL" ~ 3,
     "uni_sa_cmdrelapse_UL" ~ 3,
-    "uni_sa_hivinc_LL" ~ 4,
-    "uni_sa_hivinc_UL" ~ 4,
-    "uni_sa_artadh_LL" ~ 5,
-    "uni_sa_artadh_UL" ~ 5,
-    "uni_sa_artdrop_LL" ~ 6,
-    "uni_sa_artdrop_UL" ~ 6,
-    "uni_sa_delay_LL" ~ 7,
-    "uni_sa_delay_UL" ~ 7,
-    "uni_sa_cmdinc_LL" ~ 8,
-    "uni_sa_cmdinc_UL" ~ 8,
-    "uni_sa_treateff_worst" ~ 9,
-    "uni_sa_treateff_best" ~ 9,
+    "uni_sa_cmdinc_LL" ~ 4,
+    "uni_sa_cmdinc_UL" ~ 4,
+    "uni_sa_hivinc_LL" ~ 5,
+    "uni_sa_hivinc_UL" ~ 5,
+    "uni_sa_artadh_LL" ~ 6,
+    "uni_sa_artadh_UL" ~ 6,
+    "uni_sa_artdrop_LL" ~ 7,
+    "uni_sa_artdrop_UL" ~ 7,
+    "uni_sa_delay_LL" ~ 8,
+    "uni_sa_delay_UL" ~ 8,
+    "ceta_sa_cmdsens_LL" ~ 0,
+    "ceta_sa_cmdsens_UL" ~ 0,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 1,
+    "ceta_sa_treateff_LL" ~ 2,
+    "ceta_sa_treateff_UL" ~ 2,
+    "ceta_sa_cmdrelapse_LL" ~ 3,
+    "ceta_sa_cmdrelapse_UL" ~ 3,
+    "ceta_sa_cmdinc_LL" ~ 4,
+    "ceta_sa_cmdinc_UL" ~ 4,
+    "ceta_sa_hivinc_LL" ~ 5,
+    "ceta_sa_hivinc_UL" ~ 5,
+    "ceta_sa_artadh_LL" ~ 6,
+    "ceta_sa_artadh_UL" ~ 6,
+    "ceta_sa_artdrop_LL" ~ 7,
+    "ceta_sa_artdrop_UL" ~ 7,
+    "ceta_sa_delay_LL" ~ 8,
+    "ceta_sa_delay_UL" ~ 8,
+    "art_sa_cmdsens_LL" ~ 0,
+    "art_sa_cmdsens_UL" ~ 0,
+    "art_sa_cmdspec_LL" ~ 1,
+    "art_sa_cmdspec_UL" ~ 1,
+    "art_sa_treateff_LL" ~ 2,
+    "art_sa_treateff_UL" ~ 2,
+    "art_sa_cmdrelapse_LL" ~ 3,
+    "art_sa_cmdrelapse_UL" ~ 3,
+    "art_sa_cmdinc_LL" ~ 4,
+    "art_sa_cmdinc_UL" ~ 4,
+    "art_sa_hivinc_LL" ~ 5,
+    "art_sa_hivinc_UL" ~ 5,
+    "art_sa_artadh_LL" ~ 6,
+    "art_sa_artadh_UL" ~ 6,
+    "art_sa_artdrop_LL" ~ 7,
+    "art_sa_artdrop_UL" ~ 7,
+    "art_sa_delay_LL" ~ 8,
+    "art_sa_delay_UL" ~ 8,
+    "neutral_sa_cmdsens_LL" ~ 0,
+    "neutral_sa_cmdsens_UL" ~ 0,
+    "neutral_sa_cmdspec_LL" ~ 1,
+    "neutral_sa_cmdspec_UL" ~ 1,
+    "neutral_sa_treateff_LL" ~ 2,
+    "neutral_sa_treateff_UL" ~ 2,
+    "neutral_sa_cmdrelapse_LL" ~ 3,
+    "neutral_sa_cmdrelapse_UL" ~ 3,
+    "neutral_sa_cmdinc_LL" ~ 4,
+    "neutral_sa_cmdinc_UL" ~ 4,
+    "neutral_sa_hivinc_LL" ~ 5,
+    "neutral_sa_hivinc_UL" ~ 5,
+    "neutral_sa_neutraladh_LL" ~ 6,
+    "neutral_sa_neutraladh_UL" ~ 6,
+    "neutral_sa_neutraldrop_LL" ~ 7,
+    "neutral_sa_neutraldrop_UL" ~ 7,
+    "neutral_sa_delay_LL" ~ 8,
+    "neutral_sa_delay_UL" ~ 8
   ),
   limitsign = case_match(
     scenario_name,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 1,
+    "uni_sa_cmdspec_LL" ~ 1,
+    "uni_sa_cmdspec_UL" ~ 0,
     "uni_sa_treateff_LL" ~ 0,
     "uni_sa_treateff_UL" ~ 1,
-    "uni_sa_cmddetect_LL" ~ 0,
-    "uni_sa_cmddetect_UL" ~ 1,
     "uni_sa_hivinc_LL" ~ 0,
     "uni_sa_hivinc_UL" ~ 1,
     "uni_sa_artadh_LL" ~ 0,
@@ -1817,8 +2172,135 @@ ICER.table.sa <- ICER.table.sa  %>%
     "uni_sa_cmdinc_UL" ~ 1,
     "uni_sa_cmdrelapse_LL" ~ 1,
     "uni_sa_cmdrelapse_UL" ~ 0,
-    "uni_sa_treateff_worst" ~ 0,
-    "uni_sa_treateff_best" ~ 1
+    "ceta_sa_cmdsens_LL" ~ 0,
+    "ceta_sa_cmdsens_UL" ~ 1,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 0,
+    "ceta_sa_treateff_LL" ~ 0,
+    "ceta_sa_treateff_UL" ~ 1,
+    "ceta_sa_hivinc_LL" ~ 0,
+    "ceta_sa_hivinc_UL" ~ 1,
+    "ceta_sa_artadh_LL" ~ 0,
+    "ceta_sa_artadh_UL" ~ 1,
+    "ceta_sa_artdrop_LL" ~ 0,
+    "ceta_sa_artdrop_UL" ~ 1,
+    "ceta_sa_delay_LL" ~ 0,
+    "ceta_sa_delay_UL" ~ 1,
+    "ceta_sa_cmdinc_LL" ~ 0,
+    "ceta_sa_cmdinc_UL" ~ 1,
+    "ceta_sa_cmdrelapse_LL" ~ 1,
+    "ceta_sa_cmdrelapse_UL" ~ 0,
+    "art_sa_cmdsens_LL" ~ 0,
+    "art_sa_cmdsens_UL" ~ 1,
+    "art_sa_cmdspec_LL" ~ 1,
+    "art_sa_cmdspec_UL" ~ 0,
+    "art_sa_treateff_LL" ~ 0,
+    "art_sa_treateff_UL" ~ 1,
+    "art_sa_hivinc_LL" ~ 0,
+    "art_sa_hivinc_UL" ~ 1,
+    "art_sa_artadh_LL" ~ 0,
+    "art_sa_artadh_UL" ~ 1,
+    "art_sa_artdrop_LL" ~ 0,
+    "art_sa_artdrop_UL" ~ 1,
+    "art_sa_delay_LL" ~ 0,
+    "art_sa_delay_UL" ~ 1,
+    "art_sa_cmdinc_LL" ~ 0,
+    "art_sa_cmdinc_UL" ~ 1,
+    "art_sa_cmdrelapse_LL" ~ 1,
+    "art_sa_cmdrelapse_UL" ~ 0,
+    "neutral_sa_cmdsens_LL" ~ 0,
+    "neutral_sa_cmdsens_UL" ~ 1,
+    "neutral_sa_cmdspec_LL" ~ 1,
+    "neutral_sa_cmdspec_UL" ~ 0,
+    "neutral_sa_treateff_LL" ~ 0,
+    "neutral_sa_treateff_UL" ~ 1,
+    "neutral_sa_hivinc_LL" ~ 0,
+    "neutral_sa_hivinc_UL" ~ 1,
+    "neutral_sa_neutraladh_LL" ~ 0,
+    "neutral_sa_neutraladh_UL" ~ 1,
+    "neutral_sa_neutraldrop_LL" ~ 0,
+    "neutral_sa_neutraldrop_UL" ~ 1,
+    "neutral_sa_delay_LL" ~ 0,
+    "neutral_sa_delay_UL" ~ 1,
+    "neutral_sa_cmdinc_LL" ~ 0,
+    "neutral_sa_cmdinc_UL" ~ 1,
+    "neutral_sa_cmdrelapse_LL" ~ 1,
+    "neutral_sa_cmdrelapse_UL" ~ 0
+  ),
+  scenario_group = case_match(
+    scenario_name,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 0,
+    "uni_sa_cmdspec_LL" ~ 0,
+    "uni_sa_cmdspec_UL" ~ 0,
+    "uni_sa_treateff_LL" ~ 0,
+    "uni_sa_treateff_UL" ~ 0,
+    "uni_sa_hivinc_LL" ~ 0,
+    "uni_sa_hivinc_UL" ~ 0,
+    "uni_sa_artadh_LL" ~ 0,
+    "uni_sa_artadh_UL" ~ 0,
+    "uni_sa_artdrop_LL" ~ 0,
+    "uni_sa_artdrop_UL" ~ 0,
+    "uni_sa_delay_LL" ~ 0,
+    "uni_sa_delay_UL" ~ 0,
+    "uni_sa_cmdinc_LL" ~ 0,
+    "uni_sa_cmdinc_UL" ~ 0,
+    "uni_sa_cmdrelapse_LL" ~ 0,
+    "uni_sa_cmdrelapse_UL" ~ 0,
+    "ceta_sa_cmdsens_LL" ~ 1,
+    "ceta_sa_cmdsens_UL" ~ 1,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 1,
+    "ceta_sa_treateff_LL" ~ 1,
+    "ceta_sa_treateff_UL" ~ 1,
+    "ceta_sa_hivinc_LL" ~ 1,
+    "ceta_sa_hivinc_UL" ~ 1,
+    "ceta_sa_artadh_LL" ~ 1,
+    "ceta_sa_artadh_UL" ~ 1,
+    "ceta_sa_artdrop_LL" ~ 1,
+    "ceta_sa_artdrop_UL" ~ 1,
+    "ceta_sa_delay_LL" ~ 1,
+    "ceta_sa_delay_UL" ~ 1,
+    "ceta_sa_cmdinc_LL" ~ 1,
+    "ceta_sa_cmdinc_UL" ~ 1,
+    "ceta_sa_cmdrelapse_LL" ~ 1,
+    "ceta_sa_cmdrelapse_UL" ~ 1,
+    "art_sa_cmdsens_LL" ~ 2,
+    "art_sa_cmdsens_UL" ~ 2,
+    "art_sa_cmdspec_LL" ~ 2,
+    "art_sa_cmdspec_UL" ~ 2,
+    "art_sa_treateff_LL" ~ 2,
+    "art_sa_treateff_UL" ~ 2,
+    "art_sa_hivinc_LL" ~ 2,
+    "art_sa_hivinc_UL" ~ 2,
+    "art_sa_artadh_LL" ~ 2,
+    "art_sa_artadh_UL" ~ 2,
+    "art_sa_artdrop_LL" ~ 2,
+    "art_sa_artdrop_UL" ~ 2,
+    "art_sa_delay_LL" ~ 2,
+    "art_sa_delay_UL" ~ 2,
+    "art_sa_cmdinc_LL" ~ 2,
+    "art_sa_cmdinc_UL" ~ 2,
+    "art_sa_cmdrelapse_LL" ~ 2,
+    "art_sa_cmdrelapse_UL" ~ 2,
+    "neutral_sa_cmdsens_LL" ~ 3,
+    "neutral_sa_cmdsens_UL" ~ 3,
+    "neutral_sa_cmdspec_LL" ~ 3,
+    "neutral_sa_cmdspec_UL" ~ 3,
+    "neutral_sa_treateff_LL" ~ 3,
+    "neutral_sa_treateff_UL" ~ 3,
+    "neutral_sa_hivinc_LL" ~ 3,
+    "neutral_sa_hivinc_UL" ~ 3,
+    "neutral_sa_neutraladh_LL" ~ 3,
+    "neutral_sa_neutraladh_UL" ~ 3,
+    "neutral_sa_neutraldrop_LL" ~ 3,
+    "neutral_sa_neutraldrop_UL" ~ 3,
+    "neutral_sa_delay_LL" ~ 3,
+    "neutral_sa_delay_UL" ~ 3,
+    "neutral_sa_cmdinc_LL" ~ 3,
+    "neutral_sa_cmdinc_UL" ~ 3,
+    "neutral_sa_cmdrelapse_LL" ~ 3,
+    "neutral_sa_cmdrelapse_UL" ~ 3
   )) %>% arrange(metric,ix)
 ```
 
@@ -1833,13 +2315,11 @@ center.total.dalys = HIV_Depression_Averted_Data %>%
   .$metric.mean
 
 p.sa.total.dalys <- ggplot() + 
-  geom_rect(data = sa.averted.data %>% filter(limitsign == 0, metric == "Total.DALY.discounted.averted",
-         ix < 9),
+  geom_rect(data = sa.averted.data %>% filter(limitsign == 0, metric == "Total.DALY.discounted.averted", scenario_group == 0, ix < 8),
             mapping = aes(ymin = -ix, ymax = -ix-1,
                           xmin = metric.mean, xmax = center.total.dalys),
             fill = "#00468B") + 
-  geom_rect(data = sa.averted.data %>% filter(limitsign == 1, metric == "Total.DALY.discounted.averted",
-         ix < 9),
+  geom_rect(data = sa.averted.data %>% filter(limitsign == 1, metric == "Total.DALY.discounted.averted", scenario_group == 0, ix < 8),
             mapping = aes(ymin = -ix, ymax = -ix-1,
                           xmin = center.total.dalys , xmax = metric.mean),
             fill = "#ED2200") + 
@@ -1855,6 +2335,7 @@ p.sa.total.dalys <- ggplot() +
                 axis.text = element_text(size = 14))
 
 p.sa.total.dalys
+
 ```
 ### Second panel - HIV DALYs averted 
 ```{r}
@@ -1865,13 +2346,11 @@ center.hiv.dalys = HIV_Depression_Averted_Data %>%
   .$metric.mean
 
 p.sa.hiv.dalys <- ggplot() + 
-  geom_rect(data = sa.averted.data %>% filter(limitsign == 0, metric == "HIV.DALY.discounted.averted",
-         ix < 9),
+  geom_rect(data = sa.averted.data %>% filter(limitsign == 0, metric == "HIV.DALY.discounted.averted", scenario_group == 0),
             mapping = aes(ymin = -ix, ymax = -ix-1,
                           xmin = metric.mean, xmax = center.hiv.dalys),
             fill = "#00468B") + 
-  geom_rect(data = sa.averted.data %>% filter(limitsign == 1, metric == "HIV.DALY.discounted.averted",
-         ix < 9),
+  geom_rect(data = sa.averted.data %>% filter(limitsign == 1, metric == "HIV.DALY.discounted.averted", scenario_group == 0),
             mapping = aes(ymin = -ix, ymax = -ix-1,
                           xmin = center.hiv.dalys , xmax = metric.mean),
             fill = "#ED2200") + 
@@ -1886,29 +2365,114 @@ p.sa.hiv.dalys
 ### Third panel - ICER
 
 ```{r}
-center.icer = ICER.table %>% 
+center.icer.uni = ICER.table %>% 
   filter(scenario_name == 'uni', metric == "ICER.discounted.total") %>% 
   .$metric.mean
 
-p.sa.icer <- ggplot() + 
-  geom_rect(data = ICER.table.sa %>% filter(limitsign == 0, metric == "ICER.discounted.total",
-         ix < 9),
+p.sa.icer.uni <- ggplot()  + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 0, metric == "ICER.discounted.total", scenario_group == 0),
             mapping = aes(ymin = -ix, ymax = -ix-1,
-                          xmin = metric.mean, xmax = center.icer),
+                          xmin = metric.mean, xmax = center.icer.uni),
             fill = "#00468B") + 
-  geom_rect(data = ICER.table.sa %>% filter(limitsign == 1, metric == "ICER.discounted.total",
-         ix < 9),
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 1, metric == "ICER.discounted.total", scenario_group == 0),
             mapping = aes(ymin = -ix, ymax = -ix-1,
-                          xmin = center.icer , xmax = metric.mean),
+                          xmin = center.icer.uni , xmax = metric.mean),
             fill = "#ED2200") + 
-  geom_vline(xintercept = center.icer, linetype = "dashed", color = "black") +
+  geom_vline(xintercept = center.icer.uni, linetype = "dashed", color = "black") +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
         axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
         axis.line = element_line(color="black", size=0.4),
         axis.text = element_text(size = 14))
 
-p.sa.icer
+p.sa.icer.uni
+```
+
+```{r}
+center.icer.ceta = ICER.table %>% 
+  filter(scenario_name == 'ceta', metric == "ICER.discounted.total") %>% 
+  .$metric.mean
+
+p.sa.icer.ceta <- ggplot()  + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 0, metric == "ICER.discounted.total", scenario_group == 1),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer.ceta),
+            fill = "#00468B") + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 1, metric == "ICER.discounted.total", scenario_group == 1),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer.ceta , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer.ceta, linetype = "dashed", color = "black") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+        axis.text = element_text(size = 14))
+
+p.sa.icer.ceta
+```
+
+```{r}
+center.icer.art = ICER.table %>% 
+  filter(scenario_name == 'art', metric == "ICER.discounted.total") %>% 
+  .$metric.mean
+
+p.sa.icer.art <- ggplot()  + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 0, metric == "ICER.discounted.total", scenario_group == 2),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer.art),
+            fill = "#00468B") + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 1, metric == "ICER.discounted.total", scenario_group == 2),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer.art , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer.art, linetype = "dashed", color = "black") +
+  scale_x_continuous(breaks = c(-4000, -2000, 0, 2000, 4000, 6000, 8000)) +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+        axis.text = element_text(size = 14))
+
+p.sa.icer.art
+```
+
+```{r}
+center.icer.neutral = ICER.table %>% 
+  filter(scenario_name == 'neutral', metric == "ICER.discounted.total") %>% 
+  .$metric.mean
+
+p.sa.icer.neutral <- ggplot()  + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 0, metric == "ICER.discounted.total", scenario_group == 3),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer.neutral),
+            fill = "#00468B") + 
+  geom_rect(data = ICER.table.sa %>% filter(limitsign == 1, metric == "ICER.discounted.total", scenario_group == 3),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer.neutral , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer.neutral, linetype = "dashed", color = "black") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+        axis.text = element_text(size = 14))
+
+p.sa.icer.neutral
+```
+
+```{r}
+(p.sa.icer.uni + p.sa.icer.ceta)/(p.sa.icer.art + p.sa.icer.neutral)
+```
+```{r}
+ggsave(filename = "Figure_4_Sensitivity_analysis_ICER_uni.pdf", plot =p.sa.icer.uni, height = 4, width = 6, units = 'in')
+
+ggsave(filename = "Figure_4_Sensitivity_analysis_ICER_ceta.pdf", plot =p.sa.icer.ceta, height = 4, width = 6, units = 'in')
+
+ggsave(filename = "Figure_4_Sensitivity_analysis_ICER_art.pdf", plot =p.sa.icer.art, height = 4, width = 6, units = 'in')
+
+ggsave(filename = "Figure_4_Sensitivity_analysis_ICER_neutral.pdf", plot =p.sa.icer.neutral, height = 4, width = 6, units = 'in')
+
 ```
 
 

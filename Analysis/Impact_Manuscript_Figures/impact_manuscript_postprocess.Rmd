@@ -61,22 +61,24 @@ scenarios.list = data.frame(
 ) %>% 
   mutate(scenario_ix = row_number())
 
-
+# UNI
 scenarios.list = data.frame(
   scenario_name = c(
-    "uni_sa_treateff_LL", "uni_sa_treateff_UL",
-    "uni_sa_cmddetect_UL", "uni_sa_cmddetect_LL", 
+    "uni_sa_treateff_LL", "uni_sa_treateff_UL","uni_sa_cmdsens_LL","uni_sa_cmdsens_UL","uni_sa_cmdspec_LL","uni_sa_cmdspec_UL",
     "uni_sa_hivinc_LL", "uni_sa_hivinc_UL", 
     "uni_sa_artadh_LL", "uni_sa_artadh_UL",  "uni_sa_artdrop_LL", "uni_sa_artdrop_UL","uni_sa_delay_LL" , "uni_sa_delay_UL",
     "uni_sa_cmdinc_LL", "uni_sa_cmdinc_UL", 
-    "uni_sa_cmdrelapse_LL", "uni_sa_cmdrelapse_UL", 
-    "uni_sa_treateff_best", "uni_sa_treateff_worst"
+    "uni_sa_cmdrelapse_LL", "uni_sa_cmdrelapse_UL"
   ),
   file.path = c(
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_LL___2025_03_31_21_43_57_922855",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_UL___2025_03_31_21_47_44_805615/",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmddetect_LL___2025_03_31_22_01_00_841464/",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmddetect_UL___2025_03_31_21_57_43_002404/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmdsens_LL___2025_04_12_14_15_41_228973/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmdsens_UL___2025_04_12_14_19_42_051420/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmdspec_LL___2025_04_12_14_23_23_538521/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmdspec_UL___2025_04_12_14_27_04_764667/",
+    #"/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmddetect_LL___2025_03_31_22_01_00_841464/",
+    #"/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_cmddetect_UL___2025_03_31_21_57_43_002404/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_hivinc_LL___2025_03_31_22_04_18_283976/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_hivinc_UL___2025_03_31_22_08_01_787591/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_artadh_LL___2025_03_31_22_11_18_054590/",
@@ -88,21 +90,114 @@ scenarios.list = data.frame(
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdinc_LL-uni_sa_cmdinc_LL___2025_04_02_19_37_14_809399/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdinc_UL-uni_sa_cmdinc_UL___2025_04_04_16_41_08_982788/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdrelapse_LL-uni_sa_cmdrelapse_LL___2025_04_02_19_44_14_015805/",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdrelapse_UL-uni_sa_cmdrelapse_UL___2025_04_02_19_47_32_931789/",
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_best___2025_03_31_21_51_11_678099/", 
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni-uni_sa_treateff_worst___2025_03_31_21_54_28_228863/"
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_uni_cmdrelapse_UL-uni_sa_cmdrelapse_UL___2025_04_02_19_47_32_931789/"
   )
 ) %>% 
   mutate(scenario_ix = row_number())
 
+# CETA
+scenarios.list = data.frame(
+  scenario_name = c(
+    "ceta_sa_treateff_LL", "ceta_sa_treateff_UL","ceta_sa_cmdsens_LL","ceta_sa_cmdsens_UL","ceta_sa_cmdspec_LL","ceta_sa_cmdspec_UL",
+    "ceta_sa_hivinc_LL","ceta_sa_hivinc_UL",
+    "ceta_sa_artadh_LL","ceta_sa_artadh_UL","ceta_sa_artdrop_LL","ceta_sa_artdrop_UL","ceta_sa_delay_LL","ceta_sa_delay_UL",
+    "ceta_sa_cmdinc_LL","ceta_sa_cmdinc_UL","ceta_sa_cmdrelapse_LL","ceta_sa_cmdrelapse_UL"
+  ),
+  file.path = c(
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-ceta_sa_treateff_LL___2025_04_08_17_02_25_363094/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-ceta_sa_treateff_UL___2025_04_08_17_06_16_103427/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta-ceta_sa_cmdsens_LL___2025_04_25_16_07_51_447398/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta-ceta_sa_cmdsens_UL___2025_04_25_16_11_55_874650/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta-ceta_sa_cmdspec_LL___2025_04_25_16_15_49_046364/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta-ceta_sa_cmdspec_UL___2025_04_25_16_19_28_899064/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta-ceta_sa_hivinc_LL___2025_05_11_23_53_42_757359/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta-ceta_sa_hivinc_UL___2025_05_11_23_57_09_332912/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-ceta_sa_artadh_LL___2025_04_08_17_31_02_371144",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-ceta_sa_artadh_UL___2025_04_08_17_34_31_068991/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-ceta_sa_artdrop_LL___2025_04_08_17_38_25_467632/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-ceta_sa_artdrop_UL___2025_04_08_17_41_55_003486/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_ceta-ceta_sa_delay_LL___2025_04_08_17_45_24_697877/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta-ceta_sa_delay_UL___2025_05_06_13_36_50_593665",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta_cmdinc_LL-ceta_sa_cmdinc_LL___2025_05_12_00_07_45_321125/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta_cmdinc_UL-ceta_sa_cmdinc_UL___2025_05_12_00_11_17_350932/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta_cmdrelapse_LL-ceta_sa_cmdrelapse_LL___2025_04_12_14_38_32_963900/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_ceta_cmdrelapse_UL-ceta_sa_cmdrelapse_UL___2025_04_12_14_42_13_738571/"
+  )
+) %>% 
+  mutate(scenario_ix = row_number())
+
+# ART
+scenarios.list = data.frame(
+  scenario_name = c(
+    "art_sa_treateff_LL", "art_sa_treateff_UL","art_sa_cmdsens_LL","art_sa_cmdsens_UL","art_sa_cmdspec_LL","art_sa_cmdspec_UL",
+    "art_sa_hivinc_LL","art_sa_hivinc_UL",
+    "art_sa_artadh_LL","art_sa_artadh_UL","art_sa_artdrop_LL","art_sa_artdrop_UL","art_sa_delay_LL","art_sa_delay_UL",
+    "art_sa_cmdinc_LL","art_sa_cmdinc_UL","art_sa_cmdrelapse_LL","art_sa_cmdrelapse_UL"
+  ),
+  file.path = c(
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_treateff_LL___2025_04_12_14_45_45_702532/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_treateff_UL___2025_04_12_14_49_51_901627/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_cmdsens_LL___2025_04_12_14_53_32_695436/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_cmdsens_UL___2025_04_12_14_57_12_106875/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_cmdspec_LL___2025_04_12_15_00_53_297368/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_cmdspec_UL___2025_04_26_11_31_16_550960/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_hivinc_LL___2025_05_11_23_46_18_056728/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_hivinc_UL___2025_05_11_23_50_13_937359/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_artadh_LL___2025_04_29_11_20_13_155813/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_artadh_UL___2025_05_06_16_05_59_646677/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_artdrop_LL___2025_04_29_11_28_25_887455/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_artdrop_UL___2025_04_29_11_32_45_680063/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_delay_LL___2025_04_29_11_37_10_816007/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art-art_sa_delay_UL___2025_04_29_11_41_17_512698/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_cmdinc_LL-art_sa_cmdinc_LL___2025_05_12_00_00_34_237072/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_cmdinc_UL-art_sa_cmdinc_UL___2025_05_12_00_04_12_601829/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_cmdrelapse_LL-art_sa_cmdrelapse_LL___2025_04_29_11_52_48_555395/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_art_cmdrelapse_UL-art_sa_cmdrelapse_UL___2025_04_29_11_56_22_956644/"
+  )
+) %>% 
+  mutate(scenario_ix = row_number())
+
+
+# NEUTRAL
+scenarios.list = data.frame(
+  scenario_name = c(
+    "neutral_sa_treateff_LL", "neutral_sa_treateff_UL","neutral_sa_cmdsens_LL","neutral_sa_cmdsens_UL","neutral_sa_cmdspec_LL","neutral_sa_cmdspec_UL",
+    "neutral_sa_hivinc_LL","neutral_sa_hivinc_UL",
+    "neutral_sa_artadh_LL","neutral_sa_artadh_UL","neutral_sa_artdrop_LL","neutral_sa_artdrop_UL","neutral_sa_delay_LL","neutral_sa_delay_UL",
+    "neutral_sa_cmdinc_LL","neutral_sa_cmdinc_UL","neutral_sa_cmdrelapse_LL","neutral_sa_cmdrelapse_UL"
+  ),
+  file.path = c(
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_treateff_LL___2025_05_03_01_03_57_870433/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_treateff_UL___2025_05_03_01_08_08_935463/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_cmdsens_LL___2025_05_03_01_11_55_152191/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_cmdsens_UL___2025_05_03_01_15_43_973718/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_cmdspec_LL___2025_05_03_01_19_23_299246/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_cmdspec_UL___2025_05_03_01_23_48_579392/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_hivinc_LL___2025_05_03_01_27_51_753155/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_hivinc_UL___2025_05_03_01_31_55_184459/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_artadh_LL___2025_05_03_01_35_27_907047/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_artadh_UL___2025_05_03_01_39_05_938405/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_artdrop_LL___2025_05_05_12_50_36_857379/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_artdrop_UL___2025_05_05_12_54_49_041570/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_delay_LL___2025_05_05_12_58_22_654041/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral-neutral_sa_delay_UL___2025_05_05_13_01_56_123034/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_cmdinc_LL-neutral_sa_cmdinc_LL___2025_05_05_13_05_24_048787/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_cmdinc_UL-neutral_sa_cmdinc_UL___2025_05_05_13_08_57_966888/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_cmdrelapse_LL-neutral_sa_cmdrelapse_LL___2025_05_05_13_12_23_724952/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_neutral_cmdrelapse_UL-neutral_sa_cmdrelapse_UL___2025_05_05_13_15_47_631210/"
+  )
+) %>% 
+  mutate(scenario_ix = row_number())
 ```
 
 ```{r}
-for (scenario.ix in c(14)){
+for (scenario.ix in c(7,8,15,16)){
 
   ## Load data
   experiment.path = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$file.path
   scenario.name = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$scenario_name
+  
+  print(c(scenario.ix, scenario.name, experiment.path))
   
   sim.results <- NULL
   

@@ -1110,7 +1110,7 @@
                     "class":"NodeLevelHealthTriggeredIV",
                     "Property_Restrictions_Within_Node": [
                         {
-                            "CMDStatus": "CMD_neg" 
+                            "CMDStatus": "CMD_neg"
                         },
                         {
                             "CMDStatus": "CMD_recovered"
