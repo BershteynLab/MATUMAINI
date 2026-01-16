@@ -503,7 +503,7 @@ p <- ggplot() +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
     scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
     #ylab("HIV Prevalence (%)") + 
-    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) +
+    #scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) +
     geom_point(data = obs.prev.sheet.base %>%
                  filter(Province == 'All', AgeBin == "[15:50)", Gender %in% c("Male", "Female")),
                mapping = aes(x = Year, y = Prevalence) , color = 'black', size = 3, shape = 15) + 
@@ -514,7 +514,35 @@ p <- ggplot() +
 p 
 
 ```
-## Number on ART over time
+
+```{r} 
+
+
+p <- ggplot() +
+    geom_line(data = croi.prev.data %>% filter(Year > 1985, scenario_name == "baseline.art"), 
+              aes(x = Year, y = Prevalence, group = sim.id), linewidth = .1, color = 'gray', show.legend = FALSE) + 
+    geom_line(data= croi.prev.data.mean %>% filter(Year > 1985, scenario_name == "baseline.art"),
+            aes(x=Year, y=Prevalence, group=scenario_name, color = Gender), linewidth=2, show.legend = FALSE) +
+    facet_wrap(~ Gender, ncol=2) +
+    #xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    #ylab("Prevalence") +
+    scale_color_manual(values=c("blue","red","darkgreen","orange","black","purple")) + 
+    theme_bw(base_size=16) +
+    guides(color = guide_legend(ncol = 2, byrow = TRUE, keywidth = 2, keyheight = 1)) +
+    theme(legend.position="top", legend.text=element_text(size=10)) +
+    scale_x_continuous(breaks = seq(1985,2050,10)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25))
+
+p
+
+ggsave("kenya_prevalence.pdf", p, width = 8, height =4, units= 'in')
+```
+
+
+## Number on ART over times
 
 ```{r}
 ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/Data/calibration_ingest_form_Nyanza.xlsm"
@@ -1418,7 +1446,7 @@ impact.table.20240719 <- read_csv("impact_of_art_table_20240719.csv")
 # Figures
 
 ```{r}
-#numbers.table <- read_csv("numbers_table_20240531.csv")
+numbers.table <- read_csv("numbers_table_20240906.csv")
 
 differences.table <- read_csv("differences_table_20240709.csv")
 
@@ -1604,6 +1632,7 @@ p.panel1.deaths.pct <- differences.table %>%
 
 p.panel1.deaths.pct
 ```
+
 ### HIV deaths differences percentages panel 2
 ```{r}
 p.panel2.deaths.pct <- differences.table %>% 
@@ -2104,7 +2133,7 @@ p
 ```{r}
 #impact.table %>% View
 
-impact.table <- read.csv("impact_of_art_table_20240827.csv")
+impact.table <- read.csv("impact_of_art_table_20240820.csv") #read.csv("impact_of_art_table_20240719.csv")
 
 impact.table <- impact.table %>% 
   mutate(Time =case_match(
@@ -2114,6 +2143,8 @@ impact.table <- impact.table %>%
     "Universal ART" ~ 3,
     "Future" ~ 4
   ))
+
+impact.table %>% View
 
 ```
 
@@ -2262,6 +2293,100 @@ ggsave("hiv_impact_infections_pct_20240827.pdf", plot = p.impact.infections.pct,
        width = 8, height = 4, units = "in")
 
 ```
+
+## Impact of depression by age
+
+```{r}
+differences.table %>% colnames
+
+# Show stacked bar chart broken down by age group
+ggplot() + 
+geom_col(
+  data = differences.table %>% filter(Ages == "15-25", scenario_name == "baseline.art", Time < 5),
+  mapping = aes(x = Time, y = 100 * Died_from_HIV.diff), 
+       width = .5, color = 'red' , show.legend = FALSE, position = "dodge") + 
+geom_col(
+  data = differences.table %>% filter(Ages == "25-100", scenario_name == "baseline.art", Time < 5),
+  mapping = aes(x = Time, y = 100 * Died_from_HIV.diff), 
+       width = .5, color = 'blue', show.legend = FALSE, position = "dodge") 
+
+```
+
+```{r}
+p1 = differences.table %>% 
+  filter(scenario_name == "baseline.art", Time < 5, Ages %in% c("15-25", "25-100")) %>% 
+  ggplot() + 
+  geom_bar(mapping = aes(fill = Ages, x = Time, y = Newly.Infected.diff),
+           position = 'fill', stat = "identity") + 
+  scale_fill_manual("Ages", values=c("blue", "red"), labels = c("15-25", "25+")) + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1),
+                     ) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", 
+                                "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  labs(x = "", y = "% New Infections Attributable to Depression") + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = 'black'))
+
+p2 = differences.table %>% 
+  filter(scenario_name == "baseline.art", Time < 5, Ages %in% c("15-25", "25-100")) %>% 
+  ggplot() + 
+  geom_bar(mapping = aes(fill = Ages, x = Time, y = Newly.Infected.diff),
+           position = 'stack', stat = "identity") + 
+  scale_fill_manual("Ages", values=c("blue", "red"), labels = c("15-25", "25+")) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", 
+                                "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  scale_y_continuous(breaks = seq(0,50000,10000), labels = c("0", "10,000", "20,000", "30,000", "40,000", "50,000")) +
+  labs(x = "", y = "New Infections Attributable to Depression") + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = 'black'))
+
+
+p3 <- differences.table %>% 
+  filter(scenario_name == "baseline.art", Time < 5, Ages %in% c("15-25", "25-100")) %>% 
+  ggplot() + 
+  geom_bar(mapping = aes(fill = Ages, x = Time, y = Died_from_HIV.diff),
+           position = 'fill', stat = "identity") + 
+  scale_fill_manual("Ages", values=c("blue", "red"), labels = c("15-25", "25+")) + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1),
+                     ) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", 
+                                "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  labs(x = "", y = "% HIV Deaths Attributable to Depression") + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = 'black'))
+
+p4 <- differences.table %>% 
+  filter(scenario_name == "baseline.art", Time < 5, Ages %in% c("15-25", "25-100")) %>% 
+  ggplot() + 
+  geom_bar(mapping = aes(fill = Ages, x = Time, y = Died_from_HIV.diff),
+           position = 'stack', stat = "identity")+ 
+  scale_fill_manual("Ages", values=c("blue", "red"), labels = c("15-25", "25+")) + 
+  scale_x_continuous(breaks = c(1,2,3,4), 
+                     labels = c("Pre-ART\n1985-2005", "ART Scale-up\n2005-2015", 
+                                "Universal ART\n2015-2025","Future\n2025-2035")) + 
+  scale_y_continuous(breaks = seq(0,20000,5000), labels = c("0", "5000", "10,000", "15,000", "20,000")) +
+  labs(x = "", y = "HIV Deaths Attributable to Depression") + 
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = 'black'))
+
+ggsave(filename = "fig.depression_impact_by_age_over_time.pdf",
+      plot = (p1 + p2)/(p3 + p4) + plot_layout(guides = "collect") ,
+      width = 12, height = 8, units = 'in')
+
+
+```
+
 
 ## Figure 2 - Time Series
 
@@ -2656,6 +2781,43 @@ sim.results.sa.delay.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 ```
 
+#### Minimum Sensitivity Analysis
+
+```{r}
+# January 2026
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_all_LL___2026_01_15_13_45_33_102115/"
+
+sim.results.sa.all.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.delay.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
+
+#### Maximum Sensitivity Analysis
+
+```{r}
+# January 2026
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_cmdinc_UL-sa_all_UL___2026_01_15_13_42_50_662073/"
+
+sim.results.sa.all.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = 'sa.all.UL',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+```
+
 #### Join data together and rescale
 
 ```{r}
@@ -2828,11 +2990,6 @@ differences.table %>% filter(Years == "1985-2035", Ages == "15-100")
 
 ### Make Figures
 
-```{r}
-sa.differences.table <- read_csv("sensitivity_analysis_table_20240906.csv")
-```
-
-
 #### Sensitivity Analysis - New Infections
 ```{r}
 
@@ -2848,9 +3005,8 @@ p.sa.infections <- ggplot() +
                           xmin = center.infs, 
                           xmax = Newly.Infected.pct), fill = "#ED2200") + 
   geom_vline(xintercept = center.infs, linetype = "dashed", color = "black") +
-#  scale_x_continuous(labels = scales::percent_format(accuracy = 3)) + 
-  scale_x_continuous(breaks = c(8,10,12,14,16)/100,
-                    limits = c(.08, .17), labels = scales::percent_format(accuracy = 1)) +
+  #scale_x_continuous(breaks = c(15, 17.5, 20, 22.5, 25)/100, 
+  #                   limits = c(.15, .25), labels = scales::percent_format(accuracy = 1)) + 
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
         axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
