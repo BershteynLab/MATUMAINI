@@ -442,7 +442,7 @@ p
 ## HIV Prevalence over time
 
 ```{r}
-ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_Baseline_MalariaOngoing_original/Data/calibration_ingest_form_Nyanza.xlsm"
+ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/202301_Nyanza_MATUMAINI_MalariaOngoing/Data/calibration_ingest_form_Nyanza.xlsm"
 
 obs.prev.sheet.base <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-Prevalence")
 
@@ -1446,11 +1446,11 @@ impact.table.20240719 <- read_csv("impact_of_art_table_20240719.csv")
 # Figures
 
 ```{r}
-numbers.table <- read_csv("numbers_table_20240906.csv")
+numbers.table <- read_csv("Figures_manuscript/numbers_table_20240906.csv")
 
-differences.table <- read_csv("differences_table_20240709.csv")
+differences.table <- read_csv("Figures_manuscript/differences_table_20240709.csv")
 
-impact.table <- read_csv("impact_of_art_table_20240820.csv")
+impact.table <- read_csv("Figures_manuscript/impact_of_art_table_20240820.csv")
 ```
 
 ## Numbers figures
@@ -2785,11 +2785,11 @@ sim.results.sa.delay.UL <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 ```{r}
 # January 2026
-experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305-sa_all_LL___2026_01_15_13_45_33_102115/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/MATUMAINI/manuscript/Baseline-campaign_MATUMAINI_202305_decouple-sa_all_LL___2026_01_16_16_53_15_199163/"
 
 sim.results.sa.all.LL <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
-  scenario_name = 'sa.delay.UL',
+  scenario_name = 'sa.all.LL',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
@@ -2833,6 +2833,8 @@ sa.results.all <- rbind(
   sim.results.sa.artdrop.UL,
   sim.results.sa.delay.LL,
   sim.results.sa.delay.UL,
+  sim.results.sa.all.LL,
+  sim.results.sa.all.UL,
   sim.results.decouple.art
 )
 
@@ -2920,6 +2922,8 @@ sa.differences.table <- sa.differences.table %>%
     "sa.artdrop.UL" ~ 4,
     "sa.delay.LL" ~ 5,
     "sa.delay.UL" ~ 5,
+    "sa.all.LL" ~ 6,
+    "sa.all.UL" ~ 6
   ),
   limitsign = case_match(
     scenario_name,
@@ -2932,17 +2936,24 @@ sa.differences.table <- sa.differences.table %>%
     "sa.delay.LL" ~ 0,
     "sa.delay.UL" ~ 1,
     "sa.artadh.LL" ~ 0,
-    "sa.artadh.UL" ~ 1
+    "sa.artadh.UL" ~ 1,
+    "sa.all.LL" ~ 0,
+    "sa.all.UL" ~ 1
   )
   )
 
 sa.differences.table <- sa.differences.table %>% group_by(Period, Years, Ages, scenario_name) %>% slice(1)
 
-sa.differences.table %>% write_csv("sensitivity_analysis_table_20240906.csv")
+sa.differences.table %>% write_csv("sensitivity_analysis_table_20260120.csv") #write_csv("sensitivity_analysis_table_20240906.csv")
 
 ```
 
 ### Spot checking metrics
+
+```{r}
+sa.differences.table <- read_csv("sensitivity_analysis_table_20260120.csv")
+```
+
 
 ```{r}
 sa.results.all %>% filter(Year >= 1985, Year <= 2035,
@@ -2954,6 +2965,7 @@ sa.results.all %>% filter(Year >= 1985, Year <= 2035,
   mutate(Newly.Infected.diff = Newly.Infected - 66384.90,
          Died_from_HIV.diff = Died_from_HIV - 62145.12	)
 ```
+
 ```{r}
 rbind(
   sa.results.all %>% 
@@ -2983,6 +2995,7 @@ rbind(
 ```{r}
 sa.differences.table %>% filter(Years == "1985-2035", Ages == "15-100")
 ```
+
 ```{r}
 differences.table %>% filter(Years == "1985-2035", Ages == "15-100")
 ```
@@ -3005,6 +3018,7 @@ p.sa.infections <- ggplot() +
                           xmin = center.infs, 
                           xmax = Newly.Infected.pct), fill = "#ED2200") + 
   geom_vline(xintercept = center.infs, linetype = "dashed", color = "black") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1)) + 
   #scale_x_continuous(breaks = c(15, 17.5, 20, 22.5, 25)/100, 
   #                   limits = c(.15, .25), labels = scales::percent_format(accuracy = 1)) + 
   theme_minimal() + theme_bw() +
@@ -3063,7 +3077,8 @@ p.sa.dep
 ```{r}
 p.sa <- p.sa.infections + p.sa.deaths + p.sa.dep
 
-ggsave("sensitivity_analysis_20240907.pdf", p.sa, width = 9, height = 3, units = 'in')
+ggsave("sensitivity_analysis_20260201.pdf", p.sa, width = 9, height = 3, units = 'in')
+#ggsave("sensitivity_analysis_20240907.pdf", p.sa, width = 9, height = 3, units = 'in')
 
 p.sa
 ```
