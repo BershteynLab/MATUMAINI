@@ -1098,7 +1098,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property - without treatment before 2020",
+            "Event_Name":"CMD incidence, changing property - without treatment before 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1163,7 +1163,7 @@
             }
         },
         {
-            "Event_Name":"CMD incidence, changing property - with treatment including after 2020",
+            "Event_Name":"CMD incidence, changing property - with treatment including after 2025",
             "class":"CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -1222,6 +1222,107 @@
                                 ]
                             }
                         ]
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Schedule Annual CMD Screening for all",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2200,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Timesteps_Between_Repetitions": 12,
+                "Number_Repetitions": -1,
+                "Target_Demographic": "ExplicitAgeRanges",
+                "Target_Age_Min": 18,
+                "Target_Age_Max": 99.999,
+                "Target_Gender": "Male",
+                "Intervention_Config": {
+                    "class":"HIVDelayedIntervention",
+                    "Delay_Period_Distribution": "UNIFORM_DISTRIBUTION",
+                    "Delay_Period_Min": 1,
+                    "Delay_Period_Max": 365,
+                    "Broadcast_Event":"CMD_Screening_delay"
+                }
+            }
+        },
+        {
+            "Event_Name": "Annual CMD Screening for all, depressed individuals",
+            "COMMENT": "CMD_Diagnostic_TruePositive then receive depression screening, triggers CMD_Screening",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2200,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_pos"}
+                    ],
+                    "Target_Demographic": "ExplicitAgeRanges",
+                    "Target_Age_Min": 18,
+                    "Target_Age_Max": 99.999,
+                    "Trigger_Condition_List": [
+                        "CMD_Screening_delay",
+                        "CMD_Screening"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Diagnostic_TruePositive",
+                            "CMD_Diagnostic_FalseNegative"
+                        ],
+                        "Choice_Probabilities":[
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_TreatmentTable_Sensitivity" : "<== marker"
+                    }
+                }
+            }
+        },
+        {
+            "Event_Name": "Annual CMD Screening for those on ART with unsuppressed Viral Load, CMD Negative individuals",
+            "COMMENT":"CMD_Diagnostic_FalsePositive means someone receives depression treatment who is not depressed; this should be counted in costing but have no effect",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2200,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Intervention_Config": {
+                    "class":"NodeLevelHealthTriggeredIV",
+                    "Property_Restrictions_Within_Node":[
+                        {"CMDStatus":"CMD_neg"},
+                        {"CMDStatus":"CMD_recovered"},
+                        {"CMDStatus":"CMD_treated"}            
+                    ],
+                    "Target_Demographic": "ExplicitAgeRanges",
+                    "Target_Age_Min": 18,
+                    "Target_Age_Max": 99.999,
+                    "Trigger_Condition_List": [
+                        "CMD_Screening_delay",
+                        "CMD_Screening"
+                    ],
+                    "Actual_IndividualIntervention_Config": {
+                        "class": "HIVRandomChoice",
+                        "Choice_Names": [
+                            "CMD_Diagnostic_TrueNegative",
+                            "CMD_Diagnostic_FalsePositive"
+                        ],
+                        "Choice_Probabilities":[
+                            1.0,
+                            0
+                        ],
+                        "Choice_Probabilities__KP_TreatmentTable_Specificity" : "<== marker"
                     }
                 }
             }
@@ -3418,8 +3519,8 @@
                                     "CMD_NoTreat"
                                 ],
                                 "Choice_Probabilities": [
-                                    0.0,
-                                    1.0
+                                    1.0,
+                                    0.0
                                 ],
                                 "Choice_Probabilities__KP_treatment_after_relapse":"<== marker"
                             },
@@ -3472,7 +3573,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2200,
+            "Start_Year": 1960.5,
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config":{
