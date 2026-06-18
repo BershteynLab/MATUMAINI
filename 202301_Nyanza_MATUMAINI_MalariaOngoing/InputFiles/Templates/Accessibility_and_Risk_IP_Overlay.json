@@ -199,7 +199,8 @@
                    "TestingOnANC",
                    "TestingOnChild6w",
                    "TestingOnSymptomatic",
-                   "LostForever"
+                   "LostForever",
+                  "LostForever_PEPFAR_cancelled"
                 ]
              },
              {
@@ -414,7 +415,8 @@
                   "TestingOnANC",
                   "TestingOnChild6w",
                   "TestingOnSymptomatic",
-                  "LostForever"
+                  "LostForever",
+                  "LostForever_PEPFAR_cancelled"
                ]
             },
              {
@@ -629,7 +631,8 @@
                   "TestingOnANC",
                   "TestingOnChild6w",
                   "TestingOnSymptomatic",
-                  "LostForever"
+                  "LostForever",
+                  "LostForever_PEPFAR_cancelled"
                ]
             },
              {
@@ -844,7 +847,8 @@
                   "TestingOnANC",
                   "TestingOnChild6w",
                   "TestingOnSymptomatic",
-                  "LostForever"
+                  "LostForever",
+                  "LostForever_PEPFAR_cancelled"
                ]
             },
              {
@@ -1059,7 +1063,8 @@
                   "TestingOnANC",
                   "TestingOnChild6w",
                   "TestingOnSymptomatic",
-                  "LostForever"
+                  "LostForever",
+                  "LostForever_PEPFAR_cancelled"
                ]
             },
              {
@@ -1274,7 +1279,8 @@
                   "TestingOnANC",
                   "TestingOnChild6w",
                   "TestingOnSymptomatic",
-                  "LostForever"
+                  "LostForever",
+                  "LostForever_PEPFAR_cancelled"
                ]
             },
             {

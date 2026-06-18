@@ -108,7 +108,11 @@
             "NonSuppressiveARTDepressed",
             "CMD_VLS_Recovery",
             "HCTTestingLoopRapidTest",
-            "CMD_HIV_screening"
+            "CMD_HIV_screening",
+            "HCTTestingPEPFAR_Delayed",
+            "HCTTestingLoop1_check",
+            "PEPFAR_ART_Dropout",
+            "PEPFAR_ART_Continue"
         ],
         "Custom_Node_Events": [],
         "Custom_Reports_Filename": "",
