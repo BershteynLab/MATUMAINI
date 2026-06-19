@@ -232,7 +232,6 @@
         ],
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 1,
-
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [
             "CMD_Screening",
             "CMD_Screening_delay",
