@@ -190,8 +190,31 @@ scenarios.list = data.frame(
   mutate(scenario_ix = row_number())
 ```
 
+### List of Sensitivity Analysis - PEPFAR scenarios
 ```{r}
-for (scenario.ix in c(7,8,15,16)){
+scenarios.list = data.frame(
+  scenario_name = c(
+    "pepfar_baseline",
+    "pepfar_uni",
+    "pepfar_neutral",
+    "pepfar_art",
+    "pepfar_ceta"
+  ),
+  file.path = c(
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR-pepfar_baseline___2026_06_22_10_23_09_630898",
+    '/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_uni-pepfar_uni___2026_06_22_10_27_52_375877/',
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_neutral-pepfar_neutral___2026_06_22_10_32_37_295940/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_art-pepfar_art___2026_06_22_10_37_18_518952/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_ceta-pepfar_ceta___2026_06_22_10_42_01_968986/"
+  )
+) %>% 
+  mutate(scenario_ix = row_number())
+```
+
+
+### Loop over scenarios
+```{r}
+for (scenario.ix in 1:5){
 
   ## Load data
   experiment.path = scenarios.list[scenarios.list$scenario_ix == scenario.ix,]$file.path

@@ -1289,13 +1289,13 @@
             }
         },
         {
-            "Event_Name": "Annual CMD Screening for those on ART with unsuppressed Viral Load, CMD Negative individuals",
+            "Event_Name":  "Annual CMD Screening for all, not-depressed individuals",
             "COMMENT":"CMD_Diagnostic_FalsePositive means someone receives depression treatment who is not depressed; this should be counted in costing but have no effect",
             "class": "CampaignEventByYear",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2200,
+            "Start_Year": 2025,
             "Event_Coordinator_Config": {
                 "class": "StandardInterventionDistributionEventCoordinator",
                 "Intervention_Config": {
