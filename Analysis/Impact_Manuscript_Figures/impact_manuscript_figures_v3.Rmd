@@ -1,0 +1,1029 @@
+---
+title: "Untitled"
+output: html_document
+date: "2026-06-29"
+---
+# Load Libraries
+
+```{r Load Libraries, echo = FALSE}
+library(tidyverse)
+library(data.table)
+library(magrittr)
+library(rsample)
+library(readxl)
+library(devtools)
+library(ggpubr)
+library(patchwork)
+
+devtools::install_github("BershteynLab/EMODAnalyzeR", force = TRUE)
+```
+# Load data
+
+```{r}
+sim.results.metrics.table <- rbind(
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_baseline.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_uni.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_neutral.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_art.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_ceta.csv")
+  )
+```
+
+# Aggregated metrics
+
+```{r}
+data.2025.2035 <- sim.results.metrics.table %>% 
+  group_by(scenario_name, sim.ix)  %>% 
+  summarise(Newly.Infected = sum(Newly.Infected),
+            Died_from_HIV = sum(Died_from_HIV),
+            On_ART = sum(On_ART),
+            Depression.episodes = sum(Depression.episodes),
+            HIV.DALY = sum(HIV.DALY),
+            HIV.DALY.discounted = sum(HIV.DALY.discounted),
+            HIV.DALY.discounted_high = sum(HIV.DALY.discounted_high),
+            Depression.DALY = sum(Depression.DALY),
+            Depression.DALY.discounted = sum(Depression.DALY.discounted),
+            Depression.DALY.discounted_high = sum(Depression.DALY.discounted_high),
+            Total.DALY = sum(Depression.DALY + HIV.DALY), 
+            Total.DALY.discounted = sum(Depression.DALY.discounted + HIV.DALY.discounted), 
+            Total.DALY.discounted_high = sum(Depression.DALY.discounted_high + HIV.DALY.discounted_high), 
+            CMD_TotalTests = sum(CMD_TotalTests),
+            CMD_TotalTreatment = sum(CMD_TotalTreatment.cost/CMD.treat.cost),
+            CMD_TotalTests.cost = sum(CMD_TotalTests.cost),
+            CMD_TotalTests.cost.discounted = sum(CMD_TotalTests.cost.discounted),
+            CMD_TotalTests.cost.discounted_high = sum(CMD_TotalTests.cost.discounted_high),
+            CMD_TotalTreatment.cost = sum(CMD_TotalTreatment.cost), 
+            CMD_TotalTreatment.cost.discounted = sum(CMD_TotalTreatment.cost.discounted),
+            CMD_TotalTreatment.cost.discounted_high = sum(CMD_TotalTreatment.cost.discounted_high),
+            CMD_Total.cost = sum(CMD_Total.cost),
+            CMD_Total.cost.discounted = sum(CMD_Total.cost.discounted),
+            CMD_Total.cost.discounted_high = sum(CMD_Total.cost.discounted_high),
+            OnART.cost = sum(OnART.cost),
+            OnART.cost.discounted = sum(OnART.cost.discounted),
+            OnART.cost.discounted_high = sum(OnART.cost.discounted_high),
+            Total.cost = sum(CMD_Total.cost + OnART.cost),
+            Total.cost.discounted = sum(CMD_Total.cost.discounted + OnART.cost.discounted),
+            Total.cost.discounted_high = sum(CMD_Total.cost.discounted_high + OnART.cost.discounted_high),
+         ) %>% ungroup()
+
+metric.names = c(
+  "Newly.Infected",
+  "Died_from_HIV",
+  "On_ART",
+  "Depression.episodes",
+  "HIV.DALY",
+  "HIV.DALY.discounted",
+  "HIV.DALY.discounted_high",
+  "Depression.DALY",
+  "Depression.DALY.discounted",
+  "Depression.DALY.discounted_high",
+  "Total.DALY",
+  "Total.DALY.discounted",
+  "Total.DALY.discounted_high",
+  "CMD_TotalTests", 
+  "CMD_TotalTreatment",
+  "CMD_TotalTests.cost",
+  "CMD_TotalTests.cost.discounted",
+  "CMD_TotalTests.cost.discounted_high",
+  "CMD_TotalTreatment.cost",
+  "CMD_TotalTreatment.cost.discounted",
+  "CMD_TotalTreatment.cost.discounted_high",
+  "CMD_Total.cost",
+  "CMD_Total.cost.discounted",
+  "CMD_Total.cost.discounted_high",
+  "OnART.cost",
+  "OnART.cost.discounted",
+  "OnART.cost.discounted_high",
+  "Total.cost",
+  "Total.cost.discounted",
+  "Total.cost.discounted_high" 
+)
+
+scenario.names = sim.results.metrics.table$scenario_name %>% unique 
+
+metrics.2025.2035 = data.frame()
+
+for (i in metric.names){
+  for (j in scenario.names) {
+    
+    print(c(i,j))
+    h <- calculate.CI.by.metric(
+      data = data.2025.2035,
+      scenario.name = j,
+      metric = i)
+    
+    metrics.2025.2035 = rbind(metrics.2025.2035, h)
+  }
+}
+
+write_csv(metrics.2025.2035, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_basic_metrics_v2_discounting_SA.csv")
+
+```
+# Impact Metrics
+
+Between the years 2025-2035
+
+* Number of new HIV acquisitions
+* Number of HIV-related deaths
+* Person-years on ART
+* Number of depression episodes
+* HIV-related DALYs, discounted and not
+* Depression-related DALYs, discounted and not
+* Total DALYs, discounted and not
+
+```{r}
+hiv.averted.stats <- sim.results.metrics.table %>% 
+  filter(Year >= 2025) %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected),
+    Died_from_HIV = sum(Died_from_HIV),
+    On_ART = sum(On_ART),
+    Depression.episodes = sum(Depression.episodes),
+    CMD_pos = sum(CMD_pos),
+    HIV.DALY = sum(HIV.DALY),
+    HIV.DALY.discounted = sum(HIV.DALY.discounted),
+    HIV.DALY.discounted_high = sum(HIV.DALY.discounted_high),
+    Depression.DALY = sum(Depression.DALY),
+    Depression.DALY.discounted = sum(Depression.DALY.discounted),
+    Depression.DALY.discounted_high = sum(Depression.DALY.discounted_high),
+    Total.DALY = sum(Depression.DALY + HIV.DALY),
+    Total.DALY.discounted = sum(Depression.DALY.discounted + HIV.DALY.discounted),
+    Total.DALY.discounted_high = sum(Depression.DALY.discounted_high + HIV.DALY.discounted_high),
+    .groups = 'drop_last') %>% 
+  ungroup() %>% 
+  mutate(Total.DALY = HIV.DALY + Depression.DALY)
+
+hiv.averted.stats.baseline <- sim.results.metrics.table %>% 
+  #filter(Year >= 2025, scenario_name == 'pepfar_baseline') %>%
+  filter(Year >= 2025, scenario_name == 'baseline') %>%
+  group_by(scenario_name, sim.ix) %>% 
+  summarize(
+    Newly.Infected.baseline = sum(Newly.Infected),
+    Died_from_HIV.baseline = sum(Died_from_HIV),
+    On_ART.baseline = sum(On_ART),
+    Depression.episodes.baseline = sum(Depression.episodes),
+    CMD_pos.baseline = sum(CMD_pos),
+    HIV.DALY.baseline = sum(HIV.DALY),
+    HIV.DALY.discounted.baseline = sum(HIV.DALY.discounted),
+    HIV.DALY.discounted_high.baseline = sum(HIV.DALY.discounted_high),
+    Depression.DALY.baseline = sum(Depression.DALY),
+    Depression.DALY.discounted.baseline = sum(Depression.DALY.discounted),
+    Depression.DALY.discounted_high.baseline = sum(Depression.DALY.discounted_high),
+    Total.DALY.baseline = sum(Depression.DALY + HIV.DALY),
+    Total.DALY.discounted.baseline = sum(Depression.DALY.discounted + HIV.DALY.discounted),
+    Total.DALY.discounted_high.baseline = sum(Depression.DALY.discounted_high + HIV.DALY.discounted_high),
+    .groups = 'drop_last') %>% 
+  ungroup() %>% 
+  mutate(Total.DALY.baseline = HIV.DALY.baseline + Depression.DALY.baseline)
+
+hiv.averted.stats <- hiv.averted.stats %>% 
+  merge(
+    hiv.averted.stats.baseline[-1], 
+    by = c("sim.ix")
+  ) %>% 
+  mutate(
+    Died_from_HIV.averted = Died_from_HIV.baseline - Died_from_HIV,
+    Newly.Infected.averted = Newly.Infected.baseline - Newly.Infected,
+    On_ART.averted = On_ART.baseline - On_ART,
+    Depression.episodes.averted = Depression.episodes.baseline - Depression.episodes,
+    CMD_pos.averted = CMD_pos.baseline - CMD_pos,
+    HIV.DALY.averted = HIV.DALY.baseline - HIV.DALY,
+    HIV.DALY.discounted.averted = HIV.DALY.discounted.baseline - HIV.DALY.discounted,
+    HIV.DALY.discounted_high.averted = HIV.DALY.discounted_high.baseline - HIV.DALY.discounted_high,
+    Depression.DALY.averted = Depression.DALY.baseline - Depression.DALY,
+    Depression.DALY.discounted.averted = Depression.DALY.discounted.baseline - Depression.DALY.discounted,
+    Depression.DALY.discounted_high.averted = Depression.DALY.discounted_high.baseline - Depression.DALY.discounted_high,
+    Total.DALY.averted = Total.DALY.baseline - Total.DALY,
+    Total.DALY.discounted.averted = Total.DALY.discounted.baseline - Total.DALY.discounted,
+    Total.DALY.discounted_high.averted = Total.DALY.discounted_high.baseline - Total.DALY.discounted_high
+    ) %>% 
+  mutate(
+    Died_from_HIV.averted.pct = Died_from_HIV.averted/Died_from_HIV.baseline,
+    Newly.Infected.averted.pct = Newly.Infected.averted/Newly.Infected.baseline,
+    On_ART.averted.pct = On_ART.averted/On_ART.baseline,
+    Depression.episodes.averted.pct = Depression.episodes.averted/Depression.episodes.baseline,
+    CMD_pos.averted.pct = CMD_pos.averted/CMD_pos.baseline,
+    HIV.DALY.averted.pct = HIV.DALY.averted/HIV.DALY.baseline,
+    HIV.DALY.discounted.averted.pct = HIV.DALY.discounted.averted/HIV.DALY.discounted.baseline,
+    HIV.DALY.discounted_high.averted.pct = HIV.DALY.discounted_high.averted/HIV.DALY.discounted_high.baseline,
+    Depression.DALY.averted.pct = Depression.DALY.averted/Depression.DALY.baseline,
+    Depression.DALY.discounted.averted.pct = Depression.DALY.discounted.averted/Depression.DALY.discounted.baseline,
+    Depression.DALY.discounted_high.averted.pct = Depression.DALY.discounted_high.averted/Depression.DALY.discounted_high.baseline,
+    Total.DALY.averted.pct = Total.DALY.averted/Total.DALY.baseline,
+    Total.DALY.discounted.averted.pct = Total.DALY.discounted.averted/Total.DALY.discounted.baseline,
+    Total.DALY.discounted_high.averted.pct = Total.DALY.discounted_high.averted/Total.DALY.discounted_high.baseline
+  )
+
+metric.names = c(
+  "Died_from_HIV.averted",
+  "Died_from_HIV.averted.pct",
+  "Newly.Infected.averted",
+  "Newly.Infected.averted.pct",
+  "On_ART.averted",
+  "On_ART.averted.pct",
+  "Depression.episodes.averted",
+  "Depression.episodes.averted.pct",
+  "CMD_pos.averted",
+  "CMD_pos.averted.pct",
+  "HIV.DALY.averted",
+  "HIV.DALY.discounted.averted",
+  "HIV.DALY.discounted_high.averted",
+  "HIV.DALY.averted.pct",
+  "HIV.DALY.discounted.averted.pct",
+  "HIV.DALY.discounted_high.averted.pct",
+  "Depression.DALY.averted", 
+  "Depression.DALY.discounted.averted", 
+  "Depression.DALY.discounted_high.averted",
+  "Depression.DALY.averted.pct",
+  "Depression.DALY.discounted.averted.pct",
+  "Depression.DALY.discounted_high.averted.pct",
+  "Total.DALY.averted",
+  "Total.DALY.discounted.averted",
+  "Total.DALY.discounted_high.averted",
+  "Total.DALY.averted.pct",
+  "Total.DALY.discounted.averted.pct",
+  "Total.DALY.discounted_high.averted.pct"
+)
+
+scenario_names = hiv.averted.stats$scenario_name %>% unique 
+
+metrics = data.frame()
+
+for (i in metric.names){
+  for (j in scenario_names) {
+    
+    print(c(i,j))
+    h <- calculate.CI.by.metric(
+      data = hiv.averted.stats, 
+      scenario.name = j,
+      metric = i)
+    
+    metrics = rbind(metrics, h)
+  }
+}
+
+HIV.Depression.Averted.Data <- metrics
+write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_impact_metrics_v2_discounting_SA.csv")
+```
+
+# ICER calculation
+
+```{r}
+metrics.2025.2035 <- read_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_impact_metrics_v2_discounting_SA.csv")
+  
+HIV.Depression.Averted.Data <- read_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_basic_metrics_v2_discounting_SA.csv")
+```
+
+
+### Calculate incremental costs
+
+#### No discount 
+```{r}
+cost.incremental <- merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'OnART.cost') %>% 
+     mutate(OnART.cost.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost', scenario_name == 'baseline') %>% .$metric.mean) %>%
+      # mutate(OnART.cost.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost', scenario_name == 'pepfar_baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.marginal = metric.mean - OnART.cost.baseline ) %>% 
+      select(scenario_name, OnART.cost.marginal),
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_Total.cost') %>% 
+     mutate(CMD_Total.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost', scenario_name == 'baseline') %>%
+      # mutate(CMD_Total.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost', scenario_name == 'pepfar_baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_Total.cost.marginal = metric.mean - CMD_Total.cost.baseline) %>% 
+      select(scenario_name, CMD_Total.cost.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_TotalTests.cost') %>% 
+     mutate(CMD_TotalTests.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost', scenario_name == 'baseline') %>%
+      # mutate(CMD_TotalTests.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost', scenario_name == 'pepfar_baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTests.cost.marginal = metric.mean - CMD_TotalTests.cost.baseline) %>% 
+      select(scenario_name, CMD_TotalTests.cost.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_TotalTreatment.cost') %>% 
+     mutate(CMD_TotalTreatment.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost', scenario_name == 'baseline') %>%
+      # mutate(CMD_TotalTreatment.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost', scenario_name == 'pepfar_baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTreatment.cost.marginal = metric.mean - CMD_TotalTreatment.cost.baseline) %>% 
+      select(scenario_name, CMD_TotalTreatment.cost.marginal),
+    by = c("scenario_name")
+  )
+
+cost.incremental
+```
+
+#### Discount
+
+```{r}
+cost.discounted.incremental <- merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'OnART.cost.discounted') %>% 
+      mutate(OnART.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'baseline') %>% .$metric.mean) %>%
+      # mutate(OnART.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'pepfar_baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.discounted.marginal = metric.mean - OnART.cost.discounted.baseline ) %>% 
+      select(scenario_name, OnART.cost.discounted.marginal),
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_Total.cost.discounted') %>% 
+     mutate(CMD_Total.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'baseline') %>%
+      # mutate(CMD_Total.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'pepfar_baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_Total.cost.discounted.marginal = metric.mean - CMD_Total.cost.discounted.baseline) %>% 
+      select(scenario_name, CMD_Total.cost.discounted.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_TotalTests.cost.discounted') %>% 
+     mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted', scenario_name == 'baseline') %>%
+      # mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted', scenario_name == 'pepfar_baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTests.cost.discounted.marginal = metric.mean - CMD_TotalTests.cost.discounted.baseline) %>% 
+      select(scenario_name, CMD_TotalTests.cost.discounted.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_TotalTreatment.cost.discounted') %>% 
+      mutate(CMD_TotalTreatment.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted', scenario_name == 'baseline') %>%
+      # mutate(CMD_TotalTreatment.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted', scenario_name == 'pepfar_baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTreatment.cost.discounted.marginal = metric.mean - CMD_TotalTreatment.cost.discounted.baseline) %>% 
+      select(scenario_name, CMD_TotalTreatment.cost.discounted.marginal),
+    by = c("scenario_name")
+  )
+
+cost.discounted.incremental
+```
+
+#### High Discount
+
+```{r}
+cost.discounted_high.incremental <- merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'OnART.cost.discounted_high') %>% 
+      #mutate(OnART.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted_high', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.discounted_high.marginal = metric.mean - OnART.cost.discounted_high.baseline ) %>% 
+      select(scenario_name, OnART.cost.discounted_high.marginal),
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_Total.cost.discounted_high') %>% 
+#     mutate(CMD_Total.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'baseline') %>%
+      mutate(CMD_Total.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted_high', scenario_name == 'baseline') %>%              .$metric.mean) %>% 
+      mutate(CMD_Total.cost.discounted_high.marginal = metric.mean - CMD_Total.cost.discounted_high.baseline) %>% 
+      select(scenario_name, CMD_Total.cost.discounted_high.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_TotalTests.cost.discounted_high') %>% 
+#      mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted_high', scenario_name == 'baseline') %>%
+     mutate(CMD_TotalTests.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted_high', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTests.cost.discounted_high.marginal = metric.mean - CMD_TotalTests.cost.discounted_high.baseline) %>% 
+      select(scenario_name, CMD_TotalTests.cost.discounted_high.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_TotalTreatment.cost.discounted_high') %>% 
+      #mutate(CMD_TotalTreatment.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted_high', scenario_name == 'baseline') %>%
+      mutate(CMD_TotalTreatment.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted_high', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTreatment.cost.discounted_high.marginal = metric.mean - CMD_TotalTreatment.cost.discounted_high.baseline) %>% 
+      select(scenario_name, CMD_TotalTreatment.cost.discounted_high.marginal),
+    by = c("scenario_name")
+  )
+
+cost.discounted_high.incremental
+```
+
+
+
+
+#### Total ICERs
+
+```{r}
+ICER.discounted.total.table <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted.averted") %>% 
+  merge(
+    cost.discounted.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted.total") %>% 
+  select(scenario_name, metric,
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+ICER.discounted.total.table
+```
+
+#### High discount icer
+
+```{r}
+ICER.discounted_high.total.table <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted_high.averted") %>% 
+  merge(
+    cost.discounted_high.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted_high.marginal + CMD_Total.cost.discounted_high.marginal) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted_high.total") %>% 
+  select(scenario_name, metric,
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+
+ICER.discounted_high.total.table
+```
+
+#### Cost UB
+
+```{r}
+ICER.discounted.total.table_sa.cost.lb <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted.averted") %>% 
+  merge(
+    cost.discounted.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal*.8) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted.total") %>% 
+  select(scenario_name, metric,
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+
+ICER.discounted.total.table_sa.cost.lb
+```
+
+#### Cost LB
+
+```{r}
+ICER.discounted.total.table_sa.cost.ub <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted.averted") %>% 
+  merge(
+    cost.discounted.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal*1.2) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted.total") %>% 
+  select(scenario_name, metric,
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+
+ICER.discounted.total.table_sa.cost.ub
+```
+
+#### Bring together for SA
+
+```{r}
+icer.sa.table <- rbind(
+  ICER.total.table, ICER.discounted_high.total.table,
+  ICER.discounted.total.table_sa.cost.lb %>% mutate(metric = "ICER.discounted.total_cost_lb"),
+  ICER.discounted.total.table_sa.cost.ub %>% mutate(metric = "ICER.discounted.total_cost_ub"))
+
+```
+
+
+# Figure 4 Sensitivity Analysis Panels 
+```{r}
+ICER.table.sa <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/ICER_Data_sa_20250512.csv")
+
+ICER.table.sa <- ICER.table.sa  %>% 
+  filter(scenario_name != 'baseline') %>% 
+#  filter(metric %in% c("HIV.DALY.averted", "HIV.DALY.averted.pct", "Total.DALY.averted", "Total.DALY.averted.pct")) %>% 
+  mutate(ix =case_match(
+    scenario_name,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 0,
+    "uni_sa_cmdspec_LL" ~ 1,
+    "uni_sa_cmdspec_UL" ~ 1,
+    "uni_sa_treateff_LL" ~ 2,
+    "uni_sa_treateff_UL" ~ 2,
+    "uni_sa_cmdrelapse_LL" ~ 3,
+    "uni_sa_cmdrelapse_UL" ~ 3,
+    "uni_sa_cmdinc_LL" ~ 4,
+    "uni_sa_cmdinc_UL" ~ 4,
+    "uni_sa_hivinc_LL" ~ 5,
+    "uni_sa_hivinc_UL" ~ 5,
+    "uni_sa_artadh_LL" ~ 6,
+    "uni_sa_artadh_UL" ~ 6,
+    "uni_sa_artdrop_LL" ~ 7,
+    "uni_sa_artdrop_UL" ~ 7,
+    "uni_sa_delay_LL" ~ 8,
+    "uni_sa_delay_UL" ~ 8,
+    "ceta_sa_cmdsens_LL" ~ 0,
+    "ceta_sa_cmdsens_UL" ~ 0,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 1,
+    "ceta_sa_treateff_LL" ~ 2,
+    "ceta_sa_treateff_UL" ~ 2,
+    "ceta_sa_cmdrelapse_LL" ~ 3,
+    "ceta_sa_cmdrelapse_UL" ~ 3,
+    "ceta_sa_cmdinc_LL" ~ 4,
+    "ceta_sa_cmdinc_UL" ~ 4,
+    "ceta_sa_hivinc_LL" ~ 5,
+    "ceta_sa_hivinc_UL" ~ 5,
+    "ceta_sa_artadh_LL" ~ 6,
+    "ceta_sa_artadh_UL" ~ 6,
+    "ceta_sa_artdrop_LL" ~ 7,
+    "ceta_sa_artdrop_UL" ~ 7,
+    "ceta_sa_delay_LL" ~ 8,
+    "ceta_sa_delay_UL" ~ 8,
+    "art_sa_cmdsens_LL" ~ 0,
+    "art_sa_cmdsens_UL" ~ 0,
+    "art_sa_cmdspec_LL" ~ 1,
+    "art_sa_cmdspec_UL" ~ 1,
+    "art_sa_treateff_LL" ~ 2,
+    "art_sa_treateff_UL" ~ 2,
+    "art_sa_cmdrelapse_LL" ~ 3,
+    "art_sa_cmdrelapse_UL" ~ 3,
+    "art_sa_cmdinc_LL" ~ 4,
+    "art_sa_cmdinc_UL" ~ 4,
+    "art_sa_hivinc_LL" ~ 5,
+    "art_sa_hivinc_UL" ~ 5,
+    "art_sa_artadh_LL" ~ 6,
+    "art_sa_artadh_UL" ~ 6,
+    "art_sa_artdrop_LL" ~ 7,
+    "art_sa_artdrop_UL" ~ 7,
+    "art_sa_delay_LL" ~ 8,
+    "art_sa_delay_UL" ~ 8,
+    "neutral_sa_cmdsens_LL" ~ 0,
+    "neutral_sa_cmdsens_UL" ~ 0,
+    "neutral_sa_cmdspec_LL" ~ 1,
+    "neutral_sa_cmdspec_UL" ~ 1,
+    "neutral_sa_treateff_LL" ~ 2,
+    "neutral_sa_treateff_UL" ~ 2,
+    "neutral_sa_cmdrelapse_LL" ~ 3,
+    "neutral_sa_cmdrelapse_UL" ~ 3,
+    "neutral_sa_cmdinc_LL" ~ 4,
+    "neutral_sa_cmdinc_UL" ~ 4,
+    "neutral_sa_hivinc_LL" ~ 5,
+    "neutral_sa_hivinc_UL" ~ 5,
+    "neutral_sa_neutraladh_LL" ~ 6,
+    "neutral_sa_neutraladh_UL" ~ 6,
+    "neutral_sa_neutraldrop_LL" ~ 7,
+    "neutral_sa_neutraldrop_UL" ~ 7,
+    "neutral_sa_delay_LL" ~ 8,
+    "neutral_sa_delay_UL" ~ 8
+  ),
+  limitsign = case_match(
+    scenario_name,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 1,
+    "uni_sa_cmdspec_LL" ~ 1,
+    "uni_sa_cmdspec_UL" ~ 0,
+    "uni_sa_treateff_LL" ~ 0,
+    "uni_sa_treateff_UL" ~ 1,
+    "uni_sa_hivinc_LL" ~ 0,
+    "uni_sa_hivinc_UL" ~ 1,
+    "uni_sa_artadh_LL" ~ 0,
+    "uni_sa_artadh_UL" ~ 1,
+    "uni_sa_artdrop_LL" ~ 0,
+    "uni_sa_artdrop_UL" ~ 1,
+    "uni_sa_delay_LL" ~ 0,
+    "uni_sa_delay_UL" ~ 1,
+    "uni_sa_cmdinc_LL" ~ 0,
+    "uni_sa_cmdinc_UL" ~ 1,
+    "uni_sa_cmdrelapse_LL" ~ 1,
+    "uni_sa_cmdrelapse_UL" ~ 0,
+    "ceta_sa_cmdsens_LL" ~ 0,
+    "ceta_sa_cmdsens_UL" ~ 1,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 0,
+    "ceta_sa_treateff_LL" ~ 0,
+    "ceta_sa_treateff_UL" ~ 1,
+    "ceta_sa_hivinc_LL" ~ 0,
+    "ceta_sa_hivinc_UL" ~ 1,
+    "ceta_sa_artadh_LL" ~ 0,
+    "ceta_sa_artadh_UL" ~ 1,
+    "ceta_sa_artdrop_LL" ~ 0,
+    "ceta_sa_artdrop_UL" ~ 1,
+    "ceta_sa_delay_LL" ~ 0,
+    "ceta_sa_delay_UL" ~ 1,
+    "ceta_sa_cmdinc_LL" ~ 0,
+    "ceta_sa_cmdinc_UL" ~ 1,
+    "ceta_sa_cmdrelapse_LL" ~ 1,
+    "ceta_sa_cmdrelapse_UL" ~ 0,
+    "art_sa_cmdsens_LL" ~ 0,
+    "art_sa_cmdsens_UL" ~ 1,
+    "art_sa_cmdspec_LL" ~ 1,
+    "art_sa_cmdspec_UL" ~ 0,
+    "art_sa_treateff_LL" ~ 0,
+    "art_sa_treateff_UL" ~ 1,
+    "art_sa_hivinc_LL" ~ 0,
+    "art_sa_hivinc_UL" ~ 1,
+    "art_sa_artadh_LL" ~ 0,
+    "art_sa_artadh_UL" ~ 1,
+    "art_sa_artdrop_LL" ~ 0,
+    "art_sa_artdrop_UL" ~ 1,
+    "art_sa_delay_LL" ~ 0,
+    "art_sa_delay_UL" ~ 1,
+    "art_sa_cmdinc_LL" ~ 0,
+    "art_sa_cmdinc_UL" ~ 1,
+    "art_sa_cmdrelapse_LL" ~ 1,
+    "art_sa_cmdrelapse_UL" ~ 0,
+    "neutral_sa_cmdsens_LL" ~ 0,
+    "neutral_sa_cmdsens_UL" ~ 1,
+    "neutral_sa_cmdspec_LL" ~ 1,
+    "neutral_sa_cmdspec_UL" ~ 0,
+    "neutral_sa_treateff_LL" ~ 0,
+    "neutral_sa_treateff_UL" ~ 1,
+    "neutral_sa_hivinc_LL" ~ 0,
+    "neutral_sa_hivinc_UL" ~ 1,
+    "neutral_sa_neutraladh_LL" ~ 0,
+    "neutral_sa_neutraladh_UL" ~ 1,
+    "neutral_sa_neutraldrop_LL" ~ 0,
+    "neutral_sa_neutraldrop_UL" ~ 1,
+    "neutral_sa_delay_LL" ~ 0,
+    "neutral_sa_delay_UL" ~ 1,
+    "neutral_sa_cmdinc_LL" ~ 0,
+    "neutral_sa_cmdinc_UL" ~ 1,
+    "neutral_sa_cmdrelapse_LL" ~ 1,
+    "neutral_sa_cmdrelapse_UL" ~ 0
+  ),
+  scenario_group = case_match(
+    scenario_name,
+    "uni_sa_cmdsens_LL" ~ 0,
+    "uni_sa_cmdsens_UL" ~ 0,
+    "uni_sa_cmdspec_LL" ~ 0,
+    "uni_sa_cmdspec_UL" ~ 0,
+    "uni_sa_treateff_LL" ~ 0,
+    "uni_sa_treateff_UL" ~ 0,
+    "uni_sa_hivinc_LL" ~ 0,
+    "uni_sa_hivinc_UL" ~ 0,
+    "uni_sa_artadh_LL" ~ 0,
+    "uni_sa_artadh_UL" ~ 0,
+    "uni_sa_artdrop_LL" ~ 0,
+    "uni_sa_artdrop_UL" ~ 0,
+    "uni_sa_delay_LL" ~ 0,
+    "uni_sa_delay_UL" ~ 0,
+    "uni_sa_cmdinc_LL" ~ 0,
+    "uni_sa_cmdinc_UL" ~ 0,
+    "uni_sa_cmdrelapse_LL" ~ 0,
+    "uni_sa_cmdrelapse_UL" ~ 0,
+    "ceta_sa_cmdsens_LL" ~ 1,
+    "ceta_sa_cmdsens_UL" ~ 1,
+    "ceta_sa_cmdspec_LL" ~ 1,
+    "ceta_sa_cmdspec_UL" ~ 1,
+    "ceta_sa_treateff_LL" ~ 1,
+    "ceta_sa_treateff_UL" ~ 1,
+    "ceta_sa_hivinc_LL" ~ 1,
+    "ceta_sa_hivinc_UL" ~ 1,
+    "ceta_sa_artadh_LL" ~ 1,
+    "ceta_sa_artadh_UL" ~ 1,
+    "ceta_sa_artdrop_LL" ~ 1,
+    "ceta_sa_artdrop_UL" ~ 1,
+    "ceta_sa_delay_LL" ~ 1,
+    "ceta_sa_delay_UL" ~ 1,
+    "ceta_sa_cmdinc_LL" ~ 1,
+    "ceta_sa_cmdinc_UL" ~ 1,
+    "ceta_sa_cmdrelapse_LL" ~ 1,
+    "ceta_sa_cmdrelapse_UL" ~ 1,
+    "art_sa_cmdsens_LL" ~ 2,
+    "art_sa_cmdsens_UL" ~ 2,
+    "art_sa_cmdspec_LL" ~ 2,
+    "art_sa_cmdspec_UL" ~ 2,
+    "art_sa_treateff_LL" ~ 2,
+    "art_sa_treateff_UL" ~ 2,
+    "art_sa_hivinc_LL" ~ 2,
+    "art_sa_hivinc_UL" ~ 2,
+    "art_sa_artadh_LL" ~ 2,
+    "art_sa_artadh_UL" ~ 2,
+    "art_sa_artdrop_LL" ~ 2,
+    "art_sa_artdrop_UL" ~ 2,
+    "art_sa_delay_LL" ~ 2,
+    "art_sa_delay_UL" ~ 2,
+    "art_sa_cmdinc_LL" ~ 2,
+    "art_sa_cmdinc_UL" ~ 2,
+    "art_sa_cmdrelapse_LL" ~ 2,
+    "art_sa_cmdrelapse_UL" ~ 2,
+    "neutral_sa_cmdsens_LL" ~ 3,
+    "neutral_sa_cmdsens_UL" ~ 3,
+    "neutral_sa_cmdspec_LL" ~ 3,
+    "neutral_sa_cmdspec_UL" ~ 3,
+    "neutral_sa_treateff_LL" ~ 3,
+    "neutral_sa_treateff_UL" ~ 3,
+    "neutral_sa_hivinc_LL" ~ 3,
+    "neutral_sa_hivinc_UL" ~ 3,
+    "neutral_sa_neutraladh_LL" ~ 3,
+    "neutral_sa_neutraladh_UL" ~ 3,
+    "neutral_sa_neutraldrop_LL" ~ 3,
+    "neutral_sa_neutraldrop_UL" ~ 3,
+    "neutral_sa_delay_LL" ~ 3,
+    "neutral_sa_delay_UL" ~ 3,
+    "neutral_sa_cmdinc_LL" ~ 3,
+    "neutral_sa_cmdinc_UL" ~ 3,
+    "neutral_sa_cmdrelapse_LL" ~ 3,
+    "neutral_sa_cmdrelapse_UL" ~ 3
+  )) %>% arrange(metric,ix)
+```
+
+
+```{r}
+first_table_fixed <- icer.sa.table %>%
+  filter(metric %in% c(
+    "ICER.total",
+    "ICER.discounted_high.total",
+    "ICER.discounted.total_cost_lb",
+    "ICER.discounted.total_cost_ub"
+  )) %>%
+  mutate(
+    scenario_group = case_match(
+      scenario_name,
+      "uni" ~ 0L,
+      "ceta" ~ 1L,
+      "art" ~ 2L,
+      "neutral" ~ 3L,
+      .default = NA_integer_
+    ),
+    ix = case_when(
+      metric %in% c("ICER.discounted_high.total", "ICER.total") ~ 9L,
+      metric %in% c("ICER.discounted.total_cost_lb", "ICER.discounted.total_cost_ub") ~ 10L,
+      TRUE ~ NA_integer_
+    ),
+    limitsign = case_when(
+      metric %in% c("ICER.discounted_high.total", "ICER.discounted.total_cost_lb") ~ 0L,
+      metric %in% c("ICER.total", "ICER.discounted.total_cost_ub") ~ 1L,
+      TRUE ~ NA_integer_
+    ),
+    scenario_name = case_when(
+      metric == "ICER.discounted_high.total" ~ paste0(scenario_name, "_sa_discounting_UL"),
+      metric == "ICER.total" ~ paste0(scenario_name, "_sa_discounting_LL"),
+      metric == "ICER.discounted.total_cost_lb" ~ paste0(scenario_name, "_sa_costing_LL"),
+      metric == "ICER.discounted.total_cost_ub" ~ paste0(scenario_name, "_sa_costing_UL"),
+      TRUE ~ scenario_name
+    ),
+    metric = "ICER.discounted.total"
+  ) %>%
+  select(
+    scenario_name,
+    metric,
+    metric.mean,
+    metric.lb,
+    metric.ub,
+    ix,
+    limitsign,
+    scenario_group
+  )
+
+combined_table <- rbind(ICER.table.sa, first_table_fixed)
+```
+
+### Generate supplementary table 3:
+
+```{r}
+table_wide <- combined_table %>%
+  mutate(
+    prefix = case_when(
+      grepl("^uni", scenario_name) ~ "uni",
+      grepl("^neutral", scenario_name) ~ "neutral",
+      grepl("^art", scenario_name) ~ "art",
+      grepl("^ceta", scenario_name) ~ "ceta",
+      TRUE ~ NA_character_
+    ),
+    suffix = sub("^(uni|neutral|art|ceta)_?", "", scenario_name),
+    suffix = if_else(suffix == scenario_name, "", suffix)
+  ) %>%
+  filter(!is.na(prefix), prefix %in% c("uni", "neutral", "art", "ceta")) %>%
+  select(suffix, prefix, metric.mean, metric.lb, metric.ub) %>%
+  pivot_longer(
+    cols = c(metric.mean, metric.lb, metric.ub),
+    names_to = "value_type",
+    values_to = "value"
+  ) %>%
+  mutate(col_name = paste(prefix, value_type, sep = "_")) %>%
+  select(suffix, col_name, value) %>%
+  pivot_wider(names_from = col_name, values_from = value) %>%
+  select(
+    suffix,
+    uni_metric.mean, uni_metric.lb, uni_metric.ub,
+    neutral_metric.mean, neutral_metric.lb, neutral_metric.ub,
+    art_metric.mean, art_metric.lb, art_metric.ub,
+    ceta_metric.mean, ceta_metric.lb, ceta_metric.ub
+  )
+
+table_wide
+
+table_formatted <- combined_table %>%
+  mutate(
+    prefix = case_when(
+      grepl("^uni", scenario_name) ~ "uni",
+      grepl("^neutral", scenario_name) ~ "neutral",
+      grepl("^art", scenario_name) ~ "art",
+      grepl("^ceta", scenario_name) ~ "ceta",
+      TRUE ~ NA_character_
+    ),
+    suffix = sub("^(uni|neutral|art|ceta)_?", "", scenario_name),
+    suffix = if_else(suffix == scenario_name, "", suffix),
+    formatted = sprintf(
+      "%.3g (%.3g–%.3g)",
+      metric.mean, metric.lb, metric.ub
+    )
+  ) %>%
+  filter(!is.na(prefix), prefix %in% c("uni", "neutral", "art", "ceta")) %>%
+  select(scenario_name = suffix, prefix, formatted) %>%
+  pivot_wider(
+    names_from = prefix,
+    values_from = formatted
+  ) %>%
+  select(scenario_name, uni, neutral, art, ceta)
+
+table_formatted %>% View
+```
+
+
+```{r}
+format_3sf_no_sci_nodot <- function(x) {
+  ifelse(
+    is.na(x),
+    NA_character_,
+    format(
+      round(signif(x, 3), 0),
+      scientific = FALSE,
+      trim = TRUE,
+      nsmall = 0
+    )
+  )
+}
+
+table_formatted <- combined_table %>%
+  mutate(
+    prefix = case_when(
+      grepl("^uni", scenario_name) ~ "uni",
+      grepl("^neutral", scenario_name) ~ "neutral",
+      grepl("^art", scenario_name) ~ "art",
+      grepl("^ceta", scenario_name) ~ "ceta",
+      TRUE ~ NA_character_
+    ),
+    suffix = sub("^(uni|neutral|art|ceta)_?", "", scenario_name),
+    suffix = if_else(suffix == scenario_name, "", suffix),
+    formatted = if_else(
+      is.na(metric.mean) | is.na(metric.lb) | is.na(metric.ub),
+      "",
+      paste0(
+        format_3sf_no_sci_nodot(metric.mean),
+        " (",
+        format_3sf_no_sci_nodot(metric.lb),
+        "–",
+        format_3sf_no_sci_nodot(metric.ub),
+        ")"
+      )
+    )
+  ) %>%
+  filter(!is.na(prefix), prefix %in% c("uni", "neutral", "art", "ceta")) %>%
+  select(scenario_name = suffix, prefix, formatted) %>%
+  pivot_wider(
+    names_from = prefix,
+    values_from = formatted,
+    values_fill = ""
+  ) %>%
+  select(scenario_name, uni, neutral, art, ceta)
+
+table_formatted %>% write_csv("SensitivityAnalysis/supplementary_table_6_raw.csv")
+```
+
+
+## Generate figure
+
+```{r}
+center.icer.uni = ICER.table %>% 
+  filter(scenario_name == 'uni', metric == "ICER.discounted.total") %>% 
+  .$metric.mean
+
+p.sa.icer.uni <- ggplot()  + 
+  geom_rect(data = combined_table %>% filter(limitsign == 0, metric == "ICER.discounted.total", scenario_group == 0),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer.uni),
+            fill = "#00468B") + 
+  geom_rect(data = combined_table %>% filter(limitsign == 1, metric == "ICER.discounted.total", scenario_group == 0),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer.uni , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer.uni, linetype = "dashed", color = "black") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+        axis.text = element_text(size = 14))
+
+p.sa.icer.uni
+```
+
+```{r}
+center.icer.ceta = ICER.table %>% 
+  filter(scenario_name == 'ceta', metric == "ICER.discounted.total") %>% 
+  .$metric.mean
+
+p.sa.icer.ceta <- ggplot()  + 
+  geom_rect(data = combined_table %>% filter(limitsign == 0, metric == "ICER.discounted.total", scenario_group == 1),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer.ceta),
+            fill = "#00468B") + 
+  geom_rect(data = combined_table %>% filter(limitsign == 1, metric == "ICER.discounted.total", scenario_group == 1),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer.ceta , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer.ceta, linetype = "dashed", color = "black") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+        axis.text = element_text(size = 14))
+
+p.sa.icer.ceta
+```
+
+```{r}
+center.icer.art = ICER.table %>% 
+  filter(scenario_name == 'art', metric == "ICER.discounted.total") %>% 
+  .$metric.mean
+
+p.sa.icer.art <- ggplot()  + 
+  geom_rect(data = combined_table %>% filter(limitsign == 0, metric == "ICER.discounted.total", scenario_group == 2),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer.art),
+            fill = "#00468B") + 
+  geom_rect(data = combined_table %>% filter(limitsign == 1, metric == "ICER.discounted.total", scenario_group == 2),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer.art , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer.art, linetype = "dashed", color = "black") +
+  scale_x_continuous(breaks = c(-4000, -2000, 0, 2000, 4000, 6000, 8000)) +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+        axis.text = element_text(size = 14))
+
+p.sa.icer.art
+```
+
+```{r}
+center.icer.neutral = ICER.table %>% 
+  filter(scenario_name == 'neutral', metric == "ICER.discounted.total") %>% 
+  .$metric.mean
+
+p.sa.icer.neutral <- ggplot()  + 
+  geom_rect(data = combined_table %>% filter(limitsign == 0, metric == "ICER.discounted.total", scenario_group == 3),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = metric.mean, xmax = center.icer.neutral),
+            fill = "#00468B") + 
+  geom_rect(data = combined_table %>% filter(limitsign == 1, metric == "ICER.discounted.total", scenario_group == 3),
+            mapping = aes(ymin = -ix, ymax = -ix-1,
+                          xmin = center.icer.neutral , xmax = metric.mean),
+            fill = "#ED2200") + 
+  geom_vline(xintercept = center.icer.neutral, linetype = "dashed", color = "black") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(), # change x or y grid, use panel.grid.major.x / panel.grid.minor.x
+        axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank(),
+        axis.line = element_line(color="black", size=0.4),
+        axis.text = element_text(size = 14))
+
+p.sa.icer.neutral
+```
+
+```{r}
+(p.sa.icer.uni + p.sa.icer.ceta)/(p.sa.icer.art + p.sa.icer.neutral)
+```
+
+### Output
+```{r}
+ggsave(filename = "Figure_4_Sensitivity_analysis_ICER_uni_v2.pdf", plot =p.sa.icer.uni, height = 4, width = 6, units = 'in')
+
+ggsave(filename = "Figure_4_Sensitivity_analysis_ICER_ceta_v2.pdf", plot =p.sa.icer.ceta, height = 4, width = 6, units = 'in')
+
+ggsave(filename = "Figure_4_Sensitivity_analysis_ICER_art_v2.pdf", plot =p.sa.icer.art, height = 4, width = 6, units = 'in')
+
+ggsave(filename = "Figure_4_Sensitivity_analysis_ICER_neutral_v2.pdf", plot =p.sa.icer.neutral, height = 4, width = 6, units = 'in')
+
+```

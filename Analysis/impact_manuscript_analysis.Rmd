@@ -1012,13 +1012,6 @@ cmd.treat.by.age %>%
   arrange(Age_bin, HasHIV, Year) %>% View
 ```
 
-Compare the above metrics against incidence by age
-
-```{r}
-
-```
-
-
 # Metrics
 
 ## What's going on in 2025?

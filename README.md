@@ -49,6 +49,10 @@
     * [x] Higher depression upon receiving diagnosis
     * [x] Increase depression recovery rate upon reaching VLS
     * [x] Linkage to treatment upon receiving depression diagnosis
+* [x] Add one more set of sensitivity analyses reflecting PEPFAR losses
+* [x] Add sensitivity analyses for costing
+    * [x] Depression screening and treatment cost +/-20%
+    * [x] Discounting 0%–6%
 * [ ] Future work: other preventative measures
     * [ ] PrEP
     * [ ] Condom use

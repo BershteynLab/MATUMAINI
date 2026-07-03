@@ -84,6 +84,7 @@ CMD.screen.cost <- 3.35
 CMD.treat.cost <- 20.32
 
 discount_percent = 0.03
+discount_percent_high = 0.06
 discount_start_year = 2025
 infected_weight = 0.274
 art_weight = 0.078
@@ -420,9 +421,26 @@ sim.results.metrics.table <- rbind(
   read_csv("sim_results_metrics_neutral.csv"),
   read_csv("sim_results_metrics_art.csv"),
   read_csv("sim_results_metrics_ceta.csv")
-  # read_csv("Impact_Manuscript_Figures/Time_Series_data_for_figures/sim_results_metrics_neutral.csv"),
-  # read_csv("Impact_Manuscript_Figures/Time_Series_data_for_figures/sim_results_metrics_art.csv"),
-  # read_csv("Impact_Manuscript_Figures/Time_Series_data_for_figures/sim_results_metrics_ceta.csv")
+  )
+
+# Version 2, which includes differences in discounting rates
+# will also be calculating variations in testing/treatment costing for revise and resubmit
+sim.results.metrics.table <- rbind(
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_baseline.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_uni.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_neutral.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_art.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_v2_ceta.csv")
+  )
+
+
+# PEPFAR Sensitivity Analysis
+sim.results.metrics.table <- rbind(
+  read_csv("SensitivityAnalysis/sim_results_metrics_pepfar_baseline.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_pepfar_uni.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_pepfar_neutral.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_pepfar_art.csv"),
+  read_csv("SensitivityAnalysis/sim_results_metrics_pepfar_ceta.csv")
   )
 
 # For sensitivity analysis
@@ -579,22 +597,30 @@ data.2025.2035 <- sim.results.metrics.table %>%
             Depression.episodes = sum(Depression.episodes),
             HIV.DALY = sum(HIV.DALY),
             HIV.DALY.discounted = sum(HIV.DALY.discounted),
+            HIV.DALY.discounted_high = sum(HIV.DALY.discounted_high),
             Depression.DALY = sum(Depression.DALY),
             Depression.DALY.discounted = sum(Depression.DALY.discounted),
+            Depression.DALY.discounted_high = sum(Depression.DALY.discounted_high),
             Total.DALY = sum(Depression.DALY + HIV.DALY), 
             Total.DALY.discounted = sum(Depression.DALY.discounted + HIV.DALY.discounted), 
+            Total.DALY.discounted_high = sum(Depression.DALY.discounted_high + HIV.DALY.discounted_high), 
             CMD_TotalTests = sum(CMD_TotalTests),
             CMD_TotalTreatment = sum(CMD_TotalTreatment.cost/CMD.treat.cost),
             CMD_TotalTests.cost = sum(CMD_TotalTests.cost),
             CMD_TotalTests.cost.discounted = sum(CMD_TotalTests.cost.discounted),
+            CMD_TotalTests.cost.discounted_high = sum(CMD_TotalTests.cost.discounted_high),
             CMD_TotalTreatment.cost = sum(CMD_TotalTreatment.cost), 
             CMD_TotalTreatment.cost.discounted = sum(CMD_TotalTreatment.cost.discounted),
+            CMD_TotalTreatment.cost.discounted_high = sum(CMD_TotalTreatment.cost.discounted_high),
             CMD_Total.cost = sum(CMD_Total.cost),
             CMD_Total.cost.discounted = sum(CMD_Total.cost.discounted),
+            CMD_Total.cost.discounted_high = sum(CMD_Total.cost.discounted_high),
             OnART.cost = sum(OnART.cost),
             OnART.cost.discounted = sum(OnART.cost.discounted),
+            OnART.cost.discounted_high = sum(OnART.cost.discounted_high),
             Total.cost = sum(CMD_Total.cost + OnART.cost),
             Total.cost.discounted = sum(CMD_Total.cost.discounted + OnART.cost.discounted),
+            Total.cost.discounted_high = sum(CMD_Total.cost.discounted_high + OnART.cost.discounted_high),
          ) %>% ungroup()
 
 metric.names = c(
@@ -604,22 +630,30 @@ metric.names = c(
   "Depression.episodes",
   "HIV.DALY",
   "HIV.DALY.discounted",
+  "HIV.DALY.discounted_high",
   "Depression.DALY",
   "Depression.DALY.discounted",
+  "Depression.DALY.discounted_high",
   "Total.DALY",
   "Total.DALY.discounted",
+  "Total.DALY.discounted_high",
   "CMD_TotalTests", 
   "CMD_TotalTreatment",
   "CMD_TotalTests.cost",
   "CMD_TotalTests.cost.discounted",
+  "CMD_TotalTests.cost.discounted_high",
   "CMD_TotalTreatment.cost",
   "CMD_TotalTreatment.cost.discounted",
+  "CMD_TotalTreatment.cost.discounted_high",
   "CMD_Total.cost",
   "CMD_Total.cost.discounted",
+  "CMD_Total.cost.discounted_high",
   "OnART.cost",
   "OnART.cost.discounted",
+  "OnART.cost.discounted_high",
   "Total.cost",
-  "Total.cost.discounted"  
+  "Total.cost.discounted",
+  "Total.cost.discounted_high" 
 )
 
 scenario.names = sim.results.metrics.table$scenario_name %>% unique 
@@ -631,7 +665,7 @@ for (i in metric.names){
     
     print(c(i,j))
     h <- calculate.CI.by.metric(
-      data = metrics.2025.2035,
+      data = data.2025.2035,
       scenario.name = j,
       metric = i)
     
@@ -641,9 +675,16 @@ for (i in metric.names){
 
 metrics.2025.2035
 
+#metrics.2025.2035 %>% write_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_basic_metrics_v1.csv")
 
-#write_csv(metrics.2025.3035, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250512_basic_metrics.csv")
+metrics.2025.2035 %>% write_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_basic_metrics_v2_discounting_SA.csv")
+
+#metrics.2025.2035 %>% write_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_basic_metrics_pepfar.csv")
+
+#write_csv(metrics.2025.2035, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250512_basic_metrics.csv")
 ```
+
+
 
 ## Calculate Impact
 
@@ -669,15 +710,19 @@ hiv.averted.stats <- sim.results.metrics.table %>%
     CMD_pos = sum(CMD_pos),
     HIV.DALY = sum(HIV.DALY),
     HIV.DALY.discounted = sum(HIV.DALY.discounted),
+    HIV.DALY.discounted_high = sum(HIV.DALY.discounted_high),
     Depression.DALY = sum(Depression.DALY),
     Depression.DALY.discounted = sum(Depression.DALY.discounted),
+    Depression.DALY.discounted_high = sum(Depression.DALY.discounted_high),
     Total.DALY = sum(Depression.DALY + HIV.DALY),
     Total.DALY.discounted = sum(Depression.DALY.discounted + HIV.DALY.discounted),
+    Total.DALY.discounted_high = sum(Depression.DALY.discounted_high + HIV.DALY.discounted_high),
     .groups = 'drop_last') %>% 
   ungroup() %>% 
   mutate(Total.DALY = HIV.DALY + Depression.DALY)
 
 hiv.averted.stats.baseline <- sim.results.metrics.table %>% 
+  #filter(Year >= 2025, scenario_name == 'pepfar_baseline') %>%
   filter(Year >= 2025, scenario_name == 'baseline') %>%
   group_by(scenario_name, sim.ix) %>% 
   summarize(
@@ -688,10 +733,13 @@ hiv.averted.stats.baseline <- sim.results.metrics.table %>%
     CMD_pos.baseline = sum(CMD_pos),
     HIV.DALY.baseline = sum(HIV.DALY),
     HIV.DALY.discounted.baseline = sum(HIV.DALY.discounted),
+    HIV.DALY.discounted_high.baseline = sum(HIV.DALY.discounted_high),
     Depression.DALY.baseline = sum(Depression.DALY),
     Depression.DALY.discounted.baseline = sum(Depression.DALY.discounted),
+    Depression.DALY.discounted_high.baseline = sum(Depression.DALY.discounted_high),
     Total.DALY.baseline = sum(Depression.DALY + HIV.DALY),
     Total.DALY.discounted.baseline = sum(Depression.DALY.discounted + HIV.DALY.discounted),
+    Total.DALY.discounted_high.baseline = sum(Depression.DALY.discounted_high + HIV.DALY.discounted_high),
     .groups = 'drop_last') %>% 
   ungroup() %>% 
   mutate(Total.DALY.baseline = HIV.DALY.baseline + Depression.DALY.baseline)
@@ -709,10 +757,13 @@ hiv.averted.stats <- hiv.averted.stats %>%
     CMD_pos.averted = CMD_pos.baseline - CMD_pos,
     HIV.DALY.averted = HIV.DALY.baseline - HIV.DALY,
     HIV.DALY.discounted.averted = HIV.DALY.discounted.baseline - HIV.DALY.discounted,
+    HIV.DALY.discounted_high.averted = HIV.DALY.discounted_high.baseline - HIV.DALY.discounted_high,
     Depression.DALY.averted = Depression.DALY.baseline - Depression.DALY,
     Depression.DALY.discounted.averted = Depression.DALY.discounted.baseline - Depression.DALY.discounted,
+    Depression.DALY.discounted_high.averted = Depression.DALY.discounted_high.baseline - Depression.DALY.discounted_high,
     Total.DALY.averted = Total.DALY.baseline - Total.DALY,
-    Total.DALY.discounted.averted = Total.DALY.discounted.baseline - Total.DALY.discounted
+    Total.DALY.discounted.averted = Total.DALY.discounted.baseline - Total.DALY.discounted,
+    Total.DALY.discounted_high.averted = Total.DALY.discounted_high.baseline - Total.DALY.discounted_high
     ) %>% 
   mutate(
     Died_from_HIV.averted.pct = Died_from_HIV.averted/Died_from_HIV.baseline,
@@ -722,10 +773,13 @@ hiv.averted.stats <- hiv.averted.stats %>%
     CMD_pos.averted.pct = CMD_pos.averted/CMD_pos.baseline,
     HIV.DALY.averted.pct = HIV.DALY.averted/HIV.DALY.baseline,
     HIV.DALY.discounted.averted.pct = HIV.DALY.discounted.averted/HIV.DALY.discounted.baseline,
+    HIV.DALY.discounted_high.averted.pct = HIV.DALY.discounted_high.averted/HIV.DALY.discounted_high.baseline,
     Depression.DALY.averted.pct = Depression.DALY.averted/Depression.DALY.baseline,
     Depression.DALY.discounted.averted.pct = Depression.DALY.discounted.averted/Depression.DALY.discounted.baseline,
+    Depression.DALY.discounted_high.averted.pct = Depression.DALY.discounted_high.averted/Depression.DALY.discounted_high.baseline,
     Total.DALY.averted.pct = Total.DALY.averted/Total.DALY.baseline,
-    Total.DALY.discounted.averted.pct = Total.DALY.discounted.averted/Total.DALY.discounted.baseline
+    Total.DALY.discounted.averted.pct = Total.DALY.discounted.averted/Total.DALY.discounted.baseline,
+    Total.DALY.discounted_high.averted.pct = Total.DALY.discounted_high.averted/Total.DALY.discounted_high.baseline
   )
 
 metric.names = c(
@@ -740,17 +794,23 @@ metric.names = c(
   "CMD_pos.averted",
   "CMD_pos.averted.pct",
   "HIV.DALY.averted",
-  "HIV.DALY.averted.pct",
   "HIV.DALY.discounted.averted",
+  "HIV.DALY.discounted_high.averted",
+  "HIV.DALY.averted.pct",
   "HIV.DALY.discounted.averted.pct",
+  "HIV.DALY.discounted_high.averted.pct",
   "Depression.DALY.averted", 
-  "Depression.DALY.averted.pct",
   "Depression.DALY.discounted.averted", 
+  "Depression.DALY.discounted_high.averted",
+  "Depression.DALY.averted.pct",
   "Depression.DALY.discounted.averted.pct",
+  "Depression.DALY.discounted_high.averted.pct",
   "Total.DALY.averted",
-  "Total.DALY.averted.pct",
   "Total.DALY.discounted.averted",
-  "Total.DALY.discounted.averted.pct"
+  "Total.DALY.discounted_high.averted",
+  "Total.DALY.averted.pct",
+  "Total.DALY.discounted.averted.pct",
+  "Total.DALY.discounted_high.averted.pct"
 )
 
 scenario_names = hiv.averted.stats$scenario_name %>% unique 
@@ -774,39 +834,31 @@ HIV.Depression.Averted.Data <- metrics
 
 #write_csv(HIV.Depression.Averted.Data, "HIV_Depression_Averted_Data_20250401.csv")
 #write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250509.csv")
-write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250512.csv")
-
+#write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20250512.csv")
+#write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_pepfar.csv")
+#write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_impact_metrics_v1.csv")
+write_csv(HIV.Depression.Averted.Data, "SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_impact_metrics_v2_discounting_SA.csv")
 ```
 
-#### Recalculate variance in incremental DALYs averted
-
-For some reason, these are very very very small, so I will try to use lower_ci and upper_ci to recalculate
-
 ```{r}
-lower_ci <- function(mean, se, n, conf_level = 0.95){
-  lower_ci <- mean - qt(1 - ((1 - conf_level) / 2), n - 1) * se
-  return(lower_ci)
-}
-upper_ci <- function(mean, se, n, conf_level = 0.95){
-  upper_ci <- mean + qt(1 - ((1 - conf_level) / 2), n - 1) * se
-  return(upper_ci)
-}
-
-
-hiv.averted.stats %>%
-  group_by(scenario_name) %>% 
-  summarize(sd.total.DALY = sd(Total.DALY.discounted.averted),
-            mean.total.DALY = mean(Total.DALY.discounted.averted), 
-            sd.hiv.DALY = sd(HIV.DALY.discounted.averted),
-            mean.hiv.DALY = mean(HIV.DALY.discounted.averted)) %>% 
-  ungroup() %>% 
-  mutate(total.DALY.lb = lower_ci(mean.total.DALY, sd.total.DALY, 250, .95),
-         total.DALY.ub = upper_ci(mean.total.DALY, sd.total.DALY, 250, .95),
-         total.HIV.lb = lower_ci(mean.hiv.DALY, sd.hiv.DALY, 250, .95),
-         total.HIV.ub = upper_ci(mean.hiv.DALY, sd.hiv.DALY, 250, .95))
+HIV.Depression.Averted.Data %>% filter(scenario_name == "pepfar_uni")
 ```
 
 ## Calculate ICERs
+
+```{r}
+# Trying to replicate results from a year ago
+metrics.2025.2035 <- read_csv("HIV_Depression_Data_20250329.csv")
+HIV.Depression.Averted.Data.old <- read_csv("HIV_Depression_Averted_Data_20250401.csv")
+
+
+# More recent update
+HIV.Depression.Averted.Data.old <- read_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_imapct_metrics_v2_discounting_SA.csv")
+#metrics.2025.2035 <- read_csv("SensitivityAnalysis/HIV_Depression_Averted_Data_Sensitivity_Analysis_20260626_basic_metrics_v2_discounting_SA.csv")
+
+
+```
+
 
 ### Calculate incremental costs
 
@@ -815,12 +867,14 @@ hiv.averted.stats %>%
 cost.incremental <- merge(
     metrics.2025.2035 %>% 
       filter(metric == 'OnART.cost') %>% 
-      mutate(OnART.cost.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+     mutate(OnART.cost.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost', scenario_name == 'baseline') %>% .$metric.mean) %>%
+      # mutate(OnART.cost.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost', scenario_name == 'pepfar_baseline') %>% .$metric.mean) %>% 
       mutate(OnART.cost.marginal = metric.mean - OnART.cost.baseline ) %>% 
       select(scenario_name, OnART.cost.marginal),
     metrics.2025.2035 %>% 
       filter(metric == 'CMD_Total.cost') %>% 
-      mutate(CMD_Total.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost', scenario_name == 'baseline') %>%
+     mutate(CMD_Total.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost', scenario_name == 'baseline') %>%
+      # mutate(CMD_Total.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost', scenario_name == 'pepfar_baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_Total.cost.marginal = metric.mean - CMD_Total.cost.baseline) %>% 
       select(scenario_name, CMD_Total.cost.marginal),
@@ -829,7 +883,8 @@ cost.incremental <- merge(
   merge(
     metrics.2025.2035 %>% 
       filter(metric == 'CMD_TotalTests.cost') %>% 
-      mutate(CMD_TotalTests.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost', scenario_name == 'baseline') %>%
+     mutate(CMD_TotalTests.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost', scenario_name == 'baseline') %>%
+      # mutate(CMD_TotalTests.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost', scenario_name == 'pepfar_baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_TotalTests.cost.marginal = metric.mean - CMD_TotalTests.cost.baseline) %>% 
       select(scenario_name, CMD_TotalTests.cost.marginal),
@@ -838,7 +893,8 @@ cost.incremental <- merge(
   merge(
     metrics.2025.2035 %>% 
       filter(metric == 'CMD_TotalTreatment.cost') %>% 
-      mutate(CMD_TotalTreatment.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost', scenario_name == 'baseline') %>%
+     mutate(CMD_TotalTreatment.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost', scenario_name == 'baseline') %>%
+      # mutate(CMD_TotalTreatment.cost.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost', scenario_name == 'pepfar_baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_TotalTreatment.cost.marginal = metric.mean - CMD_TotalTreatment.cost.baseline) %>% 
       select(scenario_name, CMD_TotalTreatment.cost.marginal),
@@ -852,12 +908,14 @@ cost.incremental <- merge(
 cost.discounted.incremental <- merge(
     metrics.2025.2035 %>% 
       filter(metric == 'OnART.cost.discounted') %>% 
-      mutate(OnART.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'baseline') %>% .$metric.mean) %>%
+      # mutate(OnART.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'pepfar_baseline') %>% .$metric.mean) %>% 
       mutate(OnART.cost.discounted.marginal = metric.mean - OnART.cost.discounted.baseline ) %>% 
       select(scenario_name, OnART.cost.discounted.marginal),
     metrics.2025.2035 %>% 
       filter(metric == 'CMD_Total.cost.discounted') %>% 
-      mutate(CMD_Total.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'baseline') %>%
+     mutate(CMD_Total.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'baseline') %>%
+      # mutate(CMD_Total.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'pepfar_baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_Total.cost.discounted.marginal = metric.mean - CMD_Total.cost.discounted.baseline) %>% 
       select(scenario_name, CMD_Total.cost.discounted.marginal),
@@ -866,7 +924,8 @@ cost.discounted.incremental <- merge(
   merge(
     metrics.2025.2035 %>% 
       filter(metric == 'CMD_TotalTests.cost.discounted') %>% 
-      mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted', scenario_name == 'baseline') %>%
+     mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted', scenario_name == 'baseline') %>%
+      # mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted', scenario_name == 'pepfar_baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_TotalTests.cost.discounted.marginal = metric.mean - CMD_TotalTests.cost.discounted.baseline) %>% 
       select(scenario_name, CMD_TotalTests.cost.discounted.marginal),
@@ -876,6 +935,7 @@ cost.discounted.incremental <- merge(
     metrics.2025.2035 %>% 
       filter(metric == 'CMD_TotalTreatment.cost.discounted') %>% 
       mutate(CMD_TotalTreatment.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted', scenario_name == 'baseline') %>%
+      # mutate(CMD_TotalTreatment.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted', scenario_name == 'pepfar_baseline') %>%
                .$metric.mean) %>% 
       mutate(CMD_TotalTreatment.cost.discounted.marginal = metric.mean - CMD_TotalTreatment.cost.discounted.baseline) %>% 
       select(scenario_name, CMD_TotalTreatment.cost.discounted.marginal),
@@ -885,6 +945,50 @@ cost.discounted.incremental <- merge(
 cost.discounted.incremental
 ```
 
+#### High Discount
+
+```{r}
+cost.discounted_high.incremental <- merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'OnART.cost.discounted_high') %>% 
+      #mutate(OnART.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'OnART.cost.discounted_high', scenario_name == 'baseline') %>% .$metric.mean) %>% 
+      mutate(OnART.cost.discounted_high.marginal = metric.mean - OnART.cost.discounted_high.baseline ) %>% 
+      select(scenario_name, OnART.cost.discounted_high.marginal),
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_Total.cost.discounted_high') %>% 
+#     mutate(CMD_Total.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted', scenario_name == 'baseline') %>%
+      mutate(CMD_Total.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_Total.cost.discounted_high', scenario_name == 'baseline') %>%              .$metric.mean) %>% 
+      mutate(CMD_Total.cost.discounted_high.marginal = metric.mean - CMD_Total.cost.discounted_high.baseline) %>% 
+      select(scenario_name, CMD_Total.cost.discounted_high.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_TotalTests.cost.discounted_high') %>% 
+#      mutate(CMD_TotalTests.cost.discounted.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted_high', scenario_name == 'baseline') %>%
+     mutate(CMD_TotalTests.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTests.cost.discounted_high', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTests.cost.discounted_high.marginal = metric.mean - CMD_TotalTests.cost.discounted_high.baseline) %>% 
+      select(scenario_name, CMD_TotalTests.cost.discounted_high.marginal),
+    by = c("scenario_name")
+  ) %>% 
+  merge(
+    metrics.2025.2035 %>% 
+      filter(metric == 'CMD_TotalTreatment.cost.discounted_high') %>% 
+      #mutate(CMD_TotalTreatment.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted_high', scenario_name == 'baseline') %>%
+      mutate(CMD_TotalTreatment.cost.discounted_high.baseline = metrics.2025.2035 %>% filter(metric == 'CMD_TotalTreatment.cost.discounted_high', scenario_name == 'baseline') %>%
+               .$metric.mean) %>% 
+      mutate(CMD_TotalTreatment.cost.discounted_high.marginal = metric.mean - CMD_TotalTreatment.cost.discounted_high.baseline) %>% 
+      select(scenario_name, CMD_TotalTreatment.cost.discounted_high.marginal),
+    by = c("scenario_name")
+  )
+
+
+
+
+cost.discounted_high.incremental
+```
 
 ### Total ICERs
 
@@ -906,10 +1010,7 @@ ICER.discounted.total.table <- HIV.Depression.Averted.Data %>% filter(metric == 
   select(scenario_name, metric,
          metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
 
-
 ICER.discounted.total.table
-
-# write_csv(ICER.discounted.total.table, "SensitivityAnalysis/ICER_Data_sa_20250512_with_costs.csv")
 ```
 
 ### ICER with cost adjustments
@@ -937,9 +1038,6 @@ ICER.discounted.total.table.cost.adjusted
 
 ### ICER without Discounting
 ```{r}
-metrics.2025.2035 <- read.csv("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/HIV_Depression_Data_20250329.csv")
-HIV.Depression.Averted.Data <- read_csv("HIV_Depression_Averted_Data_20250401.csv")
-
 ICER.total.table <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.averted") %>% 
   merge(
     cost.incremental,
@@ -959,6 +1057,82 @@ ICER.total.table <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY
 
 
 ICER.total.table
+```
+
+### ICER with High Discounting
+
+```{r}
+ICER.discounted_high.total.table <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted_high.averted") %>% 
+  merge(
+    cost.discounted_high.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted_high.marginal + CMD_Total.cost.discounted_high.marginal) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted_high.total") %>% 
+  select(scenario_name, metric,
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+
+ICER.discounted_high.total.table
+```
+
+
+### ICER with Upper Bound cost of testing and treatment
+
+```{r}
+ICER.discounted.total.table_sa.cost.ub <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted.averted") %>% 
+  merge(
+    cost.discounted.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal*1.1) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted.total") %>% 
+  select(scenario_name, metric,
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+
+ICER.discounted.total.table_sa.cost.ub
+```
+
+
+### ICER with Lower Bound cost of testing and treatment
+```{r}
+ICER.discounted.total.table_sa.cost.lb <- HIV.Depression.Averted.Data %>% filter(metric == "Total.DALY.discounted.averted") %>% 
+  merge(
+    cost.discounted.incremental,
+    by = c('scenario_name')
+  )  %>% 
+  mutate(cost.total = OnART.cost.discounted.marginal + CMD_Total.cost.discounted.marginal*.9) %>% 
+  mutate(ICER.total.mean = case_when(metric.mean != 0 ~ cost.total/metric.mean,
+                                     metric.mean == 0 ~ 0),
+         ICER.total.lb = case_when(metric.lb != 0 ~ cost.total/metric.lb,
+                                   metric.mean == 0 ~ 0),
+         ICER.total.ub = case_when(metric.ub != 0 ~ cost.total/metric.ub,
+                                   metric.mean == 0 ~  0)
+         ) %>%
+  mutate(metric = "ICER.discounted.total") %>% 
+  select(scenario_name, metric,
+         metric.mean = ICER.total.mean, metric.lb = ICER.total.lb, metric.ub = ICER.total.ub)
+
+
+ICER.discounted.total.table_sa.cost.lb
+```
+```{r}
+
 ```
 
 
@@ -1412,7 +1586,7 @@ The first panel is total DALYs averted per dollar, second panel is HIV-related D
 ### Load data
 ```{r}
 # ICERs are here
-ICER.table <- read_csv("ICER_Data.csv")
+ICER.table <- read_csv("ICER_Data_20250329.csv")
 # This table has the DALYs averted
 HIV.Depression.Averted.Data <- read_csv("HIV_Depression_Averted_Data_20250401.csv")
 # This table has the costs
@@ -2555,7 +2729,8 @@ cmd.screen.plot <- time.series.data %>%
     show.legend = FALSE
   ) + 
   scale_color_manual("", values = c("black",color.scheme),
-                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    #breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    breaks = c("pepfar_baseline",  "pepfar_uni", "pepfar_neutral", "pepfar_art", "pepfar_ceta"), 
                     labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_continuous("Year", 
                      breaks = c(2025, 2027, 2029, 2031, 2033),
@@ -2587,7 +2762,8 @@ cmd.treat.plot <- time.series.data %>%
     show.legend = FALSE
   ) + 
   scale_color_manual("", values = c("black",color.scheme),
-                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    #breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    breaks = c("pepfar_baseline",  "pepfar_uni", "pepfar_neutral", "pepfar_art", "pepfar_ceta"), 
                     labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_continuous("Year", 
                      breaks = c(2025, 2027, 2029, 2031, 2033),
@@ -2618,7 +2794,8 @@ cmd.deppys.plot <- time.series.data %>%
     show.legend = FALSE
   ) + 
   scale_color_manual("", values = c("black",color.scheme),
-                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    #breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    breaks = c("pepfar_baseline",  "pepfar_uni", "pepfar_neutral", "pepfar_art", "pepfar_ceta"), 
                     labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_continuous("Year", 
                      breaks = c(2025, 2027, 2029, 2031, 2033),
@@ -2650,15 +2827,18 @@ time.plhiv.plot <- time.series.data %>%
     show.legend = FALSE
   ) + 
   scale_color_manual("", values = c("black",color.scheme),
-                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    #breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    breaks = c("pepfar_baseline",  "pepfar_uni", "pepfar_neutral", "pepfar_art", "pepfar_ceta"), 
                     labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_continuous("Year", 
                      breaks = c(2025, 2027, 2029, 2031, 2033),
                      expand = expansion(mult = c(0.0,.01))) +
   scale_y_continuous("PLHIV",
-                     breaks = seq(555000,575000,5000),
-                     limits = c(555000,577000),
-                     labels = c("555,000","560,000","565,000", "570,000","575,000"),
+                     #breaks = seq(555000,575000,5000),
+                     #limits = c(555000,577000),
+                     #labels = c("555,000","560,000","565,000", "570,000","575,000"),
+                     breaks = seq(565000,585000,5000),
+                     labels = c("565,000","570,000","575,000","580,000", "585,000"),
                      expand = expansion(mult = c(0.0,.01))) +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
@@ -2682,15 +2862,18 @@ time.acqs.plot <- time.series.data %>%
     show.legend = FALSE
   ) + 
   scale_color_manual("", values = c("black",color.scheme),
-                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    #breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    breaks = c("pepfar_baseline",  "pepfar_uni", "pepfar_neutral", "pepfar_art", "pepfar_ceta"), 
                     labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_continuous("Year", 
                      breaks = c(2025, 2027, 2029, 2031, 2033),
                      expand = expansion(mult = c(0.0,.01))) +
   scale_y_continuous("HIV Acquisitions",
-                     breaks = seq(11000, 14000, 1000),
-                     limits = c(11000,14500),
-                     labels = c("11,000","12,000","13,000", "14,000"),
+                     #breaks = seq(11000, 14000, 1000),
+                     #limits = c(11000,14500),
+                     #labels = c("11,000","12,000","13,000", "14,000"),
+                     breaks = c(23000, 23500, 24000, 24500),
+                     labels = c("23,000","23,500","24,000", "24,500"),
                      expand = expansion(mult = c(0.01,.01))) +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
@@ -2714,15 +2897,18 @@ time.deaths.plot <- time.series.data %>%
     show.legend = FALSE
   ) + 
   scale_color_manual("", values = c("black",color.scheme),
-                    breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    #breaks = c("baseline",  "uni", "neutral", "art", "ceta"), 
+                    breaks = c("pepfar_baseline",  "pepfar_uni", "pepfar_neutral", "pepfar_art", "pepfar_ceta"), 
                     labels = c("Baseline", "Universal", "HIV Testing   ", "ART", "CETA")) + 
   scale_x_continuous("Year", 
                      breaks = c(2025, 2027, 2029, 2031, 2033),
                      expand = expansion(mult = c(0.0,.01))) +
   scale_y_continuous("HIV-Related Deaths",
-                     breaks = seq(9000, 10500, 500),
-                     limits = c(8500,10750),
-                     labels = c("9,000","9,500","10,000", "10,500"),
+                     #breaks = seq(9000, 10500, 500),
+                     #limits = c(8500,10750),
+                     #labels = c("9,000","9,500","10,000", "10,500"),
+                     breaks = c(12500, 15000, 17500, 20000),
+                     labels = c("12,500","15,000","17,500", "20,000"),
                      expand = expansion(mult = c(0.01,.01))) +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
@@ -2738,11 +2924,117 @@ time.deaths.plot
 #### Save
 
 ```{r}
-SI.fig.4 <- (cmd.screen.plot + cmd.treat.plot)/(cmd.deppys.plot + time.plhiv.plot)/(time.acqs.plot + time.deaths.plot)
+#SI.fig.4 <- (cmd.screen.plot + cmd.treat.plot)/(cmd.deppys.plot + time.plhiv.plot)/(time.acqs.plot + time.deaths.plot)
+SI.fig.4.PEPFAR_SA <- (cmd.screen.plot + cmd.treat.plot)/(cmd.deppys.plot + time.plhiv.plot)/(time.acqs.plot + time.deaths.plot)
 
-ggsave(plot = SI.fig.4, filename = "SI_Figure_4_time_series_20250403.pdf", width = 8, height = 8, units = 'in')
+#ggsave(plot = SI.fig.4, filename = "SI_Figure_4_time_series_20250403.pdf", width = 8, height = 8, units = 'in')
+ggsave(plot = SI.fig.4.PEPFAR_SA, filename = "SI_Figure_4_time_series_PEPFAR_20260627.pdf", width = 8, height = 8, units = 'in')
 ```
 
+## Figure 6 -  Efficiency Curves for PEPFAR scenarios
+
+This is part of the sensitivity analysis
+
+### Time series
+
+```{r}
+scenarios.list = data.frame(
+  scenario_name = c(
+    "pepfar_baseline",
+    "pepfar_uni",
+    "pepfar_neutral",
+    "pepfar_art",
+    "pepfar_ceta"
+  ),
+  file.path = c(
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR-pepfar_baseline___2026_06_22_10_23_09_630898",
+    '/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_uni-pepfar_uni___2026_06_22_10_27_52_375877/',
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_neutral-pepfar_neutral___2026_06_22_10_32_37_295940/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_art-pepfar_art___2026_06_22_10_37_18_518952/",
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_ceta-pepfar_ceta___2026_06_22_10_42_01_968986/"
+  )
+) %>% 
+  mutate(scenario_ix = row_number())
+
+summarize_cols <- c(
+  "Population", "Infected", "On_ART",
+  "Died", "Died_from_HIV",
+  "Newly.Infected", "Diagnosed",
+  "CMD_Screening", "CMD_Screening_delay", "CMD_Treat",
+  "CMD_Incidence2", "CMD_Relapse2",
+  "CMD_Diagnostic_TruePositive", "CMD_Diagnostic_FalseNegative",
+  "CMD_Diagnostic_TrueNegative", "CMD_Diagnostic_FalsePositive"
+)
+
+stratify_cols <- c("Year", "Gender", "Age", "IP_Key.CMDStatus")
+
+for (i in 1:5) {
+  scenario_row <- scenarios.list[scenarios.list$scenario_ix == i, ]
+
+  assign(
+    paste0("sim.results.", i),
+    EMODAnalyzeR::read.simulation.results.bigpurple(
+      experiment_path = scenario_row$file.path,
+      scenario_name = scenario_row$scenario_name,
+      summarize_columns = summarize_cols,
+      stratify_columns = c("Year", "Gender", "Age", "IP_Key.CMDStatus"),
+      min_age_inclusive = 0,
+      max_age_inclusive = 99
+    )
+  )
+}
+
+
+CENSUS_YEAR = 2020.5
+KEN_CENSUS_POP = 6953951
+
+sim.results <- rbind(sim.results.1, sim.results.2, sim.results.3, sim.results.4, sim.results.5)
+
+sim.results.pop.scaling <- sim.results %>%
+    filter(Year == CENSUS_YEAR) %>%
+    group_by(sim.ix, scenario_name) %>%
+    summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+    mutate(pop_scaling_factor = KEN_CENSUS_POP/total.pop)
+
+sim.results <- sim.results %>%
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+```
+
+```{r}
+time.series.pepfar <- sim.results %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+    Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
+    On_ART = sum(On_ART*pop_scaling_factor/2)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Newly.Infected=  mean(Newly.Infected), 
+    Died_from_HIV = mean(Died_from_HIV),
+    On_ART = mean(On_ART)
+  )
+
+
+plot.newly.infected <- time.series.pepfar %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Newly.Infected, color = scenario_name))
+
+
+plot.newly.infected <- time.series.pepfar %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Died_from_HIV, color = scenario_name))
+
+ggsave("plot_died.pdf", plot = plot.newly.infected, device = grDevices::pdf, width = 8, height = 5)
+
+```
+
+### Efficiency curves
+
+### Table - how do the ICERs change
 
 # Tables
 

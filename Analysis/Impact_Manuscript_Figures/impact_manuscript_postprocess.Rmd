@@ -27,6 +27,7 @@ CMD.screen.cost <- 3.35
 CMD.treat.cost <- 20.32
 
 discount_percent = 0.03
+discount_percent_high = 0.06
 discount_start_year = 2025
 infected_weight = 0.274
 art_weight = 0.078
@@ -201,8 +202,8 @@ scenarios.list = data.frame(
     "pepfar_ceta"
   ),
   file.path = c(
-    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR-pepfar_baseline___2026_06_22_10_23_09_630898",
-    '/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_uni-pepfar_uni___2026_06_22_10_27_52_375877/',
+    "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR-pepfar_baseline___2026_06_22_10_23_09_630898/",
+    '/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_uni-pepfar_uni___2026_06_27_10_19_31_410696/',
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_neutral-pepfar_neutral___2026_06_22_10_32_37_295940/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_art-pepfar_art___2026_06_22_10_37_18_518952/",
     "/gpfs/scratch/citrod01/experiments/MATUMAINI/CMD_Impact/Baseline-campaign_MATUMAINI_202305_PEPFAR_ceta-pepfar_ceta___2026_06_22_10_42_01_968986/"
@@ -374,14 +375,19 @@ for (scenario.ix in 1:5){
    replace(is.na(.), 0)
   
   daly <- daly %>% mutate(daly = infected_untreated*infected_weight + on_art*art_weight + yll)
-  daly <- daly %>% mutate(discount_factor = (1 - discount_percent)^(year - discount_start_year) )
+  daly <- daly %>% mutate(
+                    discount_factor = (1 - discount_percent)^(year - discount_start_year),
+                    discount_factor_high = (1 - discount_percent_high)^(year - discount_start_year) 
+                    )
   daly[daly$year < discount_start_year,'discount_factor'] <- 1.0
-  daly <- daly %>% mutate(daly_future_discounted = daly*discount_factor )
+  daly <- daly %>% mutate(daly_future_discounted = daly*discount_factor,
+                          daly_future_discounted_high = daly*discount_factor_high)
   
   HIV.DALYs <- daly %>% select(Year = year, 
                   sim.ix,
                   HIV.DALY = daly,
-                  HIV.DALY.discounted = daly_future_discounted)
+                  HIV.DALY.discounted = daly_future_discounted,
+                  HIV.DALY.discounted_high = daly_future_discounted_high)
   
   ## Depression dalys
   
@@ -393,37 +399,51 @@ for (scenario.ix in 1:5){
     ungroup()
   
   Depression.DALYs <- Depression.DALYs %>% 
-    mutate(discount_factor = (1 - 0.03)^(pmax(Year_Integer - 2025, 0)) ) %>% 
+    mutate(
+      discount_factor = (1 - discount_percent)^(pmax(Year_Integer - 2025, 0)),
+      discount_factor_high = (1 - discount_percent_high)^(pmax(Year_Integer - 2025, 0))
+      ) %>% 
     mutate(Depression.YLD = Depressed/2) %>% 
     mutate(
       Depression.DALY = 0.396*Depression.YLD/2,
-      Depression.DALY.discounted = 0.396*Depression.YLD*discount_factor/2
+      Depression.DALY.discounted = 0.396*Depression.YLD*discount_factor/2,
+      Depression.DALY.discounted_high = 0.396*Depression.YLD*discount_factor_high/2
       )
   
   Depression.DALYs <- Depression.DALYs %>% 
-    select(Year = Year_Integer, sim.ix, Depression.DALY, Depression.DALY.discounted)
+    select(Year = Year_Integer, sim.ix, Depression.DALY, Depression.DALY.discounted, Depression.DALY.discounted_high)
   
   ## Costs
   
   Cost.Data <- time.series.metrics %>% 
-    mutate(discount_factor = (1 - 0.03)^(pmax(Year - 2025, 0)) ) %>% 
+    mutate(
+            discount_factor = (1 - discount_percent)^(Year - discount_start_year),
+            discount_factor_high = (1 - discount_percent_high)^(Year - discount_start_year) 
+            ) %>%
     mutate(
       PYOnART = On_ART,
       PYOnART.discounted = On_ART * discount_factor,
+      PYOnART.discounted_high = On_ART * discount_factor_high,
       CMD_TotalTests.discounted = CMD_TotalTests * discount_factor,
+      CMD_TotalTests.discounted_high = CMD_TotalTests * discount_factor_high,
       CMD_TotalTreatment = CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalsePositive,
-      CMD_TotalTreatment.discounted = (CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalsePositive) * discount_factor
+      CMD_TotalTreatment.discounted = (CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalsePositive) * discount_factor,
+      CMD_TotalTreatment.discounted_high = (CMD_Diagnostic_TruePositive + CMD_Diagnostic_FalsePositive) * discount_factor_high
      ) %>% 
     group_by(Year, sim.ix) %>% 
     summarize(
       OnART.cost = sum(PYOnART * ART.cost),
       OnART.cost.discounted = sum(PYOnART.discounted * ART.cost),
+      OnART.cost.discounted_high = sum(PYOnART.discounted_high * ART.cost),
       CMD_TotalTests.cost = sum(CMD_TotalTests * CMD.screen.cost),
       CMD_TotalTests.cost.discounted = sum(CMD_TotalTests.discounted * CMD.screen.cost), 
+      CMD_TotalTests.cost.discounted_high = sum(CMD_TotalTests.discounted_high * CMD.screen.cost), 
       CMD_TotalTreatment.cost = sum(CMD_TotalTreatment * CMD.treat.cost),
       CMD_TotalTreatment.cost.discounted = sum(CMD_TotalTreatment.discounted * CMD.treat.cost),
+      CMD_TotalTreatment.cost.discounted_high = sum(CMD_TotalTreatment.discounted_high * CMD.treat.cost),
       CMD_Total.cost = sum(CMD_TotalTests * CMD.screen.cost + CMD_TotalTreatment * CMD.treat.cost),
       CMD_Total.cost.discounted = sum(CMD_TotalTests.discounted * CMD.screen.cost + CMD_TotalTreatment.discounted * CMD.treat.cost),
+      CMD_Total.cost.discounted_high = sum(CMD_TotalTests.discounted_high * CMD.screen.cost + CMD_TotalTreatment.discounted_high * CMD.treat.cost),
       .groups = 'drop_last'
     )
   
@@ -438,7 +458,7 @@ for (scenario.ix in 1:5){
           by = c("Year", "sim.ix"))
   
    write_csv(sim.results.metrics, 
-            paste0("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/sim_results_metrics_",scenario.name,".csv"))
+            paste0("/gpfs/data/bershteynlab/EMOD/citrod01/MATUMAINI/Analysis/Impact_Manuscript_Figures/SensitivityAnalysis/sim_results_metrics_v2_",scenario.name,".csv"))
 
  }
 ```
